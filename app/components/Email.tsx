@@ -15,7 +15,6 @@ const Email = ({ item }: EmailProps) => {
         </button>
       </td>
       <td className="py-2 px-4">{item.email}</td>
-    
       <td className="py-2 px-4">{formateDate(item.startDate)}</td>
       <td className="py-2 px-4">{formateDate(item.endDate)}</td>
       <td className="py-2 px-4">{item.supervisor}</td>

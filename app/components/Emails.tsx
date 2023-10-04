@@ -22,7 +22,8 @@ const Emails = ({ search }: EmailsProps) => {
 
   // //? filter data based on search
   const filteredDate = useMemo(() => {
-    const searchTerm = search.toLowerCase().length > 3 ? search : "";
+    const searchTerm =
+      search.toLowerCase().length > 3 ? search.toLowerCase() : "";
     return currentEmail.filter((item) =>
       item.name.toLowerCase().includes(searchTerm)
     );

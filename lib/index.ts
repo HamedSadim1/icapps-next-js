@@ -1,3 +1,5 @@
+import prisma from "@/prisma/client";
+
 import { IStagaire } from "@/types";
 //? sort by name function
 export const sortDate = (stagaireArray: IStagaire[]) =>
@@ -13,3 +15,12 @@ export const formateDate = (date: Date) =>
     month: "numeric",
     year: "numeric",
   });
+
+export const connectToDatabase = async () => {
+  try {
+    await prisma.$connect();
+    console.log("Connected to database");
+  } catch (error) {
+    throw new Error("Error connecting to database");
+  }
+};
