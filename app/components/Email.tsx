@@ -10,7 +10,7 @@ const Email = ({ item }: EmailProps) => {
   return (
     <tr key={item.id}>
       <td className="py-2 px-4">
-        <button className=" hover:text-sm  focus:outline-none  ">
+        <button className=" hover:text-blue-500 focus:outline-none  ">
           <Link href={`/users/${item.id}?name=${item.name}`}>{item.name}</Link>
         </button>
       </td>
