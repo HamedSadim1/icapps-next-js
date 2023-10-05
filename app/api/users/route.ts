@@ -1,7 +1,6 @@
 import { connectToDatabase } from "@/lib";
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/prisma/client";
-import { NextApiRequest, NextApiResponse } from "next";
 
 interface Params {
   params: { id: string };

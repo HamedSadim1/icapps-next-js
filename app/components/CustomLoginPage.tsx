@@ -1,11 +1,10 @@
 "use client";
-import { connectToDatabase } from "@/lib";
-import prisma from "@/prisma/client";
 import { signIn, useSession } from "next-auth/react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const CustomLoginPage = () => {
   const { data: session, status } = useSession();
+  const [error, setError] = useState<string>("");
 
   useEffect(() => {
     async function postData() {
@@ -25,8 +24,9 @@ const CustomLoginPage = () => {
           console.log(data);
         }
       } catch (error) {
-        console.error("Error posting data:", error);
-        // Handle the error here, e.g., show an error message to the user
+        console.error("Error CustomLoginPage:", error);
+        setError("Er is iets misgegaan, probeer het later opnieuw");
+        //! Handle  error message
       }
     }
 
@@ -38,7 +38,7 @@ const CustomLoginPage = () => {
       }
     } catch (error) {
       console.error("Error in useEffect:", error);
-      // Handle the error here, e.g., show an error message to the user
+      //! Handle  error message
     }
   }, [status, session]);
 
@@ -79,6 +79,7 @@ const CustomLoginPage = () => {
                   Verdergaan met Google
                 </button>
               </div>
+              {error && <p className="text-red-500">{error}</p>}
             </>
           </div>
         </div>

@@ -95,8 +95,25 @@ const StagiairDetailPage = () => {
               <AiOutlineRight className=" mr-1 w-8 h-8" />
             </span>
           </div>
+          {/* Sections CheckList */}
+          <div className="flex justify-between ">
+            <section className="flex">
+              <div className="flex">
+                <h3>Section 1</h3>
+                <span className="text-gray-400 text-xs mt-2 ml-2">2</span>
+              </div>
+              <div className="mt-7 border border-gray-400 rounded-lg p-2"></div>
+            </section>
+            <section className="flex justify-items-start">
+              <div className="flex align-sub">
+                <h3>Section 2</h3>
+                <span className="text-gray-400 text-xs mt-2 ml-2">1</span>
+              </div>
+              <div className="mt-7 border border-gray-400 rounded-lg p-2"></div>
+            </section>
+          </div>
         </div>
-
+        {/* Beschrijving */}
         <div className="flex flex-col rounded-lg overflow-hidden  mt-10">
           <div className="flex justify-start rounded-lg  ">
             <button
