@@ -62,6 +62,7 @@ const Emails = ({ search }: EmailsProps) => {
           emailPerPage={emailPerPage}
           totalEmails={sortedData.length}
           paginate={setCurrentPage}
+          currentPage={currentPage}
         />
       )}
     </>

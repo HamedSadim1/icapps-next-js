@@ -22,12 +22,11 @@ model Admin {
 }
 
 model User {
-  id        String    @id @default(auto()) @map("_id") @db.ObjectId
-  name      String    @unique
-  email     String    @unique
-  startdate DateTime  @default(now())
-  enddate   DateTime?
-  role      UserRole  @default(ADMIN)
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String   @unique
+  email     String   @unique
+  createdAt DateTime @default(now())
+  role      UserRole @default(ADMIN)
 }
 
 enum UserRole {
@@ -38,7 +37,7 @@ enum UserRole {
 
 model StageBegeleider {
   id        String     @id @default(auto()) @map("_id") @db.ObjectId
-  username  String     @unique
+  name      String     @unique
   email     String     @unique
   role      UserRole   @default(STAGEBEGELEIDER)
   stages    Stage[]
@@ -52,11 +51,14 @@ model Stagiair {
   name              String          @unique
   email             String          @unique
   role              UserRole        @default(STAGIAIR)
+  startdate         DateTime        @default(now())
+  enddate           DateTime?
   stages            Stage[]
   stagebegeleiderId String          @db.ObjectId
   stagebegeleider   StageBegeleider @relation(fields: [stagebegeleiderId], references: [id])
   adminId           String          @db.ObjectId
   admin             Admin           @relation(fields: [adminId], references: [id])
+  posts             Post[]
 }
 
 model Stage {
@@ -69,4 +71,21 @@ model Stage {
   stagiair          Stagiair        @relation(fields: [stagiairId], references: [id])
   adminId           String          @db.ObjectId
   admin             Admin           @relation(fields: [adminId], references: [id])
+}
+
+model Post {
+  id       String    @id @default(auto()) @map("_id") @db.ObjectId
+  slug     String    @unique
+  title    String
+  body     String
+  author   Stagiair  @relation(fields: [authorId], references: [id])
+  authorId String    @db.ObjectId
+  comments Comment[]
+}
+
+model Comment {
+  id      String @id @default(auto()) @map("_id") @db.ObjectId
+  comment String
+  post    Post   @relation(fields: [postId], references: [id])
+  postId  String @db.ObjectId
 }

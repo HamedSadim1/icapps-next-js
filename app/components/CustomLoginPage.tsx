@@ -9,16 +9,8 @@ const CustomLoginPage = () => {
 
   useEffect(() => {
     async function postData() {
-      if (session) {
-        // Check if user exists in database
-        await connectToDatabase();
-        const existingUser = await prisma.user.findUnique({
-          where: {
-            email: session.user!.email!,
-          },
-        });
-        if (!existingUser) {
-          // If user does not exist, add them to the database
+      try {
+        if (session) {
           const res = await fetch("http://localhost:3000/api/users", {
             method: "POST",
             headers: {
@@ -32,18 +24,26 @@ const CustomLoginPage = () => {
           const data = await res.json();
           console.log(data);
         }
+      } catch (error) {
+        console.error("Error posting data:", error);
+        // Handle the error here, e.g., show an error message to the user
       }
     }
 
-    postData();
+    try {
+      postData();
 
-    if (session) {
-      window.location.href = "/users";
+      if (session) {
+        window.location.href = "/users";
+      }
+    } catch (error) {
+      console.error("Error in useEffect:", error);
+      // Handle the error here, e.g., show an error message to the user
     }
   }, [status, session]);
+
   const handleSignin = () => {
     signIn("google");
-    // router.push("/users");
   };
   return (
     <>

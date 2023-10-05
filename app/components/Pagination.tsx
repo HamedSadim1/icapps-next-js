@@ -2,12 +2,14 @@ interface PaginationProps {
   emailPerPage: number;
   totalEmails: number;
   paginate: (number: number) => void;
+  currentPage: number;
 }
 
 const Pagination = ({
   emailPerPage,
   paginate,
   totalEmails,
+  currentPage,
 }: PaginationProps) => {
   //? create page numbers
   const pageNumbers: number[] = [];
@@ -24,7 +26,9 @@ const Pagination = ({
           <li key={number}>
             <button
               onClick={() => paginate(number)}
-              className="py-2 px-4 bg-gray-200 hover:bg-gray-300 focus:outline-none"
+              className={`py-2 px-4 bg-gray-200 ${
+                currentPage === number && "bg-slate-900 text-white"
+              }`}
             >
               {number}
             </button>
