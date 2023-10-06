@@ -1,6 +1,7 @@
 import { connectToDatabase } from "@/lib";
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/prisma/client";
+import schema from "./schema";
 
 export async function GET(request: NextRequest) {
   try {
@@ -20,22 +21,18 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    await connectToDatabase();
-    const { name, email } = await request.json();
-    if (!name || !email) {
-      return NextResponse.json({ message: "Invalid Request" }, { status: 400 });
-    }
-
+    const body = await request.json();
+    const validatedBody = schema.parse(body);
     await connectToDatabase();
 
-    // const stagiair = await prisma.stagiair.create({
-    //   data: {
-    //     name,
-    //     email,
-    //   },
-    // });
-    // return NextResponse.json(stagiair, { status: 201 });
+    const stagiairCreated = await prisma.stagiair.create({
+      data: validatedBody,
+    });
+    return NextResponse.json(stagiairCreated, { status: 201 });
   } catch (error) {
+    console.log(error);
+    return NextResponse.json({ error: error }, { status: 400 });
   } finally {
+    await prisma.$disconnect();
   }
 }

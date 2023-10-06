@@ -96,7 +96,7 @@ const StagiairDetailPage = () => {
             </span>
           </div>
           {/* Sections CheckList */}
-          <div className="flex justify-between ">
+          <div className="flex justify-between place-items-start">
             <section className="flex">
               <div className="flex">
                 <h3>Section 1</h3>
@@ -104,8 +104,15 @@ const StagiairDetailPage = () => {
               </div>
               <div className="mt-7 border border-gray-400 rounded-lg p-2"></div>
             </section>
-            <section className="flex justify-items-start">
-              <div className="flex align-sub">
+            <section className="flex justify-items-start place-items-start order-first">
+              <div className="flex justify-self-start">
+                <h3>Section 3</h3>
+                <span className="text-gray-400 text-xs mt-2 ml-2">3</span>
+              </div>
+              <div className="mt-7 border border-gray-400 rounded-lg p-2"></div>
+            </section>
+            <section className="flex justify-items-start place-items-start">
+              <div className="flex justify-self-start">
                 <h3>Section 2</h3>
                 <span className="text-gray-400 text-xs mt-2 ml-2">1</span>
               </div>

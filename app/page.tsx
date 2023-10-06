@@ -1,3 +1,9 @@
+import UserLoginPage from "./users/page";
+
 export default function Home() {
-  return <main></main>;
+  return (
+    <main>
+      <UserLoginPage />
+    </main>
+  );
 }

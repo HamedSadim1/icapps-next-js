@@ -8,16 +8,18 @@ interface EmailProps {
 
 const Email = ({ item }: EmailProps) => {
   return (
-    <tr key={item.id}>
+    <tr key={item._id}>
       <td className="py-2 px-4">
         <button className=" hover:text-blue-500 focus:outline-none  ">
-          <Link href={`/users/${item.id}?name=${item.name}`}>{item.name}</Link>
+          <Link href={`/users/stagair${item._id}?name=${item.name}`}>
+            {item.name}
+          </Link>
         </button>
       </td>
       <td className="py-2 px-4">{item.email}</td>
       <td className="py-2 px-4">{formateDate(item.startDate)}</td>
       <td className="py-2 px-4">{formateDate(item.endDate)}</td>
-      <td className="py-2 px-4">{item.supervisor}</td>
+      {/* <td className="py-2 px-4">{item.supervisor}</td> */}
     </tr>
   );
 };

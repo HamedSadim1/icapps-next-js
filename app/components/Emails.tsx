@@ -43,9 +43,9 @@ const Emails = ({ search }: EmailsProps) => {
             </tr>
           </thead>
           <tbody>
-            {filteredDate.map((item) => (
+            {/* {filteredDate.map((item) => (
               <Email key={item.id} item={item} />
-            ))}
+            ))} */}
           </tbody>
         </table>
         {filteredDate.length == 0 && (
