@@ -1,8 +1,15 @@
 export interface IStagaire {
-  _id: number;
+  id: string;
   name: string;
   email: string;
   startDate: Date;
   endDate: Date;
-  stagebegeleiderId: string;
+  stagebegeleiderId: string[];
+}
+
+export interface IStagebegeleider {
+  id: string;
+  name: string;
+  email: string;
+  stagiairs: IStagaire[];
 }

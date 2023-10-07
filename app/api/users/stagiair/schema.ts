@@ -5,7 +5,7 @@ const schema = z.object({
   email: z.string().email(),
   // startDate: z.date(),
   // endDate: z.date(),
-  stagebegeleiderId: z.string(),
+  stagebegeleiderId: z.string().array().min(1),
 });
 
 export default schema;

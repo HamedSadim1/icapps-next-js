@@ -10,10 +10,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json(stagiairs, { status: 200 });
   } catch (error) {
     console.log(error);
-    return NextResponse.json(
-      { message: "Something went wrong" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: error }, { status: 500 });
   } finally {
     await prisma.$disconnect();
   }
