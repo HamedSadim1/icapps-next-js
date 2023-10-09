@@ -102,7 +102,10 @@ const StagairForm = ({ params: { id } }: Params) => {
             email: data.email,
             startDate: isoStartDate,
             endDate: isoEndDate,
-            stagebegeleiderId: data.stagebegeleiderId.join(","),
+            stagebegeleiderId: [
+              ...data.stagebegeleiderId,
+              data.stagebegeleiderId,
+            ],
           }),
         }
       );
@@ -198,6 +201,7 @@ const StagairForm = ({ params: { id } }: Params) => {
               }}
               multiple={true}
             >
+              <option selected>Kies een stagebegeleider</option>
               {stagebegeleiders.map((stagebegeleider) => (
                 <option key={stagebegeleider.id} value={stagebegeleider.id}>
                   {stagebegeleider.name}
