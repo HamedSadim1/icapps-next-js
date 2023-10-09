@@ -1,7 +1,8 @@
 import { formatDate } from "@/lib";
 import { IStagaire, IStagebegeleider } from "@/types";
 import Link from "next/link";
-import { MdSystemUpdateAlt } from "react-icons/md";
+import Edit from "@/app/components/Edit";
+import { Params } from "next/dist/shared/lib/router/utils/route-matcher";
 
 const StagiairPage = async () => {
   const respStagebegeleiders = await fetch(
@@ -30,7 +31,7 @@ const StagiairPage = async () => {
 
   return (
     <>
-      <section className="flex flex-wrap flex-row justify-center  ml-[5rem]">
+      <section className="flex flex-wrap flex-row justify-center  ml-[5rem] overflow-hidden">
         <table className="md:w-full bg-white border border-gray-200 mt-12">
           <thead className="bg-gray-50">
             <tr>
@@ -62,9 +63,9 @@ const StagiairPage = async () => {
                 </td>
                 <td className="py-2 px-4">
                   <button className=" hover:text-blue-500 focus:outline-none  ">
-                    <Link href={`/users/stagiair/${stagiair.id}`}>
-                      <MdSystemUpdateAlt />
-                    </Link>
+                    {/* <Link href={`/users/stagiair/${stagiair.id}`}> */}
+                    <Edit params={{ id: stagiair.id }} />
+                    {/* </Link> */}
                   </button>
                 </td>
               </tr>
