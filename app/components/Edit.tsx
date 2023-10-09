@@ -3,8 +3,7 @@ import Link from "next/link";
 import { IStagaire, IStagebegeleider } from "@/types";
 import { FormEvent, useEffect, useState } from "react";
 import { MdSystemUpdateAlt } from "react-icons/md";
-import Router from 'next/router'
-import { BiWindows } from "react-icons/bi";
+
 
 interface Params {
     params: { id: string };

@@ -2,7 +2,6 @@ import { formatDate } from "@/lib";
 import { IStagaire, IStagebegeleider } from "@/types";
 import Link from "next/link";
 import Edit from "@/app/components/Edit";
-import { Params } from "next/dist/shared/lib/router/utils/route-matcher";
 
 const StagiairPage = async () => {
   const respStagebegeleiders = await fetch(
