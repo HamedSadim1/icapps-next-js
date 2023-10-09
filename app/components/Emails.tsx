@@ -1,4 +1,3 @@
-"use client";
 import { StagaireFakeData } from "@/data";
 import { sortDate } from "@/lib";
 import Email from "@/app/components/Email";
@@ -10,28 +9,28 @@ interface EmailsProps {
 }
 
 const Emails = ({ search }: EmailsProps) => {
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [emailPerPage] = useState<number>(10);
+  // const [currentPage, setCurrentPage] = useState<number>(1);
+  // const [emailPerPage] = useState<number>(10);
 
   //? sort and paginate filtered data
   const sortedData = sortDate(StagaireFakeData);
 
-  const indexOfLastEmail: number = currentPage * emailPerPage;
-  const indexOfFirstEmail: number = indexOfLastEmail - emailPerPage;
-  const currentEmail = sortedData.slice(indexOfFirstEmail, indexOfLastEmail);
+  // const indexOfLastEmail: number = currentPage * emailPerPage;
+  // const indexOfFirstEmail: number = indexOfLastEmail - emailPerPage;
+  // const currentEmail = sortedData.slice(indexOfFirstEmail, indexOfLastEmail);
 
   // //? filter data based on search
-  const filteredDate = useMemo(() => {
-    const searchTerm =
-      search.toLowerCase().length > 3 ? search.toLowerCase() : "";
-    return currentEmail.filter((item) =>
-      item.name.toLowerCase().includes(searchTerm)
-    );
-  }, [search, currentEmail]);
+  // const filteredDate = useMemo(() => {
+  //   const searchTerm =
+  //     search.toLowerCase().length > 3 ? search.toLowerCase() : "";
+  //   return currentEmail.filter((item) =>
+  //     item.name.toLowerCase().includes(searchTerm)
+  //   );
+  // }, [search, currentEmail]);
 
   return (
     <>
-      <section className="flex flex-wrap flex-row justify-center  ml-[5rem]">
+      {/* <section className="flex flex-wrap flex-row justify-center  ml-[5rem]">
         <table className="md:w-full bg-white border border-gray-200 mt-12">
           <thead className="bg-gray-50">
             <tr>
@@ -42,11 +41,11 @@ const Emails = ({ search }: EmailsProps) => {
               <th className="py-2 px-4 text-left">Supervisor</th>
             </tr>
           </thead>
-          <tbody>
-            {/* {filteredDate.map((item) => (
+          <tbody> */}
+      {/* {filteredDate.map((item) => (
               <Email key={item.id} item={item} />
             ))} */}
-          </tbody>
+      {/* </tbody>
         </table>
         {filteredDate.length == 0 && (
           <tr className="flex flex-wrap flex-row justify-center items-center ">
@@ -64,7 +63,7 @@ const Emails = ({ search }: EmailsProps) => {
           paginate={setCurrentPage}
           currentPage={currentPage}
         />
-      )}
+      )} */}
     </>
   );
 };

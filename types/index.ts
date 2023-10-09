@@ -2,8 +2,8 @@ export interface IStagaire {
   id: string;
   name: string;
   email: string;
-  startDate: Date;
-  endDate: Date;
+  startDate: string;
+  endDate: string;
   stagebegeleiderId: string[];
 }
 

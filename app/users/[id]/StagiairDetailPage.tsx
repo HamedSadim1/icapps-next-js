@@ -17,7 +17,7 @@ const StagiairDetailPage = () => {
       <section className="grid grid-rows-2 grid-flow-col gap-4 ml-20 mr-20">
         <div className="row-span-2 mt-2 ">
           {/* Back button */}
-          <Link href="/users">
+          <Link href="/users/stagiair">
             <button
               type="button"
               className="flex items-center  hover:text-gray-600 mr-20"

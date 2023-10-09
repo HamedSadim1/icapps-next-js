@@ -2,19 +2,35 @@ import prisma from "@/prisma/client";
 
 import { IStagaire } from "@/types";
 //? sort by name function
-export const sortDate = (stagaireArray: IStagaire[]) =>
+export const sortDate = (stagaireArray: IStagaire[]) => {
   stagaireArray.sort((a, b) => {
-    return a.startDate.getTime() - b.startDate.getTime();
+    const dateA = new Date(a.startDate);
+    const dateB = new Date(b.startDate);
+    return dateA.getTime() - dateB.getTime();
   });
+};
 
 //? format date function
-export const formateDate = (date: Date) =>
-  date &&
-  date.toLocaleDateString("nl-BE", {
-    day: "numeric",
-    month: "numeric",
-    year: "numeric",
-  });
+export const formatDate = (date: string | null): string => {
+  if (!date) {
+    return "";
+  }
+
+  const dateObject: Date = new Date(date);
+  if (isNaN(dateObject.getTime())) {
+    return "";
+  }
+
+  const day: number = dateObject.getDate();
+  const month: number = dateObject.getMonth() + 1;
+  const year: number = dateObject.getFullYear();
+
+  const formattedDay: string = day < 10 ? `0${day}` : `${day}`;
+  const formattedMonth: string = month < 10 ? `0${month}` : `${month}`;
+
+  const formattedDate: string = `${formattedDay}-${formattedMonth}-${year}`;
+  return formattedDate;
+};
 
 export const connectToDatabase = async () => {
   try {
@@ -23,4 +39,17 @@ export const connectToDatabase = async () => {
   } catch (error) {
     throw new Error("Error connecting to database");
   }
+};
+
+export const getstagebegeleiderName = (
+  stagebegeleidersId: string[],
+  stagebegeleidersData: IStagaire[]
+) => {
+  return stagebegeleidersData
+    .map((stagebegeleider) => {
+      if (stagebegeleidersId.includes(stagebegeleider.id)) {
+        return stagebegeleider.name;
+      }
+    })
+    .join(", ");
 };
