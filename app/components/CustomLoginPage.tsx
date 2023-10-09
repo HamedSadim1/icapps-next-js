@@ -34,7 +34,7 @@ const CustomLoginPage = () => {
       postData();
 
       if (session) {
-        window.location.href = "/users";
+        window.location.href = "/users/stagiair";
       }
     } catch (error) {
       console.error("Error in useEffect:", error);
