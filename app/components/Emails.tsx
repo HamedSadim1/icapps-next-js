@@ -1,5 +1,5 @@
-import { StagaireFakeData } from "@/data";
-import { sortDate } from "@/lib";
+// import { StagaireFakeData } from "@/data";
+// import { sortDate } from "@/lib";
 import Email from "@/app/components/Email";
 import { useMemo, useState } from "react";
 import Pagination from "@/app/components/Pagination";
@@ -13,7 +13,7 @@ const Emails = ({ search }: EmailsProps) => {
   // const [emailPerPage] = useState<number>(10);
 
   //? sort and paginate filtered data
-  const sortedData = sortDate(StagaireFakeData);
+  // const sortedData = sortDate(StagaireFakeData);
 
   // const indexOfLastEmail: number = currentPage * emailPerPage;
   // const indexOfFirstEmail: number = indexOfLastEmail - emailPerPage;
