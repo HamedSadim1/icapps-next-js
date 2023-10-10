@@ -53,3 +53,24 @@ export const getstagebegeleiderName = (
     })
     .join(", ");
 };
+
+export const inputFormDater = (date: string | null): string => {
+  if (!date) {
+    return "";
+  }
+
+  const dateObject: Date = new Date(date);
+  if (isNaN(dateObject.getTime())) {
+    return "";
+  }
+
+  const year: number = dateObject.getFullYear();
+  const month: number = dateObject.getMonth() + 1; // Note: January is 0
+  const day: number = dateObject.getDate();
+
+  const formattedMonth: string = month < 10 ? `0${month}` : `${month}`;
+  const formattedDay: string = day < 10 ? `0${day}` : `${day}`;
+
+  const formattedDate: string = `${year}-${formattedMonth}-${formattedDay}`;
+  return formattedDate;
+};

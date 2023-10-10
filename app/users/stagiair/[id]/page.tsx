@@ -1,8 +1,11 @@
 "use client";
-import { IStagaire, IStagebegeleider } from "@/types";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useEffect } from "react";
+import useStagairStore from "@/store";
 
-import Select, { MultiValue, ActionMeta } from "react-select";
+import Select from "react-select";
+import useStagebegeleiders from "@/hooks/useStagebegeleiders";
+import useStagair from "@/hooks/useStagair";
+import { inputFormDater } from "@/lib";
 
 interface Params {
   params: { id: string };
@@ -10,51 +13,65 @@ interface Params {
 }
 
 const StagairForm = ({ params: { id }, setIsModalOpen }: Params) => {
-  const [data, setData] = useState<IStagaire>({
-    id: "",
-    name: "",
-    email: "",
-    startDate: "",
-    endDate: "",
-    stagebegeleiderId: [] as string[],
-  });
+  // const [data, setData] = useState<IStagaire>({
+  //   id: "",
+  //   name: "",
+  //   email: "",
+  //   startDate: "",
+  //   endDate: "",
+  //   stagebegeleiderId: [] as string[],
+  // });
 
-  const [stagebegeleiders, setStagebegeleiders] = useState<IStagebegeleider[]>(
-    []
-  );
-  const [loading, setLoading] = useState<boolean>(true);
-  const [selected, setSelected] = useState<string[]>([]);
+  const { data: stagair } = useStagair(id);
 
   useEffect(() => {
-    const fetchData = async () => {
-      setLoading(false);
-      const resp = await fetch(
-        `http://localhost:3000/api/users/stagiair/${id}`,
-        {
-          cache: "no-cache",
-        }
-      );
-      const data: IStagaire = await resp.json();
-      setData(data);
-      console.log(data);
-    };
+    if (stagair) {
+      useStagairStore.setState({ stagaires: stagair });
+    }
+  }, [stagair]);
 
-    const fetchStagebegeleiders = async () => {
-      const resp = await fetch("http://localhost:3000/api/stagebegeleider", {
-        cache: "no-cache",
-      });
-      const data: IStagebegeleider[] = await resp.json();
-      setStagebegeleiders(data);
-      setLoading(false);
-    };
+  const data = useStagairStore((state) => state.stagaires);
+  const setData = useStagairStore((state) => state.setStagaires);
+  const { data: stagebegeleiders } = useStagebegeleiders();
+  // const [stagebegeleiders, setStagebegeleiders] = useState<IStagebegeleider[]>(
+  //   []
+  // );
+  // const [loading, setLoading] = useState<boolean>(true);
+  // const [selected, setSelected] = useState<string[]>([]);
 
-    fetchStagebegeleiders();
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     // setLoading(false);
+  //     const resp = await fetch(
+  //       `http://localhost:3000/api/users/stagiair/${id}`,
+  //       {
+  //         cache: "no-cache",
+  //       }
+  //     );
+  //     const data: IStagaire = await resp.json();
+  //     // setData(data);
+  //     useStagairStore.setState({ stagaires: data });
 
-    fetchData();
-  }, [id]);
+  //     console.log(data);
+  //   };
+
+  // const fetchStagebegeleiders = async () => {
+  //   const resp = await fetch("http://localhost:3000/api/stagebegeleider", {
+  //     cache: "no-cache",
+  //   });
+  //   const data: IStagebegeleider[] = await resp.json();
+  //   setStagebegeleiders(data);
+
+  //   setLoading(false);
+  // };
+
+  // fetchStagebegeleiders();
+
+  //   fetchData();
+  // }, [id]);
 
   const getNamesFromStagebegeleiderId = (stagebegeleiderId: string[]) => {
-    const filteredStagebegeleiders = stagebegeleiders.filter(
+    const filteredStagebegeleiders = stagebegeleiders!.filter(
       (stagebegeleider) => stagebegeleiderId.includes(stagebegeleider.id)
     );
     const filteredNames = filteredStagebegeleiders.map(
@@ -63,32 +80,10 @@ const StagairForm = ({ params: { id }, setIsModalOpen }: Params) => {
     return filteredNames;
   };
 
-  console.log(getNamesFromStagebegeleiderId(data.stagebegeleiderId));
-
-  const inputFormDater = (date: string | null): string => {
-    if (!date) {
-      return "";
-    }
-
-    const dateObject: Date = new Date(date);
-    if (isNaN(dateObject.getTime())) {
-      return "";
-    }
-
-    const year: number = dateObject.getFullYear();
-    const month: number = dateObject.getMonth() + 1; // Note: January is 0
-    const day: number = dateObject.getDate();
-
-    const formattedMonth: string = month < 10 ? `0${month}` : `${month}`;
-    const formattedDay: string = day < 10 ? `0${day}` : `${day}`;
-
-    const formattedDate: string = `${year}-${formattedMonth}-${formattedDay}`;
-    return formattedDate;
-  };
+  // console.log(getNamesFromStagebegeleiderId(data?.stagebegeleiderId!));
 
   const handleSubmitForm = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     try {
       const isoStartDate = data.startDate
         ? new Date(data.startDate).toISOString()
@@ -119,8 +114,11 @@ const StagairForm = ({ params: { id }, setIsModalOpen }: Params) => {
 
       setIsModalOpen(false);
 
+      window.location.reload();
+
       if (response.ok) {
         console.log("Data updated");
+        window.location.reload();
       } else {
         console.error("error", response.status, response.statusText);
       }
@@ -198,30 +196,6 @@ const StagairForm = ({ params: { id }, setIsModalOpen }: Params) => {
               <label className="text-gray-700" htmlFor="stagebegeleider">
                 Stagebegeleider
               </label>
-              {/* <select
-                className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500"
-                id="stagebegeleider"
-                name="stagebegeleider"
-                value={data.stagebegeleiderId}
-                onChange={(e) => {
-                  const selectedOptions = Array.from(
-                    e.target.selectedOptions,
-                    (option) => option.value
-                  );
-                  setData({
-                    ...data,
-                    stagebegeleiderId: selectedOptions,
-                  });
-                  console.log(selectedOptions);
-                }}
-                multiple={true}
-              >
-                {stagebegeleiders.map((stagebegeleider) => (
-                  <option key={stagebegeleider.id} value={stagebegeleider.id}>
-                    {stagebegeleider.name}
-                  </option>
-                ))}
-              </select> */}
 
               <Select
                 defaultValue={getNamesFromStagebegeleiderId(
@@ -232,16 +206,18 @@ const StagairForm = ({ params: { id }, setIsModalOpen }: Params) => {
                 }))}
                 isMulti
                 name="stagebegeleider"
-                options={stagebegeleiders.map((stagebegeleider) => ({
+                options={stagebegeleiders!.map((stagebegeleider) => ({
                   label: stagebegeleider.name,
                   value: stagebegeleider.id,
                 }))}
                 className="basic-multi-select"
                 classNamePrefix="select"
                 onChange={(selected, actionMeta) => {
+                  //! selectedOptions is an array of unique strings
                   const selectedOptions = Array.from(
                     new Set(selected.map((option) => option.value))
                   );
+                  //! setData is an array of unique stagebegleiderIds
                   setData({
                     ...data,
                     stagebegeleiderId: selectedOptions,

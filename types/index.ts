@@ -5,6 +5,7 @@ export interface IStagaire {
   startDate: string;
   endDate: string;
   stagebegeleiderId: string[];
+  role: UserRole;
 }
 
 export interface IStagebegeleider {
@@ -12,4 +13,18 @@ export interface IStagebegeleider {
   name: string;
   email: string;
   stagiairs: IStagaire[];
+}
+
+export enum UserRole {
+  ADMIN,
+  STAGIAIR,
+  STAGEBEGELEIDER,
+}
+
+export interface IUser {
+  id: string;
+  name: string;
+  email: string;
+  createdAt: Date;
+  role: UserRole;
 }

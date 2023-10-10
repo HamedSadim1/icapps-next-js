@@ -3,7 +3,7 @@ import prisma from "@/prisma/client";
 import { connectToDatabase } from "@/lib";
 
 interface Params {
-  params: { _id: string };
+  params: { id: string };
 }
 
 export async function GET(request: NextRequest, { params }: Params) {
@@ -13,7 +13,7 @@ export async function GET(request: NextRequest, { params }: Params) {
     // }
     await connectToDatabase();
     const stagebegeleider = await prisma.stageBegeleider.findUnique({
-      where: { id: params._id },
+      where: { id: params.id },
     });
 
     if (!stagebegeleider) {

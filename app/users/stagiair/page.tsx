@@ -1,46 +1,27 @@
 "use client";
 import { formatDate } from "@/lib";
-import { IStagaire, IStagebegeleider } from "@/types";
 import Link from "next/link";
 import { MdSystemUpdateAlt } from "react-icons/md";
 import StagairForm from "./[id]/page";
 import { useEffect, useState } from "react";
+import useStagairs from "@/hooks/useStagairs";
+import useStagebegeleiders from "@/hooks/useStagebegeleiders";
 
 const StagiairPage = () => {
-  const [stagebegeleidersData, setStagebegeleidersData] = useState<
-    IStagebegeleider[]
-  >([]);
-  const [stagiairData, setStagiairData] = useState<IStagaire[]>([]);
+  const {
+    data: stagebegeleidersData,
+    error,
+    isLoading,
+  } = useStagebegeleiders();
+  const {
+    data: stagiairData,
+    error: stagiairError,
+    isLoading: stagiairLoading,
+  } = useStagairs();
+
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const respStagebegeleiders = await fetch(
-          "http://localhost:3000/api/stagebegeleider",
-          {
-            cache: "no-cache",
-          }
-        );
-        const stagebegeleidersData = await respStagebegeleiders.json();
-        setStagebegeleidersData(stagebegeleidersData);
-
-        const respStagaire = await fetch(
-          "http://localhost:3000/api/users/stagiair",
-          {
-            cache: "no-cache",
-          }
-        );
-        const stagiairData = await respStagaire.json();
-        setStagiairData(stagiairData);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    fetchData();
-  }, []);
-
+  //! open modal when isModalOpen is true and close modal when isModalOpen is false
   useEffect(() => {
     const modal = document.getElementById("my_modal_3") as HTMLDialogElement;
 
@@ -58,18 +39,44 @@ const StagiairPage = () => {
     }
   }, [isModalOpen]);
 
+  if (error || stagiairError) {
+    return <div>{error?.message || stagiairError?.message}</div>;
+  }
+
+  if (isLoading || stagiairLoading) {
+    return (
+      <div className="flex flex-wrap justify-center items-center h-screen w-full">
+        <span className="loading loading-ring loading-lg"></span>
+      </div>
+    );
+  }
+
+  if (
+    !stagebegeleidersData ||
+    stagebegeleidersData.length === 0 ||
+    !stagiairData ||
+    stagiairData.length === 0
+  ) {
+    return (
+      <div className="flex flex-wrap justify-center items-center h-screen w-full">
+        No stagebegeleiders found.
+      </div>
+    );
+  }
+
+  //! get stagebegeleider name by id stagiair stagebegeleiderId array
   const getstagebegeleiderName = (stagebegeleidersId: string[]) => {
-    return stagebegeleidersData
-      .map((stagebegeleider) => {
-        if (stagebegeleidersId.includes(stagebegeleider.id)) {
-          return stagebegeleider.name;
-        }
-      })
-      .join(", ");
+    const filteredNames = stagebegeleidersData
+      .filter((stagebegeleider) =>
+        stagebegeleidersId.includes(stagebegeleider.id)
+      )
+      .map((stagebegeleider) => stagebegeleider.name);
+
+    return filteredNames.length > 0 ? filteredNames.join(", ") : "";
   };
 
   return (
-    <section className="flex flex-wrap flex-row justify-center  ml-[5rem]">
+    <section className="flex flex-wrap flex-row justify-center  ml-[5rem] overflow-x-auto">
       <table className=" table table-zebra md:w-full bg-white border border-gray-200 mt-12">
         <thead className="bg-gray-50">
           <tr>
