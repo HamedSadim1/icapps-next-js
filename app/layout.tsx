@@ -17,9 +17,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" data-theme="light">
       <body className={inter.className}>
-        <Navar/>
+        <Navar />
         <AuthProvider>{children}</AuthProvider>
       </body>
     </html>

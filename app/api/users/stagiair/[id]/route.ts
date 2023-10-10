@@ -45,7 +45,9 @@ export async function PATCH(request: NextRequest, { params: { id } }: Params) {
         role: body.role,
         startDate: body.startDate,
         endDate: body.endDate,
-        stagebegeleider: body.stagebegeleider,
+        stagebegeleiderId: {
+          set: body.stagebegeleiderId,
+        },
       },
     });
 

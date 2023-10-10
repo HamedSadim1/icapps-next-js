@@ -1,22 +1,62 @@
+"use client";
 import { formatDate } from "@/lib";
 import { IStagaire, IStagebegeleider } from "@/types";
 import Link from "next/link";
 import { MdSystemUpdateAlt } from "react-icons/md";
+import StagairForm from "./[id]/page";
+import { useEffect, useState } from "react";
 
-const StagiairPage = async () => {
-  const respStagebegeleiders = await fetch(
-    "http://localhost:3000/api/stagebegeleider",
-    {
-      cache: "no-cache",
+const StagiairPage = () => {
+  const [stagebegeleidersData, setStagebegeleidersData] = useState<
+    IStagebegeleider[]
+  >([]);
+  const [stagiairData, setStagiairData] = useState<IStagaire[]>([]);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const respStagebegeleiders = await fetch(
+          "http://localhost:3000/api/stagebegeleider",
+          {
+            cache: "no-cache",
+          }
+        );
+        const stagebegeleidersData = await respStagebegeleiders.json();
+        setStagebegeleidersData(stagebegeleidersData);
+
+        const respStagaire = await fetch(
+          "http://localhost:3000/api/users/stagiair",
+          {
+            cache: "no-cache",
+          }
+        );
+        const stagiairData = await respStagaire.json();
+        setStagiairData(stagiairData);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    const modal = document.getElementById("my_modal_3") as HTMLDialogElement;
+
+    if (modal) {
+      if (isModalOpen) {
+        modal.showModal();
+      } else {
+        modal.close();
+      }
+
+      // clean up modal
+      return () => {
+        modal.close();
+      };
     }
-  );
-  const stagebegeleidersData: IStagebegeleider[] =
-    await respStagebegeleiders.json();
-
-  const respStagaire = await fetch("http://localhost:3000/api/users/stagiair", {
-    cache: "no-cache",
-  });
-  const stagiairData: IStagaire[] = await respStagaire.json();
+  }, [isModalOpen]);
 
   const getstagebegeleiderName = (stagebegeleidersId: string[]) => {
     return stagebegeleidersData
@@ -29,57 +69,62 @@ const StagiairPage = async () => {
   };
 
   return (
-    <>
-      <section className="flex flex-wrap flex-row justify-center  ml-[5rem]">
-        <table className="md:w-full bg-white border border-gray-200 mt-12">
-          <thead className="bg-gray-50">
-            <tr>
-              <th className="py-2 px-4 text-left">Naam</th>
-              <th className="py-2 px-4 text-left">E-MAIL</th>
-              <th className="py-2 px-4 text-left">START DATUM</th>
-              <th className="py-2 px-4 text-left">END DATUM</th>
-              <th className="py-2 px-4 text-left">STAGEBEGELEIDER(S)</th>
-              <th className="py-2 px-4 text-left"></th>
-            </tr>
-          </thead>
-          <tbody className="mt-3">
-            {stagiairData.map((stagiair) => (
-              <tr key={stagiair.id}>
-                <td className="py-2 px-4">
-                  <button className=" hover:text-blue-500 focus:outline-none  ">
-                    <Link
-                      href={`/users/stagair${stagiair.id}?name=${stagiair.name}`}
-                    >
-                      {stagiair.name}
-                    </Link>
-                  </button>
-                </td>
-                <td className="py-2 px-4">{stagiair.email}</td>
-                <td className="py-2 px-4">{formatDate(stagiair.startDate)}</td>
-                <td className="py-2 px-4">{formatDate(stagiair.endDate)}</td>
-                <td className="py-2 px-4">
-                  {getstagebegeleiderName(stagiair.stagebegeleiderId)}
-                </td>
-                <td className="py-2 px-4">
-                  <button className=" hover:text-blue-500 focus:outline-none  ">
-                    <Link href={`/users/stagiair/${stagiair.id}`}>
-                      <MdSystemUpdateAlt />
-                    </Link>
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        {stagiairData.length == 0 && (
-          <tr className="flex flex-wrap flex-row justify-center items-center ">
-            <h2 className="text-2xl font-bold mt-12 text-center text-gray-500">
-              No result found
-            </h2>
+    <section className="flex flex-wrap flex-row justify-center  ml-[5rem]">
+      <table className=" table table-zebra md:w-full bg-white border border-gray-200 mt-12">
+        <thead className="bg-gray-50">
+          <tr>
+            <th className="py-2 px-4 text-left">Naam</th>
+            <th className="py-2 px-4 text-left">E-MAIL</th>
+            <th className="py-2 px-4 text-left">START DATUM</th>
+            <th className="py-2 px-4 text-left">END DATUM</th>
+            <th className="py-2 px-4 text-left">STAGEBEGELEIDER(S)</th>
+            <th className="py-2 px-4 text-left"></th>
           </tr>
-        )}
-      </section>
-    </>
+        </thead>
+        <tbody className="mt-3">
+          {stagiairData.map((stagiair) => (
+            <tr key={stagiair.id}>
+              <td className="py-2 px-4">
+                <button className=" hover:text-blue-500 focus:outline-none  ">
+                  <Link
+                    href={`/users/stagair${stagiair.id}?name=${stagiair.name}`}
+                  >
+                    {stagiair.name}
+                  </Link>
+                </button>
+              </td>
+              <td className="py-2 px-4">{stagiair.email}</td>
+              <td className="py-2 px-4">{formatDate(stagiair.startDate)}</td>
+              <td className="py-2 px-4">{formatDate(stagiair.endDate)}</td>
+              <td className="py-2 px-4">
+                {getstagebegeleiderName(stagiair.stagebegeleiderId)}
+              </td>
+              <td className="py-2 px-4">
+                <button
+                  onClick={() => setIsModalOpen(true)}
+                  className=" hover:text-blue-500 focus:outline-none btn "
+                >
+                  <span>
+                    <MdSystemUpdateAlt />
+                    <StagairForm
+                      params={{ id: stagiair.id }}
+                      setIsModalOpen={setIsModalOpen}
+                    />
+                  </span>
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      {stagiairData.length == 0 && (
+        <div className="flex flex-wrap flex-row justify-center items-center ">
+          <h2 className="text-2xl font-bold mt-12 text-center text-gray-500">
+            No result found
+          </h2>
+        </div>
+      )}
+    </section>
   );
 };
 

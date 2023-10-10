@@ -53,32 +53,35 @@ model Stagiair {
   role              UserRole        @default(STAGIAIR)
   startDate         DateTime        @default(now())
   endDate           DateTime        @default("2024-01-01T00:00:00.000Z")
-  // stages            Stage[]
+  stages            Stage[]
   stagebegeleiderId String[]        @db.ObjectId
   stagebegeleider   StageBegeleider @relation(fields: [stagebegeleiderId], references: [id])
+  
   // adminId           String          @db.ObjectId
   // admin             Admin           @relation(fields: [adminId], references: [id])
   // posts             Post[]
 }
 
-//! for later
-// model Stage {
-//   id                String          @id @default(auto()) @map("_id") @db.ObjectId
-//   beschrijving      String
-//   school            String
-//   stagebegeleiderId String          @db.ObjectId
-//   stagebegeleider   StageBegeleider @relation(fields: [stagebegeleiderId], references: [id])
-//   stagiairId        String          @db.ObjectId
-//   stagiair          Stagiair        @relation(fields: [stagiairId], references: [id])
-//   adminId           String          @db.ObjectId
+//! working on it
+ model Stage {
+   id                String          @id @default(auto()) @map("_id") @db.ObjectId
+   beschrijving      String
+   school            String
+   stagebegeleiderId String          @db.ObjectId
+  //  stagebegeleider   StageBegeleider @relation(fields: [stagebegeleiderId], references: [id])
+   stagiairId        String          @db.ObjectId
+   stagiair          Stagiair        @relation(fields: [stagiairId], references: [id])
+  //  adminId           String          @db.ObjectId
 //   admin             Admin           @relation(fields: [adminId], references: [id])
-// }
-
+ }
+//! Doelen , endDatum , startDatum, 
 // model Post {
 //   id       String    @id @default(auto()) @map("_id") @db.ObjectId
 //   slug     String    @unique
 //   title    String
 //   body     String
+// startDate         DateTime        @default(now())
+//  endDate           DateTime        @default("2024-01-01T00:00:00.000Z")   
 //   author   Stagiair  @relation(fields: [authorId], references: [id])
 //   authorId String    @db.ObjectId
 //   comments Comment[]
