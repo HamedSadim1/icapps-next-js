@@ -10,7 +10,7 @@ export const sortDate = (stagaireArray: IStagaire[]) => {
   });
 };
 
-//? format date function
+//? format date function for displaying
 export const formatDate = (date: string | null): string => {
   if (!date) {
     return "";
@@ -32,6 +32,7 @@ export const formatDate = (date: string | null): string => {
   return formattedDate;
 };
 
+//! connect to database
 export const connectToDatabase = async () => {
   try {
     await prisma.$connect();
@@ -40,6 +41,8 @@ export const connectToDatabase = async () => {
     throw new Error("Error connecting to database");
   }
 };
+
+//! get stagebegeleider name
 
 export const getstagebegeleiderName = (
   stagebegeleidersId: string[],
@@ -53,7 +56,7 @@ export const getstagebegeleiderName = (
     })
     .join(", ");
 };
-
+//! inputDateFormate before sending to database
 export const inputFormDater = (date: string | null): string => {
   if (!date) {
     return "";

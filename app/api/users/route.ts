@@ -2,10 +2,6 @@ import { connectToDatabase } from "@/lib";
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/prisma/client";
 
-interface Params {
-  params: { id: string };
-}
-
 export async function GET(request: NextRequest) {
   // get all users
   try {
@@ -25,7 +21,7 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const { name, email } = await request.json();
+    const { name, email, img } = await request.json();
     if (!name || !email) {
       return NextResponse.json({ message: "Invalid Request" }, { status: 400 });
     }
@@ -47,6 +43,7 @@ export async function POST(request: NextRequest) {
       data: {
         name,
         email,
+        img,
       },
     });
 

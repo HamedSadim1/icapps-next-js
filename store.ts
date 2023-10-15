@@ -25,12 +25,18 @@ import { create } from "zustand";
 import { IStagaire } from "@/types";
 
 export interface IStore {
+  commentModal: boolean;
+  stagiairModal: boolean;
+  toggleModal: () => void;
   stagaires: IStagaire;
   setStagaires: (stagaires: IStagaire) => void;
   updateStagairesAsync: (stagaire: IStagaire) => void;
+  setCommentModal: (commentModal: boolean) => void;
 }
 
 const useStagairStore = create<IStore>((set) => ({
+  stagiairModal: false,
+  commentModal: false,
   stagaires: {
     email: "",
     endDate: "",
@@ -39,8 +45,14 @@ const useStagairStore = create<IStore>((set) => ({
     startDate: "",
     stagebegeleiderId: [],
     role: 1,
+    posts: [],
+    stagebeschriving: [],
+    stagebegeleider: [],
+    user: [],
   },
   setStagaires: (stagaires) => set({ stagaires }),
+  toggleModal: () => set((state) => ({ stagiairModal: !state.stagiairModal })),
+  setCommentModal: (commentModal) => set({ commentModal }),
   updateStagairesAsync: async (stagaire) => {
     try {
       set({ stagaires: stagaire });

@@ -1,3 +1,4 @@
+"use client";
 import { GoGoal } from "react-icons/go";
 import {
   AiOutlineShareAlt,
@@ -10,8 +11,43 @@ import { GrAdd } from "react-icons/gr";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import { VscChecklist } from "react-icons/vsc";
 import Link from "next/link";
+import Loading from "@/app/components/Loading";
+import FetchingError from "@/app/components/FetchingError";
+import NoDataError from "@/app/components/NoDataError";
+import { formatDate } from "@/lib";
+import useStagair from "@/hooks/useStagair";
+import Image from "next/image";
+import { useState } from "react";
+import useStagairStore from "@/store";
+import CommentModal from "./CommentModal";
 
-const StagiairDetailPage = () => {
+interface Params {
+  params: { id: string };
+}
+
+const StagiairDetail = ({ params: { id } }: Params) => {
+  const { data, error, isLoading } = useStagair(id);
+
+  const setIsModalOpen = useStagairStore((state) => state.setCommentModal);
+
+  if (isLoading) return <Loading />;
+
+  if (error) return <FetchingError error={error.message} />;
+
+  if (!data && !error) return <NoDataError />;
+
+  const getStagebegeleiderName = () => {
+    return data.stagebegeleider
+      .map((stagebegeleider) => stagebegeleider.name)
+      .join(", ");
+  };
+
+  const getComments = () => {
+    return data.posts.flatMap((post) =>
+      post.comments.map((comment) => comment.comment)
+    );
+  };
+
   return (
     <>
       <section className="grid grid-rows-2 grid-flow-col gap-4 ml-20 mr-20">
@@ -28,38 +64,58 @@ const StagiairDetailPage = () => {
           </Link>
           {/* Title */}
 
-          <h1 className="text-2xl mb-10 mt-5">Stagaire X </h1>
-          <div className="flex items-center">
-            <GoGoal className="text-3xl text-blue-500 mr-4 mb-1" />
-            <h2 className="font-bold text-2xl mb-1">Doelen</h2>
+          <h1 className="text-2xl mb-10 mt-5"> {data.name} </h1>
+          <div className="flex justify-between">
+            <div className="flex flex-row">
+              <GoGoal className="text-3xl text-blue-500 mr-4 mb-1" />
+              <h2 className="font-bold text-2xl mb-1">Doelen</h2>
+            </div>
+            <GrAdd />
           </div>
 
-          <div className="flex flex-col rounded-lg">
-            <h2 className="text-2xl font-bold ">
-              Doel 1
-              <button type="button" className="hover:text-gray-400">
-                <AiOutlineEdit className="text-2xl ml-2 mt-3" />
-              </button>
-            </h2>
-            <span className="text-gray-400 text-sm">O1/12/2023</span>
+          {data.posts.map((post) => (
+            <div className="flex flex-col rounded-lg" key={post.id}>
+              <h2 className="text-2xl font-bold ">
+                {post.title}
+                <button type="button" className="hover:text-gray-400">
+                  <AiOutlineEdit className="text-2xl ml-2 mt-3" />
+                </button>
+              </h2>
+              <span className="text-gray-400 text-sm">
+                {formatDate(post.createdAt)}
+              </span>
 
-            <p className="text-gray-600 text-base font-medium leading-relaxed mt-2  ">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos
-              voluptatum, quibusdam, voluptates, quia doloremque quod nemo
-              voluptate voluptas quas nesciunt doloribus? Quisquam, voluptatem
-            </p>
-          </div>
-          <div className="flex flex-justify-between mt-3 ">
-            <BiUserCircle className="text-4xl text-blue-500" />
-            <div>
-              <h3 className="text-1 xl text-blue-500">Steve Jobs</h3>
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Aperiam.
+              <p className="text-gray-600 text-base font-medium leading-relaxed mt-2  ">
+                {post.body}
               </p>
-              <button type="button" className="flex mt-5">
+            </div>
+          ))}
+          {/* Commentaar */}
+
+          <div className="flex flex-justify-between mt-3 ">
+            {data.user[0].img ? (
+              <div className="avatar w-12 h-12 mr-1">
+                <Image
+                  src={data.user[0].img}
+                  alt="User avatar"
+                  layout="fill"
+                  objectFit="cover"
+                  className="rounded-full"
+                />
+              </div>
+            ) : (
+              <BiUserCircle className="text-4xl text-blue-500" />
+            )}
+            {/* Comment button */}
+            <div>
+              <h3 className="text-1 xl text-blue-500">{data.name}</h3>
+              <p>{getComments()}</p>
+              <button
+                type="button"
+                className="flex mt-5"
+                // onClick={() => setIsModalOpen(true)}
+              >
                 <GrAdd className=" mt-1  text-gray-400 " />
-                <h3 className="ml-2">Commentaar toevogen</h3>
               </button>
             </div>
           </div>
@@ -137,30 +193,48 @@ const StagiairDetailPage = () => {
               Evaluatieformulier Invullen
             </button>
           </div>
-          <div className="bg-gray-200 mt-11 rounded-lg pb-5 p-5">
-            <div className="flex justify-between items-center ml-2 ">
-              <h2 className="text-2xl">Beschrijving</h2>
-              <button type="button" className="hover:text-gray-400">
-                <AiOutlineEdit className="text-2xl mr-7" />
-              </button>
+          {data.stagebeschriving.map((stagebeschriving) => (
+            <div
+              key={stagebeschriving.id}
+              className="bg-gray-200 mt-11 rounded-lg pb-5 p-5"
+            >
+              <div className="flex justify-between items-center ml-2 ">
+                <h2 className="text-2xl">Beschrijving</h2>
+                {/* Edit the stage from */}
+                <button
+                  type="button"
+                  className="hover:text-gray-400"
+                  onClick={() => setIsModalOpen(true)}
+                >
+                  <AiOutlineEdit className="text-2xl mr-7" />
+                </button>
+                <CommentModal id={id} />
+              </div>
+              <p className="text-gray-600 text-base font-medium leading-relaxed mt-2 ml-2">
+                {stagebeschriving.beschrijving}
+              </p>
+              <h2 className="text-2xl mt-5 ml-2">Stage begeleider(s)</h2>
+              <h3 className="text-gray  ml-2">{getStagebegeleiderName()} S</h3>
+              <h2 className="text-2xl mt-5 ml-2">Stage duur</h2>
+              <h3 className="text-gray ml-2">
+                {formatDate(data.startDate)} - {formatDate(data.endDate)}
+              </h3>
+              <h2 className="text-2xl mt-5 ml-2">School</h2>
+              <h3 className="text-gray ml-2">{stagebeschriving.school}</h3>
+              <h2 className="text-2xl mt-5 ml-2">Contactpersoon</h2>
+              <h3 className="text-gray ml-2">
+                {stagebeschriving.contactPersoonName}
+              </h3>
+              <h3 className="text-gray ml-2">
+                {stagebeschriving.contactPersoonEmail}
+              </h3>
+              <h3 className="text-gray ml-2">
+                {stagebeschriving.contactPersoonTelefoon}
+              </h3>
             </div>
-            <p className="text-gray-600 text-base font-medium leading-relaxed mt-2 ml-2">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos
-              voluptatum, quibusdam, voluptates, quia doloremque quod nemo
-              voluptate voluptas quas nesciunt doloribus? Quisquam, voluptatem
-              voluptates. Quisquam, voluptatem voluptates.
-            </p>
-            <h2 className="text-2xl mt-5 ml-2">Stage begeleider(s)</h2>
-            <h3 className="text-gray  ml-2">Steve Jobs, Bill Gates</h3>
-            <h2 className="text-2xl mt-5 ml-2">Stage duur</h2>
-            <h3 className="text-gray ml-2">08/02/2023 - 12/14/2023</h3>
-            <h2 className="text-2xl mt-5 ml-2">School</h2>
-            <h3 className="text-gray ml-2">AP Hogeschool</h3>
-            <h2 className="text-2xl mt-5 ml-2">Contactpersoon</h2>
-            <h3 className="text-gray ml-2">Elon Musk</h3>
-            <h3 className="text-gray ml-2">elon.musk@gmail.com</h3>
-            <h3 className="text-gray ml-2">+32 2 259 04 70</h3>
-          </div>
+          ))}
+
+          {/* Documenten */}
           <div className="flex-col bg-gray-200  rounded-lg overflow-hidden  mt-10 p-5">
             <h2 className="text-2xl mt-5 ml-2">Documenten</h2>
             <h2 className="text-2xl mt-5 ml-2">Document 1</h2>
@@ -187,8 +261,9 @@ const StagiairDetailPage = () => {
           </div>
         </div>
       </section>
+      )
     </>
   );
 };
 
-export default StagiairDetailPage;
+export default StagiairDetail;

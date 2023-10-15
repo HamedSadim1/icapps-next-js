@@ -22,11 +22,14 @@ datasource db {
 // }
 
 model User {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  name      String   @unique
-  email     String   @unique
-  createdAt DateTime @default(now())
-  role      UserRole @default(ADMIN)
+  id         String    @id @default(auto()) @map("_id") @db.ObjectId
+  name       String    @unique
+  email      String    @unique
+  createdAt  DateTime  @default(now())
+  role       UserRole  @default(ADMIN)
+  img        String?
+  stagiairID String?    @db.ObjectId
+  stagiair   Stagiair? @relation(fields: [stagiairID], references: [id])
 }
 
 enum UserRole {
@@ -36,65 +39,66 @@ enum UserRole {
 }
 
 model StageBegeleider {
-  id        String     @id @default(auto()) @map("_id") @db.ObjectId
-  name      String     @unique
-  email     String     @unique
-  role      UserRole   @default(STAGEBEGELEIDER)
-  stages    Stage[]
-  stagiairs Stagiair[]
+  id                  String              @id @default(auto()) @map("_id") @db.ObjectId
+  name                String              @unique
+  email               String              @unique
+  role                UserRole            @default(STAGEBEGELEIDER)
+  stagebescrhivingIDS String[]            @db.ObjectId
+  stagiairs           String[]            @db.ObjectId
+  stagebeschrijvings  StageBeschrijving[] @relation(fields: [stagebescrhivingIDS], references: [id])
+  stagiair            Stagiair[]          @relation(fields: [stagiairs], references: [id])
+
   // adminId   String     @db.ObjectId
   // admin     Admin      @relation(fields: [adminId], references: [id])
 }
 
 model Stagiair {
-  id                String          @id @default(auto()) @map("_id") @db.ObjectId
+  id                String              @id @default(auto()) @map("_id") @db.ObjectId
   name              String
   email             String
-  role              UserRole        @default(STAGIAIR)
-  startDate         DateTime        @default(now())
-  endDate           DateTime        @default("2024-01-01T00:00:00.000Z")
-  stageId           String          @db.ObjectId
-  
-  stagebegeleiderId String[]        @db.ObjectId
-  stagebegeleider   StageBegeleider @relation(fields: [stagebegeleiderId], references: [id])
- 
-
-  
-  
+  role              UserRole            @default(STAGIAIR)
+  startDate         DateTime            @default(now())
+  endDate           DateTime            @default("2024-01-01T00:00:00.000Z")
+  stagebegeleiderId String[]            @db.ObjectId
+  stagebegeleider   StageBegeleider[]   @relation(fields: [stagebegeleiderId], references: [id])
+  stagebeschriving  StageBeschrijving[]
   // adminId           String          @db.ObjectId
   // admin             Admin           @relation(fields: [adminId], references: [id])
-  // posts             Post[]
+  posts             Doelen[]
+  user              User[]
 }
 
-//! working on it
- model Stage {
-   id                String          @id @default(auto()) @map("_id") @db.ObjectId
-   beschrijving      String
-   school            String
-   stagebegeleiderId String          @db.ObjectId
-   stagebegeleider   StageBegeleider @relation(fields: [stagebegeleiderId], references: [id])
-   stagiairId        String   @unique       @db.ObjectId
-   
-  
-  //  adminId           String          @db.ObjectId
-//   admin             Admin           @relation(fields: [adminId], references: [id])
- }
-//! Doelen , endDatum , startDatum, 
-// model Post {
-//   id       String    @id @default(auto()) @map("_id") @db.ObjectId
-//   slug     String    @unique
-//   title    String
-//   body     String
-// startDate         DateTime        @default(now())
-//  endDate           DateTime        @default("2024-01-01T00:00:00.000Z")   
-//   author   Stagiair  @relation(fields: [authorId], references: [id])
-//   authorId String    @db.ObjectId
-//   comments Comment[]
-// }
+model StageBeschrijving {
+  id                     String            @id @default(auto()) @map("_id") @db.ObjectId
+  beschrijving           String
+  school                 String
+  stagebegeleider        StageBegeleider[] @relation(fields: [stagebegeleiderIDS], references: [id])
+  stagebegeleiderIDS     String[]          @unique @db.ObjectId
+  stagiair               Stagiair          @relation(fields: [stagiairId], references: [id])
+  stagiairId             String            @unique @db.ObjectId
+  contactPersoonName     String
+  contactPersoonEmail    String
+  contactPersoonTelefoon String
 
-// model Comment {
-//   id      String @id @default(auto()) @map("_id") @db.ObjectId
-//   comment String
-//   post    Post   @relation(fields: [postId], references: [id])
-//   postId  String @db.ObjectId
-// }
+  //  adminId           String          @db.ObjectId
+  //   admin             Admin           @relation(fields: [adminId], references: [id])
+}
+
+//! Doelen  startDatum, 
+model Doelen {
+  id         String    @id @default(auto()) @map("_id") @db.ObjectId
+  title      String
+  body       String
+  createdAt  DateTime  @default(now())
+  stagiair   Stagiair  @relation(fields: [stagiairID], references: [id])
+  stagiairID String    @db.ObjectId
+  comments   Comment[]
+}
+
+model Comment {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  comment   String
+  doel      Doelen   @relation(fields: [postId], references: [id])
+  createdAt DateTime @default(now())
+  postId    String   @db.ObjectId
+}

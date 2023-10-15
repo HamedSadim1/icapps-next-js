@@ -6,7 +6,20 @@ import schema from "./schema";
 export async function GET(request: NextRequest) {
   try {
     await connectToDatabase();
-    const stagiairs = await prisma.stagiair.findMany();
+    const stagiairs = await prisma.stagiair.findMany({
+      include: {
+        stagebegeleider: true,
+        stagebeschriving: true,
+        posts: {
+          include: {
+            comments: true,
+          },
+        },
+      },
+      orderBy: {
+        startDate: "asc",
+      },
+    });
     return NextResponse.json(stagiairs, { status: 200 });
   } catch (error) {
     console.log(error);
@@ -19,11 +32,11 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const validatedBody = schema.parse(body);
+    // const validatedBody = schema.parse(body);
     await connectToDatabase();
 
     const stagiairCreated = await prisma.stagiair.create({
-      data: validatedBody,
+      data: body,
     });
     return NextResponse.json(stagiairCreated, { status: 201 });
   } catch (error) {

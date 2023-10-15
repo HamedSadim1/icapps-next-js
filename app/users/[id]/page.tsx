@@ -1,7 +1,5 @@
-import StagiairDetailPage from "./StagiairDetailPage";
-
-const DetailPage = () => {
-  return <StagiairDetailPage />;
+const UsersPage = () => {
+  return <div>User Detail Page</div>;
 };
 
-export default DetailPage;
+export default UsersPage;

@@ -3,9 +3,10 @@ import { formatDate } from "@/lib";
 import Link from "next/link";
 import { MdSystemUpdateAlt } from "react-icons/md";
 import StagairForm from "./[id]/page";
-import { useEffect, useState } from "react";
 import useStagairs from "@/hooks/useStagairs";
 import useStagebegeleiders from "@/hooks/useStagebegeleiders";
+import Loading from "@/app/components/Loading";
+import useStagairStore from "@/store";
 
 const StagiairPage = () => {
   const {
@@ -19,36 +20,14 @@ const StagiairPage = () => {
     isLoading: stagiairLoading,
   } = useStagairs();
 
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-
-  //! open modal when isModalOpen is true and close modal when isModalOpen is false
-  useEffect(() => {
-    const modal = document.getElementById("my_modal_3") as HTMLDialogElement;
-
-    if (modal) {
-      if (isModalOpen) {
-        modal.showModal();
-      } else {
-        modal.close();
-      }
-
-      // clean up modal
-      return () => {
-        modal.close();
-      };
-    }
-  }, [isModalOpen]);
+  const setIsModelOpen = useStagairStore((state) => state.toggleModal);
 
   if (error || stagiairError) {
     return <div>{error?.message || stagiairError?.message}</div>;
   }
 
   if (isLoading || stagiairLoading) {
-    return (
-      <div className="flex flex-wrap justify-center items-center h-screen w-full">
-        <span className="loading loading-ring loading-lg"></span>
-      </div>
-    );
+    return <Loading />;
   }
 
   if (
@@ -93,9 +72,7 @@ const StagiairPage = () => {
             <tr key={stagiair.id}>
               <td className="py-2 px-4">
                 <button className=" hover:text-blue-500 focus:outline-none  ">
-                  <Link
-                    href={`/users/stagair${stagiair.id}?name=${stagiair.name}`}
-                  >
+                  <Link href={`/users/detail/${stagiair.id}`}>
                     {stagiair.name}
                   </Link>
                 </button>
@@ -108,17 +85,14 @@ const StagiairPage = () => {
               </td>
               <td className="py-2 px-4">
                 <button
-                  onClick={() => setIsModalOpen(true)}
+                  onClick={() => setIsModelOpen()}
                   className=" hover:text-blue-500 focus:outline-none btn "
                 >
-                  <span>
-                    <MdSystemUpdateAlt />
-                    <StagairForm
-                      params={{ id: stagiair.id }}
-                      setIsModalOpen={setIsModalOpen}
-                    />
-                  </span>
+                  <MdSystemUpdateAlt />
                 </button>
+                <span>
+                  <StagairForm params={{ id: stagiair.id }} />
+                </span>
               </td>
             </tr>
           ))}

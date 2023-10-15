@@ -14,6 +14,16 @@ export async function GET(
     await connectToDatabase();
     const stagiair = await prisma.stagiair.findUnique({
       where: { id: id },
+      include: {
+        stagebegeleider: true,
+        stagebeschriving: true,
+        user: true,
+        posts: {
+          include: {
+            comments: true,
+          },
+        },
+      },
     });
 
     if (!stagiair) {

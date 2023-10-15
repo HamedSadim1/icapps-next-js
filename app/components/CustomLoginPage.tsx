@@ -1,17 +1,20 @@
 "use client";
+import useUsers from "@/hooks/useUsers";
 import { signIn, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
-
-//!
+import { UserRole } from "@/types";
+import Loading from "./Loading";
 
 const CustomLoginPage = () => {
   const { data: session, status } = useSession();
   const [error, setError] = useState<string>("");
+  const { data: users } = useUsers();
 
   useEffect(() => {
-    async function postData() {
+    async function fetchData() {
       try {
         if (session) {
+          //&& session.user.email.includes("@icapss")
           const res = await fetch("http://localhost:3000/api/users", {
             method: "POST",
             headers: {
@@ -20,50 +23,61 @@ const CustomLoginPage = () => {
             body: JSON.stringify({
               name: session.user!.name,
               email: session.user!.email,
+              img: session.user!.image,
             }),
           });
-          const data = await res.json();
-          console.log(data);
+
+          if (res.ok) {
+            const data = await res.json();
+            console.log(data);
+
+            if (session && session.user && session.user.email && users) {
+              const user = users.find(
+                (user) => user.email === session.user?.email
+              );
+
+              if (user && user.role === UserRole.STAGIAIR) {
+                window.location.href = "/users/detailpage";
+              } else {
+                window.location.href = "/users/stagiair";
+              }
+            }
+          }
+
+          // } else {
+          //   setError("Je kan enkel inloggen met je icapss e-mail adres");
+          // }
+        } //! check userRoles and redirect to right page
+        if (session && session.user && session.user.email && users) {
+          if (session && session.user && session.user.email && users) {
+            const user = users.find(
+              (user) => user.email === session.user!.email
+            );
+
+            if (user && user.role === UserRole.STAGIAIR) {
+              window.location.href = "/users/detail";
+            } else {
+              window.location.href = "/users/stagiair";
+            }
+          }
         }
       } catch (error) {
-        console.error("Error CustomLoginPage:", error);
+        console.error("Error in fetchData:", error);
         setError("Er is iets misgegaan, probeer het later opnieuw");
-        //! Handle  error message
+        return;
       }
     }
 
-    try {
-      postData();
-
-      if (session) {
-        window.location.href = "/users/stagiair";
-      }
-    } catch (error) {
-      console.error("Error in useEffect:", error);
-      //! Handle  error message
-    }
-  }, [status, session]);
+    fetchData();
+  }, [status, session, users]);
 
   const handleSignin = () => {
     signIn("google");
   };
+
   return (
     <>
-      {status === "loading" && (
-        <div
-          role="status"
-          className="flex items-center justify-center h-screen"
-        >
-          <svg
-            aria-hidden="true"
-            className="w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
-            viewBox="0 0 100 101"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          ></svg>
-          <span className="sr-only">Loading...</span>
-        </div>
-      )}
+      {status === "loading" && <Loading />}
       {status === "unauthenticated" && (
         <div className="flex items-center justify-center w-full h-screen bg-[#E4E9F0]">
           <div className="flex flex-col items-center justify-center w-3/6 h-3/6 bg-white">
