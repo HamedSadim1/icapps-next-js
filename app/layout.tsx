@@ -2,7 +2,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import AuthProvider from "./auth/Provider";
-import Navar from "./components/Navbar";
+import Navbar from "./components/Navbar";
 import TanstackProvider from "./components/provider/TanstackProvider";
 import { ToastContainer } from "react-toastify";
 
@@ -22,7 +22,7 @@ export default function RootLayout({
     <html lang="en" data-theme="light">
       <body className={inter.className}>
         <TanstackProvider>
-          <Navar />
+          <Navbar />
           <AuthProvider>{children}</AuthProvider>
         </TanstackProvider>
         <ToastContainer />
