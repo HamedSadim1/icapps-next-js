@@ -5,6 +5,7 @@ import {
   AiOutlineEdit,
   AiOutlineLeft,
   AiOutlineRight,
+  AiOutlinePlus,
 } from "react-icons/ai";
 import { BiComment, BiUserCircle } from "react-icons/bi";
 import { GrAdd } from "react-icons/gr";
@@ -19,7 +20,10 @@ import useStagair from "@/hooks/useStagair";
 import Image from "next/image";
 import { useState } from "react";
 import useStagairStore from "@/store";
-import CommentModal from "./CommentModal";
+import CommentModal from "./StageBeschrijvingModal";
+import Doel from "@/app/components/Doel";
+import Upload from "@/app/components/Upload";
+import StageBeschrijvingModal from "./StageBeschrijvingModal";
 
 interface Params {
   params: { id: string };
@@ -29,6 +33,7 @@ const StagiairDetail = ({ params: { id } }: Params) => {
   const { data, error, isLoading } = useStagair(id);
 
   const setIsModalOpen = useStagairStore((state) => state.setCommentModal);
+
 
   if (isLoading) return <Loading />;
 
@@ -65,13 +70,8 @@ const StagiairDetail = ({ params: { id } }: Params) => {
           {/* Title */}
 
           <h1 className="text-2xl mb-10 mt-5"> {data.name} </h1>
-          <div className="flex justify-between">
-            <div className="flex flex-row">
-              <GoGoal className="text-3xl text-blue-500 mr-4 mb-1" />
-              <h2 className="font-bold text-2xl mb-1">Doelen</h2>
-            </div>
-            <GrAdd />
-          </div>
+          
+          <Doel/>
 
           {data.posts.map((post) => (
             <div className="flex flex-col rounded-lg" key={post.id}>
@@ -122,58 +122,67 @@ const StagiairDetail = ({ params: { id } }: Params) => {
           {/* Border Line */}
           <div className="border border-b-gray-500-400 mt-4"></div>
           {/* Checklist */}
-          <div className="flex justify-between mt-7 ">
-            <span className="flex gap-4">
+          <div className="flex justify-between mt-7 mb-5 ">
+            <span className="flex gap-3">
               <VscChecklist className="text-3xl text-blue-400" />
-              <h3 className="text-[1.3rem]">Checklist</h3>
+              <h3 className="text-[1.3rem] font-medium">Checklist</h3>
             </span>
             <span className="flex ">
               <button
                 type="button"
-                className="border border-blue-400 w-20  flex justify-center"
+                className="rounded-l-md border-[#002548] border-2 px-6 py-1 flex justify-center font-medium"
               >
                 Stagiair
               </button>
               <button
                 type="button"
-                className=" border-blue-400 w-40 flex justify-center bg-[#002548] text-white"
+                className=" rounded-r-md border-[#002548] px-4 py-1 flex justify-center font-medium bg-[#002548] text-white"
               >
                 Begeleider
               </button>
             </span>
           </div>
           {/* Arrow Left and Arrow Right */}
-          <div className="flex justify-center mt ">
-            <span className=" bg-[#F9FAFB] ">
-              <AiOutlineLeft className="  mr-1 w-8 h-8" />
+          <div className="flex justify-center mb-5 gap-3 ">
+            <span className=" bg-[#f8f9fa] p-3 rounded-md ">
+              <AiOutlineLeft className="w-5 h-5 text-[#bdc1c2]" />
             </span>
-            <span className="bg-[#E5F5F9]">
-              <AiOutlineRight className=" mr-1 w-8 h-8" />
+            <span className="bg-[#bbebf7] p-3 rounded-md font-extrabold">
+              <AiOutlineRight className=" w-5 h-5 text-[#2bd0db]" />
             </span>
           </div>
           {/* Sections CheckList */}
-          <div className="flex justify-between place-items-start">
-            <section className="flex">
-              <div className="flex">
-                <h3>Section 1</h3>
-                <span className="text-gray-400 text-xs mt-2 ml-2">2</span>
+          <div className="flex flex-col">
+            <div className="flex gap-2 mb-2">
+              <span className="flex font-medium">Section 1</span>
+              <span className="text-gray-400 text-xs mt-1">2</span>
+            </div>
+            <div className="flex flex-col justify-start mb-4 gap-3">
+              <div className="flex gap-3 border-2 border-gray-500-400 p-2 rounded">
+                <input type="checkbox" name="item" />
+                <p>consectetur adipisicing elit. Quos
+                  voluptatum, quibusdam, voluptates, quia doloremque quod nemo
+                  voluptate voluptas quas nesciunt doloribus? Quisquam, voluptatem <br /> <div className="text-sm text-gray-400">01/02/2023</div></p>
+                <div className=""><button type="button" className="text-gray-400">
+                  <AiOutlineEdit className="text-2xl mr-2 mt-4" />
+                </button></div>
               </div>
-              <div className="mt-7 border border-gray-400 rounded-lg p-2"></div>
-            </section>
-            <section className="flex justify-items-start place-items-start order-first">
-              <div className="flex justify-self-start">
-                <h3>Section 3</h3>
-                <span className="text-gray-400 text-xs mt-2 ml-2">3</span>
+              <div className="flex gap-3 border-2 border-gray-500-400 p-2 rounded">
+                <input type="checkbox" name="item" />
+                <p>consectetur adipisicing elit. Quos
+                  voluptatum, quibusdam, voluptates, quia doloremque quod nemo
+                  voluptate voluptas quas nesciunt doloribus? Quisquam, voluptatem <br /> <div className="text-sm text-gray-400">01/02/2023</div></p>
+                  <div className=""><button type="button" className="text-gray-400">
+                  <AiOutlineEdit className="text-2xl mr-2 mt-4" />
+                </button></div>
               </div>
-              <div className="mt-7 border border-gray-400 rounded-lg p-2"></div>
-            </section>
-            <section className="flex justify-items-start place-items-start">
-              <div className="flex justify-self-start">
-                <h3>Section 2</h3>
-                <span className="text-gray-400 text-xs mt-2 ml-2">1</span>
-              </div>
-              <div className="mt-7 border border-gray-400 rounded-lg p-2"></div>
-            </section>
+            </div>
+            <div className="flex justify-start px-3">
+            <button type="button" className="flex">
+                <GrAdd className=" mt-1 text-[#bdc1c2]" />
+                <h3 className="ml-2  text-gray-400">Commentaar toevoegen</h3>
+              </button>
+            </div>
           </div>
         </div>
         {/* Beschrijving */}
@@ -208,7 +217,7 @@ const StagiairDetail = ({ params: { id } }: Params) => {
                 >
                   <AiOutlineEdit className="text-2xl mr-7" />
                 </button>
-                <CommentModal id={id} />
+                <StageBeschrijvingModal stagairId={id} id={stagebeschriving.id} />
               </div>
               <p className="text-gray-600 text-base font-medium leading-relaxed mt-2 ml-2">
                 {stagebeschriving.beschrijving}
@@ -254,10 +263,11 @@ const StagiairDetail = ({ params: { id } }: Params) => {
               01/02/2023/ door steve jobs (565kb)
             </h3>
 
-            <button type="button" className="flex mt-5">
+            {/* <button type="button" className="flex mt-5">
               <GrAdd className=" mt-1 ml-2 text-gray-400 " />
               <input type="file" className="text-gray-400 ml-2" />
-            </button>
+            </button> */}
+            <Upload/>
           </div>
         </div>
       </section>

@@ -7,6 +7,7 @@ import useStagairs from "@/hooks/useStagairs";
 import useStagebegeleiders from "@/hooks/useStagebegeleiders";
 import Loading from "@/app/components/Loading";
 import useStagairStore from "@/store";
+import { BsPencil } from "react-icons/bs";
 
 const StagiairPage = () => {
   const {
@@ -88,7 +89,7 @@ const StagiairPage = () => {
                   onClick={() => setIsModelOpen()}
                   className=" hover:text-blue-500 focus:outline-none btn "
                 >
-                  <MdSystemUpdateAlt />
+                  <BsPencil className="text-l"/>
                 </button>
                 <span>
                   <StagairForm params={{ id: stagiair.id }} />

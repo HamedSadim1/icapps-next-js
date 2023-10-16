@@ -6,6 +6,7 @@ import {
   AiOutlineLeft,
   AiOutlineRight,
 } from "react-icons/ai";
+import { AiOutlinePlus } from "react-icons/ai";
 import { BiComment, BiUserCircle } from "react-icons/bi";
 import { GrAdd } from "react-icons/gr";
 import { IoIosArrowRoundBack } from "react-icons/io";
@@ -71,9 +72,15 @@ const StagiairDetail = ({ params: { id } }: Params) => {
           {/* Title */}
 
           <h1 className="text-2xl mb-10 mt-5">Stagaire X </h1>
-          <div className="flex items-center">
-            <GoGoal className="text-3xl text-blue-500 mr-4 mb-1" />
-            <h2 className="font-bold text-2xl mb-1">Doelen</h2>
+          <div className="flex justify-between">
+            <div className="flex">
+
+              <GoGoal className="text-3xl text-blue-500 mr-4 mb-1" />
+              <h2 className="font-bold text-2xl mb-1">Doelen</h2>
+            </div>
+            <div className="flex px-4 py-2 text-blue-900 font-semibold bg-gray-200 rounded-md">
+              <button className=""><AiOutlinePlus className="float-left mt-1"></AiOutlinePlus>&nbsp;Nieuw doel</button>
+            </div>
           </div>
 
           <div className="flex flex-col rounded-lg">
@@ -158,20 +165,20 @@ const StagiairDetail = ({ params: { id } }: Params) => {
                 <p>consectetur adipisicing elit. Quos
                   voluptatum, quibusdam, voluptates, quia doloremque quod nemo
                   voluptate voluptas quas nesciunt doloribus? Quisquam, voluptatem <br /> <div className="text-sm text-gray-400">01/02/2023</div></p>
-                  <div className=""><button type="button" className="text-gray-400">
+                <div className=""><button type="button" className="text-gray-400">
                   <AiOutlineEdit className="text-2xl mr-2 mt-4" />
                 </button></div>
               </div>
             </div>
             <div className="flex justify-start px-3">
-            <button type="button" className="flex">
+              <button type="button" className="flex">
                 <GrAdd className=" mt-1 text-[#bdc1c2]" />
                 <h3 className="ml-2  text-gray-400">Commentaar toevoegen</h3>
               </button>
             </div>
           </div>
 
-          
+
         </div>
         {/* Beschrijving */}
         <div className="flex flex-col rounded-lg overflow-hidden  mt-10">

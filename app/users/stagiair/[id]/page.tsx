@@ -6,6 +6,7 @@ import Select from "react-select";
 import useStagebegeleiders from "@/hooks/useStagebegeleiders";
 import useStagair from "@/hooks/useStagair";
 import { inputFormDater } from "@/lib";
+import { AiOutlineClose } from "react-icons/ai";
 
 interface Params {
   params: { id: string };
@@ -114,7 +115,7 @@ const StagairForm = ({ params: { id } }: Params) => {
               onClick={closeModal}
               className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
             >
-              X
+              <AiOutlineClose/>
             </button>
             <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
               <div>
@@ -175,7 +176,7 @@ const StagairForm = ({ params: { id } }: Params) => {
               </div>
               <div>
                 <label className="text-gray-700" htmlFor="stagebegeleider">
-                  Stagebegeleider
+                  Stagebegeleider(s)
                 </label>
 
                 <Select
@@ -191,7 +192,7 @@ const StagairForm = ({ params: { id } }: Params) => {
                     label: stagebegeleider.name,
                     value: stagebegeleider.id,
                   }))}
-                  className="basic-multi-select"
+                  className="basic-multi-select mt-2"
                   classNamePrefix="select"
                   onChange={(selected, actionMeta) => {
                     //! selectedOptions is an array of unique strings
@@ -209,7 +210,7 @@ const StagairForm = ({ params: { id } }: Params) => {
 
               <div>
                 <button
-                  className="px-4 py-2 mt-2 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
+                  className="px-6 py-2 mt-2 text-white bg-blue-900 rounded-md focus:outline-non absolute bottom-6 right-6"
                   type="submit"
                 >
                   Opslaan
