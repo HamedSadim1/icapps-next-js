@@ -5,6 +5,7 @@ import useStagairStore from "@/store";
 import Select from "react-select";
 import useStagebegeleiders from "@/hooks/useStagebegeleiders";
 import useStagair from "@/hooks/useStagair";
+import useUpdateStagiare from "@/hooks/useUpdateStagiare";
 import { inputFormDater } from "@/lib";
 
 interface Params {
@@ -23,19 +24,10 @@ const StagairForm = ({ params: { id } }: Params) => {
   const data = useStagairStore((state) => state.stagaires);
   const setData = useStagairStore((state) => state.setStagaires);
   const { data: stagebegeleiders } = useStagebegeleiders();
+  const { mutate, isLoading, isError, error } = useUpdateStagiare(id, data);
 
   const isModalOpen = useStagairStore((s) => s.stagiairModal);
   const setIsModalOpen = useStagairStore((state) => state.toggleModal);
-
-  const getNamesFromStagebegeleiderId = (stagebegeleiderId: string[]) => {
-    const filteredStagebegeleiders = stagebegeleiders!.filter(
-      (stagebegeleider) => stagebegeleiderId.includes(stagebegeleider.id)
-    );
-    const filteredNames = filteredStagebegeleiders.map(
-      (stagebegeleider) => stagebegeleider.name
-    );
-    return filteredNames;
-  };
 
   useEffect(() => {
     const modal = document.getElementById("my_modal_3") as HTMLDialogElement;
@@ -49,51 +41,51 @@ const StagairForm = ({ params: { id } }: Params) => {
     }
   }, [isModalOpen]);
 
-  console.log(isModalOpen);
-
   const handleSubmitForm = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    try {
-      const isoStartDate = data.startDate
-        ? new Date(data.startDate).toISOString()
-        : "";
-      const isoEndDate = data.endDate
-        ? new Date(data.endDate).toISOString()
-        : "";
-      // Ensure stagebegeleiderId is an array of unique strings
-      const stagebegeleiderIdArray = Array.isArray(data.stagebegeleiderId)
-        ? data.stagebegeleiderId
-        : [data.stagebegeleiderId];
-      const response = await fetch(
-        `http://localhost:3000/api/users/stagiair/${id}`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            name: data.name,
-            email: data.email,
-            startDate: isoStartDate,
-            endDate: isoEndDate,
-            stagebegeleiderId: stagebegeleiderIdArray,
-          }),
-        }
-      );
+    mutate();
+    setIsModalOpen();
+    // try {
+    //   const isoStartDate = data.startDate
+    //     ? new Date(data.startDate).toISOString()
+    //     : "";
+    //   const isoEndDate = data.endDate
+    //     ? new Date(data.endDate).toISOString()
+    //     : "";
+    //   // Ensure stagebegeleiderId is an array of unique strings
+    //   const stagebegeleiderIdArray = Array.isArray(data.stagebegeleiderId)
+    //     ? data.stagebegeleiderId
+    //     : [data.stagebegeleiderId];
+    //   const response = await fetch(
+    //     `http://localhost:3000/api/users/stagiair/${id}`,
+    //     {
+    //       method: "PATCH",
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //       },
+    //       body: JSON.stringify({
+    //         name: data.name,
+    //         email: data.email,
+    //         startDate: isoStartDate,
+    //         endDate: isoEndDate,
+    //         stagebegeleiderId: stagebegeleiderIdArray,
+    //       }),
+    //     }
+    //   );
 
-      setIsModalOpen();
+    //   setIsModalOpen();
 
-      window.location.reload();
+    //   window.location.reload();
 
-      if (response.ok) {
-        console.log("Data updated");
-        window.location.reload();
-      } else {
-        console.error("error", response.status, response.statusText);
-      }
-    } catch (error) {
-      console.error("Error:", error);
-    }
+    //   if (response.ok) {
+    //     console.log("Data updated");
+    //     window.location.reload();
+    //   } else {
+    //     console.error("error", response.status, response.statusText);
+    //   }
+    // } catch (error) {
+    //   console.error("Error:", error);
+    // }
   };
 
   const closeModal = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -179,12 +171,12 @@ const StagairForm = ({ params: { id } }: Params) => {
                 </label>
 
                 <Select
-                  defaultValue={getNamesFromStagebegeleiderId(
-                    data.stagebegeleiderId
-                  ).map((name) => ({
-                    label: name,
-                    value: name,
-                  }))}
+                  defaultValue={
+                    stagair?.stagebegeleider.map((stagebegeleider) => ({
+                      label: stagebegeleider.name,
+                      value: stagebegeleider.id,
+                    })) || []
+                  }
                   isMulti
                   name="stagebegeleider"
                   options={stagebegeleiders!.map((stagebegeleider) => ({
