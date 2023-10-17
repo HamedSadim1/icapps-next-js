@@ -14,7 +14,6 @@ const CustomLoginPage = () => {
     async function fetchData() {
       try {
         if (session) {
-          //&& session.user.email.includes("@icapss")
           const res = await fetch("http://localhost:3000/api/users", {
             method: "POST",
             headers: {
@@ -28,38 +27,22 @@ const CustomLoginPage = () => {
           });
 
           if (res.ok) {
-            const data = await res.json();
-            console.log(data);
-
             if (session && session.user && session.user.email && users) {
               const user = users.find(
                 (user) => user.email === session.user?.email
               );
 
               if (user && user.role === UserRole.STAGIAIR) {
-                window.location.href = "/users/detailpage";
+                window.location.href = "/users/detail";
               } else {
                 window.location.href = "/users/stagiair";
               }
             }
           }
-
+          // fetchData();
           // } else {
           //   setError("Je kan enkel inloggen met je icapss e-mail adres");
           // }
-        } //! check userRoles and redirect to right page
-        if (session && session.user && session.user.email && users) {
-          if (session && session.user && session.user.email && users) {
-            const user = users.find(
-              (user) => user.email === session.user!.email
-            );
-
-            if (user && user.role === UserRole.STAGIAIR) {
-              window.location.href = "/users/detail";
-            } else {
-              window.location.href = "/users/stagiair";
-            }
-          }
         }
       } catch (error) {
         console.error("Error in fetchData:", error);

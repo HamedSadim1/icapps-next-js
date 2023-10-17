@@ -1,12 +1,12 @@
 import { IStagaire } from "@/types";
 import { useMutation, useQueryClient } from "react-query";
 
-// Define a custom hook that accepts the id and data as parameters
+// custom hook that accepts the id and data
 const useUpdateStagiair = (id: string, data: IStagaire) => {
   // Get the query client instance
   const queryClient = useQueryClient();
 
-  // Define the mutation function that sends the PATCH request
+  // the mutation function that sends the PATCH request
   const updateStagiair = async () => {
     const isoStartDate = data.startDate
       ? new Date(data.startDate).toISOString()
@@ -45,7 +45,7 @@ const useUpdateStagiair = (id: string, data: IStagaire) => {
     // On success, invalidate the query with the same key as the fetch query
     onSuccess: () => {
       queryClient.invalidateQueries(["stagiair", id]);
-      queryClient.refetchQueries(["stagiairs"]);
+      queryClient.invalidateQueries("stagiairs");
     },
   });
 };

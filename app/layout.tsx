@@ -5,6 +5,7 @@ import AuthProvider from "./auth/Provider";
 import Navbar from "./components/Navbar";
 import TanstackProvider from "./components/provider/TanstackProvider";
 import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,9 +24,11 @@ export default function RootLayout({
       <body className={inter.className}>
         <TanstackProvider>
           <Navbar />
-          <AuthProvider>{children}</AuthProvider>
+          <AuthProvider>
+            {children}
+            <ToastContainer />
+          </AuthProvider>
         </TanstackProvider>
-        <ToastContainer />
       </body>
     </html>
   );
