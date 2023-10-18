@@ -7,6 +7,7 @@ import { GoGoal } from "react-icons/go";
 import { BsTrash } from "react-icons/bs";
 import useStagairStore from "@/store";
 import usePostDoel from "@/hooks/usePostDoel";
+import {inputFormDater} from "@/lib"
 
 interface DoelProps {
   stagiarId: string;
@@ -78,7 +79,16 @@ const Doel = ({ stagiarId }: DoelProps) => {
                 ></textarea>
                 <label htmlFor="einddatum">Eind datum</label>
                 <br />
-                <input className="p-3 border-2 rounded-md mb-5" type="date" />
+                <input
+                  className="p-3 border-2 rounded-md mb-5"
+                  type="date"
+                  name="einddatum"
+                  id="einddatum"
+                  value={inputFormDater(doel.endDate)}
+                  onChange={(e) =>
+                    setDoel({ ...doel, endDate: e.target.value })
+                  }
+                />
                 <div className="w-full text-right">
                   <button
                     className="mr-2 px-7 py-2 rounded-md bg-gray-200 text-blue-900 font-semibold"

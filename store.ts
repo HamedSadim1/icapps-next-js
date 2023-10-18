@@ -50,6 +50,7 @@ const useStagairStore = create<IStore>((set) => ({
     comments: [],
     body: "",
     createdAt: "",
+    endDate: "",
   },
   postId: "",
   setPostId: (postId) => set({ postId }),

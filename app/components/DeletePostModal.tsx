@@ -8,8 +8,7 @@ import useStagairStore from "@/store";
 import useDeletePost from "@/hooks/useDeletePost";
 import useFetchPost from "@/hooks/useFetchPost";
 import useUpdatePost from "@/hooks/useUpdatePost";
-
-
+import { inputFormDater } from "@/lib";
 
 const DeletePostModal = () => {
   const [showDiv, setDiv] = useState<boolean>(false);
@@ -46,10 +45,6 @@ const DeletePostModal = () => {
   return (
     <>
       <div className="flex justify-between">
-        <div className="flex">
-          <GoGoal className="text-3xl text-blue-500 mr-4 mb-1" />
-          <h2 className="font-bold text-2xl mb-1">Doelen</h2>
-        </div>
         <div className="flex px-4 py-2 text-blue-900 font-semibold bg-gray-200 rounded-md hover:bg-gray-300">
           <button onClick={() => setDiv(true)} className="">
             <AiOutlinePlus className="float-left mt-1"></AiOutlinePlus>
@@ -95,7 +90,16 @@ const DeletePostModal = () => {
                 ></textarea>
                 <label htmlFor="einddatum">Eind datum</label>
                 <br />
-                <input className="p-3 border-2 rounded-md mb-5" type="date" />
+                <input
+                  className="p-3 border-2 rounded-md mb-5"
+                  type="date"
+                  name="einddatum"
+                  id="einddatum"
+                  value={inputFormDater(doel.endDate)}
+                  onChange={(e) =>
+                    setDoel({ ...doel, endDate: e.target.value })
+                  }
+                />
                 <div className="w-full text-right">
                   {/* close button */}
                   <button

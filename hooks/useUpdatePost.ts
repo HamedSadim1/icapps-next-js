@@ -10,7 +10,8 @@ const useUpdatePost = (doel: IPost) => {
         .patch(`http://localhost:3000/api/doelen/${doel.id}`, {
           title: doel.title,
           body: doel.body,
-        }) 
+          endDate: doel.endDate,
+        })
         .then((res) => {
           if (res.status === 200) {
             return res.data;

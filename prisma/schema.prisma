@@ -28,7 +28,7 @@ model User {
   createdAt  DateTime  @default(now())
   role       UserRole  @default(ADMIN)
   img        String?
-  stagiairID String?    @db.ObjectId
+  stagiairID String?   @db.ObjectId
   stagiair   Stagiair? @relation(fields: [stagiairID], references: [id])
 }
 
@@ -85,11 +85,13 @@ model StageBeschrijving {
 }
 
 //! Doelen  startDatum, 
+//! endDate default => because diffecult to work in in postman
 model Doelen {
   id         String    @id @default(auto()) @map("_id") @db.ObjectId
   title      String
   body       String
   createdAt  DateTime  @default(now())
+  endDate    DateTime  @default("2024-01-01T00:00:00.000Z")
   stagiair   Stagiair  @relation(fields: [stagiairID], references: [id])
   stagiairID String    @db.ObjectId
   comments   Comment[]

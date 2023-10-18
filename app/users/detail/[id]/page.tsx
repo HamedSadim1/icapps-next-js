@@ -75,6 +75,7 @@ const StagiairDetail = ({ params: { id } }: Params) => {
             <div key={post.id}>
               <div className="flex flex-col rounded-lg">
                 <h2 className="text-2xl font-bold ">{post.title}</h2>
+                {/* Edit button for post */}
                 <button
                   type="button"
                   onClick={() => handlePostId(post.id)}
@@ -82,7 +83,7 @@ const StagiairDetail = ({ params: { id } }: Params) => {
                 >
                   {/* <AiOutlineEdit className="text-2xl ml-2 mt-3" /> */}
                   <DeletePostModal />
-                </button> 
+                </button>
                 <span className="text-gray-400 text-sm">
                   {formatDate(post.createdAt)}
                 </span>

@@ -53,6 +53,7 @@ export interface IPost {
   stagiairID: string;
   createdAt: string;
   comments: IComment[];
+  endDate: string;
 }
 
 export interface IComment {
