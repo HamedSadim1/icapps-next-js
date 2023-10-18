@@ -8,6 +8,7 @@ const usePost = (id: string): UseQueryResult<IPost, Error> => {
   const queryFn = async (): Promise<IPost> => {
     const response = await apiClient.get(id);
     return response;
+
   };
 
   const options: UseQueryOptions<IPost, Error> = {

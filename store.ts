@@ -13,6 +13,8 @@ export interface IStore {
   setStageBeschrijving: (stageBeschrijving: IStagebeschrijving) => void;
   doel: IPost;
   setDoel: (doel: IPost) => void;
+  postId: string;
+  setPostId: (postId: string) => void;
 }
 
 const useStagairStore = create<IStore>((set) => ({
@@ -43,12 +45,14 @@ const useStagairStore = create<IStore>((set) => ({
   },
   doel: {
     id: "",
-    authorId: "",
+    stagiairID: "",
     title: "",
     comments: [],
     body: "",
     createdAt: "",
   },
+  postId: "",
+  setPostId: (postId) => set({ postId }),
   setStagaires: (stagaires) => set({ stagaires }),
   toggleModal: () => set((state) => ({ stagiairModal: !state.stagiairModal })),
   setCommentModal: (commentModal) => set({ commentModal }),

@@ -24,6 +24,7 @@ import CommentModal from "./StageBeschrijvingModal";
 import Doel from "@/app/components/Doel";
 import Upload from "@/app/components/Upload";
 import StageBeschrijvingModal from "./StageBeschrijvingModal";
+import DeletePostModal from "@/app/components/DeletePostModal";
 
 interface Params {
   params: { id: string };
@@ -33,6 +34,7 @@ const StagiairDetail = ({ params: { id } }: Params) => {
   const { data, error, isLoading } = useStagair(id);
 
   const setIsModalOpen = useStagairStore((state) => state.setCommentModal);
+  const setPostId = useStagairStore((s) => s.setPostId);
 
   if (isLoading) return <Loading />;
 
@@ -44,6 +46,10 @@ const StagiairDetail = ({ params: { id } }: Params) => {
     return data.stagebegeleider
       .map((stagebegeleider) => stagebegeleider.name)
       .join(", ");
+  };
+
+  const handlePostId = (id: string) => {
+    setPostId(id);
   };
 
   return (
@@ -62,18 +68,21 @@ const StagiairDetail = ({ params: { id } }: Params) => {
           </Link>
           {/* Name of the user */}
           <h1 className="text-2xl mb-10 mt-5"> {data.name} </h1>
-          {/* Pop up Doel : in Components  */}
+          {/* Pop up Doel   */}
           <Doel stagiarId={id} />
           {/* Post and comment loop over the array */}
           {data.posts.map((post) => (
             <div key={post.id}>
               <div className="flex flex-col rounded-lg">
-                <h2 className="text-2xl font-bold ">
-                  {post.title}
-                  <button type="button" className="hover:text-gray-400">
-                    <AiOutlineEdit className="text-2xl ml-2 mt-3" />
-                  </button>
-                </h2>
+                <h2 className="text-2xl font-bold ">{post.title}</h2>
+                <button
+                  type="button"
+                  onClick={() => handlePostId(post.id)}
+                  className="hover:text-gray-400"
+                >
+                  {/* <AiOutlineEdit className="text-2xl ml-2 mt-3" /> */}
+                  <DeletePostModal />
+                </button> 
                 <span className="text-gray-400 text-sm">
                   {formatDate(post.createdAt)}
                 </span>

@@ -10,7 +10,7 @@ const useUpdatePost = (doel: IPost) => {
         .patch(`http://localhost:3000/api/doelen/${doel.id}`, {
           title: doel.title,
           body: doel.body,
-        })
+        }) 
         .then((res) => {
           if (res.status === 200) {
             return res.data;
@@ -22,6 +22,7 @@ const useUpdatePost = (doel: IPost) => {
     {
       onSuccess: () => {
         queryClient.invalidateQueries("stagair");
+        queryClient.invalidateQueries("doelen");
         console.log("Mutation succes");
       },
       onError: (error) => {

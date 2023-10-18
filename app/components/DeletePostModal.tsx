@@ -9,15 +9,15 @@ import useDeletePost from "@/hooks/useDeletePost";
 import useFetchPost from "@/hooks/useFetchPost";
 import useUpdatePost from "@/hooks/useUpdatePost";
 
-interface DoelProps {
-  postId: string;
-}
 
-const DeletePostModal = ({ postId }: DoelProps) => {
+
+const DeletePostModal = () => {
   const [showDiv, setDiv] = useState<boolean>(false);
-  const { data, error } = useFetchPost(postId);
+  const postId = useStagairStore((s) => s.postId);
+  const { data } = useFetchPost(postId);
 
   const doel = useStagairStore((s) => s.doel);
+
   const setDoel = useStagairStore((s) => s.setDoel);
 
   const { mutate } = useDeletePost(postId);
@@ -27,7 +27,7 @@ const DeletePostModal = ({ postId }: DoelProps) => {
     if (data) {
       useStagairStore.setState({ doel: data });
     }
-  }, [data]);
+  }, [data, postId]);
 
   //! Delete the doel button
   const HandleDelete = async (e: MouseEvent<HTMLButtonElement>) => {
@@ -53,11 +53,11 @@ const DeletePostModal = ({ postId }: DoelProps) => {
         <div className="flex px-4 py-2 text-blue-900 font-semibold bg-gray-200 rounded-md hover:bg-gray-300">
           <button onClick={() => setDiv(true)} className="">
             <AiOutlinePlus className="float-left mt-1"></AiOutlinePlus>
-            &nbsp;Nieuw doel
+            &nbsp; Edit Post
           </button>
         </div>
       </div>
-      {showDiv == true && (
+      {showDiv && (
         <div className="h-screen w-screen flex flex-col justify-center items-center fixed top-0 left-0 right-0 bottom-0 z-50 bg-opacity-75 bg-gray-900">
           <div className="bg-white shadow-xl w-4/10 h-auto pb-7 text-gray-500 z-2 rounded-md">
             <button

@@ -50,6 +50,9 @@ export async function DELETE(request: NextRequest, { params: { id } }: Params) {
       where: {
         id,
       },
+      include: {
+        comments: true,
+      },
     });
     return NextResponse.json(doel, { status: 200 });
   } catch (error) {
