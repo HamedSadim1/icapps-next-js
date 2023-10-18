@@ -60,12 +60,11 @@ const StagiairDetail = ({ params: { id } }: Params) => {
               <h2 className="text-xl ">Terug naar overzicht</h2>
             </button>
           </Link>
-          {/* Title */}
-
+          {/* Name of the user */}
           <h1 className="text-2xl mb-10 mt-5"> {data.name} </h1>
           {/* Pop up Doel : in Components  */}
           <Doel stagiarId={id} />
-
+          {/* Post and comment loop over the array */}
           {data.posts.map((post) => (
             <div key={post.id}>
               <div className="flex flex-col rounded-lg">

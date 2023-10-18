@@ -21,29 +21,11 @@ const Doel = ({ stagiarId }: DoelProps) => {
 
   const handleSubmitButton = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    await  mutate();
-
-    // try {
-    //   const response = await fetch("http://localhost:3000/api/doelen", {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify({
-    //       title: doel.title,
-    //       body: doel.body,
-    //       stagiairID: stagiarId,
-    //     }),
-    //   });
-
-    //   const data = await response.json();
-    //   if (response.ok) {
-    //     console.log("doel is toegevoegd");
-    //     setDiv(false);
-    //   }
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    await mutate();
+    setDiv(false);
+    if (error) {
+      console.log(error);
+    }
   };
 
   return (
