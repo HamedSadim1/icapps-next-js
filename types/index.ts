@@ -50,7 +50,7 @@ export interface IPost {
   id: string;
   title: string;
   body: string;
-  authorId: string;
+  stagiairID: string;
   createdAt: string;
   comments: IComment[];
 }

@@ -38,7 +38,7 @@ const StagiairDetail = ({ params: { id } }: Params) => {
     (stagiair) => stagiair.stagebeschriving
   );
 
-  const getStageStartAndEnd = (): string => {
+  const getStageStartAndEndDatum = (): string => {
     const stageStart = stagebeschrijvingData.map((stage) =>
       data
         .filter((stagiair) => stage.stagiairId.includes(stagiair.id))
@@ -74,12 +74,14 @@ const StagiairDetail = ({ params: { id } }: Params) => {
           <h1 className="text-2xl mb-10 mt-5">Stagaire X </h1>
           <div className="flex justify-between">
             <div className="flex">
-
               <GoGoal className="text-3xl text-blue-500 mr-4 mb-1" />
               <h2 className="font-bold text-2xl mb-1">Doelen</h2>
             </div>
             <div className="flex px-4 py-2 text-blue-900 font-semibold bg-gray-200 rounded-md">
-              <button className=""><AiOutlinePlus className="float-left mt-1"></AiOutlinePlus>&nbsp;Nieuw doel</button>
+              <button className="">
+                <AiOutlinePlus className="float-left mt-1"></AiOutlinePlus>
+                &nbsp;Nieuw doel
+              </button>
             </div>
           </div>
 
@@ -153,21 +155,31 @@ const StagiairDetail = ({ params: { id } }: Params) => {
             <div className="flex flex-col justify-start mb-4 gap-3">
               <div className="flex gap-3 border-2 border-gray-500-400 p-2 rounded">
                 <input type="checkbox" name="item" />
-                <p>consectetur adipisicing elit. Quos
-                  voluptatum, quibusdam, voluptates, quia doloremque quod nemo
-                  voluptate voluptas quas nesciunt doloribus? Quisquam, voluptatem <br /> <div className="text-sm text-gray-400">01/02/2023</div></p>
-                <div className=""><button type="button" className="text-gray-400">
-                  <AiOutlineEdit className="text-2xl mr-2 mt-4" />
-                </button></div>
+                <p>
+                  consectetur adipisicing elit. Quos voluptatum, quibusdam,
+                  voluptates, quia doloremque quod nemo voluptate voluptas quas
+                  nesciunt doloribus? Quisquam, voluptatem <br />{" "}
+                  <div className="text-sm text-gray-400">01/02/2023</div>
+                </p>
+                <div className="">
+                  <button type="button" className="text-gray-400">
+                    <AiOutlineEdit className="text-2xl mr-2 mt-4" />
+                  </button>
+                </div>
               </div>
               <div className="flex gap-3 border-2 border-gray-500-400 p-2 rounded">
                 <input type="checkbox" name="item" />
-                <p>consectetur adipisicing elit. Quos
-                  voluptatum, quibusdam, voluptates, quia doloremque quod nemo
-                  voluptate voluptas quas nesciunt doloribus? Quisquam, voluptatem <br /> <div className="text-sm text-gray-400">01/02/2023</div></p>
-                <div className=""><button type="button" className="text-gray-400">
-                  <AiOutlineEdit className="text-2xl mr-2 mt-4" />
-                </button></div>
+                <p>
+                  consectetur adipisicing elit. Quos voluptatum, quibusdam,
+                  voluptates, quia doloremque quod nemo voluptate voluptas quas
+                  nesciunt doloribus? Quisquam, voluptatem <br />{" "}
+                  <div className="text-sm text-gray-400">01/02/2023</div>
+                </p>
+                <div className="">
+                  <button type="button" className="text-gray-400">
+                    <AiOutlineEdit className="text-2xl mr-2 mt-4" />
+                  </button>
+                </div>
               </div>
             </div>
             <div className="flex justify-start px-3">
@@ -177,8 +189,6 @@ const StagiairDetail = ({ params: { id } }: Params) => {
               </button>
             </div>
           </div>
-
-
         </div>
         {/* Beschrijving */}
         <div className="flex flex-col rounded-lg overflow-hidden  mt-10">
@@ -219,7 +229,7 @@ const StagiairDetail = ({ params: { id } }: Params) => {
               </h2>
               {/* <h3 className="text-gray  ml-2">Steve Jobs, Bill Gates</h3> */}
               <h2 className="text-2xl mt-5 ml-2">Stage duur</h2>
-              <h3 className="text-gray ml-2"> {getStageStartAndEnd()}</h3>
+              <h3 className="text-gray ml-2"> {getStageStartAndEndDatum()}</h3>
               <h2 className="text-2xl mt-5 ml-2">School</h2>
               <h3 className="text-gray ml-2">{stagebeschriving.school}</h3>
               <h2 className="text-2xl mt-5 ml-2">Contactpersoon</h2>

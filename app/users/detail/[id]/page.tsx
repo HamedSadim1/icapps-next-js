@@ -34,7 +34,6 @@ const StagiairDetail = ({ params: { id } }: Params) => {
 
   const setIsModalOpen = useStagairStore((state) => state.setCommentModal);
 
-
   if (isLoading) return <Loading />;
 
   if (error) return <FetchingError error={error.message} />;
@@ -45,12 +44,6 @@ const StagiairDetail = ({ params: { id } }: Params) => {
     return data.stagebegeleider
       .map((stagebegeleider) => stagebegeleider.name)
       .join(", ");
-  };
-
-  const getComments = () => {
-    return data.posts.flatMap((post) =>
-      post.comments.map((comment) => comment.comment)
-    );
   };
 
   return (
@@ -70,57 +63,68 @@ const StagiairDetail = ({ params: { id } }: Params) => {
           {/* Title */}
 
           <h1 className="text-2xl mb-10 mt-5"> {data.name} </h1>
-          
-          <Doel/>
+          {/* Pop up Doel : in Components  */}
+          <Doel stagiarId={id} />
 
           {data.posts.map((post) => (
-            <div className="flex flex-col rounded-lg" key={post.id}>
-              <h2 className="text-2xl font-bold ">
-                {post.title}
-                <button type="button" className="hover:text-gray-400">
-                  <AiOutlineEdit className="text-2xl ml-2 mt-3" />
-                </button>
-              </h2>
-              <span className="text-gray-400 text-sm">
-                {formatDate(post.createdAt)}
-              </span>
+            <div key={post.id}>
+              <div className="flex flex-col rounded-lg">
+                <h2 className="text-2xl font-bold ">
+                  {post.title}
+                  <button type="button" className="hover:text-gray-400">
+                    <AiOutlineEdit className="text-2xl ml-2 mt-3" />
+                  </button>
+                </h2>
+                <span className="text-gray-400 text-sm">
+                  {formatDate(post.createdAt)}
+                </span>
 
-              <p className="text-gray-600 text-base font-medium leading-relaxed mt-2  ">
-                {post.body}
-              </p>
+                <p className="text-gray-600 text-base font-medium leading-relaxed mt-2  ">
+                  {post.body}
+                </p>
+              </div>
+              {/* Commentaar */}
+
+              <div className="flex flex-justify-between mt-3 ">
+                {data.user[0].img ? (
+                  <div className="avatar w-12 h-12 mr-1">
+                    <Image
+                      src={data.user[0].img}
+                      alt="User avatar"
+                      layout="fill"
+                      objectFit="cover"
+                      className="rounded-full"
+                    />
+                  </div>
+                ) : (
+                  <BiUserCircle className="text-4xl text-blue-500" />
+                )}
+                {/* Comment button */}
+                <div>
+                  <h3 className="text-1 xl text-blue-500">{data.name}</h3>
+                  {post.comments.map((comment) => (
+                    <div key={comment.id}>
+                      <div className="flex flex-col rounded-lg">
+                        <p className="text-gray-600 text-base font-medium leading-relaxed mt-2  ">
+                          {comment.comment}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                  <button
+                    type="button"
+                    className="flex mt-5"
+                    // onClick={() => setIsModalOpen(true)}
+                  >
+                    <GrAdd className=" mt-1  text-gray-400 " />
+                  </button>
+                </div>
+              </div>
+              {/* Border Line */}
+              <div className="border border-b-gray-500-400 mt-4"></div>
             </div>
           ))}
-          {/* Commentaar */}
 
-          <div className="flex flex-justify-between mt-3 ">
-            {data.user[0].img ? (
-              <div className="avatar w-12 h-12 mr-1">
-                <Image
-                  src={data.user[0].img}
-                  alt="User avatar"
-                  layout="fill"
-                  objectFit="cover"
-                  className="rounded-full"
-                />
-              </div>
-            ) : (
-              <BiUserCircle className="text-4xl text-blue-500" />
-            )}
-            {/* Comment button */}
-            <div>
-              <h3 className="text-1 xl text-blue-500">{data.name}</h3>
-              <p>{getComments()}</p>
-              <button
-                type="button"
-                className="flex mt-5"
-                // onClick={() => setIsModalOpen(true)}
-              >
-                <GrAdd className=" mt-1  text-gray-400 " />
-              </button>
-            </div>
-          </div>
-          {/* Border Line */}
-          <div className="border border-b-gray-500-400 mt-4"></div>
           {/* Checklist */}
           <div className="flex justify-between mt-7 mb-5 ">
             <span className="flex gap-3">
@@ -160,25 +164,35 @@ const StagiairDetail = ({ params: { id } }: Params) => {
             <div className="flex flex-col justify-start mb-4 gap-3">
               <div className="flex gap-3 border-2 border-gray-500-400 p-2 rounded">
                 <input type="checkbox" name="item" />
-                <p>consectetur adipisicing elit. Quos
-                  voluptatum, quibusdam, voluptates, quia doloremque quod nemo
-                  voluptate voluptas quas nesciunt doloribus? Quisquam, voluptatem <br /> <div className="text-sm text-gray-400">01/02/2023</div></p>
-                <div className=""><button type="button" className="text-gray-400">
-                  <AiOutlineEdit className="text-2xl mr-2 mt-4" />
-                </button></div>
+                <p>
+                  consectetur adipisicing elit. Quos voluptatum, quibusdam,
+                  voluptates, quia doloremque quod nemo voluptate voluptas quas
+                  nesciunt doloribus? Quisquam, voluptatem <br />{" "}
+                  <div className="text-sm text-gray-400">01/02/2023</div>
+                </p>
+                <div className="">
+                  <button type="button" className="text-gray-400">
+                    <AiOutlineEdit className="text-2xl mr-2 mt-4" />
+                  </button>
+                </div>
               </div>
               <div className="flex gap-3 border-2 border-gray-500-400 p-2 rounded">
                 <input type="checkbox" name="item" />
-                <p>consectetur adipisicing elit. Quos
-                  voluptatum, quibusdam, voluptates, quia doloremque quod nemo
-                  voluptate voluptas quas nesciunt doloribus? Quisquam, voluptatem <br /> <div className="text-sm text-gray-400">01/02/2023</div></p>
-                  <div className=""><button type="button" className="text-gray-400">
-                  <AiOutlineEdit className="text-2xl mr-2 mt-4" />
-                </button></div>
+                <p>
+                  consectetur adipisicing elit. Quos voluptatum, quibusdam,
+                  voluptates, quia doloremque quod nemo voluptate voluptas quas
+                  nesciunt doloribus? Quisquam, voluptatem <br />{" "}
+                  <div className="text-sm text-gray-400">01/02/2023</div>
+                </p>
+                <div className="">
+                  <button type="button" className="text-gray-400">
+                    <AiOutlineEdit className="text-2xl mr-2 mt-4" />
+                  </button>
+                </div>
               </div>
             </div>
             <div className="flex justify-start px-3">
-            <button type="button" className="flex">
+              <button type="button" className="flex">
                 <GrAdd className=" mt-1 text-[#bdc1c2]" />
                 <h3 className="ml-2  text-gray-400">Commentaar toevoegen</h3>
               </button>
@@ -217,7 +231,10 @@ const StagiairDetail = ({ params: { id } }: Params) => {
                 >
                   <AiOutlineEdit className="text-2xl mr-7" />
                 </button>
-                <StageBeschrijvingModal stagairId={id} id={stagebeschriving.id} />
+                <StageBeschrijvingModal
+                  stagairId={id}
+                  id={stagebeschriving.id}
+                />
               </div>
               <p className="text-gray-600 text-base font-medium leading-relaxed mt-2 ml-2">
                 {stagebeschriving.beschrijving}
@@ -267,7 +284,7 @@ const StagiairDetail = ({ params: { id } }: Params) => {
               <GrAdd className=" mt-1 ml-2 text-gray-400 " />
               <input type="file" className="text-gray-400 ml-2" />
             </button> */}
-            <Upload/>
+            <Upload />
           </div>
         </div>
       </section>

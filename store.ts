@@ -1,28 +1,5 @@
-// import { create } from "zustand";
-// import { IStagaire } from "@/types";
-
-// export interface IStore {
-//   stagaires: IStagaire;
-//   setStagaires: (stagaires: IStagaire) => void;
-// }
-
-// const useStagairStore = create<IStore>((set) => ({
-//   stagaires: {
-//     email: "",
-//     endDate: "",
-//     id: "",
-//     name: "",
-//     startDate: "",
-//     stagebegeleiderId: [],
-//     role: 1,
-//   },
-//   setStagaires: (stagaires) => set({ stagaires }),
-// }));
-
-// export default useStagairStore;
-
 import { create } from "zustand";
-import { IStagaire, IStagebeschrijving } from "@/types";
+import { IStagaire, IStagebeschrijving, IPost } from "@/types";
 
 export interface IStore {
   commentModal: boolean;
@@ -34,6 +11,8 @@ export interface IStore {
   setCommentModal: (commentModal: boolean) => void;
   stageBeschrijving: IStagebeschrijving;
   setStageBeschrijving: (stageBeschrijving: IStagebeschrijving) => void;
+  doel: IPost;
+  setDoel: (doel: IPost) => void;
 }
 
 const useStagairStore = create<IStore>((set) => ({
@@ -62,6 +41,14 @@ const useStagairStore = create<IStore>((set) => ({
     contactPersoonEmail: "",
     contactPersoonTelefoon: "",
   },
+  doel: {
+    id: "",
+    authorId: "",
+    title: "",
+    comments: [],
+    body: "",
+    createdAt: "",
+  },
   setStagaires: (stagaires) => set({ stagaires }),
   toggleModal: () => set((state) => ({ stagiairModal: !state.stagiairModal })),
   setCommentModal: (commentModal) => set({ commentModal }),
@@ -71,6 +58,9 @@ const useStagairStore = create<IStore>((set) => ({
     } catch (error) {
       console.error("Error updating stagaires:", error);
     }
+  },
+  setDoel: (doel) => {
+    set({ doel });
   },
 
   updateStagairesAsync: async (stagaire) => {
