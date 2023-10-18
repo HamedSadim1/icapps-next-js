@@ -56,57 +56,57 @@ const StagiairPage = () => {
   };
 
   return (
-    <section className="flex flex-wrap flex-row justify-center  ml-[5rem] overflow-x-auto">
-      <table className=" table table-zebra md:w-full bg-white border border-gray-200 mt-12">
-        <thead className="bg-gray-50">
-          <tr>
-            <th className="py-2 px-4 text-left">Naam</th>
-            <th className="py-2 px-4 text-left">E-MAIL</th>
-            <th className="py-2 px-4 text-left">START DATUM</th>
-            <th className="py-2 px-4 text-left">END DATUM</th>
-            <th className="py-2 px-4 text-left">STAGEBEGELEIDER(S)</th>
-            <th className="py-2 px-4 text-left"></th>
-          </tr>
-        </thead>
-        <tbody className="mt-3">
-          {stagiairData.map((stagiair) => (
-            <tr key={stagiair.id}>
-              <td className="py-2 px-4">
-                <button className=" hover:text-blue-500 focus:outline-none  ">
-                  <Link href={`/users/detail/${stagiair.id}`}>
-                    {stagiair.name}
-                  </Link>
-                </button>
-              </td>
-              <td className="py-2 px-4">{stagiair.email}</td>
-              <td className="py-2 px-4">{formatDate(stagiair.startDate)}</td>
-              <td className="py-2 px-4">{formatDate(stagiair.endDate)}</td>
-              <td className="py-2 px-4">
-                {getstagebegeleiderName(stagiair.stagebegeleiderId)}
-              </td>
-              <td className="py-2 px-4">
-                <button
-                  onClick={() => setIsModelOpen()}
-                  className=" hover:text-blue-500 focus:outline-none btn "
-                >
-                  <BsPencil className="text-l"/>
-                </button>
-                <span>
-                  <StagairForm params={{ id: stagiair.id }} />
-                </span>
-              </td>
+    <section className="container mx-auto p-4">
+      <div className="overflow-x-auto">
+        <table className="min-w-full bg-white border border-gray-200 mt-12">
+          <thead className="bg-gray-100">
+            <tr>
+              <th className="px-6 py-3 text-left">Naam</th>
+              <th className="px-6 py-3 text-left">E-MAIL</th>
+              <th className="px-6 py-3 text-left">START DATUM</th>
+              <th className="px-6 py-3 text-left">END DATUM</th>
+              <th className="px-6 py-3 text-left">STAGEBEGELEIDER(S)</th>
+              <th className="px-6 py-3"></th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-      {stagiairData.length == 0 && (
-        <div className="flex flex-wrap flex-row justify-center items-center ">
-          <h2 className="text-2xl font-bold mt-12 text-center text-gray-500">
-            No result found
-          </h2>
+          </thead>
+          <tbody>
+            {stagiairData.map((stagiair) => (
+              <tr key={stagiair.id} className="hover:bg-gray-50">
+                  <Link key={stagiair.id} href={`/users/detail/${stagiair.id}`}>
+
+                <td className="px-6 py-4">{stagiair.name}</td>
+                  </Link>
+                  <Link key={stagiair.id} href={`/users/detail/${stagiair.id}`}>
+                <td className="px-6 py-4">{stagiair.email}</td>
+                </Link>
+                <td className="px-6 py-4">{formatDate(stagiair.startDate)}</td>
+                <td className="px-6 py-4">{formatDate(stagiair.endDate)}</td>
+                <td className="px-6 py-4">
+                  {getstagebegeleiderName(stagiair.stagebegeleiderId)}
+                </td>
+                <td className="px-6 py-4">
+                  <button
+                    onClick={() => setIsModelOpen()}
+                    className="hover:text-blue-500 focus:outline-none"
+                  >
+                    <BsPencil className="text-lg" />
+                  </button>
+                  <span>
+                    <StagairForm params={{ id: stagiair.id }} />
+                  </span>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      {stagiairData.length === 0 && (
+        <div className="flex justify-center items-center mt-4">
+          <h2 className="text-2xl font-bold text-gray-500">No result found</h2>
         </div>
       )}
     </section>
+  
   );
 };
 
