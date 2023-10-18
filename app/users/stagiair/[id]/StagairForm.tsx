@@ -138,7 +138,7 @@ const StagairForm = ({ params: { id } }: Params) => {
                 <label className="text-gray-700" htmlFor="stagebegeleider">
                   Stagebegeleider
                 </label>
-
+                {/* Select stagebeleiders  */}
                 <Select
                   defaultValue={
                     stagair?.stagebegeleider.map((stagebegeleider) => ({
