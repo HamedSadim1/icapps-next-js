@@ -20,6 +20,7 @@ import Image from "next/image";
 import useStagairStore from "@/store";
 
 import StageBeschrijvingModal from "./StageBeschrijvingModal";
+import usePostComment from "@/hooks/usePostComment";
 
 interface Params {
   params: { id: string };
@@ -36,13 +37,19 @@ const StagiairDetail = ({ params: { id } }: Params) => {
 
   if (!data && !error) return <NoDataError />;
 
+  const getComments = () => {
+    return data.posts.flatMap((post) =>
+      post.comments.map((comment) => comment.comment)
+    );
+  };
+
   const getStagebegeleiderName = () => {
     return data.stagebegeleider
       .map((stagebegeleider) => stagebegeleider.name)
       .join(", ");
   };
 
-  const getComments = () => {
+  const getCommentsData = () => {
     return data.posts.flatMap((post) =>
       post.comments.map((comment) => comment.comment)
     );

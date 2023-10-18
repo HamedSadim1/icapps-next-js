@@ -37,7 +37,7 @@ const StagiairDetail = ({ params: { id } }: Params) => {
     (stagiair) => stagiair.stagebeschriving
   );
 
-  const getStageStartAndEnd = (): string => {
+  const getStageStartAndEndDatum = (): string => {
     const stageStart = stagebeschrijvingData.map((stage) =>
       data
         .filter((stagiair) => stage.stagiairId.includes(stagiair.id))
@@ -146,32 +146,40 @@ const StagiairDetail = ({ params: { id } }: Params) => {
             <div className="flex flex-col justify-start mb-4 gap-3">
               <div className="flex gap-3 border-2 border-gray-500-400 p-2 rounded">
                 <input type="checkbox" name="item" />
-                <p>consectetur adipisicing elit. Quos
-                  voluptatum, quibusdam, voluptates, quia doloremque quod nemo
-                  voluptate voluptas quas nesciunt doloribus? Quisquam, voluptatem <br /> <div className="text-sm text-gray-400">01/02/2023</div></p>
-                <div className=""><button type="button" className="text-gray-400">
-                  <AiOutlineEdit className="text-2xl mr-2 mt-4" />
-                </button></div>
+                <p>
+                  consectetur adipisicing elit. Quos voluptatum, quibusdam,
+                  voluptates, quia doloremque quod nemo voluptate voluptas quas
+                  nesciunt doloribus? Quisquam, voluptatem <br />{" "}
+                  <div className="text-sm text-gray-400">01/02/2023</div>
+                </p>
+                <div className="">
+                  <button type="button" className="text-gray-400">
+                    <AiOutlineEdit className="text-2xl mr-2 mt-4" />
+                  </button>
+                </div>
               </div>
               <div className="flex gap-3 border-2 border-gray-500-400 p-2 rounded">
                 <input type="checkbox" name="item" />
-                <p>consectetur adipisicing elit. Quos
-                  voluptatum, quibusdam, voluptates, quia doloremque quod nemo
-                  voluptate voluptas quas nesciunt doloribus? Quisquam, voluptatem <br /> <div className="text-sm text-gray-400">01/02/2023</div></p>
-                  <div className=""><button type="button" className="text-gray-400">
-                  <AiOutlineEdit className="text-2xl mr-2 mt-4" />
-                </button></div>
+                <p>
+                  consectetur adipisicing elit. Quos voluptatum, quibusdam,
+                  voluptates, quia doloremque quod nemo voluptate voluptas quas
+                  nesciunt doloribus? Quisquam, voluptatem <br />{" "}
+                  <div className="text-sm text-gray-400">01/02/2023</div>
+                </p>
+                <div className="">
+                  <button type="button" className="text-gray-400">
+                    <AiOutlineEdit className="text-2xl mr-2 mt-4" />
+                  </button>
+                </div>
               </div>
             </div>
             <div className="flex justify-start px-3">
-            <button type="button" className="flex">
+              <button type="button" className="flex">
                 <GrAdd className=" mt-1 text-[#bdc1c2]" />
                 <h3 className="ml-2  text-gray-400">Commentaar toevoegen</h3>
               </button>
             </div>
           </div>
-
-          
         </div>
         {/* Beschrijving */}
         <div className="flex flex-col rounded-lg overflow-hidden  mt-10">
@@ -212,7 +220,7 @@ const StagiairDetail = ({ params: { id } }: Params) => {
               </h2>
               {/* <h3 className="text-gray  ml-2">Steve Jobs, Bill Gates</h3> */}
               <h2 className="text-2xl mt-5 ml-2">Stage duur</h2>
-              <h3 className="text-gray ml-2"> {getStageStartAndEnd()}</h3>
+              <h3 className="text-gray ml-2"> {getStageStartAndEndDatum()}</h3>
               <h2 className="text-2xl mt-5 ml-2">School</h2>
               <h3 className="text-gray ml-2">{stagebeschriving.school}</h3>
               <h2 className="text-2xl mt-5 ml-2">Contactpersoon</h2>
