@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { IStagaire, IStagebeschrijving, IPost } from "@/types";
+import { IStagaire, IStagebeschrijving, IPost, IComment } from "@/types";
 
 export interface IStore {
   commentModal: boolean;
@@ -15,6 +15,10 @@ export interface IStore {
   setDoel: (doel: IPost) => void;
   postId: string;
   setPostId: (postId: string) => void;
+  comment: IComment ;
+  setComment: (comment: IComment) => void;
+  commentId:string;
+  setCommentId :(commentId:string) => void;
 }
 
 const useStagairStore = create<IStore>((set) => ({
@@ -52,7 +56,15 @@ const useStagairStore = create<IStore>((set) => ({
     createdAt: "",
     endDate: "",
   },
+  comment:{
+    comment:"",
+    createdAt:"",
+    id:"",
+    postId:""
+  },
+ 
   postId: "",
+  commentId:"",
   setPostId: (postId) => set({ postId }),
   setStagaires: (stagaires) => set({ stagaires }),
   toggleModal: () => set((state) => ({ stagiairModal: !state.stagiairModal })),
@@ -66,6 +78,12 @@ const useStagairStore = create<IStore>((set) => ({
   },
   setDoel: (doel) => {
     set({ doel });
+  },
+  setComment: (comment) => {
+    set({ comment });
+  },
+  setCommentId: (commentId) => {
+    set({ commentId });
   },
 
   updateStagairesAsync: async (stagaire) => {

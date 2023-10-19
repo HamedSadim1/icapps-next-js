@@ -1,11 +1,9 @@
 "use client";
-import { GoGoal } from "react-icons/go";
 import {
   AiOutlineShareAlt,
   AiOutlineEdit,
   AiOutlineLeft,
   AiOutlineRight,
-  AiOutlinePlus,
 } from "react-icons/ai";
 import { BiComment, BiUserCircle } from "react-icons/bi";
 import { GrAdd } from "react-icons/gr";
@@ -18,13 +16,12 @@ import NoDataError from "@/app/components/NoDataError";
 import { formatDate } from "@/lib";
 import useStagair from "@/hooks/useStagair";
 import Image from "next/image";
-import { useState } from "react";
 import useStagairStore from "@/store";
-import CommentModal from "./StageBeschrijvingModal";
 import Doel from "@/app/components/Doel";
 import Upload from "@/app/components/Upload";
 import StageBeschrijvingModal from "./StageBeschrijvingModal";
 import DeletePostModal from "@/app/components/DeletePostModal";
+import CommentModal from "@/app/components/CommentModal";
 
 interface Params {
   params: { id: string };
@@ -35,6 +32,7 @@ const StagiairDetail = ({ params: { id } }: Params) => {
 
   const setIsModalOpen = useStagairStore((state) => state.setCommentModal);
   const setPostId = useStagairStore((s) => s.setPostId);
+  const setCommentId = useStagairStore((s) => s.setCommentId);
 
   if (isLoading) return <Loading />;
 
@@ -50,6 +48,10 @@ const StagiairDetail = ({ params: { id } }: Params) => {
 
   const handlePostId = (id: string) => {
     setPostId(id);
+  };
+
+  const handleCommentId = (id: string) => {
+    setCommentId(id);
   };
 
   return (
@@ -120,15 +122,16 @@ const StagiairDetail = ({ params: { id } }: Params) => {
                       </div>
                     </div>
                   ))}
-                  <button
-                    type="button"
-                    className="flex mt-5"
-                    // onClick={() => setIsModalOpen(true)}
-                  >
-                    <GrAdd className=" mt-1  text-gray-400 " />
-                  </button>
                 </div>
               </div>
+              <button
+                onClick={() => handleCommentId(post.id)}
+                type="button"
+                className="flex mt-5"
+              >
+                <GrAdd className=" mt-1  text-gray-400 " />
+                <CommentModal />
+              </button>
               {/* Border Line */}
               <div className="border border-b-gray-500-400 mt-4"></div>
             </div>

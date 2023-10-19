@@ -28,17 +28,6 @@ const StagiairOverzicht = () => {
     );
   }
 
-  //! get stagebegeleider name by id stagiair stagebegeleiderId array
-  // const getstagebegeleiderName = (stagebegeleidersId: string[]) => {
-  //   const filteredNames = stagebegeleidersData
-  //     .filter((stagebegeleider) =>
-  //       stagebegeleidersId.includes(stagebegeleider.id)
-  //     )
-  //     .map((stagebegeleider) => stagebegeleider.name);
-
-  //   return filteredNames.length > 0 ? filteredNames.join(", ") : "";
-  // };
-
   return (
     <section className="container mx-auto p-4">
       <div className="overflow-x-auto">
