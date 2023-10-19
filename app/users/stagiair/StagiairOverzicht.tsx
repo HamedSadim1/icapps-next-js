@@ -8,7 +8,6 @@ import useStagairStore from "@/store";
 import { BsPencil } from "react-icons/bs";
 
 const StagiairOverzicht = () => {
-
   const { data: stagiairData, error, isLoading } = useStagairs();
 
   const setIsModelOpen = useStagairStore((state) => state.toggleModal);
