@@ -21,9 +21,7 @@ export async function POST(request: NextRequest) {
       data: {
         title: data.title,
         isChecked: data.isChecked,
-        stagiairID: data.stagiairID,
-        body: data.body,
-        createdAt: data.createdAt,
+        stagiairID: data.stagiairID
       },
     });
 
