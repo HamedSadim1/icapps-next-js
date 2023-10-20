@@ -39,14 +39,15 @@ enum UserRole {
 }
 
 model StageBegeleider {
-  id                  String              @id @default(auto()) @map("_id") @db.ObjectId
-  name                String              @unique
-  email               String              @unique
-  role                UserRole            @default(STAGEBEGELEIDER)
-  stagebescrhivingIDS String[]            @db.ObjectId
-  stagiairs           String[]            @db.ObjectId
-  stagebeschrijvings  StageBeschrijving[] @relation(fields: [stagebescrhivingIDS], references: [id])
-  stagiair            Stagiair[]          @relation(fields: [stagiairs], references: [id])
+  id                       String                     @id @default(auto()) @map("_id") @db.ObjectId
+  name                     String                     @unique
+  email                    String                     @unique
+  role                     UserRole                   @default(STAGEBEGELEIDER)
+  stagebescrhivingIDS      String[]                   @db.ObjectId
+  stagiairs                String[]                   @db.ObjectId
+  stagebeschrijvings       StageBeschrijving[]        @relation(fields: [stagebescrhivingIDS], references: [id])
+  stagiair                 Stagiair[]                 @relation(fields: [stagiairs], references: [id])
+  CheckListStageBegeleider CheckListStageBegeleider[]
 
   // adminId   String     @db.ObjectId
   // admin     Admin      @relation(fields: [adminId], references: [id])
@@ -66,6 +67,8 @@ model Stagiair {
   // admin             Admin           @relation(fields: [adminId], references: [id])
   posts             Doelen[]
   user              User[]
+  documents         Document[]
+  checkListStagiair CheckListStagiair[]
 }
 
 model StageBeschrijving {
@@ -97,10 +100,55 @@ model Doelen {
   comments   Comment[]
 }
 
+//! Comment
 model Comment {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   comment   String
   doel      Doelen   @relation(fields: [postId], references: [id])
   createdAt DateTime @default(now())
   postId    String   @db.ObjectId
+}
+
+//! Document
+model Document {
+  id         String            @id @default(auto()) @map("_id") @db.ObjectId
+  title      String
+  url        String
+  createdAt  DateTime          @default(now())
+  stagiair   Stagiair          @relation(fields: [stagiairID], references: [id])
+  stagiairID String            @db.ObjectId
+  size       Int               @default(0)
+  comments   DocumentComment[]
+}
+
+//! DocumentComment
+model DocumentComment {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  comment    String
+  document   Document @relation(fields: [documentID], references: [id])
+  createdAt  DateTime @default(now())
+  documentID String   @db.ObjectId
+}
+
+//! CheckListStagiair
+model CheckListStagiair {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  title      String
+  body       String
+  isChecked  Boolean
+  createdAt  DateTime @default(now())
+  stagiair   Stagiair @relation(fields: [stagiairID], references: [id])
+  stagiairID String   @db.ObjectId
+}
+
+//! CheckListStageBegeleider
+
+model CheckListStageBegeleider {
+  id                String          @id @default(auto()) @map("_id") @db.ObjectId
+  title             String
+  body              String
+  isChecked         Boolean
+  createdAt         DateTime        @default(now())
+  stagebegeleider   StageBegeleider @relation(fields: [stagebegeleiderID], references: [id])
+  stagebegeleiderID String          @db.ObjectId
 }

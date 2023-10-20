@@ -1,7 +1,7 @@
 import { IStagaire } from "@/types";
 import { useMutation, useQueryClient } from "react-query";
 
-// custom hook that accepts the id and data as parameters
+// custom hook that accepts the id and IStagaire as parameters
 const useUpdateStagiair = (id: string, data: IStagaire) => {
   // Get the query client instance
   const queryClient = useQueryClient();
@@ -44,8 +44,8 @@ const useUpdateStagiair = (id: string, data: IStagaire) => {
   return useMutation(updateStagiair, {
     // On success, invalidate the query with the same key as the fetch query
     onSuccess: () => {
-      queryClient.invalidateQueries(["stagiair", id]);
-      queryClient.invalidateQueries("stagiairs");
+      queryClient.invalidateQueries(["stagairs"]);
+      queryClient.invalidateQueries(["stagair"]);
     
     },
   });

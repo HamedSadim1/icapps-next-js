@@ -12,7 +12,7 @@ const usePost = (id: string): UseQueryResult<IPost, Error> => {
   };
 
   const options: UseQueryOptions<IPost, Error> = {
-    queryKey: ["post", id],
+    queryKey: ["post"],
     queryFn,
   };
 

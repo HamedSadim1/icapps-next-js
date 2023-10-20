@@ -1,5 +1,5 @@
 "use client";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useEffect } from "react";
 import useStagairStore from "@/store";
 import Select from "react-select";
 import useStagebegeleiders from "@/hooks/useStagebegeleiders";
@@ -33,7 +33,6 @@ const StagairForm = ({ params: { id } }: Params) => {
   const isModalOpen = useStagairStore((s) => s.stagiairModal);
   const setIsModalOpen = useStagairStore((state) => state.toggleModal);
 
-
   useEffect(() => {
     const modal = document.getElementById("my_modal_3") as HTMLDialogElement;
 
@@ -51,7 +50,6 @@ const StagairForm = ({ params: { id } }: Params) => {
     await mutate();
     useStagairStore.setState({ stagaires: updatedStagiare });
     setIsModalOpen();
-
   };
 
   const closeModal = (e: React.MouseEvent<HTMLButtonElement>) => {

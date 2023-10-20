@@ -11,7 +11,7 @@ const useStagair = (id: string): UseQueryResult<IStagaire, Error> => {
   };
 
   const options: UseQueryOptions<IStagaire, Error> = {
-    queryKey: ["stagair", id],
+    queryKey: ["stagair"],
     queryFn,
   };
 

@@ -13,7 +13,7 @@ const useStagebeschrijving = (
   };
 
   const options: UseQueryOptions<IStagebeschrijving, Error> = {
-    queryKey: ["stagebeschrijving", id],
+    queryKey: ["stagebeschrijving"],
     queryFn,
   };
 

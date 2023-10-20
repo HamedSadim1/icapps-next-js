@@ -22,7 +22,7 @@ const usePost = (post: IPost, stagairId: string) => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries("stagair");
+        queryClient.invalidateQueries("post");
         console.log("Mutation succes");
       },
       onError: (error) => {

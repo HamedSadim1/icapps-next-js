@@ -11,7 +11,7 @@ const useUser = (id: string): UseQueryResult<IUser, Error> => {
   };
 
   const options: UseQueryOptions<IUser, Error> = {
-    queryKey: ["user", id],
+    queryKey: ["user"],
     queryFn,
   };
 

@@ -62,3 +62,20 @@ export interface IComment {
   postId: string;
   createdAt: string;
 }
+
+export interface IDocumentComment {
+  id: string;
+  comment: string;
+  documentID: string;
+  createdAt: string;
+  comments: IDocumentComment[];
+}
+
+export interface IDocument {
+  id: string;
+  title: string;
+  url: string;
+  createdAt: string;
+  stagiairID: string;
+  size: number;
+}
