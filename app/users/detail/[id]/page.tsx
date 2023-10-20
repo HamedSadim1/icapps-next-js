@@ -146,15 +146,15 @@ const StagiairDetail = ({ params: { id } }: Params) => {
             <span className="flex ">
               <button
                 type="button"
-                className="rounded-l-md border-[#002548] border-2 px-6 py-1 flex justify-center font-medium"
+                className="rounded-l-md border-[#002548] border-2 px-6 py-1 flex justify-center font-medium bg-[#002548]"
               >
-                Stagiair
+              Stagiair
               </button>
               <button
                 type="button"
                 className=" rounded-r-md border-[#002548] px-4 py-1 flex justify-center font-medium bg-[#002548] text-white"
               >
-                Begeleider
+              Begeleider
               </button>
             </span>
           </div>
@@ -188,7 +188,6 @@ const StagiairDetail = ({ params: { id } }: Params) => {
                 </div>
               </div>
             </div>
-          
           </div>
           ))}
             <div className="flex justify-start px-3">
