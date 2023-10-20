@@ -134,11 +134,11 @@ model DocumentComment {
 model CheckListStagiair {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
   title      String
-  body       String
   isChecked  Boolean  @default(false)
   createdAt  DateTime @default(now())
   stagiair   Stagiair @relation(fields: [stagiairID], references: [id])
   stagiairID String   @db.ObjectId
+  date       DateTime @default(now())
 }
 
 //! CheckListStageBegeleider
@@ -146,7 +146,6 @@ model CheckListStagiair {
 model CheckListStageBegeleider {
   id                String          @id @default(auto()) @map("_id") @db.ObjectId
   title             String
-  body              String
   isChecked         Boolean
   createdAt         DateTime        @default(now())
   stagebegeleider   StageBegeleider @relation(fields: [stagebegeleiderID], references: [id])

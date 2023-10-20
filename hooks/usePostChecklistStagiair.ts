@@ -11,7 +11,6 @@ const usePostChecklistStagiair = (
     () => {
       return axios.post(`/api/checkliststagiair`, {
         title: checklistStagiair.title,
-        body: checklistStagiair.body,
         isChecked: checklistStagiair.isChecked,
         stagiairID: stagiairId,
       });

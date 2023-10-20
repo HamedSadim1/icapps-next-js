@@ -83,8 +83,8 @@ export interface IDocument {
 export interface IChecklistStagiair {
   id: string;
   title: string;
-  body: string;
   isChecked: boolean;
   stagiairID: string;
   createdAt: string;
+  date: string;
 }
