@@ -10,6 +10,7 @@ export interface IStagaire {
   stagebegeleider: IStagebegeleider[];
   posts: IPost[];
   user: IUser[];
+  checkListStagiair: IChecklistStagiair[];
 }
 
 export interface IStagebegeleider {

@@ -168,33 +168,18 @@ const StagiairDetail = ({ params: { id } }: Params) => {
             </span>
           </div>
           {/* Sections CheckList */}
-          <div className="flex flex-col">
+          {data.checkListStagiair.map((checkListStagiair) => (
+            <div key={checkListStagiair.id} className="flex flex-col">
             <div className="flex gap-2 mb-2">
               <span className="flex font-medium">Section 1</span>
               <span className="text-gray-400 text-xs mt-1">2</span>
             </div>
             <div className="flex flex-col justify-start mb-4 gap-3">
               <div className="flex gap-3 border-2 border-gray-500-400 p-2 rounded">
-                <input type="checkbox" name="item" />
+                <input value={checkListStagiair.isChecked.toString()} type="checkbox" name="item" />
                 <p>
-                  consectetur adipisicing elit. Quos voluptatum, quibusdam,
-                  voluptates, quia doloremque quod nemo voluptate voluptas quas
-                  nesciunt doloribus? Quisquam, voluptatem <br />{" "}
-                  <div className="text-sm text-gray-400">01/02/2023</div>
-                </p>
-                <div className="">
-                  <button type="button" className="text-gray-400">
-                    <AiOutlineEdit className="text-2xl mr-2 mt-4" />
-                  </button>
-                </div>
-              </div>
-              <div className="flex gap-3 border-2 border-gray-500-400 p-2 rounded">
-                <input type="checkbox" name="item" />
-                <p>
-                  consectetur adipisicing elit. Quos voluptatum, quibusdam,
-                  voluptates, quia doloremque quod nemo voluptate voluptas quas
-                  nesciunt doloribus? Quisquam, voluptatem <br />{" "}
-                  <div className="text-sm text-gray-400">01/02/2023</div>
+                  {checkListStagiair.title} <br />
+                  <div className="text-sm text-gray-400">{formatDate(checkListStagiair.date)}</div>
                 </p>
                 <div className="">
                   <button type="button" className="text-gray-400">
@@ -203,13 +188,15 @@ const StagiairDetail = ({ params: { id } }: Params) => {
                 </div>
               </div>
             </div>
+          
+          </div>
+          ))}
             <div className="flex justify-start px-3">
               <button type="button" className="flex">
                 <GrAdd className=" mt-1 text-[#bdc1c2]" />
                 <h3 className="ml-2  text-gray-400">Commentaar toevoegen</h3>
               </button>
             </div>
-          </div>
         </div>
         {/* Beschrijving */}
         <div className="flex flex-col rounded-lg overflow-hidden  mt-10">

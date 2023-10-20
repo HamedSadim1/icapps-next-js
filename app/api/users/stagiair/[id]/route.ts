@@ -18,6 +18,7 @@ export async function GET(
         stagebegeleider: true,
         stagebeschriving: true,
         user: true,
+        checkListStagiair: true,
         posts: {
           include: {
             comments: true,
