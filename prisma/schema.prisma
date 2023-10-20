@@ -135,7 +135,7 @@ model CheckListStagiair {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
   title      String
   body       String
-  isChecked  Boolean
+  isChecked  Boolean  @default(false)
   createdAt  DateTime @default(now())
   stagiair   Stagiair @relation(fields: [stagiairID], references: [id])
   stagiairID String   @db.ObjectId

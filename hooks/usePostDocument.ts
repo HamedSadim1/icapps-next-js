@@ -2,13 +2,15 @@ import { IDocument } from "@/types";
 import { useMutation, useQueryClient } from "react-query";
 import axios from "axios";
 
-const usePostDocument = (document: IDocument) => {
+const usePostDocument = (document: IDocument, stagiairId: string) => {
   const queryClient = useQueryClient();
   const mutation = useMutation(
     () => {
       return axios.post(`/api/documents`, {
         title: document.title,
         url: document.url,
+        stagiairID: stagiairId,
+        size: document.size,
       });
     },
     {
@@ -23,3 +25,5 @@ const usePostDocument = (document: IDocument) => {
   );
   return mutation;
 };
+
+export default usePostDocument;

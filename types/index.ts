@@ -79,3 +79,12 @@ export interface IDocument {
   stagiairID: string;
   size: number;
 }
+
+export interface IChecklistStagiair {
+  id: string;
+  title: string;
+  body: string;
+  isChecked: boolean;
+  stagiairID: string;
+  createdAt: string;
+}
