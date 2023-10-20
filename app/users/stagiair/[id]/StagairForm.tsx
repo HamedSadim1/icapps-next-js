@@ -14,21 +14,17 @@ interface Params {
 
 const StagairForm = ({ params: { id } }: Params) => {
   const { data: stagair } = useStagair(id);
+  const data = useStagairStore((state) => state.stagaires);
+  const setData = useStagairStore((state) => state.setStagaires);
+  const { data: stagebegeleiders } = useStagebegeleiders();
+  const { mutate, data: updatedData,isSuccess } = useUpdateStagiair(id, data);
 
   useEffect(() => {
     if (stagair) {
       useStagairStore.setState({ stagaires: stagair });
     }
-  }, [stagair]);
-
-  const data = useStagairStore((state) => state.stagaires);
-  const setData = useStagairStore((state) => state.setStagaires);
-  const { data: stagebegeleiders } = useStagebegeleiders();
-  const {
-    mutate,
-    isLoading,
-    data: updatedStagiare,
-  } = useUpdateStagiair(id, data);
+  }, [stagair, isSuccess, updatedData]);
+  
 
   const isModalOpen = useStagairStore((s) => s.stagiairModal);
   const setIsModalOpen = useStagairStore((state) => state.toggleModal);
@@ -48,7 +44,6 @@ const StagairForm = ({ params: { id } }: Params) => {
   const handleSubmitForm = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     await mutate();
-    useStagairStore.setState({ stagaires: updatedStagiare });
     setIsModalOpen();
   };
 
@@ -57,6 +52,10 @@ const StagairForm = ({ params: { id } }: Params) => {
     e.preventDefault();
     console.log("Modal closed");
   };
+
+  if(!stagebegeleiders || !data){
+    return null;
+  }
 
   return (
     <dialog
@@ -143,7 +142,7 @@ const StagairForm = ({ params: { id } }: Params) => {
                   }
                   isMulti
                   name="stagebegeleider"
-                  options={stagebegeleiders!.map((stagebegeleider) => ({
+                  options={stagebegeleiders.map((stagebegeleider) => ({
                     label: stagebegeleider.name,
                     value: stagebegeleider.id,
                   }))}

@@ -8,12 +8,12 @@ import useStagair from "@/hooks/useStagair";
 import useStagebegeleiders from "@/hooks/useStagebegeleiders";
 import { inputFormDater } from "@/lib";
 
-interface CommentModalProps {
+interface StageBeschrijvingModal {
   id: string;
   stagairId: string;
 }
 
-const StageBeschrijvingModal = ({ id, stagairId }: CommentModalProps) => {
+const StageBeschrijvingModal = ({ id, stagairId }: StageBeschrijvingModal) => {
   const isModalOpen = useStagairStore((s) => s.commentModal);
   const setIsModalOpen = useStagairStore((state) => state.setCommentModal);
 
@@ -87,6 +87,7 @@ const StageBeschrijvingModal = ({ id, stagairId }: CommentModalProps) => {
             startDate: isoStartDate,
             endDate: isoEndDate,
             stagebegeleiderId: stagebegeleiderIdArray,
+
           }),
         }
       );

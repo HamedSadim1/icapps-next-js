@@ -1,52 +1,50 @@
 import { IStagaire } from "@/types";
 import { useMutation, useQueryClient } from "react-query";
+import axios from "axios";
 
-// custom hook that accepts the id and IStagaire as parameters
 const useUpdateStagiair = (id: string, data: IStagaire) => {
-  // Get the query client instance
   const queryClient = useQueryClient();
 
-  // the mutation function that sends the PATCH request
   const updateStagiair = async () => {
     const isoStartDate = data.startDate
       ? new Date(data.startDate).toISOString()
       : "";
     const isoEndDate = data.endDate ? new Date(data.endDate).toISOString() : "";
-    // Ensure stagebegeleiderId is an array of unique strings
     const stagebegeleiderIdArray = Array.isArray(data.stagebegeleiderId)
       ? data.stagebegeleiderId
       : [data.stagebegeleiderId];
-    const response = await fetch(
-      `http://localhost:3000/api/users/stagiair/${id}`,
-      {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
+
+    try {
+      const response = await axios.patch(
+        `http://localhost:3000/api/users/stagiair/${id}`,
+        {
           name: data.name,
           email: data.email,
           startDate: isoStartDate,
           endDate: isoEndDate,
           stagebegeleiderId: stagebegeleiderIdArray,
-        }),
-      }
-    );
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
-    if (!response.ok) {
-      throw new Error(`${response.status} ${response.statusText}`);
+      // Return the data 
+      return response.data;
+    } catch (error) {
+      throw new Error(`Error updating resource: ${error}`);
     }
-
-    return response.json();
   };
 
-  // Use the useMutation hook to return the mutation object
   return useMutation(updateStagiair, {
-    // On success, invalidate the query with the same key as the fetch query
     onSuccess: () => {
-      queryClient.invalidateQueries(["stagairs"]);
       queryClient.invalidateQueries(["stagair"]);
-    
+      queryClient.invalidateQueries(["stagairs"])
+    },
+    onError: (error) => {
+      console.log(error);
     },
   });
 };
