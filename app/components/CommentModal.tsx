@@ -2,7 +2,6 @@
 import { AiOutlinePlus } from "react-icons/ai";
 import { MdClose } from "react-icons/md";
 import { FormEvent, useState } from "react";
-import { GoGoal } from "react-icons/go";
 import useStagairStore from "@/store";
 import usePostComment from "@/hooks/usePostComment";
 
@@ -26,14 +25,10 @@ const CommentModal = () => {
   return (
     <>
       <div className="flex justify-between">
-        <div className="flex">
-          <GoGoal className="text-3xl text-blue-500 mr-4 mb-1" />
-          <h2 className="font-bold text-2xl mb-1">Doelen</h2>
-        </div>
         <div className="flex px-4 py-2 text-blue-900 font-semibold bg-gray-200 rounded-md hover:bg-gray-300">
           <button onClick={() => setDiv(true)}>
-            <AiOutlinePlus className="float-left mt-1" />
-            &nbsp;Nieuw Comment
+            
+            &nbsp;Nieuw Comment <AiOutlinePlus className="float-left mt-1" />
           </button>
         </div>
       </div>

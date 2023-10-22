@@ -36,7 +36,8 @@ const StagiairDetail = ({ params: { id } }: Params) => {
   const setCommentId = useStagairStore((s) => s.setCommentId);
   const setUpdatePostId = useStagairStore((s) => s.setUpdatePostId);
   const [clickedPostId, setClickedPostId] = useState<string | null>(null);
-
+  const setIsPostModal = useStagairStore((s) => s.setIsPostModal);
+  const isPostModalOpen= useStagairStore((s) =>  s.IsPostModal)
 
   if (isLoading) return <Loading />;
 
@@ -84,12 +85,19 @@ const StagiairDetail = ({ params: { id } }: Params) => {
                 {/* Edit button for post */}
                 <button
                   type="button"
-                  onClick={() => handlePostId(post.id)}
+                  onClick={() => {
+                    handlePostId(post.id);
+                    setClickedPostId(post.id);
+                    setIsPostModal(true)
+                  }}
                   className="hover:text-gray-400"
                 >
                   <AiOutlineEdit className="text-2xl ml-2 mt-3" />
-                  {clickedPostId === post.id && <DeletePostModal postId={clickedPostId} />}
+                  
                 </button>
+                {clickedPostId === post.id && isPostModalOpen  && (
+                    <DeletePostModal postId={clickedPostId} />
+                  )}
                 <span className="text-gray-400 text-sm">
                   {formatDate(post.createdAt)}
                 </span>
@@ -99,7 +107,6 @@ const StagiairDetail = ({ params: { id } }: Params) => {
                 </p>
               </div>
               {/* Commentaar */}
-
               <div className="flex flex-justify-between mt-3 ">
                 {data.user[0].img ? (
                   <div className="avatar w-12 h-12 mr-1">
@@ -129,10 +136,7 @@ const StagiairDetail = ({ params: { id } }: Params) => {
                 </div>
               </div>
               <button
-                  onClick={() => {
-                    handlePostId(post.id);
-                    setClickedPostId(post.id); // Set the clicked post ID
-                  }}
+                onClick={() => handlePostId(post.id)}
                 type="button"
                 className="flex mt-5"
               >
