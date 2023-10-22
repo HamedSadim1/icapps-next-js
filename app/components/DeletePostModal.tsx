@@ -9,46 +9,55 @@ import useUpdatePost from "@/hooks/useUpdatePost";
 import { inputFormDater } from "@/lib";
 import usePost from "@/hooks/usePost";
 
-const DeletePostModal = () => {
-  const [showDiv, setDiv] = useState<boolean>(false);
-  const postId = useStagairStore((s) => s.updatePostId);
-  const { data,error,isLoading } = usePost(postId);
-  console.log(data);
-  console.log(postId);
-  const doel = useStagairStore((s) => s.updatePost);
+interface Props {
+  postId: string;
+}
 
+const DeletePostModal = ({ postId }: Props) => {
+  const [showDiv, setDiv] = useState<boolean>(false);
+  // const postId = useStagairStore((s) => s.updatePostId);
+  const { data, error, isLoading } = usePost(postId);
+  console.log("Fetched Data:", data);
+
+  const doel = useStagairStore((s) => s.updatePost);
   const setDoel = useStagairStore((s) => s.setUpdatePost);
 
-  const { mutate } = useDeletePost(postId);
-  const { mutate: updatePost } = useUpdatePost(doel, postId);
+  // const { mutate } = useDeletePost(postId);
+  // const { mutate: updatePost } = useUpdatePost(doel, postId);
 
   useEffect(() => {
-    if (data || postId) {
-      useStagairStore.setState({ doel: data });
-    }
+    useStagairStore.setState({ updatePost: data });
+    // console.log( "deletePost" + doel); // Check the values of doel state here
   }, [data, postId]);
 
   //! Delete the doel button
-  const HandleDelete = async (e: MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    await mutate();
-    setDiv(false);
-  };
+  // const HandleDelete = async (e: MouseEvent<HTMLButtonElement>) => {
+  //   e.preventDefault();
+  //   await mutate();
+  //   setDiv(false);
+  // };
 
   //! Update the doel button
-  const HandleUpdate = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    await updatePost();
+  // const HandleUpdate = async (e: FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
+  //   await updatePost();
+  //   setDiv(false);
+  // };
+
+  if (isLoading) {
+    return null;
+  }
+
+  if (error) {
+    <div>{error.message}</div>;
+  }
+
+  const handleCloseModal = () => {
+    // Reset updatePost state to an empty object
+
     setDiv(false);
+
   };
-
-  if(isLoading){
-    return    <div>Loading...</div>
-  }
-
-  if(error){
-    <div>{error.message}</div>
-  }
 
   return (
     <>
@@ -65,7 +74,7 @@ const DeletePostModal = () => {
           <div className="bg-white shadow-xl w-4/10 h-auto pb-7 text-gray-500 z-2 rounded-md">
             <button
               className="btn btn-sm btn-circle btn-ghost float-right text-xl mr-3 mt-3"
-              onClick={() => setDiv(false)}
+              onClick={handleCloseModal}
             >
               <MdClose />
             </button>

@@ -23,6 +23,7 @@ import StageBeschrijvingModal from "./StageBeschrijvingModal";
 import DeletePostModal from "@/app/components/DeletePostModal";
 import CommentModal from "@/app/components/CommentModal";
 import UploadDocument from "@/app/components/UploadDocument";
+import { useState } from "react";
 
 interface Params {
   params: { id: string };
@@ -33,7 +34,9 @@ const StagiairDetail = ({ params: { id } }: Params) => {
 
   const setIsModalOpen = useStagairStore((state) => state.setCommentModal);
   const setCommentId = useStagairStore((s) => s.setCommentId);
-  const setUpdatePostId = useStagairStore((s) => s.setUpdatePostId )
+  const setUpdatePostId = useStagairStore((s) => s.setUpdatePostId);
+  const [clickedPostId, setClickedPostId] = useState<string | null>(null);
+
 
   if (isLoading) return <Loading />;
 
@@ -48,7 +51,7 @@ const StagiairDetail = ({ params: { id } }: Params) => {
   };
 
   const handlePostId = (id: string) => {
-    
+    useStagairStore.setState({ updatePostId: id });
   };
 
   const handleCommentId = (id: string) => {
@@ -85,7 +88,7 @@ const StagiairDetail = ({ params: { id } }: Params) => {
                   className="hover:text-gray-400"
                 >
                   <AiOutlineEdit className="text-2xl ml-2 mt-3" />
-                <DeletePostModal />
+                  {clickedPostId === post.id && <DeletePostModal postId={clickedPostId} />}
                 </button>
                 <span className="text-gray-400 text-sm">
                   {formatDate(post.createdAt)}
@@ -126,18 +129,20 @@ const StagiairDetail = ({ params: { id } }: Params) => {
                 </div>
               </div>
               <button
-                onClick={() => handleCommentId(post.id)}
+                  onClick={() => {
+                    handlePostId(post.id);
+                    setClickedPostId(post.id); // Set the clicked post ID
+                  }}
                 type="button"
                 className="flex mt-5"
               >
                 <GrAdd className=" mt-1  text-gray-400 " />
-              <CommentModal />
+                <CommentModal />
               </button>
               {/* Border Line */}
               <div className="border border-b-gray-500-400 mt-4"></div>
             </div>
           ))}
-
           {/* Checklist */}
           <div className="flex justify-between mt-7 mb-5 ">
             <span className="flex gap-3">
