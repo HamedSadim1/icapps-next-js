@@ -5,6 +5,7 @@ import {
   IPost,
   IComment,
   IChecklistStagiair,
+  IDocument,
 } from "@/types";
 
 export interface IStore {
@@ -27,6 +28,13 @@ export interface IStore {
   setCommentId: (commentId: string) => void;
   checklistStagiair: IChecklistStagiair;
   setChecklistStagiair: (checklistStagiair: IChecklistStagiair) => void;
+  documents: IDocument;
+  setDocuments: (documents: IDocument) => void;
+  updatePost :IPost;
+  setUpdatePost:(post:IPost) => void;
+  updatePostId:string;
+  setUpdatePostId:(updatePostId:string) => void;
+  
 }
 
 const useStagairStore = create<IStore>((set) => ({
@@ -45,6 +53,7 @@ const useStagairStore = create<IStore>((set) => ({
     stagebegeleider: [],
     user: [],
     checkListStagiair: [],
+    documents: [],
   },
   stageBeschrijving: {
     id: "",
@@ -79,19 +88,44 @@ const useStagairStore = create<IStore>((set) => ({
     isChecked: false,
     title: "",
   },
+  documents: {
+    id: "",
+    stagiairID: "",
+    created_at: "",
+    bytes: 0,
+    original_filename: "",
+    url: "",
+    public_id: "",
+    resource_type: "",
+    secure_url: "",
+  },
+  updatePost:{
+    body:"",
+    comments:[],
+    createdAt:"",
+    endDate:"",
+    stagiairID:"",
+    id:"",
+    title:"",
+  },
 
   postId: "",
   commentId: "",
+  updatePostId:"",
   setPostId: (postId) => set({ postId }),
   setStagaires: (stagaires) => set({ stagaires }),
   toggleModal: () => set((state) => ({ stagiairModal: !state.stagiairModal })),
   setCommentModal: (commentModal) => set({ commentModal }),
+  setDocuments: (documents) => set({ documents }),
   setStageBeschrijving: async (stageBeschrijving) => {
     try {
       set({ stageBeschrijving });
     } catch (error) {
       console.error("Error updating stagaires:", error);
     }
+  },
+  setUpdatePostId:(updatePostId) => {
+    set({updatePostId})
   },
   setDoel: (doel) => {
     set({ doel });
@@ -104,6 +138,10 @@ const useStagairStore = create<IStore>((set) => ({
   },
   setChecklistStagiair: (checklistStagiair) => {
     set({ checklistStagiair });
+  },
+
+  setUpdatePost(updatePost) {
+      set({updatePost})
   },
 
   updateStagairesAsync: async (stagaire) => {

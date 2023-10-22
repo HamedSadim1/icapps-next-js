@@ -19,6 +19,7 @@ export async function GET(
         stagebeschriving: true,
         user: true,
         checkListStagiair: true,
+        documents: true,
         posts: {
           include: {
             comments: true,

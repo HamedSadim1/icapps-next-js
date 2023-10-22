@@ -16,6 +16,7 @@ export async function GET(request: NextRequest) {
           },
         },
         checkListStagiair: true,
+        documents:true
       },
       orderBy: {
         startDate: "asc",

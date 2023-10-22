@@ -11,6 +11,7 @@ export interface IStagaire {
   posts: IPost[];
   user: IUser[];
   checkListStagiair: IChecklistStagiair[];
+  documents:IDocument[]
 }
 
 export interface IStagebegeleider {
@@ -74,11 +75,14 @@ export interface IDocumentComment {
 
 export interface IDocument {
   id: string;
-  title: string;
+  original_filename: string;
   url: string;
-  createdAt: string;
+  secure_url: string;
+  public_id: string;
+  created_at: string;
   stagiairID: string;
-  size: number;
+  bytes: number;
+  resource_type: string;
 }
 
 export interface IChecklistStagiair {

@@ -20,9 +20,15 @@ export async function POST(request: NextRequest) {
     await connectToDatabase();
     const document = await prisma.document.create({
       data: {
-        title: body.title,
-        url: body.url,
-        stagiairID: body.stagiairID,
+        original_filename:body.original_filename,
+        public_id:body.public_id,
+        resource_type:body.resource_type,
+        secure_url:body.secure_url,
+        url:body.url,
+        bytes:body.bytes,
+        created_at:body.created_at,
+        stagiairID:body.stagiairID,
+      
       },
     });
     return NextResponse.json(document, { status: 201 });

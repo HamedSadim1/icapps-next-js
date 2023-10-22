@@ -22,6 +22,7 @@ import Upload from "@/app/components/Upload";
 import StageBeschrijvingModal from "./StageBeschrijvingModal";
 import DeletePostModal from "@/app/components/DeletePostModal";
 import CommentModal from "@/app/components/CommentModal";
+import UploadDocument from "@/app/components/UploadDocument";
 
 interface Params {
   params: { id: string };
@@ -31,8 +32,8 @@ const StagiairDetail = ({ params: { id } }: Params) => {
   const { data, error, isLoading } = useStagair(id);
 
   const setIsModalOpen = useStagairStore((state) => state.setCommentModal);
-  const setPostId = useStagairStore((s) => s.setPostId);
   const setCommentId = useStagairStore((s) => s.setCommentId);
+  const setUpdatePostId = useStagairStore((s) => s.setUpdatePostId )
 
   if (isLoading) return <Loading />;
 
@@ -47,7 +48,7 @@ const StagiairDetail = ({ params: { id } }: Params) => {
   };
 
   const handlePostId = (id: string) => {
-    setPostId(id);
+    
   };
 
   const handleCommentId = (id: string) => {
@@ -83,8 +84,8 @@ const StagiairDetail = ({ params: { id } }: Params) => {
                   onClick={() => handlePostId(post.id)}
                   className="hover:text-gray-400"
                 >
-                  {/* <AiOutlineEdit className="text-2xl ml-2 mt-3" /> */}
-                  <DeletePostModal />
+                  <AiOutlineEdit className="text-2xl ml-2 mt-3" />
+                <DeletePostModal />
                 </button>
                 <span className="text-gray-400 text-sm">
                   {formatDate(post.createdAt)}
@@ -130,7 +131,7 @@ const StagiairDetail = ({ params: { id } }: Params) => {
                 className="flex mt-5"
               >
                 <GrAdd className=" mt-1  text-gray-400 " />
-                <CommentModal />
+              <CommentModal />
               </button>
               {/* Border Line */}
               <div className="border border-b-gray-500-400 mt-4"></div>
@@ -146,15 +147,15 @@ const StagiairDetail = ({ params: { id } }: Params) => {
             <span className="flex ">
               <button
                 type="button"
-                className="rounded-l-md border-[#002548] border-2 px-6 py-1 flex justify-center font-medium bg-[#002548]"
+                className="rounded-l-md border-[#002548] border-2 px-6 py-1 flex justify-center font-medium "
               >
-              Stagiair
+                Stagiair
               </button>
               <button
                 type="button"
                 className=" rounded-r-md border-[#002548] px-4 py-1 flex justify-center font-medium bg-[#002548] text-white"
               >
-              Begeleider
+                Begeleider
               </button>
             </span>
           </div>
@@ -170,32 +171,38 @@ const StagiairDetail = ({ params: { id } }: Params) => {
           {/* Sections CheckList */}
           {data.checkListStagiair.map((checkListStagiair) => (
             <div key={checkListStagiair.id} className="flex flex-col">
-            <div className="flex gap-2 mb-2">
-              <span className="flex font-medium">Section 1</span>
-              <span className="text-gray-400 text-xs mt-1">2</span>
-            </div>
-            <div className="flex flex-col justify-start mb-4 gap-3">
-              <div className="flex gap-3 border-2 border-gray-500-400 p-2 rounded">
-                <input value={checkListStagiair.isChecked.toString()} type="checkbox" name="item" />
-                <p>
-                  {checkListStagiair.title} <br />
-                  <div className="text-sm text-gray-400">{formatDate(checkListStagiair.date)}</div>
-                </p>
-                <div className="">
-                  <button type="button" className="text-gray-400">
-                    <AiOutlineEdit className="text-2xl mr-2 mt-4" />
-                  </button>
+              <div className="flex gap-2 mb-2">
+                <span className="flex font-medium">Section 1</span>
+                <span className="text-gray-400 text-xs mt-1">2</span>
+              </div>
+              <div className="flex flex-col justify-start mb-4 gap-3">
+                <div className="flex gap-3 border-2 border-gray-500-400 p-2 rounded">
+                  <input
+                    value={checkListStagiair.isChecked.toString()}
+                    type="checkbox"
+                    name="item"
+                  />
+                  <p>
+                    {checkListStagiair.title} <br />
+                    <div className="text-sm text-gray-400">
+                      {formatDate(checkListStagiair.date)}
+                    </div>
+                  </p>
+                  <div className="">
+                    <button type="button" className="text-gray-400">
+                      <AiOutlineEdit className="text-2xl mr-2 mt-4" />
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
           ))}
-            <div className="flex justify-start px-3">
-              <button type="button" className="flex">
-                <GrAdd className=" mt-1 text-[#bdc1c2]" />
-                <h3 className="ml-2  text-gray-400">Commentaar toevoegen</h3>
-              </button>
-            </div>
+          <div className="flex justify-start px-3">
+            <button type="button" className="flex">
+              <GrAdd className=" mt-1 text-[#bdc1c2]" />
+              <h3 className="ml-2  text-gray-400">Commentaar toevoegen</h3>
+            </button>
+          </div>
         </div>
         {/* Beschrijving */}
         <div className="flex flex-col rounded-lg overflow-hidden  mt-10">
@@ -260,29 +267,28 @@ const StagiairDetail = ({ params: { id } }: Params) => {
 
           {/* Documenten */}
           <div className="flex-col bg-gray-200  rounded-lg overflow-hidden  mt-10 p-5">
-            <h2 className="text-2xl mt-5 ml-2">Documenten</h2>
-            <h2 className="text-2xl mt-5 ml-2">Document 1</h2>
-            <h3 className="text-gray  ml-2 text-gray-400">
-              01/02/2023/ door steve jobs (565kb)
-            </h3>
-            <div className="flex justify-start text-gray-400 ">
-              <BiComment className="mt-1 ml-2" />
-              <h3 className="text-gray ml-2 flex ">3 comments</h3>
-            </div>
-            <h2 className="text-2xl mt-5 ml-2">Document 2</h2>
-            <h3 className="text-gray-400  ml-2">
-              01/02/2023/ door steve jobs (565kb)
-            </h3>
-            <h2 className="text-2xl mt-5 ml-2">Document 3</h2>
-            <h3 className="text-gray-400  ml-2">
-              01/02/2023/ door steve jobs (565kb)
-            </h3>
+            {data.documents.map((document) => (
+              <div key={document.id}>
+                <h2 className="text-2xl mt-5 ml-2">
+                  {document.original_filename}
+                </h2>
+                <h3 className="text-gray  ml-2 text-gray-400">
+                  {formatDate(document.created_at)} door {data.name} (
+                  {document.bytes}
+                  kb)
+                </h3>
+                <div className="flex justify-start text-gray-400 ">
+                  <BiComment className="mt-1 ml-2" />
+                  <h3 className="text-gray ml-2 flex ">3 comments</h3>
+                </div>
+              </div>
+            ))}
 
             {/* <button type="button" className="flex mt-5">
               <GrAdd className=" mt-1 ml-2 text-gray-400 " />
               <input type="file" className="text-gray-400 ml-2" />
             </button> */}
-            <Upload />
+            <UploadDocument stagiairId={id} />
           </div>
         </div>
       </section>

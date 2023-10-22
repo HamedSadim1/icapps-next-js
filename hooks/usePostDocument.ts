@@ -6,16 +6,20 @@ const usePostDocument = (document: IDocument, stagiairId: string) => {
   const queryClient = useQueryClient();
   const mutation = useMutation(
     () => {
-      return axios.post(`/api/documents`, {
-        title: document.title,
+      return axios.post(`/api/document`, {
+        original_filename: document.original_filename,
         url: document.url,
+        secure_url: document.secure_url,
+        public_id: document.public_id,
+        created_at: document.created_at,
         stagiairID: stagiairId,
-        size: document.size,
+        bytes: document.bytes,
+        resource_type: document.resource_type,
       });
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries("documents");
+        queryClient.invalidateQueries(["stagair"]);
         console.log("Mutation succes");
       },
       onError: (error) => {

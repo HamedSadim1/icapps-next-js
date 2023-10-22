@@ -2,28 +2,28 @@
 import { AiOutlinePlus } from "react-icons/ai";
 import { MdClose } from "react-icons/md";
 import { FormEvent, useEffect, useState, MouseEvent } from "react";
-import { GoGoal } from "react-icons/go";
 import { BsTrash } from "react-icons/bs";
 import useStagairStore from "@/store";
 import useDeletePost from "@/hooks/useDeletePost";
-import useFetchPost from "@/hooks/useFetchPost";
 import useUpdatePost from "@/hooks/useUpdatePost";
 import { inputFormDater } from "@/lib";
+import usePost from "@/hooks/usePost";
 
 const DeletePostModal = () => {
   const [showDiv, setDiv] = useState<boolean>(false);
-  const postId = useStagairStore((s) => s.postId);
-  const { data } = useFetchPost(postId);
+  const postId = useStagairStore((s) => s.updatePostId);
+  const { data,error,isLoading } = usePost(postId);
+  console.log(data);
+  console.log(postId);
+  const doel = useStagairStore((s) => s.updatePost);
 
-  const doel = useStagairStore((s) => s.doel);
-
-  const setDoel = useStagairStore((s) => s.setDoel);
+  const setDoel = useStagairStore((s) => s.setUpdatePost);
 
   const { mutate } = useDeletePost(postId);
-  const { mutate: updatePost } = useUpdatePost(doel);
+  const { mutate: updatePost } = useUpdatePost(doel, postId);
 
   useEffect(() => {
-    if (data) {
+    if (data || postId) {
       useStagairStore.setState({ doel: data });
     }
   }, [data, postId]);
@@ -41,6 +41,14 @@ const DeletePostModal = () => {
     await updatePost();
     setDiv(false);
   };
+
+  if(isLoading){
+    return    <div>Loading...</div>
+  }
+
+  if(error){
+    <div>{error.message}</div>
+  }
 
   return (
     <>
@@ -63,14 +71,14 @@ const DeletePostModal = () => {
             </button>
             <div className="flex flex-col pt-16 mx-16">
               <h2 className="pb-10 text-blue-900 font-semibold text-2xl flex">
-                Doel &nbsp;
+                Edit Doel &nbsp;
                 {/* Delete button */}
-                <button onClick={HandleDelete}>
+                <button>
                   <BsTrash className="mt-1 text-red-500"></BsTrash>
                 </button>
               </h2>
               {/* Form */}
-              <form onSubmit={HandleUpdate}>
+              <form>
                 <label htmlFor="titel">Titel</label>
                 <input
                   type="text"
