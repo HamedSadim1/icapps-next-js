@@ -1,5 +1,5 @@
 "use client";
-import { AiOutlinePlus } from "react-icons/ai";
+import { AiOutlineEdit, AiOutlinePlus } from "react-icons/ai";
 import { MdClose } from "react-icons/md";
 import { FormEvent, useEffect, useState, MouseEvent } from "react";
 import { BsTrash } from "react-icons/bs";
@@ -52,14 +52,11 @@ const DeletePostModal = () => {
 
   return (
     <>
-      <div className="flex justify-between">
-        <div className="flex px-4 py-2 text-blue-900 font-semibold bg-gray-200 rounded-md hover:bg-gray-300">
+        <div className="float-left">
           <button onClick={() => setDiv(true)} className="">
-            <AiOutlinePlus className="float-left mt-1"></AiOutlinePlus>
-            &nbsp; Edit Post
+          <AiOutlineEdit className="text-2xl mt-3" />
           </button>
         </div>
-      </div>
       {showDiv && (
         <div className="h-screen w-screen flex flex-col justify-center items-center fixed top-0 left-0 right-0 bottom-0 z-50 bg-opacity-75 bg-gray-900">
           <div className="bg-white shadow-xl w-4/10 h-auto pb-7 text-gray-500 z-2 rounded-md">
@@ -70,8 +67,8 @@ const DeletePostModal = () => {
               <MdClose />
             </button>
             <div className="flex flex-col pt-16 mx-16">
-              <h2 className="pb-10 text-blue-900 font-semibold text-2xl flex">
-                Edit Doel &nbsp;
+              <h2 className="pb-10 text-[#002548] font-semibold text-2xl flex">
+                Doel wijzigen &nbsp;
                 {/* Delete button */}
                 <button>
                   <BsTrash className="mt-1 text-red-500"></BsTrash>
@@ -79,7 +76,7 @@ const DeletePostModal = () => {
               </h2>
               {/* Form */}
               <form>
-                <label htmlFor="titel">Titel</label>
+                <label className="float-left" htmlFor="titel">Titel</label>
                 <input
                   type="text"
                   className="w-full p-3 border-2 rounded-md mb-5"
@@ -88,7 +85,7 @@ const DeletePostModal = () => {
                   value={doel.title}
                   onChange={(e) => setDoel({ ...doel, title: e.target.value })}
                 />
-                <label htmlFor="beschrijving">Beschrijving</label>
+                <label className="float-left" htmlFor="beschrijving">Beschrijving</label>
                 <textarea
                   className="w-full p-3 border-2 rounded-md mb-5"
                   name="beschrijving"
@@ -96,7 +93,8 @@ const DeletePostModal = () => {
                   value={doel.body}
                   onChange={(e) => setDoel({ ...doel, body: e.target.value })}
                 ></textarea>
-                <label htmlFor="einddatum">Eind datum</label>
+                <div className="float-left">
+                <label className="float-left" htmlFor="einddatum">Einddatum</label>
                 <br />
                 <input
                   className="p-3 border-2 rounded-md mb-5"
@@ -108,17 +106,17 @@ const DeletePostModal = () => {
                     setDoel({ ...doel, endDate: e.target.value })
                   }
                 />
-                <div className="w-full text-right">
-                  {/* close button */}
+                </div>
+                <div className="w-full text-right mt-28">
                   <button
-                    className="mr-2 px-7 py-2 rounded-md bg-gray-200 text-blue-900 font-semibold"
+                    className="mr-4 px-7 py-2 rounded-md bg-gray-200 text-[#002548] font-semibold"
                     onClick={() => setDiv(false)}
                   >
                     Annuleren
                   </button>
                   <button
                     type="submit"
-                    className="px-7 py-2 rounded-md bg-blue-900 text-white font-semibold"
+                    className="px-7 py-2 rounded-md bg-[#002548] text-white font-semibold"
                   >
                     Opslaan
                   </button>

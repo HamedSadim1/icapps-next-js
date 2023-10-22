@@ -1,5 +1,5 @@
 "use client";
-import { FormEvent, useEffect } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import useStagairStore from "@/store";
 import Select from "react-select";
 import useStagebegeleiders from "@/hooks/useStagebegeleiders";
@@ -100,7 +100,7 @@ const StagairForm = ({ params: { id } }: Params) => {
               </div>
               <div>
                 <label className="text-gray-700" htmlFor="startDate">
-                  Start Datum
+                  StartDatum
                 </label>
                 <input
                   className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500"
@@ -115,7 +115,7 @@ const StagairForm = ({ params: { id } }: Params) => {
               </div>
               <div>
                 <label className="text-gray-700" htmlFor="endDate">
-                  Eind Datum
+                  EindDatum
                 </label>
                 <input
                   className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500"
@@ -162,14 +162,13 @@ const StagairForm = ({ params: { id } }: Params) => {
                 />
               </div>
 
-              <div>
+              
                 <button
-                  className="px-6 py-2 mt-2 text-white bg-blue-900 rounded-md focus:outline-non absolute bottom-6 right-6"
+                  className="px-6 py-2 mt-2 text-white bg-[#002548] rounded-md focus:outline-non absolute bottom-6 right-6"
                   type="submit"
                 >
                   Opslaan
                 </button>
-              </div>
             </div>
           </form>
         </div>

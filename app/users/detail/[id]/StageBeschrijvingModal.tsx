@@ -189,7 +189,7 @@ const StageBeschrijvingModal = ({ id, stagairId }: StageBeschrijvingModal) => {
               />
             </div>
             {/* StartDatum and Eind datum */}
-            <div className="flex space-x-20">
+            <div className="flex justify-between">
               <div className="form-control">
                 <label className="label">
                   <span className="label-text">Start datum</span>
@@ -286,7 +286,7 @@ const StageBeschrijvingModal = ({ id, stagairId }: StageBeschrijvingModal) => {
                 <input
                   type="email"
                   placeholder="Email"
-                  className="ml-8 w-full p-3 border-2 rounded-md mb-5"
+                  className="ml-7 w-full p-3 border-2 rounded-md mb-5"
                   value={stageBeschrijving.contactPersoonEmail}
                   onChange={(e) =>
                     setStageBeschrijving({
@@ -298,11 +298,11 @@ const StageBeschrijvingModal = ({ id, stagairId }: StageBeschrijvingModal) => {
               </div>
             </div>
 
-            <div className="form-control mt-3 flex flex-row justify-end ">
-              <button className="btn" onClick={handleModal}>
+            <div className="w-full text-right mt-2 ">
+              <button className="mr-4 px-7 py-2 rounded-md bg-gray-200 text-[#002548] font-semibold" onClick={handleModal}>
                 Annuleren
               </button>
-              <button className="btn btn-neutral">Opslaan</button>
+              <button className="px-7 py-2 rounded-md bg-[#002548] text-white font-semibold">Opslaan</button>
             </div>
           </form>
         </div>

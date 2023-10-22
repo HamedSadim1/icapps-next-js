@@ -33,10 +33,10 @@ const Doel = ({ stagiarId }: DoelProps) => {
     <>
       <div className="flex justify-between">
         <div className="flex">
-          <GoGoal className="text-3xl text-blue-500 mr-4 mb-1" />
+          <GoGoal className="text-3xl text-blue-400 mr-4 mb-1" />
           <h2 className="font-bold text-2xl mb-1">Doelen</h2>
         </div>
-        <div className="flex px-4 py-2 text-blue-900 font-semibold bg-gray-200 rounded-md hover:bg-gray-300">
+        <div className="flex px-4 py-2 text-[#002548] font-semibold bg-gray-200 rounded-md hover:bg-gray-300">
           <button onClick={() => setDiv(true)} className="">
             <AiOutlinePlus className="float-left mt-1"></AiOutlinePlus>
             &nbsp;Nieuw doel
@@ -53,11 +53,9 @@ const Doel = ({ stagiarId }: DoelProps) => {
               <MdClose />
             </button>
             <div className="flex flex-col pt-16 mx-16">
-              <h2 className="pb-10 text-blue-900 font-semibold text-2xl flex">
-                Doel &nbsp;{" "}
-                <button>
-                  <BsTrash className="mt-1 text-red-500"></BsTrash>
-                </button>
+              <h2 className="pb-10 text-[#002548] font-semibold text-2xl flex">
+                Doel toevoegen &nbsp;{" "}
+                
               </h2>
               <form onSubmit={handleSubmitButton}>
                 <label htmlFor="titel">Titel</label>
@@ -77,7 +75,7 @@ const Doel = ({ stagiarId }: DoelProps) => {
                   value={doel.body}
                   onChange={(e) => setDoel({ ...doel, body: e.target.value })}
                 ></textarea>
-                <label htmlFor="einddatum">Eind datum</label>
+                <label htmlFor="einddatum">Einddatum</label>
                 <br />
                 <input
                   className="p-3 border-2 rounded-md mb-5"
@@ -91,14 +89,14 @@ const Doel = ({ stagiarId }: DoelProps) => {
                 />
                 <div className="w-full text-right">
                   <button
-                    className="mr-2 px-7 py-2 rounded-md bg-gray-200 text-blue-900 font-semibold"
+                    className="mr-4 px-7 py-2 rounded-md bg-gray-200 text-[#002548] font-semibold"
                     onClick={() => setDiv(false)}
                   >
                     Annuleren
                   </button>
                   <button
                     type="submit"
-                    className="px-7 py-2 rounded-md bg-blue-900 text-white font-semibold"
+                    className="px-7 py-2 rounded-md bg-[#002548] text-white font-semibold"
                   >
                     Opslaan
                   </button>

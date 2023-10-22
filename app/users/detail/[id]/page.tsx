@@ -4,6 +4,7 @@ import {
   AiOutlineEdit,
   AiOutlineLeft,
   AiOutlineRight,
+  AiOutlinePlus,
 } from "react-icons/ai";
 import { BiComment, BiUserCircle } from "react-icons/bi";
 import { GrAdd } from "react-icons/gr";
@@ -65,26 +66,25 @@ const StagiairDetail = ({ params: { id } }: Params) => {
               type="button"
               className="flex items-center  hover:text-gray-600 mr-20"
             >
-              <IoIosArrowRoundBack className="text-3xl mr-2 text-blue-500" />
-              <h2 className="text-xl ">Terug naar overzicht</h2>
+              <IoIosArrowRoundBack className="text-3xl mr-2 text-blue-400" />
+              <h2 className="text-l ">Terug naar overzicht</h2>
             </button>
           </Link>
           {/* Name of the user */}
-          <h1 className="text-2xl mb-10 mt-5"> {data.name} </h1>
+          <h1 className="text-3xl text-[#002548] font-semibold mb-10 mt-5"> {data.name} </h1>
           {/* Pop up Doel   */}
           <Doel stagiarId={id} />
           {/* Post and comment loop over the array */}
           {data.posts.map((post) => (
             <div key={post.id}>
-              <div className="flex flex-col rounded-lg">
-                <h2 className="text-2xl font-bold ">{post.title}</h2>
+              <div className="flex flex-col rounded-lg mt-6 mx-6">
+                <h2 className="text-xl font-bold ">{post.title}</h2>
                 {/* Edit button for post */}
                 <button
                   type="button"
                   onClick={() => handlePostId(post.id)}
-                  className="hover:text-gray-400"
+                  className="hover:text-gray-400 w-6"
                 >
-                  <AiOutlineEdit className="text-2xl ml-2 mt-3" />
                 <DeletePostModal />
                 </button>
                 <span className="text-gray-400 text-sm">
@@ -97,9 +97,9 @@ const StagiairDetail = ({ params: { id } }: Params) => {
               </div>
               {/* Commentaar */}
 
-              <div className="flex flex-justify-between mt-3 ">
+              <div className="flex flex-justify-between mt-3 mx-6">
                 {data.user[0].img ? (
-                  <div className="avatar w-12 h-12 mr-1">
+                  <div className="avatar w-12 h-12 mr-3 mt-1">
                     <Image
                       src={data.user[0].img}
                       alt="User avatar"
@@ -113,7 +113,7 @@ const StagiairDetail = ({ params: { id } }: Params) => {
                 )}
                 {/* Comment button */}
                 <div>
-                  <h3 className="text-1 xl text-blue-500">{data.name}</h3>
+                  <h3 className="text-1 xl text-blue-400">{data.name}</h3>
                   {post.comments.map((comment) => (
                     <div key={comment.id}>
                       <div className="flex flex-col rounded-lg">
@@ -128,9 +128,8 @@ const StagiairDetail = ({ params: { id } }: Params) => {
               <button
                 onClick={() => handleCommentId(post.id)}
                 type="button"
-                className="flex mt-5"
+                className="flex mt-3"
               >
-                <GrAdd className=" mt-1  text-gray-400 " />
               <CommentModal />
               </button>
               {/* Border Line */}
@@ -199,8 +198,8 @@ const StagiairDetail = ({ params: { id } }: Params) => {
           ))}
           <div className="flex justify-start px-3">
             <button type="button" className="flex">
-              <GrAdd className=" mt-1 text-[#bdc1c2]" />
-              <h3 className="ml-2  text-gray-400">Commentaar toevoegen</h3>
+            <AiOutlinePlus className="float-left mt-1" />
+              <h3 className="ml-2  text-gray-400 hover:text-gray-500">Commentaar toevoegen</h3>
             </button>
           </div>
         </div>
@@ -226,40 +225,40 @@ const StagiairDetail = ({ params: { id } }: Params) => {
               key={stagebeschriving.id}
               className="bg-gray-200 mt-11 rounded-lg pb-5 p-5"
             >
-              <div className="flex justify-between items-center ml-2 ">
-                <h2 className="text-2xl">Beschrijving</h2>
+              <div className="flex justify-between items-center ml-2">
+                <h2 className="text-2xl font-semibold text-[#002548]">Beschrijving</h2>
                 {/* Edit the stage from */}
                 <button
                   type="button"
                   className="hover:text-gray-400"
                   onClick={() => setIsModalOpen(true)}
                 >
-                  <AiOutlineEdit className="text-2xl mr-7" />
+                  <AiOutlineEdit className="text-2xl" />
                 </button>
                 <StageBeschrijvingModal
                   stagairId={id}
                   id={stagebeschriving.id}
                 />
               </div>
-              <p className="text-gray-600 text-base font-medium leading-relaxed mt-2 ml-2">
+              <p className="text-gray-600 text-base leading-relaxed mt-2 ml-2 mr-10">
                 {stagebeschriving.beschrijving}
               </p>
-              <h2 className="text-2xl mt-5 ml-2">Stage begeleider(s)</h2>
-              <h3 className="text-gray  ml-2">{getStagebegeleiderName()} S</h3>
-              <h2 className="text-2xl mt-5 ml-2">Stage duur</h2>
-              <h3 className="text-gray ml-2">
+              <h2 className="text-2xl mt-5 ml-2 font-semibold text-[#002548]">Stage begeleider(s)</h2>
+              <h3 className="text-gray-600 ml-2">{getStagebegeleiderName()}</h3>
+              <h2 className="text-2xl mt-5 ml-2 font-semibold text-[#002548]">Stage duur</h2>
+              <h3 className="text-gray-600 ml-2">
                 {formatDate(data.startDate)} - {formatDate(data.endDate)}
               </h3>
-              <h2 className="text-2xl mt-5 ml-2">School</h2>
-              <h3 className="text-gray ml-2">{stagebeschriving.school}</h3>
-              <h2 className="text-2xl mt-5 ml-2">Contactpersoon</h2>
-              <h3 className="text-gray ml-2">
+              <h2 className="text-2xl mt-5 ml-2 font-semibold text-[#002548]">School</h2>
+              <h3 className="text-gray-600 ml-2">{stagebeschriving.school}</h3>
+              <h2 className="text-2xl mt-5 ml-2 font-semibold text-[#002548]">Contactpersoon</h2>
+              <h3 className="text-gray-600 ml-2">
                 {stagebeschriving.contactPersoonName}
               </h3>
-              <h3 className="text-gray ml-2">
+              <h3 className="text-gray-600 ml-2 mt-1">
                 {stagebeschriving.contactPersoonEmail}
               </h3>
-              <h3 className="text-gray ml-2">
+              <h3 className="text-gray-600 ml-2 mt-1">
                 {stagebeschriving.contactPersoonTelefoon}
               </h3>
             </div>

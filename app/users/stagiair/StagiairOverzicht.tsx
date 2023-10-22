@@ -35,10 +35,10 @@ const StagiairOverzicht = () => {
           <thead className="bg-gray-100">
             <tr>
               <th className="px-6 py-3 text-left">Naam</th>
-              <th className="px-6 py-3 text-left">E-MAIL</th>
-              <th className="px-6 py-3 text-left">START DATUM</th>
-              <th className="px-6 py-3 text-left">END DATUM</th>
-              <th className="px-6 py-3 text-left">STAGEBEGELEIDER(S)</th>
+              <th className="px-6 py-3 text-left">E-mail</th>
+              <th className="px-6 py-3 text-left">Startdatum</th>
+              <th className="px-6 py-3 text-left">Einddatum</th>
+              <th className="px-6 py-3 text-left">Stagebegeleider(s)</th>
               <th className="px-6 py-3"></th>
             </tr>
           </thead>
