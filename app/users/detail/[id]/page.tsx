@@ -37,8 +37,11 @@ const StagiairDetail = ({ params: { id } }: Params) => {
   const setUpdatePostId = useStagairStore((s) => s.setUpdatePostId);
   const [clickedPostId, setClickedPostId] = useState<string | null>(null);
   const setIsPostModal = useStagairStore((s) => s.setIsPostModal);
-  const isPostModalOpen= useStagairStore((s) =>  s.IsPostModal)
+  const isPostModalOpen = useStagairStore((s) => s.IsPostModal);
+  const [checkListName, setCheckListName] =
+    useState<string>("checkListStagiair");
 
+    const [selectedSection, setSelectedSection] = useState<number>(0);//checklistsection
   if (isLoading) return <Loading />;
 
   if (error) return <FetchingError error={error.message} />;
@@ -58,6 +61,34 @@ const StagiairDetail = ({ params: { id } }: Params) => {
   const handleCommentId = (id: string) => {
     setCommentId(id);
   };
+
+  // const navigateToNextSection = () => {
+  //   if (selectedSection < Data.sections.length - 1) {
+  //     setSelectedSection(selectedSection + 1);
+  //   }
+  // };
+
+  // const navigateToPreviousSection = () => {
+  //   if (selectedSection > 0) {
+  //     setSelectedSection(selectedSection - 1);
+  //   }
+  // };
+
+  {/* Arrow Left and Arrow Right */}
+//   <div className="flex justify-center mb-5 gap-3 ">
+//   <span className="bg-[#f8f9fa] p-3 rounded-md">
+//     <AiOutlineLeft
+//       className="w-5 h-5 text-[#bdc1c2]"
+//       onClick={navigateToPreviousSection}
+//     />
+//   </span>
+//   <span className="bg-[#bbebf7] p-3 rounded-md font-extrabold">
+//     <AiOutlineRight
+//       className="w-5 h-5 text-[#2bd0db]"
+//       onClick={navigateToNextSection}
+//     />
+//   </span>
+// </div>
 
   return (
     <>
@@ -88,16 +119,15 @@ const StagiairDetail = ({ params: { id } }: Params) => {
                   onClick={() => {
                     handlePostId(post.id);
                     setClickedPostId(post.id);
-                    setIsPostModal(true)
+                    setIsPostModal(true);
                   }}
                   className="hover:text-gray-400"
                 >
                   <AiOutlineEdit className="text-2xl ml-2 mt-3" />
-                  
                 </button>
-                {clickedPostId === post.id && isPostModalOpen  && (
-                    <DeletePostModal postId={clickedPostId} />
-                  )}
+                {clickedPostId === post.id && isPostModalOpen && (
+                  <DeletePostModal postId={clickedPostId} />
+                )}
                 <span className="text-gray-400 text-sm">
                   {formatDate(post.createdAt)}
                 </span>
@@ -156,13 +186,23 @@ const StagiairDetail = ({ params: { id } }: Params) => {
             <span className="flex ">
               <button
                 type="button"
-                className="rounded-l-md border-[#002548] border-2 px-6 py-1 flex justify-center font-medium "
+                onClick={() => setCheckListName("checkListStagiair")}
+                className={`rounded-l-md border-[#002548] border-2 px-6 py-1 flex justify-center font-medium  ${
+                  checkListName === "checkListStagiair"
+                    ? "bg-[#002548] text-white"
+                    : ""
+                }`}
               >
                 Stagiair
               </button>
               <button
+                onClick={() => setCheckListName("checklistStagebegeleider")}
                 type="button"
-                className=" rounded-r-md border-[#002548] px-4 py-1 flex justify-center font-medium bg-[#002548] text-white"
+                className={`rounded-l-md border-[#002548] border-2 px-6 py-1 flex justify-center font-medium ${
+                  checkListName === "checklistStagebegeleider"
+                    ? "bg-[#002548] text-white"
+                    : ""
+                }`}
               >
                 Begeleider
               </button>
@@ -178,34 +218,41 @@ const StagiairDetail = ({ params: { id } }: Params) => {
             </span>
           </div>
           {/* Sections CheckList */}
-          {data.checkListStagiair.map((checkListStagiair) => (
-            <div key={checkListStagiair.id} className="flex flex-col">
-              <div className="flex gap-2 mb-2">
-                <span className="flex font-medium">Section 1</span>
-                <span className="text-gray-400 text-xs mt-1">2</span>
-              </div>
-              <div className="flex flex-col justify-start mb-4 gap-3">
-                <div className="flex gap-3 border-2 border-gray-500-400 p-2 rounded">
-                  <input
-                    value={checkListStagiair.isChecked.toString()}
-                    type="checkbox"
-                    name="item"
-                  />
-                  <p>
-                    {checkListStagiair.title} <br />
-                    <div className="text-sm text-gray-400">
-                      {formatDate(checkListStagiair.date)}
+          {checkListName === "checkListStagiair" ? (
+            data.checkListStagiair.map((checkListStagiair) => (
+              <div key={checkListStagiair.id} className="flex flex-col">
+                <div className="flex gap-2 mb-2">
+                  <span className="flex font-medium">Section 1</span>
+                  <span className="text-gray-400 text-xs mt-1">2</span>
+                </div>
+                <div className="flex flex-col justify-start mb-4 gap-3">
+                  <div className="flex gap-3 border-2 border-gray-500-400 p-2 rounded">
+                    <input
+                      value={checkListStagiair.isChecked.toString()}
+                      type="checkbox"
+                      name="item"
+                    />
+                    <p>
+                      {checkListStagiair.title} <br />
+                      <div className="text-sm text-gray-400">
+                        {formatDate(checkListStagiair.date)}
+                      </div>
+                    </p>
+                    <div className="">
+                      <button type="button" className="text-gray-400">
+                        <AiOutlineEdit className="text-2xl mr-2 mt-4" />
+                      </button>
                     </div>
-                  </p>
-                  <div className="">
-                    <button type="button" className="text-gray-400">
-                      <AiOutlineEdit className="text-2xl mr-2 mt-4" />
-                    </button>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))
+          ) : (
+            <div> Geen checklist beschikbaar voor stagebegeleirder</div>
+          )}
+
+          {/* Add comment button */}
+
           <div className="flex justify-start px-3">
             <button type="button" className="flex">
               <GrAdd className=" mt-1 text-[#bdc1c2]" />
