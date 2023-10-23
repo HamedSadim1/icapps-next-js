@@ -30,24 +30,26 @@ const StagiairOverzicht = () => {
 
   return (
     <section className="container mx-auto p-4">
-      <div className="overflow-x-auto">
-        <table className="min-w-full bg-white border border-gray-200 mt-12">
-          <thead className="bg-gray-100">
-            <tr>
-              <th className="px-6 py-3 text-left">Naam</th>
-              <th className="px-6 py-3 text-left">E-mail</th>
-              <th className="px-6 py-3 text-left">Startdatum</th>
-              <th className="px-6 py-3 text-left">Einddatum</th>
-              <th className="px-6 py-3 text-left">Stagebegeleider(s)</th>
-              <th className="px-6 py-3"></th>
-            </tr>
-          </thead>
-          <tbody>
-            {stagiairData.map((stagiair) => (
+      <table className="min-w-full bg-white border border-gray-200 mt-12">
+        <thead className="bg-gray-100">
+          <tr className="">
+            <th className="px-6 py-3 text-left">Naam</th>
+            <th className="px-6 py-3 text-left">E-mail</th>
+            <th className="px-6 py-3 text-left">Startdatum</th>
+            <th className="px-6 py-3 text-left">Einddatum</th>
+            <th className="px-6 py-3 text-left">Stagebegeleider(s)</th>
+            <th className="px-6 py-3"></th>
+          </tr>
+        </thead>
+        <tbody>
+          {stagiairData.map((stagiair) => (
+
               <tr key={stagiair.id} className="hover:bg-gray-50">
-                <Link key={stagiair.id} href={`/users/detail/${stagiair.id}`}>
-                  <td className="px-6 py-4">{stagiair.name}</td>
+                            <Link key={stagiair.id} href={`/users/detail/${stagiair.id}`}>
+
+                <td className="px-6 py-4">{stagiair.name}</td>
                 </Link>
+
                 <td className="px-6 py-4">{stagiair.email}</td>
                 <td className="px-6 py-4">{formatDate(stagiair.startDate)}</td>
                 <td className="px-6 py-4">{formatDate(stagiair.endDate)}</td>
@@ -68,10 +70,10 @@ const StagiairOverzicht = () => {
                   </span>
                 </td>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+
+          ))}
+        </tbody>
+      </table>
       {stagiairData.length === 0 && (
         <div className="flex justify-center items-center mt-4">
           <h2 className="text-2xl font-bold text-gray-500">No result found</h2>
