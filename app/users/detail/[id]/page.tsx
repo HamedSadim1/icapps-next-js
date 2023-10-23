@@ -24,6 +24,7 @@ import StageBeschrijvingModal from "./StageBeschrijvingModal";
 import DeletePostModal from "@/app/components/DeletePostModal";
 import CommentModal from "@/app/components/CommentModal";
 import UploadDocument from "@/app/components/UploadDocument";
+import { useState } from "react";
 
 interface Params {
   params: { id: string };
@@ -34,8 +35,14 @@ const StagiairDetail = ({ params: { id } }: Params) => {
 
   const setIsModalOpen = useStagairStore((state) => state.setCommentModal);
   const setCommentId = useStagairStore((s) => s.setCommentId);
-  const setUpdatePostId = useStagairStore((s) => s.setUpdatePostId )
+  const setUpdatePostId = useStagairStore((s) => s.setUpdatePostId);
+  const [clickedPostId, setClickedPostId] = useState<string | null>(null);
+  const setIsPostModal = useStagairStore((s) => s.setIsPostModal);
+  const isPostModalOpen = useStagairStore((s) => s.IsPostModal);
+  const [checkListName, setCheckListName] =
+    useState<string>("checkListStagiair");
 
+    const [selectedSection, setSelectedSection] = useState<number>(0);//checklistsection
   if (isLoading) return <Loading />;
 
   if (error) return <FetchingError error={error.message} />;
@@ -49,12 +56,40 @@ const StagiairDetail = ({ params: { id } }: Params) => {
   };
 
   const handlePostId = (id: string) => {
-    
+    useStagairStore.setState({ updatePostId: id });
   };
 
   const handleCommentId = (id: string) => {
     setCommentId(id);
   };
+
+  // const navigateToNextSection = () => {
+  //   if (selectedSection < Data.sections.length - 1) {
+  //     setSelectedSection(selectedSection + 1);
+  //   }
+  // };
+
+  // const navigateToPreviousSection = () => {
+  //   if (selectedSection > 0) {
+  //     setSelectedSection(selectedSection - 1);
+  //   }
+  // };
+
+  {/* Arrow Left and Arrow Right */}
+//   <div className="flex justify-center mb-5 gap-3 ">
+//   <span className="bg-[#f8f9fa] p-3 rounded-md">
+//     <AiOutlineLeft
+//       className="w-5 h-5 text-[#bdc1c2]"
+//       onClick={navigateToPreviousSection}
+//     />
+//   </span>
+//   <span className="bg-[#bbebf7] p-3 rounded-md font-extrabold">
+//     <AiOutlineRight
+//       className="w-5 h-5 text-[#2bd0db]"
+//       onClick={navigateToNextSection}
+//     />
+//   </span>
+// </div>
 
   return (
     <>
@@ -82,11 +117,19 @@ const StagiairDetail = ({ params: { id } }: Params) => {
                 {/* Edit button for post */}
                 <button
                   type="button"
-                  onClick={() => handlePostId(post.id)}
-                  className="hover:text-gray-400 w-6"
+    <DeletePostModal />
+                  onClick={() => {
+                    handlePostId(post.id);
+                    setClickedPostId(post.id);
+                    setIsPostModal(true);
+                  }}
+                  className="hover:text-gray-400"
                 >
-                <DeletePostModal />
+                  <AiOutlineEdit className="text-2xl ml-2 mt-3" />
                 </button>
+                {clickedPostId === post.id && isPostModalOpen && (
+                  <DeletePostModal postId={clickedPostId} />
+                )}
                 <span className="text-gray-400 text-sm">
                   {formatDate(post.createdAt)}
                 </span>
@@ -98,6 +141,7 @@ const StagiairDetail = ({ params: { id } }: Params) => {
               {/* Commentaar */}
 
               <div className="flex flex-justify-between mt-3 mx-6">
+
                 {data.user[0].img ? (
                   <div className="avatar w-12 h-12 mr-3 mt-1">
                     <Image
@@ -126,17 +170,18 @@ const StagiairDetail = ({ params: { id } }: Params) => {
                 </div>
               </div>
               <button
-                onClick={() => handleCommentId(post.id)}
+                onClick={() => handlePostId(post.id)}
                 type="button"
                 className="flex mt-3"
               >
-              <CommentModal />
+
+                //<GrAdd className=" mt-1  text-gray-400 " />
+                <CommentModal />
               </button>
               {/* Border Line */}
               <div className="border border-b-gray-500-400 mt-4"></div>
             </div>
           ))}
-
           {/* Checklist */}
           <div className="flex justify-between mt-7 mb-5 ">
             <span className="flex gap-3">
@@ -146,13 +191,23 @@ const StagiairDetail = ({ params: { id } }: Params) => {
             <span className="flex ">
               <button
                 type="button"
-                className="rounded-l-md border-[#002548] border-2 px-6 py-1 flex justify-center font-medium "
+                onClick={() => setCheckListName("checkListStagiair")}
+                className={`rounded-l-md border-[#002548] border-2 px-6 py-1 flex justify-center font-medium  ${
+                  checkListName === "checkListStagiair"
+                    ? "bg-[#002548] text-white"
+                    : ""
+                }`}
               >
                 Stagiair
               </button>
               <button
+                onClick={() => setCheckListName("checklistStagebegeleider")}
                 type="button"
-                className=" rounded-r-md border-[#002548] px-4 py-1 flex justify-center font-medium bg-[#002548] text-white"
+                className={`rounded-l-md border-[#002548] border-2 px-6 py-1 flex justify-center font-medium ${
+                  checkListName === "checklistStagebegeleider"
+                    ? "bg-[#002548] text-white"
+                    : ""
+                }`}
               >
                 Begeleider
               </button>
@@ -168,34 +223,41 @@ const StagiairDetail = ({ params: { id } }: Params) => {
             </span>
           </div>
           {/* Sections CheckList */}
-          {data.checkListStagiair.map((checkListStagiair) => (
-            <div key={checkListStagiair.id} className="flex flex-col">
-              <div className="flex gap-2 mb-2">
-                <span className="flex font-medium">Section 1</span>
-                <span className="text-gray-400 text-xs mt-1">2</span>
-              </div>
-              <div className="flex flex-col justify-start mb-4 gap-3">
-                <div className="flex gap-3 border-2 border-gray-500-400 p-2 rounded">
-                  <input
-                    value={checkListStagiair.isChecked.toString()}
-                    type="checkbox"
-                    name="item"
-                  />
-                  <p>
-                    {checkListStagiair.title} <br />
-                    <div className="text-sm text-gray-400">
-                      {formatDate(checkListStagiair.date)}
+          {checkListName === "checkListStagiair" ? (
+            data.checkListStagiair.map((checkListStagiair) => (
+              <div key={checkListStagiair.id} className="flex flex-col">
+                <div className="flex gap-2 mb-2">
+                  <span className="flex font-medium">Section 1</span>
+                  <span className="text-gray-400 text-xs mt-1">2</span>
+                </div>
+                <div className="flex flex-col justify-start mb-4 gap-3">
+                  <div className="flex gap-3 border-2 border-gray-500-400 p-2 rounded">
+                    <input
+                      value={checkListStagiair.isChecked.toString()}
+                      type="checkbox"
+                      name="item"
+                    />
+                    <p>
+                      {checkListStagiair.title} <br />
+                      <div className="text-sm text-gray-400">
+                        {formatDate(checkListStagiair.date)}
+                      </div>
+                    </p>
+                    <div className="">
+                      <button type="button" className="text-gray-400">
+                        <AiOutlineEdit className="text-2xl mr-2 mt-4" />
+                      </button>
                     </div>
-                  </p>
-                  <div className="">
-                    <button type="button" className="text-gray-400">
-                      <AiOutlineEdit className="text-2xl mr-2 mt-4" />
-                    </button>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))
+          ) : (
+            <div> Geen checklist beschikbaar voor stagebegeleirder</div>
+          )}
+
+          {/* Add comment button */}
+
           <div className="flex justify-start px-3">
             <button type="button" className="flex">
             <AiOutlinePlus className="float-left mt-1" />

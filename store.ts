@@ -30,11 +30,12 @@ export interface IStore {
   setChecklistStagiair: (checklistStagiair: IChecklistStagiair) => void;
   documents: IDocument;
   setDocuments: (documents: IDocument) => void;
-  updatePost :IPost;
-  setUpdatePost:(post:IPost) => void;
-  updatePostId:string;
-  setUpdatePostId:(updatePostId:string) => void;
-  
+  updatePost: IPost;
+  setUpdatePost: (post: IPost) => void;
+  updatePostId: string;
+  setUpdatePostId: (updatePostId: string) => void;
+  IsPostModal: boolean;
+  setIsPostModal: (IsPostModal: boolean) => void;
 }
 
 const useStagairStore = create<IStore>((set) => ({
@@ -99,19 +100,20 @@ const useStagairStore = create<IStore>((set) => ({
     resource_type: "",
     secure_url: "",
   },
-  updatePost:{
-    body:"",
-    comments:[],
-    createdAt:"",
-    endDate:"",
-    stagiairID:"",
-    id:"",
-    title:"",
+  updatePost: {
+    body: "",
+    comments: [],
+    createdAt: "",
+    endDate: "",
+    stagiairID: "",
+    id: "",
+    title: "",
   },
+  IsPostModal: false,
 
   postId: "",
   commentId: "",
-  updatePostId:"",
+  updatePostId: "",
   setPostId: (postId) => set({ postId }),
   setStagaires: (stagaires) => set({ stagaires }),
   toggleModal: () => set((state) => ({ stagiairModal: !state.stagiairModal })),
@@ -124,8 +126,8 @@ const useStagairStore = create<IStore>((set) => ({
       console.error("Error updating stagaires:", error);
     }
   },
-  setUpdatePostId:(updatePostId) => {
-    set({updatePostId})
+  setUpdatePostId: (updatePostId) => {
+    set({ updatePostId });
   },
   setDoel: (doel) => {
     set({ doel });
@@ -141,7 +143,10 @@ const useStagairStore = create<IStore>((set) => ({
   },
 
   setUpdatePost(updatePost) {
-      set({updatePost})
+    set({ updatePost });
+  },
+  setIsPostModal(IsPostModal) {
+    set({ IsPostModal });
   },
 
   updateStagairesAsync: async (stagaire) => {

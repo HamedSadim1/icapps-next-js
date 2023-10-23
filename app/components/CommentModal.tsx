@@ -2,7 +2,6 @@
 import { AiOutlinePlus } from "react-icons/ai";
 import { MdClose } from "react-icons/md";
 import { FormEvent, useState } from "react";
-import { GoGoal } from "react-icons/go";
 import useStagairStore from "@/store";
 import usePostComment from "@/hooks/usePostComment";
 
@@ -30,6 +29,7 @@ const CommentModal = () => {
           <button  onClick={() => setDiv(true)}>
             <AiOutlinePlus className="float-left mt-1 text-gray-700" />
             &nbsp;Commentaar toevoegen
+
           </button>
         </div>
       {showDiv == true && (
