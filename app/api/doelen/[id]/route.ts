@@ -46,6 +46,13 @@ export async function PATCH(request: NextRequest, { params: { id } }: Params) {
 export async function DELETE(request: NextRequest, { params: { id } }: Params) {
   try {
     await connectToDatabase();
+    // before deleting the post, delete all comments
+    await prisma.comment.deleteMany({
+      where: {
+        postId: id,
+      },
+    });
+    // delete the post
     const doel = await prisma.doelen.delete({
       where: {
         id,
