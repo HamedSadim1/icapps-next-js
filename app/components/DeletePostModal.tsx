@@ -62,15 +62,6 @@ const DeletePostModal = ({ postId }: Props) => {
 
   return (
     <>
-<
-      {/* <div className="flex justify-between"> */}
-        {/* <div className="flex px-4 py-2 text-blue-900 font-semibold bg-gray-200 rounded-md hover:bg-gray-300">
-          <button onClick={() => setIsPostModal(false)} className="">
-            <AiOutlinePlus className="float-left mt-1"></AiOutlinePlus>
-            &nbsp; Edit Post
-          </button>
-        </div> */}
-      {/* </div> */}
       {isPostModal && (
         <div className="h-screen w-screen flex flex-col justify-center items-center fixed top-0 left-0 right-0 bottom-0 z-50 bg-opacity-75 bg-gray-900">
           <div className="bg-white shadow-xl w-4/10 h-auto pb-7 text-gray-500 z-2 rounded-md">

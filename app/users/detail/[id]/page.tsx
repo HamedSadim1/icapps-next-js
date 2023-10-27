@@ -117,7 +117,6 @@ const StagiairDetail = ({ params: { id } }: Params) => {
                 {/* Edit button for post */}
                 <button
                   type="button"
-    <DeletePostModal />
                   onClick={() => {
                     handlePostId(post.id);
                     setClickedPostId(post.id);
@@ -175,7 +174,7 @@ const StagiairDetail = ({ params: { id } }: Params) => {
                 className="flex mt-3"
               >
 
-                //<GrAdd className=" mt-1  text-gray-400 " />
+                <GrAdd className=" mt-1  text-gray-400 " />
                 <CommentModal />
               </button>
               {/* Border Line */}
