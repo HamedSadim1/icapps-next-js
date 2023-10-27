@@ -11,7 +11,7 @@ const useDocument = (id: string): UseQueryResult<IDocument, Error> => {
   };
 
   const options: UseQueryOptions<IDocument, Error> = {
-    queryKey: ["document", id],
+    queryKey: ["document"],
     queryFn,
   };
 

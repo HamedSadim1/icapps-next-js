@@ -24,6 +24,7 @@ import DeletePostModal from "@/app/components/DeletePostModal";
 import CommentModal from "@/app/components/CommentModal";
 import UploadDocument from "@/app/components/UploadDocument";
 import { useState } from "react";
+import useDownloader from "react-use-downloader";
 
 interface Params {
   params: { id: string };
@@ -40,8 +41,9 @@ const StagiairDetail = ({ params: { id } }: Params) => {
   const isPostModalOpen = useStagairStore((s) => s.IsPostModal);
   const [checkListName, setCheckListName] =
     useState<string>("checkListStagiair");
+  
 
-    const [selectedSection, setSelectedSection] = useState<number>(0);//checklistsection
+  const [selectedSection, setSelectedSection] = useState<number>(0); //checklistsection
   if (isLoading) return <Loading />;
 
   if (error) return <FetchingError error={error.message} />;
@@ -74,21 +76,23 @@ const StagiairDetail = ({ params: { id } }: Params) => {
   //   }
   // };
 
-  {/* Arrow Left and Arrow Right */}
-//   <div className="flex justify-center mb-5 gap-3 ">
-//   <span className="bg-[#f8f9fa] p-3 rounded-md">
-//     <AiOutlineLeft
-//       className="w-5 h-5 text-[#bdc1c2]"
-//       onClick={navigateToPreviousSection}
-//     />
-//   </span>
-//   <span className="bg-[#bbebf7] p-3 rounded-md font-extrabold">
-//     <AiOutlineRight
-//       className="w-5 h-5 text-[#2bd0db]"
-//       onClick={navigateToNextSection}
-//     />
-//   </span>
-// </div>
+  {
+    /* Arrow Left and Arrow Right */
+  }
+  //   <div className="flex justify-center mb-5 gap-3 ">
+  //   <span className="bg-[#f8f9fa] p-3 rounded-md">
+  //     <AiOutlineLeft
+  //       className="w-5 h-5 text-[#bdc1c2]"
+  //       onClick={navigateToPreviousSection}
+  //     />
+  //   </span>
+  //   <span className="bg-[#bbebf7] p-3 rounded-md font-extrabold">
+  //     <AiOutlineRight
+  //       className="w-5 h-5 text-[#2bd0db]"
+  //       onClick={navigateToNextSection}
+  //     />
+  //   </span>
+  // </div>
 
   return (
     <>
@@ -325,14 +329,22 @@ const StagiairDetail = ({ params: { id } }: Params) => {
           <div className="flex-col bg-gray-200  rounded-lg overflow-hidden  mt-10 p-5">
             {data.documents.map((document) => (
               <div key={document.id}>
-                <h2 className="text-2xl mt-5 ml-2">
-                  {document.original_filename}
-                </h2>
-                <h3 className="text-gray  ml-2 text-gray-400">
-                  {formatDate(document.created_at)} door {data.name} (
-                  {document.bytes}
-                  kb)
-                </h3>
+                
+                  <a
+                    href={document.secure_url}
+                    download
+                    className="cursor-pointer"
+                  >
+                    <h2 className="text-2xl mt-5 ml-2">
+                      {document.original_filename}
+                    </h2>
+                    <h3 className="text-gray  ml-2 text-gray-400">
+                      {formatDate(document.created_at)} door {data.name} (
+                      {document.bytes}
+                      kb)
+                    </h3>
+                  </a>
+            
                 <div className="flex justify-start text-gray-400 ">
                   <BiComment className="mt-1 ml-2" />
                   <h3 className="text-gray ml-2 flex ">3 comments</h3>

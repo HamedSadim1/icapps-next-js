@@ -18,9 +18,9 @@ const UploadDocument = ({ stagiairId }: IUploadDocumentProps) => {
         console.log("Upload failed or result.info is a string");
         return;
       }
-  
+
       const info = result.info as IDocument;
-  
+
       const uploadedDocument: IDocument = {
         id: info.public_id,
         original_filename: info.original_filename,
@@ -33,23 +33,25 @@ const UploadDocument = ({ stagiairId }: IUploadDocumentProps) => {
         resource_type: info.resource_type,
       };
 
+      await useStagairStore.setState({ documents: uploadedDocument });
 
-  
-    await  useStagairStore.setState({documents:uploadedDocument})
-  
       await mutate();
     } catch (error) {
       console.error("Mutation error:", error);
     }
   };
-  
 
+  //haezfifr
   return (
-    <CldUploadWidget uploadPreset="haezfifr" onUpload={handleOnUpload} options={{
-      multiple: false,
-      sources:["local"],
-    }}>
-      {({ open}) => <button onClick={() => open()}>Upload</button>}
+    <CldUploadWidget
+      uploadPreset="oyv34epk"
+      onUpload={handleOnUpload}
+      options={{
+        multiple: false,
+        sources: ["local"],
+      }}
+    >
+      {({ open }) => <button onClick={() => open()}>Upload</button>}
     </CldUploadWidget>
   );
 };
