@@ -34,6 +34,8 @@ export interface IStore {
   setUpdatePost:(post:IPost) => void;
   updatePostId:string;
   setUpdatePostId:(updatePostId:string) => void;
+  isPostModal: boolean;
+  setIsPostModal: (isPostModal: boolean) => void;
   
 }
 
@@ -109,6 +111,7 @@ const useStagairStore = create<IStore>((set) => ({
     title:"",
   },
 
+  isPostModal: false,
   postId: "",
   commentId: "",
   updatePostId:"",
@@ -123,6 +126,9 @@ const useStagairStore = create<IStore>((set) => ({
     } catch (error) {
       console.error("Error updating stagaires:", error);
     }
+  },
+  setIsPostModal: (isPostModal) => {
+    set({ isPostModal });
   },
   setUpdatePostId:(updatePostId) => {
     set({updatePostId})

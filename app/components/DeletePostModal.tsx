@@ -9,22 +9,27 @@ import useUpdatePost from "@/hooks/useUpdatePost";
 import { inputFormDater } from "@/lib";
 import usePost from "@/hooks/usePost";
 
-const DeletePostModal = () => {
-  const [showDiv, setDiv] = useState<boolean>(false);
-  const postId = useStagairStore((s) => s.updatePostId);
+
+interface DeletePostModalProps {
+  postId: string;
+}
+
+const DeletePostModal = ({postId}:DeletePostModalProps) => {
+  // const postId = useStagairStore((s) => s.updatePostId);
   const { data,error,isLoading } = usePost(postId);
-  console.log(data);
-  console.log(postId);
+
   const doel = useStagairStore((s) => s.updatePost);
-
   const setDoel = useStagairStore((s) => s.setUpdatePost);
+  const isPostModal = useStagairStore((s) => s.isPostModal);
+  const setIsPostModal = useStagairStore((s) => s.setIsPostModal );
 
-  const { mutate } = useDeletePost(postId);
+   const  {mutate} =useDeletePost(postId);
+
   const { mutate: updatePost } = useUpdatePost(doel, postId);
 
   useEffect(() => {
     if (data || postId) {
-      useStagairStore.setState({ doel: data });
+      useStagairStore.setState({ updatePost: data });
     }
   }, [data, postId]);
 
@@ -32,37 +37,42 @@ const DeletePostModal = () => {
   const HandleDelete = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     await mutate();
-    setDiv(false);
+    setIsPostModal(false);
   };
 
   //! Update the doel button
   const HandleUpdate = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     await updatePost();
-    setDiv(false);
+    setIsPostModal(false);
   };
 
   if(isLoading){
-    return    <div>Loading...</div>
+    return    <div className="mt-1">Loading...</div>
   }
 
   if(error){
     <div>{error.message}</div>
   }
 
-  return (
+  if(!data || !doel){
+    return null;
+  }
+
+  const handleCloseModal = (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    setIsPostModal(false);
+  }
+
+  return (  
     <>
-        <div className="float-left">
-          <button onClick={() => setDiv(true)} className="">
-          <AiOutlineEdit className="text-2xl mt-3" />
-          </button>
-        </div>
-      {showDiv && (
+        
+      {isPostModal && (
         <div className="h-screen w-screen flex flex-col justify-center items-center fixed top-0 left-0 right-0 bottom-0 z-50 bg-opacity-75 bg-gray-900">
           <div className="bg-white shadow-xl w-4/10 h-auto pb-7 text-gray-500 z-2 rounded-md">
             <button
               className="btn btn-sm btn-circle btn-ghost float-right text-xl mr-3 mt-3"
-              onClick={() => setDiv(false)}
+              onClick={handleCloseModal}
             >
               <MdClose />
             </button>
@@ -70,7 +80,9 @@ const DeletePostModal = () => {
               <h2 className="pb-10 text-[#002548] font-semibold text-2xl flex">
                 Doel wijzigen &nbsp;
                 {/* Delete button */}
-                <button>
+                <button
+                onClick={HandleDelete}
+                >
                   <BsTrash className="mt-1 text-red-500"></BsTrash>
                 </button>
               </h2>
@@ -110,7 +122,7 @@ const DeletePostModal = () => {
                 <div className="w-full text-right mt-28">
                   <button
                     className="mr-4 px-7 py-2 rounded-md bg-gray-200 text-[#002548] font-semibold"
-                    onClick={() => setDiv(false)}
+                    onClick={handleCloseModal}
                   >
                     Annuleren
                   </button>

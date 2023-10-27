@@ -24,6 +24,9 @@ import StageBeschrijvingModal from "./StageBeschrijvingModal";
 import DeletePostModal from "@/app/components/DeletePostModal";
 import CommentModal from "@/app/components/CommentModal";
 import UploadDocument from "@/app/components/UploadDocument";
+import { BsPencil } from "react-icons/bs";
+import { useState } from "react";
+import { AddCheckListItem } from "@/app/components/AddChecklistItem";
 
 interface Params {
   params: { id: string };
@@ -34,7 +37,24 @@ const StagiairDetail = ({ params: { id } }: Params) => {
 
   const setIsModalOpen = useStagairStore((state) => state.setCommentModal);
   const setCommentId = useStagairStore((s) => s.setCommentId);
-  const setUpdatePostId = useStagairStore((s) => s.setUpdatePostId )
+  const setUpdatePostId = useStagairStore((s) => s.setUpdatePostId)
+
+  const isPostLModalOpen = useStagairStore((s)=>s.isPostModal)
+  const setIsPostModal = useStagairStore((s)=>s.setIsPostModal)
+
+const [clickedPostId, setClickedPostId] = useState<string>("");
+
+const navigateToNextSection = () => {
+  if (selectedSection < data.checkListStagiair.length- 1) {
+    setSelectedSection(selectedSection + 1);
+  }
+};
+const navigateToPreviousSection = () => {
+  if (selectedSection > 0) {
+    setSelectedSection(selectedSection - 1);
+  }
+};
+const [selectedSection, setSelectedSection] = useState<number>(0);//checklist
 
   if (isLoading) return <Loading />;
 
@@ -49,7 +69,7 @@ const StagiairDetail = ({ params: { id } }: Params) => {
   };
 
   const handlePostId = (id: string) => {
-    
+
   };
 
   const handleCommentId = (id: string) => {
@@ -59,7 +79,7 @@ const StagiairDetail = ({ params: { id } }: Params) => {
   return (
     <>
       <section className="grid grid-rows-2 grid-flow-col gap-4 ml-20 mr-20">
-        <div className="row-span-2 mt-2 ">
+        <div className="row-span-2 mt-2">
           {/* Back button */}
           <Link href="/users/stagiair">
             <button
@@ -76,17 +96,23 @@ const StagiairDetail = ({ params: { id } }: Params) => {
           <Doel stagiarId={id} />
           {/* Post and comment loop over the array */}
           {data.posts.map((post) => (
-            <div key={post.id}>
-              <div className="flex flex-col rounded-lg mt-6 mx-6">
-                <h2 className="text-xl font-bold ">{post.title}</h2>
-                {/* Edit button for post */}
-                <button
-                  type="button"
-                  onClick={() => handlePostId(post.id)}
-                  className="hover:text-gray-400 w-6"
-                >
-                <DeletePostModal />
-                </button>
+            <div key={post.id} className="">
+              <div className="flex flex-col rounded-lg mt-6">
+                <div className="flex">
+                  <h2 className="text-xl font-bold">{post.title}</h2>
+                  {/* Edit button for post */}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setUpdatePostId(post.id)
+                      setClickedPostId(post.id)
+                      setIsPostModal(true)
+                    }}
+                    className="hover:text-gray-400 w-6 ml-2">  
+                   <BsPencil className="text-xl" />               
+                  </button>
+                  {clickedPostId === post.id && <DeletePostModal postId={post.id} />}
+                </div>
                 <span className="text-gray-400 text-sm">
                   {formatDate(post.createdAt)}
                 </span>
@@ -130,7 +156,7 @@ const StagiairDetail = ({ params: { id } }: Params) => {
                 type="button"
                 className="flex mt-3"
               >
-              <CommentModal />
+                <CommentModal />
               </button>
               {/* Border Line */}
               <div className="border border-b-gray-500-400 mt-4"></div>
@@ -161,19 +187,21 @@ const StagiairDetail = ({ params: { id } }: Params) => {
           {/* Arrow Left and Arrow Right */}
           <div className="flex justify-center mb-5 gap-3 ">
             <span className=" bg-[#f8f9fa] p-3 rounded-md ">
-              <AiOutlineLeft className="w-5 h-5 text-[#bdc1c2]" />
+              <AiOutlineLeft className="w-5 h-5 text-[#bdc1c2]"onClick={navigateToPreviousSection} />
             </span>
             <span className="bg-[#bbebf7] p-3 rounded-md font-extrabold">
-              <AiOutlineRight className=" w-5 h-5 text-[#2bd0db]" />
+              <AiOutlineRight className=" w-5 h-5 text-[#2bd0db]"onClick={navigateToNextSection} />
             </span>
           </div>
+
           {/* Sections CheckList */}
-          {data.checkListStagiair.map((checkListStagiair) => (
-            <div key={checkListStagiair.id} className="flex flex-col">
-              <div className="flex gap-2 mb-2">
+          <div className="flex gap-2 mb-2">
                 <span className="flex font-medium">Section 1</span>
                 <span className="text-gray-400 text-xs mt-1">2</span>
               </div>
+          {data.checkListStagiair.map((checkListStagiair) => (
+            <div key={checkListStagiair.id} className="flex flex-col">
+              
               <div className="flex flex-col justify-start mb-4 gap-3">
                 <div className="flex gap-3 border-2 border-gray-500-400 p-2 rounded">
                   <input
@@ -197,10 +225,7 @@ const StagiairDetail = ({ params: { id } }: Params) => {
             </div>
           ))}
           <div className="flex justify-start px-3">
-            <button type="button" className="flex">
-            <AiOutlinePlus className="float-left mt-1" />
-              <h3 className="ml-2  text-gray-400 hover:text-gray-500">Commentaar toevoegen</h3>
-            </button>
+            <AddCheckListItem stagiairId={id}/>
           </div>
         </div>
         {/* Beschrijving */}
@@ -233,7 +258,7 @@ const StagiairDetail = ({ params: { id } }: Params) => {
                   className="hover:text-gray-400"
                   onClick={() => setIsModalOpen(true)}
                 >
-                  <AiOutlineEdit className="text-2xl" />
+                  <BsPencil className="text-xl" />
                 </button>
                 <StageBeschrijvingModal
                   stagairId={id}
@@ -268,9 +293,9 @@ const StagiairDetail = ({ params: { id } }: Params) => {
           <div className="flex-col bg-gray-200  rounded-lg overflow-hidden  mt-10 p-5">
             {data.documents.map((document) => (
               <div key={document.id}>
-                <h2 className="text-2xl mt-5 ml-2">
+                <a href={"https://res.cloudinary.com/dhjblvbsd/image/upload/f_auto,q_auto/" + document.public_id}><h2 className="text-2xl mt-5 ml-2">
                   {document.original_filename}
-                </h2>
+                </h2></a>
                 <h3 className="text-gray  ml-2 text-gray-400">
                   {formatDate(document.created_at)} door {data.name} (
                   {document.bytes}
@@ -282,7 +307,6 @@ const StagiairDetail = ({ params: { id } }: Params) => {
                 </div>
               </div>
             ))}
-
             {/* <button type="button" className="flex mt-5">
               <GrAdd className=" mt-1 ml-2 text-gray-400 " />
               <input type="file" className="text-gray-400 ml-2" />

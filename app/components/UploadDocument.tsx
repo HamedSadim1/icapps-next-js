@@ -3,6 +3,7 @@ import { CldUploadWidget, CldUploadWidgetResults } from "next-cloudinary";
 import { IDocument } from "@/types";
 import useStagairStore from "@/store";
 import usePostDocument from "@/hooks/usePostDocument";
+import { AiOutlinePlus } from "react-icons/ai";
 
 interface IUploadDocumentProps {
   stagiairId: string;
@@ -45,12 +46,17 @@ const UploadDocument = ({ stagiairId }: IUploadDocumentProps) => {
   
 
   return (
+    <>
+    <div className="flex hover:text-gray-900 text-xl text-gray-500 mt-5">
+    <AiOutlinePlus className="ml-2 mt-1"></AiOutlinePlus>
     <CldUploadWidget uploadPreset="haezfifr" onUpload={handleOnUpload} options={{
       multiple: false,
       sources:["local"],
     }}>
-      {({ open}) => <button onClick={() => open()}>Upload</button>}
+      {({ open}) => <button onClick={() => open()}>&nbsp;Document toevegen</button>}
     </CldUploadWidget>
+    </div>
+    </>
   );
 };
 
