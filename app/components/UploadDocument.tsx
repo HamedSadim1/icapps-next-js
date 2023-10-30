@@ -19,9 +19,9 @@ const UploadDocument = ({ stagiairId }: IUploadDocumentProps) => {
         console.log("Upload failed or result.info is a string");
         return;
       }
-  
+
       const info = result.info as IDocument;
-  
+
       const uploadedDocument: IDocument = {
         id: info.public_id,
         original_filename: info.original_filename,
@@ -34,28 +34,31 @@ const UploadDocument = ({ stagiairId }: IUploadDocumentProps) => {
         resource_type: info.resource_type,
       };
 
+      await useStagairStore.setState({ documents: uploadedDocument });
 
-  
-    await  useStagairStore.setState({documents:uploadedDocument})
-  
       await mutate();
     } catch (error) {
       console.error("Mutation error:", error);
     }
   };
-  
 
   return (
     <>
-    <div className="flex hover:text-gray-900 text-xl text-gray-500 mt-5">
-    <AiOutlinePlus className="ml-2 mt-1"></AiOutlinePlus>
-    <CldUploadWidget uploadPreset="haezfifr" onUpload={handleOnUpload} options={{
-      multiple: false,
-      sources:["local"],
-    }}>
-      {({ open}) => <button onClick={() => open()}>&nbsp;Document toevegen</button>}
-    </CldUploadWidget>
-    </div>
+      <div className="flex hover:text-gray-900 text-xl text-gray-500 mt-5">
+        <AiOutlinePlus className="ml-2 mt-1"></AiOutlinePlus>
+        <CldUploadWidget
+          uploadPreset="haezfifr"
+          onUpload={handleOnUpload}
+          options={{
+            multiple: false,
+            sources: ["local"],
+          }}
+        >
+          {({ open }) => (
+            <button onClick={() => open()}>&nbsp;Document toevegen</button>
+          )}
+        </CldUploadWidget>
+      </div>
     </>
   );
 };

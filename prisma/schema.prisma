@@ -54,21 +54,22 @@ model StageBegeleider {
 }
 
 model Stagiair {
-  id                String              @id @default(auto()) @map("_id") @db.ObjectId
-  name              String
-  email             String
-  role              UserRole            @default(STAGIAIR)
-  startDate         DateTime            @default(now())
-  endDate           DateTime            @default("2024-01-01T00:00:00.000Z")
-  stagebegeleiderId String[]            @db.ObjectId
-  stagebegeleider   StageBegeleider[]   @relation(fields: [stagebegeleiderId], references: [id])
-  stagebeschriving  StageBeschrijving[]
+  id                       String                     @id @default(auto()) @map("_id") @db.ObjectId
+  name                     String
+  email                    String
+  role                     UserRole                   @default(STAGIAIR)
+  startDate                DateTime                   @default(now())
+  endDate                  DateTime                   @default("2024-01-01T00:00:00.000Z")
+  stagebegeleiderId        String[]                   @db.ObjectId
+  stagebegeleider          StageBegeleider[]          @relation(fields: [stagebegeleiderId], references: [id])
+  stagebeschriving         StageBeschrijving[]
   // adminId           String          @db.ObjectId
   // admin             Admin           @relation(fields: [adminId], references: [id])
-  posts             Doelen[]
-  user              User[]
-  documents         Document[]
-  checkListStagiair CheckListStagiair[]
+  posts                    Doelen[]
+  user                     User[]
+  documents                Document[]
+  checkListStagiair        CheckListStagiair[]
+  checkliststagebegeleider CheckListStageBegeleider[]
 }
 
 model StageBeschrijving {
@@ -153,4 +154,6 @@ model CheckListStageBegeleider {
   createdAt         DateTime        @default(now())
   stagebegeleider   StageBegeleider @relation(fields: [stagebegeleiderID], references: [id])
   stagebegeleiderID String          @db.ObjectId
+  stagiair          Stagiair        @relation(fields: [stagiairID], references: [id])
+  stagiairID        String          @db.ObjectId
 }

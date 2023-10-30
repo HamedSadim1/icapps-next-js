@@ -1,29 +1,36 @@
 "use client";
-import useUsers from "@/hooks/useUsers";
 import { signIn, useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { UserRole } from "@/types";
 import Loading from "./Loading";
+import useStagairs from "@/hooks/useStagairs";
+import useUsers from "@/hooks/useUsers";
+import { FcGoogle } from "react-icons/fc";
 
 const CustomLoginPage = () => {
   const { data: session, status } = useSession();
   const [error, setError] = useState<string>("");
+  const { data: stagairs } = useStagairs();
   const { data: users } = useUsers();
 
   useEffect(() => {
-    async function fetchData() {
+    const user = users?.find((user) => user.email === session?.user?.email);
+    const stagair = stagairs?.find(
+      (stagair) => stagair.email === session?.user?.email
+    );
+
+    const fetchData = async () => {
       try {
-        if (session) {
-          //&& session.user.email.includes("@icapss")
+        if (!user) {
           const res = await fetch("http://localhost:3000/api/users", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
-              name: session.user!.name,
-              email: session.user!.email,
-              img: session.user!.image,
+              name: session!.user!.name,
+              email: session!.user!.email,
+              img: session!.user!.image,
             }),
           });
 
@@ -31,45 +38,31 @@ const CustomLoginPage = () => {
             const data = await res.json();
             console.log(data);
 
-            if (session && session.user && session.user.email && users) {
-              const user = users.find(
-                (user) => user.email === session.user?.email
-              );
-
-              if (user && user.role === UserRole.STAGIAIR) {
-                window.location.href = "/users/detailpage";
-              } else {
-                window.location.href = "/users/stagiair";
-              }
-            }
-          }
-
-          // } else {
-          //   setError("Je kan enkel inloggen met je icapss e-mail adres");
-          // }
-        } //! check userRoles and redirect to right page
-        if (session && session.user && session.user.email && users) {
-          if (session && session.user && session.user.email && users) {
-            const user = users.find(
-              (user) => user.email === session.user!.email
-            );
-
-            if (user && user.role === UserRole.STAGIAIR) {
-              window.location.href = "/users/detail";
+            if (data.role === UserRole.STAGIAIR) {
+              window.location.href = "/users/stagiair/" + data.id;
             } else {
               window.location.href = "/users/stagiair";
             }
+          } else {
+            console.error("Error in API request:", res.statusText);
+            setError("Er is iets misgegaan, probeer het later opnieuw");
           }
         }
       } catch (error) {
         console.error("Error in fetchData:", error);
-        setError("Er is iets misgegaan, probeer het later opnieuw");
-        return;
+        // setError("Er is iets misgegaan, probeer het later opnieuw");
+      }
+    };
+
+    if (user) {
+      if (user?.role === UserRole.STAGIAIR) {
+        window.location.href = "/users/detail/" + stagair?.id;
+      } else {
+        window.location.href = "/users/stagiair";
       }
     }
-
     fetchData();
-  }, [status, session, users]);
+  }, [session, stagairs, users]);
 
   const handleSignin = () => {
     signIn("google");
@@ -92,6 +85,7 @@ const CustomLoginPage = () => {
                   onClick={handleSignin}
                   className="text-2xl flex items-center"
                 >
+                  <FcGoogle className="mr-2" />
                   Verdergaan met Google
                 </button>
               </div>

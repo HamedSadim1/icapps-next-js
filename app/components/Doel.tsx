@@ -4,10 +4,9 @@ import { AiOutlinePlus } from "react-icons/ai";
 import { MdClose } from "react-icons/md";
 import { FormEvent, useState } from "react";
 import { GoGoal } from "react-icons/go";
-import { BsTrash } from "react-icons/bs";
 import useStagairStore from "@/store";
 import usePostDoel from "@/hooks/usePostDoel";
-import {inputFormDater} from "@/lib"
+import { inputFormDater } from "@/lib";
 
 interface DoelProps {
   stagiarId: string;
@@ -55,7 +54,6 @@ const Doel = ({ stagiarId }: DoelProps) => {
             <div className="flex flex-col pt-16 mx-16">
               <h2 className="pb-10 text-[#002548] font-semibold text-2xl flex">
                 Doel toevoegen &nbsp;{" "}
-                
               </h2>
               <form onSubmit={handleSubmitButton}>
                 <label htmlFor="titel">Titel</label>

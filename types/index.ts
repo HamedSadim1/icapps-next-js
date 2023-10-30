@@ -11,7 +11,8 @@ export interface IStagaire {
   posts: IPost[];
   user: IUser[];
   checkListStagiair: IChecklistStagiair[];
-  documents:IDocument[]
+  documents: IDocument[];
+  checkliststagebegeleider: ICheckListStagebegeleider[];
 }
 
 export interface IStagebegeleider {
@@ -92,4 +93,13 @@ export interface IChecklistStagiair {
   stagiairID: string;
   createdAt: string;
   date: string;
+}
+
+export interface ICheckListStagebegeleider {
+  id: string;
+  title: string;
+  isChecked: boolean;
+  stagebegeleiderID: string;
+  createdAt: string;
+  stagiairID: string;
 }

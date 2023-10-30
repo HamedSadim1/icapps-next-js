@@ -9,21 +9,20 @@ import useUpdatePost from "@/hooks/useUpdatePost";
 import { inputFormDater } from "@/lib";
 import usePost from "@/hooks/usePost";
 
-
 interface DeletePostModalProps {
   postId: string;
 }
 
-const DeletePostModal = ({postId}:DeletePostModalProps) => {
+const DeletePostModal = ({ postId }: DeletePostModalProps) => {
   // const postId = useStagairStore((s) => s.updatePostId);
-  const { data,error,isLoading } = usePost(postId);
+  const { data, error, isLoading } = usePost(postId);
 
   const doel = useStagairStore((s) => s.updatePost);
   const setDoel = useStagairStore((s) => s.setUpdatePost);
   const isPostModal = useStagairStore((s) => s.isPostModal);
-  const setIsPostModal = useStagairStore((s) => s.setIsPostModal );
+  const setIsPostModal = useStagairStore((s) => s.setIsPostModal);
 
-   const  {mutate} =useDeletePost(postId);
+  const { mutate } = useDeletePost(postId);
 
   const { mutate: updatePost } = useUpdatePost(doel, postId);
 
@@ -47,26 +46,25 @@ const DeletePostModal = ({postId}:DeletePostModalProps) => {
     setIsPostModal(false);
   };
 
-  if(isLoading){
-    return    <div className="mt-1">Loading...</div>
+  if (isLoading) {
+    return <div className="mt-1">Loading...</div>;
   }
 
-  if(error){
-    <div>{error.message}</div>
+  if (error) {
+    <div>{error.message}</div>;
   }
 
-  if(!data || !doel){
+  if (!data || !doel) {
     return null;
   }
 
   const handleCloseModal = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setIsPostModal(false);
-  }
+  };
 
-  return (  
+  return (
     <>
-        
       {isPostModal && (
         <div className="h-screen w-screen flex flex-col justify-center items-center fixed top-0 left-0 right-0 bottom-0 z-50 bg-opacity-75 bg-gray-900">
           <div className="bg-white shadow-xl w-4/10 h-auto pb-7 text-gray-500 z-2 rounded-md">
@@ -80,15 +78,15 @@ const DeletePostModal = ({postId}:DeletePostModalProps) => {
               <h2 className="pb-10 text-[#002548] font-semibold text-2xl flex">
                 Doel wijzigen &nbsp;
                 {/* Delete button */}
-                <button
-                onClick={HandleDelete}
-                >
+                <button onClick={HandleDelete}>
                   <BsTrash className="mt-1 text-red-500"></BsTrash>
                 </button>
               </h2>
               {/* Form */}
               <form>
-                <label className="float-left" htmlFor="titel">Titel</label>
+                <label className="float-left" htmlFor="titel">
+                  Titel
+                </label>
                 <input
                   type="text"
                   className="w-full p-3 border-2 rounded-md mb-5"
@@ -97,7 +95,9 @@ const DeletePostModal = ({postId}:DeletePostModalProps) => {
                   value={doel.title}
                   onChange={(e) => setDoel({ ...doel, title: e.target.value })}
                 />
-                <label className="float-left" htmlFor="beschrijving">Beschrijving</label>
+                <label className="float-left" htmlFor="beschrijving">
+                  Beschrijving
+                </label>
                 <textarea
                   className="w-full p-3 border-2 rounded-md mb-5"
                   name="beschrijving"
@@ -106,18 +106,20 @@ const DeletePostModal = ({postId}:DeletePostModalProps) => {
                   onChange={(e) => setDoel({ ...doel, body: e.target.value })}
                 ></textarea>
                 <div className="float-left">
-                <label className="float-left" htmlFor="einddatum">Einddatum</label>
-                <br />
-                <input
-                  className="p-3 border-2 rounded-md mb-5"
-                  type="date"
-                  name="einddatum"
-                  id="einddatum"
-                  value={inputFormDater(doel.endDate)}
-                  onChange={(e) =>
-                    setDoel({ ...doel, endDate: e.target.value })
-                  }
-                />
+                  <label className="float-left" htmlFor="einddatum">
+                    Einddatum
+                  </label>
+                  <br />
+                  <input
+                    className="p-3 border-2 rounded-md mb-5"
+                    type="date"
+                    name="einddatum"
+                    id="einddatum"
+                    value={inputFormDater(doel.endDate)}
+                    onChange={(e) =>
+                      setDoel({ ...doel, endDate: e.target.value })
+                    }
+                  />
                 </div>
                 <div className="w-full text-right mt-28">
                   <button

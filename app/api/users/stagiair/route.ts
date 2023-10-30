@@ -10,6 +10,7 @@ export async function GET(request: NextRequest) {
       include: {
         stagebegeleider: true,
         stagebeschriving: true,
+        checkliststagebegeleider: true,
         posts: {
           include: {
             comments: true,

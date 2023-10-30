@@ -17,6 +17,7 @@ export async function GET(
       include: {
         stagebegeleider: true,
         stagebeschriving: true,
+        checkliststagebegeleider: true,
         user: true,
         checkListStagiair: true,
         documents: true,
