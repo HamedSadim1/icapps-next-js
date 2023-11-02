@@ -141,7 +141,7 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
                           onClick={() => {
                             setUpdatePostId(post.id);
                             setClickedPostId(post.id);
-                            useStagairStore.setState({updatePost:post})
+                            useStagairStore.setState({ updatePost: post });
                             setIsPostModal(true);
                           }}
                           className="hover:text-gray-400 w-6 ml-2"
@@ -152,7 +152,7 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
                     {/* Delete button for post */}
                     {/* check if the user role is admin or stagebegeleider */}
                     {/* {clickedPostId === post.id && ( */}
-                      <DeletePostModal postId={post.id} post={post} />
+                    <DeletePostModal postId={post.id} post={post} />
                     {/* )} */}
                   </div>
                   <span className="text-gray-400 text-sm">
@@ -173,10 +173,10 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
                             <Image
                               src={comment.img}
                               alt="User avatar"
-                              layout="fill"
-                              objectFit="cover"
                               className="rounded-full"
                               sizes="70%"
+                              width={100}
+                              height={100}
                             />
                           )}
                         </div>
@@ -275,12 +275,10 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
                       type="checkbox"
                       name="item"
                     />
-                  
-                      {checkListStagiair.title} <br />
-                      <div className="text-sm text-gray-400">
-                        {formatDate(checkListStagiair.date)}
-                      </div>
-                  
+                    {checkListStagiair.title} <br />
+                    <div className="text-sm text-gray-400">
+                      {formatDate(checkListStagiair.date)}
+                    </div>
                     <div className="">
                       <button type="button" className="text-gray-400">
                         <AiOutlineEdit className="text-2xl mr-2 mt-4" />
