@@ -1,5 +1,4 @@
 "use client";
-import { AiOutlineEdit, AiOutlinePlus } from "react-icons/ai";
 import { MdClose } from "react-icons/md";
 import { FormEvent, useEffect, useState, MouseEvent } from "react";
 import { BsTrash } from "react-icons/bs";
@@ -8,14 +7,16 @@ import useDeletePost from "@/hooks/useDeletePost";
 import useUpdatePost from "@/hooks/useUpdatePost";
 import { inputFormDater } from "@/lib";
 import usePost from "@/hooks/usePost";
+import { IPost } from "@/types";
 
 interface DeletePostModalProps {
   postId: string;
+  post:IPost
 }
 
-const DeletePostModal = ({ postId }: DeletePostModalProps) => {
+const DeletePostModal = ({ postId,post }: DeletePostModalProps) => {
   // const postId = useStagairStore((s) => s.updatePostId);
-  const { data, error, isLoading } = usePost(postId);
+  // const { data, error, isLoading } = usePost(postId);
 
   const doel = useStagairStore((s) => s.updatePost);
   const setDoel = useStagairStore((s) => s.setUpdatePost);
@@ -27,10 +28,10 @@ const DeletePostModal = ({ postId }: DeletePostModalProps) => {
   const { mutate: updatePost } = useUpdatePost(doel, postId);
 
   useEffect(() => {
-    if (data || postId) {
-      useStagairStore.setState({ updatePost: data });
+    if (post) {
+      useStagairStore.setState({ updatePost: post });
     }
-  }, [data, postId]);
+  }, [post]);
 
   //! Delete the doel button
   const HandleDelete = async (e: MouseEvent<HTMLButtonElement>) => {
@@ -46,17 +47,14 @@ const DeletePostModal = ({ postId }: DeletePostModalProps) => {
     setIsPostModal(false);
   };
 
-  if (isLoading) {
-    return <div className="mt-1">Loading...</div>;
-  }
+  // if (error) {
+  //   <div>{error.message}</div>;
+  // }
 
-  if (error) {
-    <div>{error.message}</div>;
-  }
-
-  if (!data || !doel) {
-    return null;
-  }
+  // if (!data || !doel) {
+  //   return null;
+  // }
+  // if(isLoading) return null;
 
   const handleCloseModal = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -83,7 +81,7 @@ const DeletePostModal = ({ postId }: DeletePostModalProps) => {
                 </button>
               </h2>
               {/* Form */}
-              <form>
+              <form onSubmit={HandleUpdate}>
                 <label className="float-left" htmlFor="titel">
                   Titel
                 </label>
@@ -119,6 +117,7 @@ const DeletePostModal = ({ postId }: DeletePostModalProps) => {
                     onChange={(e) =>
                       setDoel({ ...doel, endDate: e.target.value })
                     }
+                    min={inputFormDater(new Date().toISOString().split("T")[0])}
                   />
                 </div>
                 <div className="w-full text-right mt-28">

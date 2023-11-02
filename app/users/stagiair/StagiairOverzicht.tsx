@@ -1,21 +1,20 @@
 "use client";
-import { formatDate } from "@/lib";
-import Link from "next/link";
-import StagairForm from "./[id]/page";
 import useStagairs from "@/hooks/useStagairs";
-import Loading from "@/app/components/Loading";
+import { formatDate } from "@/lib";
 import useStagairStore from "@/store";
 import { BsPencil } from "react-icons/bs";
+import StagairForm from "./[id]/StagairForm";
+import Loading from "@/app/components/Loading";
+import { useRouter } from "next/navigation";
 
 const StagiairOverzicht = () => {
   const { data: stagiairData, error, isLoading } = useStagairs();
-
   const setIsModelOpen = useStagairStore((state) => state.toggleModal);
+  const router = useRouter();
 
   if (error) {
     return <div>{error?.message}</div>;
   }
-
   if (isLoading) {
     return <Loading />;
   }
@@ -27,6 +26,13 @@ const StagiairOverzicht = () => {
       </div>
     );
   }
+
+  const handleRouter = (id: string) => {
+    // Prefetch the route in the background
+    router.prefetch(`/users/detail/${id}`);
+    // Navigate to the route when clicked
+    router.push(`/users/detail/${id}`);
+  };
 
   return (
     <section className="container mx-auto p-4">
@@ -44,14 +50,36 @@ const StagiairOverzicht = () => {
           </thead>
           <tbody>
             {stagiairData.map((stagiair) => (
-              <tr key={stagiair.id} className="hover:bg-gray-50">
-                <Link key={stagiair.id} href={`/users/detail/${stagiair.id}`}>
-                  <td className="px-6 py-4 hover:text-blue-500">{stagiair.name}</td>
-                </Link>
-                <td className="px-6 py-4">{stagiair.email}</td>
-                <td className="px-6 py-4">{formatDate(stagiair.startDate)}</td>
-                <td className="px-6 py-4">{formatDate(stagiair.endDate)}</td>
-                <td className="px-6 py-4">
+              <tr key={stagiair.id} className="hover:bg-gray-50 cursor-pointer">
+                <td
+                  className="px-6 py-4"
+                  onClick={() => handleRouter(stagiair.id)}
+                >
+                  {stagiair.name}
+                </td>
+
+                <td
+                  className="px-6 py-4"
+                  onClick={() => handleRouter(stagiair.id)}
+                >
+                  {stagiair.email}
+                </td>
+                <td
+                  className="px-6 py-4"
+                  onClick={() => handleRouter(stagiair.id)}
+                >
+                  {formatDate(stagiair.startDate)}
+                </td>
+                <td
+                  className="px-6 py-4"
+                  onClick={() => handleRouter(stagiair.id)}
+                >
+                  {formatDate(stagiair.endDate)}
+                </td>
+                <td
+                  className="px-6 py-4"
+                  onClick={() => handleRouter(stagiair.id)}
+                >
                   {stagiair.stagebegeleider
                     .map((stagebegeleider) => stagebegeleider.name)
                     .join(",")}
@@ -71,12 +99,14 @@ const StagiairOverzicht = () => {
             ))}
           </tbody>
         </table>
+        {stagiairData.length === 0 && (
+          <div className="flex justify-center items-center mt-4">
+            <h2 className="text-2xl font-bold text-gray-500">
+              No result found
+            </h2>
+          </div>
+        )}
       </div>
-      {stagiairData.length === 0 && (
-        <div className="flex justify-center items-center mt-4">
-          <h2 className="text-2xl font-bold text-gray-500">No result found</h2>
-        </div>
-      )}
     </section>
   );
 };

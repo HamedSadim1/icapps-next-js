@@ -2,11 +2,12 @@ import useStagebeschrijving from "@/hooks/useStagebeschrijving";
 import useStagairStore from "@/store";
 import { useEffect, MouseEvent, FormEvent } from "react";
 import Select from "react-select";
-
 import FetchingError from "@/app/components/FetchingError";
 import useStagair from "@/hooks/useStagair";
 import useStagebegeleiders from "@/hooks/useStagebegeleiders";
 import { inputFormDater } from "@/lib";
+import useUpdateStagiair from "@/hooks/useUpdateStagiair";
+import useStagebeschrijvingUpdate from "@/hooks/useStagebeschrijvingUpdate";
 
 interface StageBeschrijvingModal {
   id: string;
@@ -27,6 +28,12 @@ const StageBeschrijvingModal = ({ id, stagairId }: StageBeschrijvingModal) => {
   const stagaire = useStagairStore((s) => s.stagaires);
 
   const { data: stagebegeleiders } = useStagebegeleiders();
+
+  const { mutate: updateStagaire } = useUpdateStagiair(stagairId, stagaire);
+  const { mutate: updateStagebescrhiving } = useStagebeschrijvingUpdate(
+    id,
+    stageBeschrijving
+  );
 
   useEffect(() => {
     if (data && stagair) {
@@ -63,66 +70,14 @@ const StageBeschrijvingModal = ({ id, stagairId }: StageBeschrijvingModal) => {
   const handleSubmitForm = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const isoStartDate = stagaire.startDate
-        ? new Date(stagaire.startDate).toISOString()
-        : "";
-      const isoEndDate = stagaire.endDate
-        ? new Date(stagaire.endDate).toISOString()
-        : "";
-      // Ensure stagebegeleiderId is an array of unique strings
-      const stagebegeleiderIdArray = Array.isArray(stagaire.stagebegeleiderId)
-        ? stagaire.stagebegeleiderId
-        : [stagaire.stagebegeleiderId];
-
-      const response = await fetch(
-        `http://localhost:3000/api/users/stagiair/${stagairId}`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            name: stagaire.name,
-            email: stagaire.email,
-            startDate: isoStartDate,
-            endDate: isoEndDate,
-            stagebegeleiderId: stagebegeleiderIdArray,
-
-          }),
-        }
-      );
-
-      const stageBeschrijvingResponse = await fetch(
-        `http://localhost:3000/api/stagebeschrijving/${id}`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            beschrijving: stageBeschrijving.beschrijving,
-            school: stageBeschrijving.school,
-            contactPersoonName: stageBeschrijving.contactPersoonName,
-            contactPersoonTelefoon: stageBeschrijving.contactPersoonTelefoon,
-            contactPersoonEmail: stageBeschrijving.contactPersoonEmail,
-          }),
-        }
-      );
-
+      await updateStagaire();
+      await updateStagebescrhiving();
       setIsModalOpen(false);
-
-      if (response.ok && stageBeschrijvingResponse.ok) {
-        console.log("Data updated");
-      } else {
-        console.error("error", response.status, response.statusText);
-        console.error(
-          "error",
-          stageBeschrijvingResponse.status,
-          stageBeschrijvingResponse.statusText
-        );
-      }
     } catch (error) {
-      console.error("Error:", error);
+      console.log(
+        "🚀 ~ file: StageBeschrijvingModal.tsx:77 ~ handleSubmitForm ~ error:",
+        error
+      );
     }
   };
 
@@ -204,6 +159,7 @@ const StageBeschrijvingModal = ({ id, stagairId }: StageBeschrijvingModal) => {
                   onChange={(e) =>
                     setStagaires({ ...stagaire, startDate: e.target.value })
                   }
+                  min={inputFormDater(new Date().toISOString().split("T")[0])}
                 />
               </div>
               {/* Einddatum */}
@@ -221,6 +177,7 @@ const StageBeschrijvingModal = ({ id, stagairId }: StageBeschrijvingModal) => {
                   onChange={(e) =>
                     setStagaires({ ...stagaire, endDate: e.target.value })
                   }
+                  min={inputFormDater(new Date().toISOString().split("T")[0])}
                 />
               </div>
             </div>
@@ -299,10 +256,15 @@ const StageBeschrijvingModal = ({ id, stagairId }: StageBeschrijvingModal) => {
             </div>
 
             <div className="w-full text-right mt-2 ">
-              <button className="mr-4 px-7 py-2 rounded-md bg-gray-200 text-[#002548] font-semibold" onClick={handleModal}>
+              <button
+                className="mr-4 px-7 py-2 rounded-md bg-gray-200 text-[#002548] font-semibold"
+                onClick={handleModal}
+              >
                 Annuleren
               </button>
-              <button className="px-7 py-2 rounded-md bg-[#002548] text-white font-semibold">Opslaan</button>
+              <button className="px-7 py-2 rounded-md bg-[#002548] text-white font-semibold">
+                Opslaan
+              </button>
             </div>
           </form>
         </div>

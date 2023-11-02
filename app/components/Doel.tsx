@@ -1,6 +1,5 @@
 "use client";
 import { AiOutlinePlus } from "react-icons/ai";
-
 import { MdClose } from "react-icons/md";
 import { FormEvent, useState } from "react";
 import { GoGoal } from "react-icons/go";
@@ -84,6 +83,7 @@ const Doel = ({ stagiarId }: DoelProps) => {
                   onChange={(e) =>
                     setDoel({ ...doel, endDate: e.target.value })
                   }
+                  min={inputFormDater(new Date().toISOString().split("T")[0])}
                 />
                 <div className="w-full text-right">
                   <button

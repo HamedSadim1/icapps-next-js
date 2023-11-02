@@ -5,6 +5,7 @@ import { MdClose } from "react-icons/md";
 import { FormEvent, useState } from "react";
 import useStagairStore from "@/store";
 import usePostChecklistStagiair from "@/hooks/usePostChecklistStagiair";
+import { inputFormDater } from "@/lib";
 
 interface AddChecklistProps {
   stagiairId: string;
@@ -64,6 +65,7 @@ export const AddCheckListItem = ({ stagiairId }: AddChecklistProps) => {
                   name="einddatum"
                   id="einddatum"
                   onChange={(e) => setItem({ ...item, date: e.target.value })}
+                  min={inputFormDater(new Date().toISOString().split("T")[0])}
                 />
                 <div className="w-full text-right">
                   <button className="mr-4 px-7 py-2 rounded-md bg-gray-200 text-[#002548] font-semibold">

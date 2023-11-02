@@ -17,14 +17,13 @@ const StagairForm = ({ params: { id } }: Params) => {
   const data = useStagairStore((state) => state.stagaires);
   const setData = useStagairStore((state) => state.setStagaires);
   const { data: stagebegeleiders } = useStagebegeleiders();
-  const { mutate, data: updatedData,isSuccess } = useUpdateStagiair(id, data);
+  const { mutate, data: updatedData, isSuccess } = useUpdateStagiair(id, data);
 
   useEffect(() => {
     if (stagair) {
       useStagairStore.setState({ stagaires: stagair });
     }
   }, [stagair, isSuccess, updatedData]);
-  
 
   const isModalOpen = useStagairStore((s) => s.stagiairModal);
   const setIsModalOpen = useStagairStore((state) => state.toggleModal);
@@ -53,7 +52,7 @@ const StagairForm = ({ params: { id } }: Params) => {
     console.log("Modal closed");
   };
 
-  if(!stagebegeleiders || !data){
+  if (!stagebegeleiders || !data) {
     return null;
   }
 
@@ -111,6 +110,7 @@ const StagairForm = ({ params: { id } }: Params) => {
                   onChange={(e) =>
                     setData({ ...data, startDate: e.target.value })
                   }
+                  min={inputFormDater(new Date().toISOString().split("T")[0])}
                 />
               </div>
               <div>
@@ -126,6 +126,7 @@ const StagairForm = ({ params: { id } }: Params) => {
                   onChange={(e) =>
                     setData({ ...data, endDate: e.target.value })
                   }
+                  min={inputFormDater(new Date().toISOString().split("T")[0])}
                 />
               </div>
               <div>
@@ -162,13 +163,12 @@ const StagairForm = ({ params: { id } }: Params) => {
                 />
               </div>
 
-              
-                <button
-                  className="px-6 py-2 mt-2 text-white bg-[#002548] rounded-md focus:outline-non absolute bottom-6 right-6"
-                  type="submit"
-                >
-                  Opslaan
-                </button>
+              <button
+                className="px-6 py-2 mt-2 text-white bg-[#002548] rounded-md focus:outline-non absolute bottom-6 right-6"
+                type="submit"
+              >
+                Opslaan
+              </button>
             </div>
           </form>
         </div>

@@ -64,6 +64,8 @@ export interface IComment {
   comment: string;
   postId: string;
   createdAt: string;
+  img?: string;
+  commentatorName: string;
 }
 
 export interface IDocumentComment {

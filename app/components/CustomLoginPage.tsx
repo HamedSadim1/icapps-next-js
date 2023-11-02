@@ -6,12 +6,17 @@ import Loading from "./Loading";
 import useStagairs from "@/hooks/useStagairs";
 import useUsers from "@/hooks/useUsers";
 import { FcGoogle } from "react-icons/fc";
+import { useRouter } from "next/navigation";
+import usePostUser from "@/hooks/usePostUser";
 
 const CustomLoginPage = () => {
   const { data: session, status } = useSession();
   const [error, setError] = useState<string>("");
   const { data: stagairs } = useStagairs();
   const { data: users } = useUsers();
+  const router = useRouter();
+
+  const { mutateAsync, isSuccess, data } = usePostUser(session!);
 
   useEffect(() => {
     const user = users?.find((user) => user.email === session?.user?.email);
@@ -21,30 +26,32 @@ const CustomLoginPage = () => {
 
     const fetchData = async () => {
       try {
-        if (!user) {
-          const res = await fetch("http://localhost:3000/api/users", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              name: session!.user!.name,
-              email: session!.user!.email,
-              img: session!.user!.image,
-            }),
-          });
+        if (!user && isSuccess) {
+          // const res = await fetch("http://localhost:3000/api/users", {
+          //   method: "POST",
+          //   headers: {
+          //     "Content-Type": "application/json",
+          //   },
+          //   body: JSON.stringify({
+          //     name: session!.user!.name,
+          //     email: session!.user!.email,
+          //     img: session!.user!.image,
+          //   }),
+          // });
 
-          if (res.ok) {
-            const data = await res.json();
-            console.log(data);
+          await mutateAsync();
 
-            if (data.role === UserRole.STAGIAIR) {
-              window.location.href = "/users/stagiair/" + data.id;
+          if (isSuccess) {
+            // const data = await res.json();
+            // console.log(data);
+
+            if (user === UserRole.STAGIAIR) {
+              router.push("/users/detail/" + stagair?.id);
             } else {
-              window.location.href = "/users/stagiair";
+              router.push("/users/stagiair");
             }
           } else {
-            console.error("Error in API request:", res.statusText);
+            console.error("Error in API request:");
             setError("Er is iets misgegaan, probeer het later opnieuw");
           }
         }
@@ -56,13 +63,13 @@ const CustomLoginPage = () => {
 
     if (user) {
       if (user?.role === UserRole.STAGIAIR) {
-        window.location.href = "/users/detail/" + stagair?.id;
+        router.push("/users/detail/" + user.id);
       } else {
-        window.location.href = "/users/stagiair";
+        router.push("/users/stagiair");
       }
     }
     fetchData();
-  }, [session, stagairs, users]);
+  }, [session, stagairs, router, users, isSuccess, data, mutateAsync]);
 
   const handleSignin = () => {
     signIn("google");
