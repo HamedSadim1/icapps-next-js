@@ -5,7 +5,7 @@ import useStagairStore from "@/store";
 import { BsPencil } from "react-icons/bs";
 import StagairForm from "./[id]/StagairForm";
 import loading from "./../../components/Loading";
-import LinkStagiairDetailPage from "@/app/components/LinkStagiairDetailPage";
+
 
 const StagiairOverzichtTable = () => {
   const { data: stagiairData, error, isLoading } = useStagairs();
@@ -27,9 +27,9 @@ const StagiairOverzichtTable = () => {
     <>
       {stagiairData.map((stagiair) => (
         <tr key={stagiair.id} className="hover:bg-gray-50 cursor-pointer">
-          <LinkStagiairDetailPage href={`/users/detail/${stagiair.id}`}>
+         
             <td className="px-6 py-4">{stagiair.name}</td>
-          </LinkStagiairDetailPage>
+        
           <td className="px-6 py-4">{stagiair.email}</td>
           <td className="px-6 py-4">{formatDate(stagiair.startDate)}</td>
           <td className="px-6 py-4">{formatDate(stagiair.endDate)}</td>

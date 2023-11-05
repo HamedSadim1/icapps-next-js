@@ -30,13 +30,12 @@ export interface IStore {
   setChecklistStagiair: (checklistStagiair: IChecklistStagiair) => void;
   documents: IDocument;
   setDocuments: (documents: IDocument) => void;
-  updatePost :IPost;
-  setUpdatePost:(post:IPost) => void;
-  updatePostId:string;
-  setUpdatePostId:(updatePostId:string) => void;
+  updatePost: IPost;
+  setUpdatePost: (post: IPost) => void;
+  updatePostId: string;
+  setUpdatePostId: (updatePostId: string) => void;
   isPostModal: boolean;
   setIsPostModal: (isPostModal: boolean) => void;
-  
 }
 
 const useStagairStore = create<IStore>((set) => ({
@@ -56,6 +55,8 @@ const useStagairStore = create<IStore>((set) => ({
     user: [],
     checkListStagiair: [],
     documents: [],
+    checkliststagebegeleider: [],
+    doel: [],
   },
   stageBeschrijving: {
     id: "",
@@ -81,6 +82,8 @@ const useStagairStore = create<IStore>((set) => ({
     createdAt: "",
     id: "",
     postId: "",
+    commentatorName: "",
+    img: "",
   },
   checklistStagiair: {
     id: "",
@@ -101,20 +104,20 @@ const useStagairStore = create<IStore>((set) => ({
     resource_type: "",
     secure_url: "",
   },
-  updatePost:{
-    body:"",
-    comments:[],
-    createdAt:"",
-    endDate:"",
-    stagiairID:"",
-    id:"",
-    title:"",
+  updatePost: {
+    body: "",
+    comments: [],
+    createdAt: "",
+    endDate: "",
+    stagiairID: "",
+    id: "",
+    title: "",
   },
 
   isPostModal: false,
   postId: "",
   commentId: "",
-  updatePostId:"",
+  updatePostId: "",
   setPostId: (postId) => set({ postId }),
   setStagaires: (stagaires) => set({ stagaires }),
   toggleModal: () => set((state) => ({ stagiairModal: !state.stagiairModal })),
@@ -130,8 +133,8 @@ const useStagairStore = create<IStore>((set) => ({
   setIsPostModal: (isPostModal) => {
     set({ isPostModal });
   },
-  setUpdatePostId:(updatePostId) => {
-    set({updatePostId})
+  setUpdatePostId: (updatePostId) => {
+    set({ updatePostId });
   },
   setDoel: (doel) => {
     set({ doel });
@@ -147,7 +150,7 @@ const useStagairStore = create<IStore>((set) => ({
   },
 
   setUpdatePost(updatePost) {
-      set({updatePost})
+    set({ updatePost });
   },
 
   updateStagairesAsync: async (stagaire) => {

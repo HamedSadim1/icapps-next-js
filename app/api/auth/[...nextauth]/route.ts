@@ -1,19 +1,19 @@
 import NextAuth, { User as NextAuthUser } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 
-interface GoogleProfile {
-  email_verified: boolean;
-  email: string;
+// interface GoogleProfile {
+//   email_verified: boolean;
+//   email: string;
 
-}
+// }
 
-interface Account {
-  provider: string;
-}
+// interface Account {
+//   provider: string;
+// }
 
-interface CustomUser extends NextAuthUser {
-  emailVerified: boolean;
-}
+// interface CustomUser extends NextAuthUser {
+//   emailVerified: boolean;
+// }
 
 export const authOption = {
   providers: [

@@ -8,25 +8,36 @@ import useUsers from "@/hooks/useUsers";
 import { FcGoogle } from "react-icons/fc";
 import { useRouter } from "next/navigation";
 import usePostUser from "@/hooks/usePostUser";
+import useCheckAuthorizeUser from "@/hooks/useCheckAuthorizeUser";
+import { usePrefetchData,usePrefetchStagairDetails } from "@/hooks/usePrefetchData";
 
 const CustomLoginPage = () => {
   const { data: session, status } = useSession();
   const [error, setError] = useState<string>("");
   const { data: stagairs } = useStagairs();
   const { data: users } = useUsers();
+  const {prefetchData} =usePrefetchData();
   const router = useRouter();
 
   const { mutateAsync, isSuccess, data } = usePostUser(session!);
+  const role = useCheckAuthorizeUser();
+
+
+ const stagiairDetail = usePrefetchStagairDetails();
 
   useEffect(() => {
-    const user = users?.find((user) => user.email === session?.user?.email);
+    // const user = users?.find((user) => user.email === session?.user?.email);
     const stagair = stagairs?.find(
       (stagair) => stagair.email === session?.user?.email
     );
 
+    prefetchData();
+    if(stagair && stagair.id){
+      stagiairDetail.prefetchData(stagair.id);
+    }
     const fetchData = async () => {
       try {
-        if (!user && isSuccess) {
+        if (isSuccess) {
           // const res = await fetch("http://localhost:3000/api/users", {
           //   method: "POST",
           //   headers: {
@@ -45,7 +56,7 @@ const CustomLoginPage = () => {
             // const data = await res.json();
             // console.log(data);
 
-            if (user === UserRole.STAGIAIR) {
+            if (role === UserRole.STAGIAIR) {
               router.push("/users/detail/" + stagair?.id);
             } else {
               router.push("/users/stagiair");
@@ -61,15 +72,15 @@ const CustomLoginPage = () => {
       }
     };
 
-    if (user) {
-      if (user?.role === UserRole.STAGIAIR) {
-        router.push("/users/detail/" + user.id);
+    if (role && stagair) {
+      if (role === UserRole.STAGIAIR) {
+        router.push("/users/detail/" + stagair.id);
       } else {
         router.push("/users/stagiair");
       }
     }
     fetchData();
-  }, [session, stagairs, router, users, isSuccess, data, mutateAsync]);
+  }, [session, stagairs, router, users, isSuccess, data, mutateAsync, role,prefetchData,stagiairDetail]);
 
   const handleSignin = () => {
     signIn("google");

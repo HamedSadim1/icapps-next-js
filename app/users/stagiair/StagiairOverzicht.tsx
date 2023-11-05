@@ -6,11 +6,23 @@ import { BsPencil } from "react-icons/bs";
 import StagairForm from "./[id]/StagairForm";
 import Loading from "@/app/components/Loading";
 import { useRouter } from "next/navigation";
+import { usePrefetchStagairDetails } from "@/hooks/usePrefetchData";
+import { useEffect } from "react";
 
 const StagiairOverzicht = () => {
   const { data: stagiairData, error, isLoading } = useStagairs();
   const setIsModelOpen = useStagairStore((state) => state.toggleModal);
   const router = useRouter();
+
+  const prefetchStagairDetails = usePrefetchStagairDetails(); 
+
+  // useEffect(() => {
+  //   if(stagiairData)
+  //   stagiairData.map((stagiair) => {
+  //     router.prefetch(`/users/detail/${stagiair.id}`);
+  //     prefetchStagairDetails.prefetchData(stagiair.id); 
+  //   });
+  // }, [stagiairData, prefetchStagairDetails,router]); 
 
   if (error) {
     return <div>{error?.message}</div>;
@@ -30,6 +42,7 @@ const StagiairOverzicht = () => {
   const handleRouter = (id: string) => {
     // Prefetch the route in the background
     router.prefetch(`/users/detail/${id}`);
+    prefetchStagairDetails.prefetchData(id)
     // Navigate to the route when clicked
     router.push(`/users/detail/${id}`);
   };

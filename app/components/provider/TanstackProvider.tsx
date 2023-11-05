@@ -9,7 +9,14 @@ interface Props {
 }
 
 const TanstackProvider = ({ children }: Props) => {
-  const [queryClient] = useState(() => new QueryClient());
+  const [queryClient] = useState(() => new QueryClient({
+    defaultOptions:{
+      queries:{
+        staleTime: 100 * 60 *60, // 24 hours,
+        refetchOnWindowFocus:false,
+      }
+    }
+  }));
 
   return (
     <QueryClientProvider client={queryClient}>

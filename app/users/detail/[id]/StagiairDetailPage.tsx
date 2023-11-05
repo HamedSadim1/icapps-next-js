@@ -9,26 +9,27 @@ import { BiComment, BiUserCircle } from "react-icons/bi";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import { VscChecklist } from "react-icons/vsc";
 import Link from "next/link";
-import Loading from "@/app/components/Loading";
-import FetchingError from "@/app/components/FetchingError";
-import NoDataError from "@/app/components/NoDataError";
 import { formatDate } from "@/lib";
 import useStagair from "@/hooks/useStagair";
 import Image from "next/image";
 import useStagairStore from "@/store";
-import Doel from "@/app/components/Doel";
-import Upload from "@/app/components/Upload";
-import StageBeschrijvingModal from "./StageBeschrijvingModal";
-import DeletePostModal from "@/app/components/DeletePostModal";
-import CommentModal from "@/app/components/CommentModal";
-import UploadDocument from "@/app/components/UploadDocument";
 import { BsPencil } from "react-icons/bs";
 import { useState } from "react";
-import { AddCheckListItem } from "@/app/components/AddChecklistItem";
 import { useSession } from "next-auth/react";
 import useUsers from "@/hooks/useUsers";
 import { UserRole } from "@/types";
 import useCheckAuthorizeUser from "@/hooks/useCheckAuthorizeUser";
+import {
+  AddCheckListItem,
+  CommentModal,
+  DeletePostModal,
+  Doel,
+  FetchingError,
+  UploadDocument,
+  NoDataError,
+  Loading,
+  StageBeschrijvingModal,
+} from "@/app/components";
 
 interface Params {
   params: { id: string };
@@ -135,20 +136,21 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
                     {/* Edit button for post */}
                     {/* check if the user role is admin or stagebegeleider */}
                     {role === UserRole.ADMIN ||
-                      (UserRole.STAGEBEGELEIDER && (
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setUpdatePostId(post.id);
-                            setClickedPostId(post.id);
-                            useStagairStore.setState({ updatePost: post });
-                            setIsPostModal(true);
-                          }}
-                          className="hover:text-gray-400 w-6 ml-2"
-                        >
-                          <BsPencil className="text-xl" />
-                        </button>
-                      ))}
+                    role === UserRole.STAGEBEGELEIDER ? (
+                      // Render the edit button for admins and stagebegeleiders
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setUpdatePostId(post.id);
+                          setClickedPostId(post.id);
+                          useStagairStore.setState({ updatePost: post });
+                          setIsPostModal(true);
+                        }}
+                        className="hover:text-gray-400 w-6 ml-2"
+                      >
+                        <BsPencil className="text-xl" />
+                      </button>
+                    ) : null}
                     {/* Delete button for post */}
                     {/* check if the user role is admin or stagebegeleider */}
                     {/* {clickedPostId === post.id && ( */}
