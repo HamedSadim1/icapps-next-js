@@ -14,18 +14,14 @@ const WelcomePageUsers = () => {
   const stagair = stagairs?.find(
     (stagair) => stagair.email === session?.user?.email
   );
-  const   stagairDetail  = usePrefetchStagairDetails();
+  const stagairDetail = usePrefetchStagairDetails();
 
   useEffect(() => {
     prefetchData();
-    if(stagair && stagair.id){
+    if (stagair && stagair.id) {
       stagairDetail.prefetchData(stagair.id);
     }
-  },[
-    prefetchData,
-    stagair,
-    stagairDetail,
-  ] );
+  }, [prefetchData, stagair, stagairDetail]);
   return (
     <div className="flex flex-col items-center justify-center w-screen h-screen">
       <div className="flex flex-col items-center justify-center w-1/2 h-1/2 bg-white rounded-lg shadow-lg">

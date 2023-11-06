@@ -9,21 +9,23 @@ import { FcGoogle } from "react-icons/fc";
 import { useRouter } from "next/navigation";
 import usePostUser from "@/hooks/usePostUser";
 import useCheckAuthorizeUser from "@/hooks/useCheckAuthorizeUser";
-import { usePrefetchData,usePrefetchStagairDetails } from "@/hooks/usePrefetchData";
+import {
+  usePrefetchData,
+  usePrefetchStagairDetails,
+} from "@/hooks/usePrefetchData";
 
 const CustomLoginPage = () => {
   const { data: session, status } = useSession();
   const [error, setError] = useState<string>("");
   const { data: stagairs } = useStagairs();
   const { data: users } = useUsers();
-  const {prefetchData} =usePrefetchData();
+  const { prefetchData } = usePrefetchData();
   const router = useRouter();
 
   const { mutateAsync, isSuccess, data } = usePostUser(session!);
-  const role = useCheckAuthorizeUser();
+  const { role } = useCheckAuthorizeUser();
 
-
- const stagiairDetail = usePrefetchStagairDetails();
+  const stagiairDetail = usePrefetchStagairDetails();
 
   useEffect(() => {
     // const user = users?.find((user) => user.email === session?.user?.email);
@@ -32,7 +34,7 @@ const CustomLoginPage = () => {
     );
 
     prefetchData();
-    if(stagair && stagair.id){
+    if (stagair && stagair.id) {
       stagiairDetail.prefetchData(stagair.id);
     }
     const fetchData = async () => {
@@ -80,7 +82,18 @@ const CustomLoginPage = () => {
       }
     }
     fetchData();
-  }, [session, stagairs, router, users, isSuccess, data, mutateAsync, role,prefetchData,stagiairDetail]);
+  }, [
+    session,
+    stagairs,
+    router,
+    users,
+    isSuccess,
+    data,
+    mutateAsync,
+    role,
+    prefetchData,
+    stagiairDetail,
+  ]);
 
   const handleSignin = () => {
     signIn("google");

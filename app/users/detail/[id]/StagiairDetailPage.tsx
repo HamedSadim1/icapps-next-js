@@ -31,6 +31,7 @@ import {
   StageBeschrijvingModal,
 } from "@/app/components";
 import EditDoelButton from "@/app/components/EditButton/EditDoelButton";
+import EditStageBeschrijving from "@/app/components/EditButton/EditStageBeschrijving";
 
 interface Params {
   params: { id: string };
@@ -161,7 +162,7 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
                       </button>
                     ) : null} */}
                     <EditDoelButton
-                      role={UserRole.ADMIN}
+                      role={UserRole.ADMIN || UserRole.STAGEBEGELEIDER}
                       userRole={role}
                       setUpdateGoalId={setUpdatePostId}
                       goal={post}
@@ -381,13 +382,18 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
                   Beschrijving
                 </h2>
                 {/* Edit the stage from */}
-                <button
+                {/* <button
                   type="button"
                   className="hover:text-gray-400"
                   onClick={() => setIsModalOpen(true)}
                 >
                   <BsPencil className="text-xl" />
-                </button>
+                </button> */}
+                <EditStageBeschrijving
+                  role={UserRole.ADMIN || UserRole.STAGEBEGELEIDER}
+                  userRole={role}
+                  setIsModalOpen={setIsModalOpen}
+                />
                 <StageBeschrijvingModal
                   stagairId={id}
                   id={stagebeschriving.id}
