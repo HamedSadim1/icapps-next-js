@@ -23,9 +23,9 @@ export interface IStagebegeleider {
 }
 
 export enum UserRole {
-  ADMIN,
-  STAGIAIR ,
-  STAGEBEGELEIDER,
+  ADMIN ="ADMIN",
+  STAGIAIR ="STAGIAIR",
+  STAGEBEGELEIDER ="STAGEBEGELEIDER",
 }
 
 
