@@ -30,6 +30,7 @@ import {
   Loading,
   StageBeschrijvingModal,
 } from "@/app/components";
+import EditDoelButton from "@/app/components/EditButton/EditDoelButton";
 
 interface Params {
   params: { id: string };
@@ -46,20 +47,16 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
   const isPostLModalOpen = useStagairStore((s) => s.isPostModal);
   const setIsPostModal = useStagairStore((s) => s.setIsPostModal);
 
-  const [clickedPostId, setClickedPostId] = useState<string>("");
+  // const [clickedPostId, setClickedPostId] = useState<string>("");
   const [checkListName, setCheckListName] =
     useState<string>("checkListStagiair");
 
-  const {role,isLoading :loading} = useCheckAuthorizeUser();
+  const { role, isLoading: loading } = useCheckAuthorizeUser();
 
- 
-
-  console.log(role)
-  if(role !== null){
+  console.log(role);
+  if (role !== null) {
     console.log("User Role:", UserRole[role]);
-
   }
-
 
   const navigateToNextSection = () => {
     if (selectedSection < data!.checkListStagiair.length - 1) {
@@ -92,12 +89,11 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
 
   //   return false;
   // };
-  if(role== null){
+  if (role == null) {
     return null;
   }
 
-
-  if (isLoading  && loading) return <Loading />;
+  if (isLoading && loading) return <Loading />;
 
   if (error) return <FetchingError error={error.message} />;
 
@@ -139,7 +135,7 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
           {/* Pop up Doel   */}
           <Doel stagiarId={id} />
           {/* Post and comment loop over the array */}
-          { role !== null && data.posts.length > 0 ? (
+          {role !== null && data.posts.length > 0 ? (
             data.posts.map((post) => (
               <div key={post.id}>
                 {/* Post */}
@@ -148,14 +144,14 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
                     <h2 className="text-xl font-bold">{post.title}</h2>
                     {/* Edit button for post */}
                     {/* check if the user role is admin or stagebegeleider */}
-                  
-                    {role === UserRole.ADMIN ? (
+
+                    {/* {role === UserRole.ADMIN ? (
                       // Render the edit button for admins and stagebegeleiders
                       <button
                         type="button"
                         onClick={() => {
                           setUpdatePostId(post.id);
-                          setClickedPostId(post.id);
+                          // setClickedPostId(post.id);
                           useStagairStore.setState({ updatePost: post });
                           setIsPostModal(true);
                         }}
@@ -163,7 +159,14 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
                       >
                         <BsPencil className="text-xl" />
                       </button>
-                    ) : null}
+                    ) : null} */}
+                    <EditDoelButton
+                      role={UserRole.ADMIN}
+                      userRole={role}
+                      setUpdateGoalId={setUpdatePostId}
+                      goal={post}
+                      setIsGoalModal={setIsPostModal}
+                    />
                     {/* Delete button for post */}
                     {/* check if the user role is admin or stagebegeleider */}
                     {/* {clickedPostId === post.id && ( */}

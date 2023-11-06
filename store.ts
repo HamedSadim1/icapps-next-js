@@ -6,6 +6,7 @@ import {
   IComment,
   IChecklistStagiair,
   IDocument,
+  UserRole,
 } from "@/types";
 
 export interface IStore {
@@ -48,7 +49,7 @@ const useStagairStore = create<IStore>((set) => ({
     name: "",
     startDate: "",
     stagebegeleiderId: [],
-    role: 1,
+    role: UserRole.STAGIAIR,
     posts: [],
     stagebeschriving: [],
     stagebegeleider: [],
