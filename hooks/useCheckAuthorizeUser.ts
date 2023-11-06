@@ -1,29 +1,40 @@
-import { UserRole } from "@/types";
+import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
-import { useState } from "react";
 import useUsers from "./useUsers";
+import { UserRole } from "@/types";
 
-//? This hook checks if the user is logged in and if the user is an admin, stagebegeleider or stagiair.
 function useCheckAuthorizeUser() {
   const { data: session } = useSession();
-  const { data: users } = useUsers();
-  const [role, setRole] = useState<UserRole>(UserRole.STAGIAIR);
+  const { data: users, isLoading: usersLoading } = useUsers();
+  const [role, setRole] = useState<UserRole | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  if (session && session.user && users) {
-    const user = users.find((user) => user.email === session!.user!.email);
-
-    if (user) {
-      if (user.role === UserRole.ADMIN) {
-        setRole(UserRole.ADMIN);
-      } else if (user.role === UserRole.STAGEBEGELEIDER) {
-        setRole(UserRole.STAGEBEGELEIDER);
-      } else if (user.role === UserRole.STAGIAIR) {
-        setRole(UserRole.STAGIAIR);
-      }
+  useEffect(() => {
+    // Check if session and users are loaded
+    if (!session || !users || usersLoading) {
+      setIsLoading(true); // Keep loading state true if data is not ready
+      return; // Exit early if data is not ready
     }
-  }
+    // Find user by email
+    const user = users.find((user) => user.email === session.user?.email);
+    if (user) {
+      setRole(user.role); // Directly set the user role
+    } else {
+      console.error("User not found in the users data.");
+    }
+    setIsLoading(false); // Set loading state to false after processing
+  }, [session, users, usersLoading]); // Depend on session, users, and usersLoading
 
-  return role;
+  useEffect(() => {
+    if (role !== null) {
+      console.log("Role:", UserRole[role]);
+      console.log("Role:", role);
+    }
+  }, [role]); // Depend only on role
+
+  console.log(role)
+
+  return { role, isLoading }; // Return both role and isLoading state
 }
 
 export default useCheckAuthorizeUser;

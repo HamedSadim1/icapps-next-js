@@ -14,7 +14,7 @@ import useStagair from "@/hooks/useStagair";
 import Image from "next/image";
 import useStagairStore from "@/store";
 import { BsPencil } from "react-icons/bs";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import useUsers from "@/hooks/useUsers";
 import { UserRole } from "@/types";
@@ -50,7 +50,16 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
   const [checkListName, setCheckListName] =
     useState<string>("checkListStagiair");
 
-  const role = useCheckAuthorizeUser();
+  const {role,isLoading :loading} = useCheckAuthorizeUser();
+
+ 
+
+  console.log(role)
+  if(role !== null){
+    console.log("User Role:", UserRole[role]);
+
+  }
+
 
   const navigateToNextSection = () => {
     if (selectedSection < data!.checkListStagiair.length - 1) {
@@ -83,8 +92,12 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
 
   //   return false;
   // };
+  if(role== null){
+    return null;
+  }
 
-  if (isLoading) return <Loading />;
+
+  if (isLoading  && loading) return <Loading />;
 
   if (error) return <FetchingError error={error.message} />;
 
@@ -96,7 +109,7 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
       .join(", ");
   };
 
-  if (status === "loading") return <Loading />;
+  if (status === "loading" || loading) return <Loading />;
 
   const handlePostId = (id: string) => {};
 
@@ -126,7 +139,7 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
           {/* Pop up Doel   */}
           <Doel stagiarId={id} />
           {/* Post and comment loop over the array */}
-          {data.posts.length > 0 ? (
+          { role !== null && data.posts.length > 0 ? (
             data.posts.map((post) => (
               <div key={post.id}>
                 {/* Post */}
@@ -135,8 +148,8 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
                     <h2 className="text-xl font-bold">{post.title}</h2>
                     {/* Edit button for post */}
                     {/* check if the user role is admin or stagebegeleider */}
-                    {role === UserRole.ADMIN ||
-                    role === UserRole.STAGEBEGELEIDER ? (
+                  
+                    {role === UserRole.ADMIN ? (
                       // Render the edit button for admins and stagebegeleiders
                       <button
                         type="button"
