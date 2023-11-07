@@ -18,7 +18,7 @@ const CustomLoginPage = () => {
   const { data: session, status } = useSession();
   const [error, setError] = useState<string>("");
   const { data: stagairs } = useStagairs();
-  const { data: users } = useUsers();
+  // const { data: users } = useUsers();
   const { prefetchData } = usePrefetchData();
   const router = useRouter();
 
@@ -27,73 +27,85 @@ const CustomLoginPage = () => {
 
   const stagiairDetail = usePrefetchStagairDetails();
 
-  useEffect(() => {
-    // const user = users?.find((user) => user.email === session?.user?.email);
-    const stagair = stagairs?.find(
-      (stagair) => stagair.email === session?.user?.email
-    );
+  console.log("Session Data:", session);
+  console.log("Stagairs Data:", stagairs);
 
-    prefetchData();
-    if (stagair && stagair.id) {
-      stagiairDetail.prefetchData(stagair.id);
-    }
+
+
+  useEffect(() => {
+    
     const fetchData = async () => {
       try {
         if (isSuccess) {
-          // const res = await fetch("http://localhost:3000/api/users", {
-          //   method: "POST",
-          //   headers: {
-          //     "Content-Type": "application/json",
-          //   },
-          //   body: JSON.stringify({
-          //     name: session!.user!.name,
-          //     email: session!.user!.email,
-          //     img: session!.user!.image,
-          //   }),
-          // });
-
           await mutateAsync();
+          console.log("User successfully logged in. Mutating data...");
 
-          if (isSuccess) {
-            // const data = await res.json();
-            // console.log(data);
-
-            if (role === UserRole.STAGIAIR) {
-              router.push("/users/detail/" + stagair?.id);
-            } else {
-              router.push("/users/stagiair");
-            }
-          } else {
-            console.error("Error in API request:");
-            setError("Er is iets misgegaan, probeer het later opnieuw");
-          }
+          // if (isSuccess) {
+          //   // User is successfully logged in
+          //   if (role === UserRole.STAGIAIR) {
+          //     // If the user's role is Stagiair, redirect to the detail page
+          //     if (stagairs && stagairs.length > 0) {
+          //       const stagair = stagairs.find(
+          //         (st) => st.email === session?.user?.email
+          //       );
+          //       if (stagair && stagair.id) {
+          //         await prefetchData();
+          //         await router.push(`/users/detail/${stagair.id}`);
+          //       }
+          //     }
+          //   } else {
+          //     await router.push("/users/stagiair");
+          //   }
+          // } else {
+          
+          //   setError("Er is iets misgegaan, probeer het later opnieuw");
+          // } 
         }
       } catch (error) {
         console.error("Error in fetchData:", error);
-        // setError("Er is iets misgegaan, probeer het later opnieuw");
+        setError("Er is iets misgegaan, probeer het later opnieuw");
       }
     };
-
-    if (role && stagair) {
-      if (role === UserRole.STAGIAIR) {
-        router.push("/users/detail/" + stagair.id);
-      } else {
-        router.push("/users/stagiair");
+    const PrefetchData = async () => {
+      try {
+          await prefetchData();
+          console.log("Prefetching data...");
+        
+      } catch (error) {
+        console.error("Error in PrefetchData:", error);
       }
-    }
+    
+    };
+    PrefetchData();
     fetchData();
+    
   }, [
     session,
     stagairs,
     router,
-    users,
     isSuccess,
     data,
     mutateAsync,
     role,
     prefetchData,
-    stagiairDetail,
+
   ]);
+
+  useEffect(() => {
+    if (status === "authenticated") {
+      if (role === UserRole.STAGIAIR && stagairs && stagairs.length > 0) {
+        const stagair = stagairs.find((st) => st.email === session?.user?.email);
+
+        if (stagair && stagair.id) {
+          stagiairDetail.prefetchData(stagair.id);
+          router.push(`/users/detail/${stagair.id}`);
+        }
+      } else {
+        router.push("/users/stagiair");
+      }
+    }
+  }, [status, role, stagairs, session, router,stagiairDetail]);
+  
 
   const handleSignin = () => {
     signIn("google");

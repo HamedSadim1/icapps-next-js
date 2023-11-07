@@ -32,6 +32,7 @@ import {
 } from "@/app/components";
 import EditDoelButton from "@/app/components/EditButton/EditDoelButton";
 import EditStageBeschrijving from "@/app/components/EditButton/EditStageBeschrijving";
+import LinkToStagiairOverzciht from "@/app/components/LinkToStagiairOverzicht";
 
 interface Params {
   params: { id: string };
@@ -120,7 +121,7 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
       <section className="grid grid-rows-2 grid-flow-col gap-4 ml-20 mr-20">
         <div className="row-span-2 mt-2">
           {/* Back button */}
-          <Link href="/users/stagiair">
+          {/* <Link href="/users/stagiair">
             <button
               type="button"
               className="flex items-center  hover:text-gray-600 mr-20"
@@ -128,7 +129,13 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
               <IoIosArrowRoundBack className="text-3xl mr-2 text-blue-400" />
               <h2 className="text-l ">Terug naar overzicht</h2>
             </button>
-          </Link>
+          </Link> */}
+          <LinkToStagiairOverzciht
+            role={UserRole.ADMIN || UserRole.STAGEBEGELEIDER}
+            userRole={role}
+            href="/users/stagiair"
+            title="Terug naar overzicht"
+          />
           {/* Name of the user */}
           <h1 className="text-3xl text-[#002548] font-semibold mb-10 mt-5">
             {data.name}
