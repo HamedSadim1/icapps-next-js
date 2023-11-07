@@ -8,10 +8,13 @@ import Loading from "@/app/components/Loading";
 import { useRouter } from "next/navigation";
 import { usePrefetchStagairDetails } from "@/hooks/usePrefetchData";
 import { useEffect } from "react";
+import AuthorizedRole from "@/app/components/AuthorizedRole";
+import { UserRole } from "@/types";
 
 const StagiairOverzicht = () => {
   const { data: stagiairData, error, isLoading } = useStagairs();
   const setIsModelOpen = useStagairStore((state) => state.toggleModal);
+  const role = useStagairStore((s) => s.role);
   const router = useRouter();
 
   const prefetchStagairDetails = usePrefetchStagairDetails(); 
@@ -47,8 +50,16 @@ const StagiairOverzicht = () => {
     router.push(`/users/detail/${id}`);
   };
 
+  if(!role){
+    return null;
+  }
+
   return (
     <section className="container mx-auto p-4">
+      <AuthorizedRole role={UserRole.ADMIN || UserRole.STAGEBEGELEIDER}
+        userRole={role}
+      >
+
       <div className="overflow-x-auto">
         <table className="min-w-full bg-white border border-gray-200 mt-12">
           <thead className="bg-gray-100">
@@ -86,13 +97,13 @@ const StagiairOverzicht = () => {
                 <td
                   className="px-6 py-4"
                   onClick={() => handleRouter(stagiair.id)}
-                >
+                  >
                   {formatDate(stagiair.endDate)}
                 </td>
                 <td
                   className="px-6 py-4"
                   onClick={() => handleRouter(stagiair.id)}
-                >
+                  >
                   {stagiair.stagebegeleider
                     .map((stagebegeleider) => stagebegeleider.name)
                     .join(",")}
@@ -101,7 +112,7 @@ const StagiairOverzicht = () => {
                   <button
                     onClick={() => setIsModelOpen()}
                     className="hover:text-blue-500 focus:outline-none"
-                  >
+                    >
                     <BsPencil className="text-lg" />
                   </button>
                   <span>
@@ -120,6 +131,7 @@ const StagiairOverzicht = () => {
           </div>
         )}
       </div>
+        </AuthorizedRole>
     </section>
   );
 };

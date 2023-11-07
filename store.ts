@@ -37,6 +37,8 @@ export interface IStore {
   setUpdatePostId: (updatePostId: string) => void;
   isPostModal: boolean;
   setIsPostModal: (isPostModal: boolean) => void;
+  role: UserRole | null;
+  setRole: (role: UserRole) => void;
 }
 
 const useStagairStore = create<IStore>((set) => ({
@@ -114,7 +116,8 @@ const useStagairStore = create<IStore>((set) => ({
     id: "",
     title: "",
   },
-
+  role: null,
+  setRole: (role) => set({ role }),
   isPostModal: false,
   postId: "",
   commentId: "",

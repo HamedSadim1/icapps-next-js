@@ -13,12 +13,13 @@ import {
   usePrefetchData,
   usePrefetchStagairDetails,
 } from "@/hooks/usePrefetchData";
+import useStagairStore from "@/store";
 
 const CustomLoginPage = () => {
   const { data: session, status } = useSession();
   const [error, setError] = useState<string>("");
   const { data: stagairs } = useStagairs();
-  // const { data: users } = useUsers();
+  const { data: users } = useUsers();
   const { prefetchData } = usePrefetchData();
   const router = useRouter();
 
@@ -30,10 +31,7 @@ const CustomLoginPage = () => {
   console.log("Session Data:", session);
   console.log("Stagairs Data:", stagairs);
 
-
-
   useEffect(() => {
-    
     const fetchData = async () => {
       try {
         if (isSuccess) {
@@ -57,9 +55,9 @@ const CustomLoginPage = () => {
           //     await router.push("/users/stagiair");
           //   }
           // } else {
-          
+
           //   setError("Er is iets misgegaan, probeer het later opnieuw");
-          // } 
+          // }
         }
       } catch (error) {
         console.error("Error in fetchData:", error);
@@ -68,17 +66,14 @@ const CustomLoginPage = () => {
     };
     const PrefetchData = async () => {
       try {
-          await prefetchData();
-          console.log("Prefetching data...");
-        
+        await prefetchData();
+        console.log("Prefetching data...");
       } catch (error) {
         console.error("Error in PrefetchData:", error);
       }
-    
     };
     PrefetchData();
     fetchData();
-    
   }, [
     session,
     stagairs,
@@ -88,15 +83,18 @@ const CustomLoginPage = () => {
     mutateAsync,
     role,
     prefetchData,
-
   ]);
 
   useEffect(() => {
     if (status === "authenticated") {
       if (role === UserRole.STAGIAIR && stagairs && stagairs.length > 0) {
-        const stagair = stagairs.find((st) => st.email === session?.user?.email);
+        const stagair = stagairs.find(
+          (st) => st.email === session?.user?.email
+        );
+        const user = users?.find((u) => u.email === session?.user?.email);
 
-        if (stagair && stagair.id) {
+        if (stagair && stagair.id && user) {
+          useStagairStore.setState({ role: user.role });
           stagiairDetail.prefetchData(stagair.id);
           router.push(`/users/detail/${stagair.id}`);
         }
@@ -104,8 +102,7 @@ const CustomLoginPage = () => {
         router.push("/users/stagiair");
       }
     }
-  }, [status, role, stagairs, session, router,stagiairDetail]);
-  
+  }, [status, role, stagairs, session, router, stagiairDetail, users]);
 
   const handleSignin = () => {
     signIn("google");
