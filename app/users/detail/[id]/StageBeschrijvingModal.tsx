@@ -8,18 +8,25 @@ import useStagebegeleiders from "@/hooks/useStagebegeleiders";
 import { inputFormDater } from "@/lib";
 import useUpdateStagiair from "@/hooks/useUpdateStagiair";
 import useStagebeschrijvingUpdate from "@/hooks/useStagebeschrijvingUpdate";
+import { IStagaire, IStagebeschrijving } from "@/types";
 
 interface StageBeschrijvingModal {
   id: string;
   stagairId: string;
+  stagair: IStagaire;
+  stagebeshrijving: IStagebeschrijving;
 }
 
-const StageBeschrijvingModal = ({ id, stagairId }: StageBeschrijvingModal) => {
+const StageBeschrijvingModal = ({
+  id,
+  stagairId,
+  stagair,
+  stagebeshrijving,
+}: StageBeschrijvingModal) => {
   const isModalOpen = useStagairStore((s) => s.commentModal);
   const setIsModalOpen = useStagairStore((state) => state.setCommentModal);
-
-  const { data, error } = useStagebeschrijving(id);
-  const { data: stagair } = useStagair(stagairId);
+  // const { data, error } = useStagebeschrijving(id);
+  // const { data: stagair } = useStagair(stagairId);
 
   const stageBeschrijving = useStagairStore((s) => s.stageBeschrijving);
   const setStageBeschrijving = useStagairStore((s) => s.setStageBeschrijving);
@@ -36,11 +43,11 @@ const StageBeschrijvingModal = ({ id, stagairId }: StageBeschrijvingModal) => {
   );
 
   useEffect(() => {
-    if (data && stagair) {
-      useStagairStore.setState({ stageBeschrijving: data });
+    if (stagebeshrijving && stagair) {
+      useStagairStore.setState({ stageBeschrijving: stagebeshrijving });
       useStagairStore.setState({ stagaires: stagair });
     }
-  }, [data, stagair]);
+  }, [stagebeshrijving, stagair]);
 
   useEffect(() => {
     const modal = document.getElementById("my_modal_3") as HTMLDialogElement;
@@ -59,9 +66,9 @@ const StageBeschrijvingModal = ({ id, stagairId }: StageBeschrijvingModal) => {
     setIsModalOpen(false);
   };
 
-  if (error) {
-    return <FetchingError error={error.message} />;
-  }
+  // if (error) {
+  //   return <FetchingError error={error.message} />;
+  // }
 
   if (!stagaire) {
     return null;
@@ -73,6 +80,8 @@ const StageBeschrijvingModal = ({ id, stagairId }: StageBeschrijvingModal) => {
       await updateStagaire();
       await updateStagebescrhiving();
       setIsModalOpen(false);
+      useStagairStore.setState({ stagaires: stagaire });
+      useStagairStore.setState({ stageBeschrijving: stageBeschrijving });
     } catch (error) {
       console.log(
         "🚀 ~ file: StageBeschrijvingModal.tsx:77 ~ handleSubmitForm ~ error:",

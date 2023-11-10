@@ -13,13 +13,16 @@ interface DoelProps {
 
 const Doel = ({ stagiarId }: DoelProps) => {
   const [showDiv, setDiv] = useState<boolean>(false);
+ const stagaires = useStagairStore((s) => s.stagaires)
 
   const doel = useStagairStore((s) => s.doel);
   const setDoel = useStagairStore((s) => s.setDoel);
-  const { mutate, error } = usePostDoel(doel, stagiarId);
+  const { mutate, error,isSuccess } = usePostDoel(doel, stagiarId);
 
   const handleSubmitButton = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+
     await mutate();
     setDiv(false);
     if (error) {

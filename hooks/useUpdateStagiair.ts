@@ -6,7 +6,7 @@ import useStagebegeleiders from "@/hooks/useStagebegeleiders";
 
 const useUpdateStagiair = (id: string, data: IStagaire) => {
   const queryClient = useQueryClient();
-  const auth = useCheckAuthorizeUser();
+  const { role } = useCheckAuthorizeUser();
   const { data: stagebegeleiders } = useStagebegeleiders();
 
   const updateStagiair = async () => {
@@ -23,7 +23,7 @@ const useUpdateStagiair = (id: string, data: IStagaire) => {
 
     //? if auth is stagebeglerider, stagebegeleider cant remove himself from the stagiair
 
-    if (auth === UserRole.STAGEBEGELEIDER) {
+    if (role === UserRole.STAGEBEGELEIDER) {
       //? if the stagebegeleiderId is not in the array, push the stagebegeleiderId to the array
       const stagebegeleiderId = stagebegeleiders?.find((stagebegeleider) =>
         data.stagebegeleiderId.includes(stagebegeleider.id)

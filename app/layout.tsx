@@ -4,7 +4,6 @@ import { Inter } from "next/font/google";
 import AuthProvider from "./auth/Provider";
 import Navar from "./components/Navbar";
 import TanstackProvider from "./components/provider/TanstackProvider";
-import { ToastContainer } from "react-toastify";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,7 +24,6 @@ export default function RootLayout({
           <Navar />
           <AuthProvider>{children}</AuthProvider>
         </TanstackProvider>
-        <ToastContainer />
       </body>
     </html>
   );

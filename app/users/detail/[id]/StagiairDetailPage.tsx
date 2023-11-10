@@ -5,18 +5,13 @@ import {
   AiOutlineLeft,
   AiOutlineRight,
 } from "react-icons/ai";
-import { BiComment, BiUserCircle } from "react-icons/bi";
-import { IoIosArrowRoundBack } from "react-icons/io";
+import { BiComment } from "react-icons/bi";
 import { VscChecklist } from "react-icons/vsc";
-import Link from "next/link";
 import { formatDate } from "@/lib";
 import useStagair from "@/hooks/useStagair";
 import Image from "next/image";
 import useStagairStore from "@/store";
-import { BsPencil } from "react-icons/bs";
 import { useEffect, useState } from "react";
-import { useSession } from "next-auth/react";
-import useUsers from "@/hooks/useUsers";
 import { UserRole } from "@/types";
 import useCheckAuthorizeUser from "@/hooks/useCheckAuthorizeUser";
 import {
@@ -41,19 +36,17 @@ interface Params {
 const StagiairDetailPage = ({ params: { id } }: Params) => {
   const { data, error, isLoading } = useStagair(id);
 
+
   const setIsModalOpen = useStagairStore((state) => state.setCommentModal);
   const setCommentId = useStagairStore((s) => s.setCommentId);
   const setUpdatePostId = useStagairStore((s) => s.setUpdatePostId);
-  const { data: users } = useUsers();
-
-  const isPostLModalOpen = useStagairStore((s) => s.isPostModal);
   const setIsPostModal = useStagairStore((s) => s.setIsPostModal);
-
-  // const [clickedPostId, setClickedPostId] = useState<string>("");
   const [checkListName, setCheckListName] =
     useState<string>("checkListStagiair");
 
   const { role, isLoading: loading } = useCheckAuthorizeUser();
+   const geenGegevensBeschikbaarVoorStageBeschrijving :string = "Geen gegevens beschikbaar";
+
 
   console.log(role);
   if (role !== null) {
@@ -72,34 +65,11 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
   };
   const [selectedSection, setSelectedSection] = useState<number>(1); // 1 is the first section
 
-  const { data: session, status, update } = useSession();
+  if (isLoading || loading || role == null) return <Loading />;
 
-  // const checkAuthorization = (): boolean => {
-  //   // check what is role of the user if users is admin or stagebegeleider than he can see the page else he can see if he is has the same id as the stagiair
-  //   if (session && session.user && session.user.email && users) {
-  //     const user = users.find((user) => user.email === session.user!.email);
-  //     if (user && user.role === UserRole.ADMIN) {
-  //       return true;
-  //     } else if (user && user.role === UserRole.STAGEBEGELEIDER) {
-  //       return true;
-  //     } else if (user && user.id === data?.user[0].id) {
-  //       return true;
-  //     } else {
-  //       return false;
-  //     }
-  //   }
+  if (error ) return <FetchingError error={error.message} />;
 
-  //   return false;
-  // };
-  if (role == null) {
-    return null;
-  }
-
-  if (isLoading && loading) return <Loading />;
-
-  if (error) return <FetchingError error={error.message} />;
-
-  if (!data && !error) return <NoDataError />;
+  if (!data && !error ) return <NoDataError />;
 
   const getStagebegeleiderName = () => {
     return data.stagebegeleider
@@ -107,29 +77,14 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
       .join(", ");
   };
 
-  if (status === "loading" || loading) return <Loading />;
-
-  const handlePostId = (id: string) => {};
-
   const handleCommentId = (id: string) => {
     setCommentId(id);
   };
 
   return (
     <>
-      {/* {checkAuthorization() && ( */}
       <section className="grid grid-rows-2 grid-flow-col gap-4 ml-20 mr-20">
         <div className="row-span-2 mt-2">
-          {/* Back button */}
-          {/* <Link href="/users/stagiair">
-            <button
-              type="button"
-              className="flex items-center  hover:text-gray-600 mr-20"
-            >
-              <IoIosArrowRoundBack className="text-3xl mr-2 text-blue-400" />
-              <h2 className="text-l ">Terug naar overzicht</h2>
-            </button>
-          </Link> */}
           <LinkToStagiairOverzciht
             role={UserRole.ADMIN || UserRole.STAGEBEGELEIDER}
             userRole={role}
@@ -404,6 +359,8 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
                 <StageBeschrijvingModal
                   stagairId={id}
                   id={stagebeschriving.id}
+                  stagebeshrijving={stagebeschriving}
+                  stagair={data}
                 />
               </div>
               <p className="text-gray-600 text-base leading-relaxed mt-2 ml-2 mr-10">
@@ -471,7 +428,6 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
           </div>
         </div>
       </section>
-      {/* )} */}
     </>
   );
 };

@@ -41,7 +41,7 @@ export interface IStore {
   setRole: (role: UserRole) => void;
 }
 
-const useStagairStore = create<IStore>((set) => ({
+const useStagairStore  = create<IStore>((set) => ({
   stagiairModal: false,
   commentModal: false,
   stagaires: {
