@@ -22,8 +22,7 @@ const useUpdatePost = (doel: IPost,doelId:string) => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries("stagair");
-        queryClient.invalidateQueries("doelen");
+        queryClient.invalidateQueries(["stagair"]);
         console.log("Mutation succes");
       },
       onError: (error) => {

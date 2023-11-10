@@ -28,6 +28,7 @@ import {
 import EditDoelButton from "@/app/components/EditButton/EditDoelButton";
 import EditStageBeschrijving from "@/app/components/EditButton/EditStageBeschrijving";
 import LinkToStagiairOverzciht from "@/app/components/LinkToStagiairOverzicht";
+import { BsPencil } from "react-icons/bs";
 
 interface Params {
   params: { id: string };
@@ -44,8 +45,10 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
   const [checkListName, setCheckListName] =
     useState<string>("checkListStagiair");
 
+  const setClickedPostId = useStagairStore((s) => s.setUpdatePostId);
+
   const { role, isLoading: loading } = useCheckAuthorizeUser();
-   const geenGegevensBeschikbaarVoorStageBeschrijving :string = "Geen gegevens beschikbaar";
+  const geenGegevensBeschikbaarVoorStageBeschrijving :string = "Geen gegevens beschikbaar";
 
 
   console.log(role);
@@ -108,13 +111,13 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
                     {/* Edit button for post */}
                     {/* check if the user role is admin or stagebegeleider */}
 
-                    {/* {role === UserRole.ADMIN ? (
+                    {role === UserRole.ADMIN ? (
                       // Render the edit button for admins and stagebegeleiders
                       <button
                         type="button"
                         onClick={() => {
-                          setUpdatePostId(post.id);
-                          // setClickedPostId(post.id);
+                          // setUpdatePostId(post.id);
+                          setClickedPostId(post.id);
                           useStagairStore.setState({ updatePost: post });
                           setIsPostModal(true);
                         }}
@@ -122,14 +125,14 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
                       >
                         <BsPencil className="text-xl" />
                       </button>
-                    ) : null} */}
-                    <EditDoelButton
+                    ) : null}
+                    {/* <EditDoelButton
                       role={UserRole.ADMIN || UserRole.STAGEBEGELEIDER}
                       userRole={role}
                       setUpdateGoalId={setUpdatePostId}
                       goal={post}
                       setIsGoalModal={setIsPostModal}
-                    />
+                    /> */}
                     {/* Delete button for post */}
                     {/* check if the user role is admin or stagebegeleider */}
                     {/* {clickedPostId === post.id && ( */}
