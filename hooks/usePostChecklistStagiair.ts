@@ -17,7 +17,7 @@ const usePostChecklistStagiair = (
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries("checkliststagiair");
+        queryClient.invalidateQueries(["stagair"]);
         console.log("Mutation succes");
       },
       onError: (error) => {

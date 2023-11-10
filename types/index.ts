@@ -23,11 +23,10 @@ export interface IStagebegeleider {
 }
 
 export enum UserRole {
-  ADMIN ="ADMIN",
-  STAGIAIR ="STAGIAIR",
-  STAGEBEGELEIDER ="STAGEBEGELEIDER",
+  ADMIN = "ADMIN",
+  STAGIAIR = "STAGIAIR",
+  STAGEBEGELEIDER = "STAGEBEGELEIDER",
 }
-
 
 export interface IUser {
   id: string;
