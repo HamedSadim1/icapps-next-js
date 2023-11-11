@@ -111,7 +111,7 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
                     {/* Edit button for post */}
                     {/* check if the user role is admin or stagebegeleider */}
 
-                    {role === UserRole.ADMIN ? (
+                    {/* {role === UserRole.ADMIN ? (
                       // Render the edit button for admins and stagebegeleiders
                       <button
                         type="button"
@@ -125,14 +125,14 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
                       >
                         <BsPencil className="text-xl" />
                       </button>
-                    ) : null}
-                    {/* <EditDoelButton
+                    ) : null} */}
+                    <EditDoelButton
                       role={UserRole.ADMIN || UserRole.STAGEBEGELEIDER}
                       userRole={role}
-                      setUpdateGoalId={setUpdatePostId}
+                      setUpdateGoalId={setClickedPostId}
                       goal={post}
                       setIsGoalModal={setIsPostModal}
-                    /> */}
+                    />
                     {/* Delete button for post */}
                     {/* check if the user role is admin or stagebegeleider */}
                     {/* {clickedPostId === post.id && ( */}
