@@ -336,66 +336,77 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
               Evaluatieformulier Invullen
             </button>
           </div>
-          {data.stagebeschriving.map((stagebeschriving) => (
-            <div
-              key={stagebeschriving.id}
-              className="bg-gray-200 mt-11 rounded-lg pb-5 p-5"
-            >
-              <div className="flex justify-between items-center ml-2">
-                <h2 className="text-2xl font-semibold text-[#002548]">
-                  Beschrijving
-                </h2>
-                {/* Edit the stage from */}
-                {/* <button
+          {data.stagebegeleider.length > 0 ? (
+            data.stagebeschriving.map((stagebeschriving) => (
+              <div
+                key={stagebeschriving.id}
+                className="bg-gray-200 mt-11 rounded-lg pb-5 p-5"
+              >
+                <div className="flex justify-between items-center ml-2">
+                  <h2 className="text-2xl font-semibold text-[#002548]">
+                    Beschrijving
+                  </h2>
+                  {/* Edit the stage from */}
+                  {/* <button
                   type="button"
                   className="hover:text-gray-400"
                   onClick={() => setIsModalOpen(true)}
                 >
                   <BsPencil className="text-xl" />
                 </button> */}
-                <EditStageBeschrijving
-                  role={UserRole.ADMIN || UserRole.STAGEBEGELEIDER}
-                  userRole={role}
-                  setIsModalOpen={setIsModalOpen}
-                />
-                <StageBeschrijvingModal
-                  stagairId={id}
-                  id={stagebeschriving.id}
-                  stagebeshrijving={stagebeschriving}
-                  stagair={data}
-                />
+                  <EditStageBeschrijving
+                    role={UserRole.ADMIN || UserRole.STAGEBEGELEIDER}
+                    userRole={role}
+                    setIsModalOpen={setIsModalOpen}
+                  />
+                  <StageBeschrijvingModal
+                    stagairId={id}
+                    id={stagebeschriving.id}
+                    stagebeshrijving={stagebeschriving}
+                    stagair={data}
+                  />
+                </div>
+                <p className="text-gray-600 text-base leading-relaxed mt-2 ml-2 mr-10">
+                  {stagebeschriving.beschrijving}
+                </p>
+                <h2 className="text-2xl mt-5 ml-2 font-semibold text-[#002548]">
+                  Stage begeleider(s)
+                </h2>
+                <h3 className="text-gray-600 ml-2">
+                  {getStagebegeleiderName()}
+                </h3>
+                <h2 className="text-2xl mt-5 ml-2 font-semibold text-[#002548]">
+                  Stage duur
+                </h2>
+                <h3 className="text-gray-600 ml-2">
+                  {formatDate(data.startDate)} - {formatDate(data.endDate)}
+                </h3>
+                <h2 className="text-2xl mt-5 ml-2 font-semibold text-[#002548]">
+                  School
+                </h2>
+                <h3 className="text-gray-600 ml-2">
+                  {stagebeschriving.school}
+                </h3>
+                <h2 className="text-2xl mt-5 ml-2 font-semibold text-[#002548]">
+                  Contactpersoon
+                </h2>
+                <h3 className="text-gray-600 ml-2">
+                  {stagebeschriving.contactPersoonName}
+                </h3>
+                <h3 className="text-gray-600 ml-2 mt-1">
+                  {stagebeschriving.contactPersoonEmail}
+                </h3>
+                <h3 className="text-gray-600 ml-2 mt-1">
+                  {stagebeschriving.contactPersoonTelefoon}
+                </h3>
               </div>
-              <p className="text-gray-600 text-base leading-relaxed mt-2 ml-2 mr-10">
-                {stagebeschriving.beschrijving}
-              </p>
-              <h2 className="text-2xl mt-5 ml-2 font-semibold text-[#002548]">
-                Stage begeleider(s)
-              </h2>
-              <h3 className="text-gray-600 ml-2">{getStagebegeleiderName()}</h3>
-              <h2 className="text-2xl mt-5 ml-2 font-semibold text-[#002548]">
-                Stage duur
-              </h2>
-              <h3 className="text-gray-600 ml-2">
-                {formatDate(data.startDate)} - {formatDate(data.endDate)}
-              </h3>
-              <h2 className="text-2xl mt-5 ml-2 font-semibold text-[#002548]">
-                School
-              </h2>
-              <h3 className="text-gray-600 ml-2">{stagebeschriving.school}</h3>
-              <h2 className="text-2xl mt-5 ml-2 font-semibold text-[#002548]">
-                Contactpersoon
-              </h2>
-              <h3 className="text-gray-600 ml-2">
-                {stagebeschriving.contactPersoonName}
-              </h3>
-              <h3 className="text-gray-600 ml-2 mt-1">
-                {stagebeschriving.contactPersoonEmail}
-              </h3>
-              <h3 className="text-gray-600 ml-2 mt-1">
-                {stagebeschriving.contactPersoonTelefoon}
-              </h3>
+            ))
+          ) : (
+            // if there no stagebeschrijving show this message
+            <div className="flex text-gray-600 text-base mt-4">
+              nog geen gegevens beschikbaar
             </div>
-          ))}
+          )}
 
           {/* Documenten */}
           <div className="flex-col bg-gray-200  rounded-lg overflow-hidden  mt-10 p-5">
