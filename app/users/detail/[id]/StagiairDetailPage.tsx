@@ -37,7 +37,6 @@ interface Params {
 const StagiairDetailPage = ({ params: { id } }: Params) => {
   const { data, error, isLoading } = useStagair(id);
 
-
   const setIsModalOpen = useStagairStore((state) => state.setCommentModal);
   const setCommentId = useStagairStore((s) => s.setCommentId);
   const setUpdatePostId = useStagairStore((s) => s.setUpdatePostId);
@@ -48,8 +47,8 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
   const setClickedPostId = useStagairStore((s) => s.setUpdatePostId);
 
   const { role, isLoading: loading } = useCheckAuthorizeUser();
-  const geenGegevensBeschikbaarVoorStageBeschrijving :string = "Geen gegevens beschikbaar";
-
+  const geenGegevensBeschikbaarVoorStageBeschrijving: string =
+    "Geen gegevens beschikbaar";
 
   console.log(role);
   if (role !== null) {
@@ -70,9 +69,9 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
 
   if (isLoading || loading || role == null) return <Loading />;
 
-  if (error ) return <FetchingError error={error.message} />;
+  if (error) return <FetchingError error={error.message} />;
 
-  if (!data && !error ) return <NoDataError />;
+  if (!data && !error) return <NoDataError />;
 
   const getStagebegeleiderName = () => {
     return data.stagebegeleider
@@ -192,7 +191,7 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
             ))
           ) : (
             //? if there no doel show this message
-            <div className="text-gray-600 text-base mt-4">
+            <div className="flex text-gray-600 text-base mt-4">
               Er werden nog geen doelen gedefinieerd
             </div>
           )}
