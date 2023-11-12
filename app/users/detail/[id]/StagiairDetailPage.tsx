@@ -28,6 +28,7 @@ import {
 import EditDoelButton from "@/app/components/EditButton/EditDoelButton";
 import EditStageBeschrijving from "@/app/components/EditButton/EditStageBeschrijving";
 import LinkToStagiairOverzciht from "@/app/components/LinkToStagiairOverzicht";
+import DocumentDetail from "@/app/components/DocumentDetail";
 
 interface Params {
   params: { id: string };
@@ -43,9 +44,8 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
   const setIsPostModal = useStagairStore((s) => s.setIsPostModal);
   const [checkListName, setCheckListName] =
     useState<string>("checkListStagiair");
-
   const { role, isLoading: loading } = useCheckAuthorizeUser();
-   const geenGegevensBeschikbaarVoorStageBeschrijving :string = "Geen gegevens beschikbaar";
+  const geenGegevensBeschikbaarVoorStageBeschrijving: string = "Geen gegevens beschikbaar";
 
 
   console.log(role);
@@ -67,9 +67,9 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
 
   if (isLoading || loading || role == null) return <Loading />;
 
-  if (error ) return <FetchingError error={error.message} />;
+  if (error) return <FetchingError error={error.message} />;
 
-  if (!data && !error ) return <NoDataError />;
+  if (!data && !error) return <NoDataError />;
 
   const getStagebegeleiderName = () => {
     return data.stagebegeleider
@@ -203,20 +203,18 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
               <button
                 type="button"
                 onClick={() => setCheckListName("checkListStagiair")}
-                className={`rounded-l-md border-[#002548] border-2 px-6 py-1 flex justify-center font-medium  ${
-                  checkListName === "checkListStagiair" &&
+                className={`rounded-l-md border-[#002548] border-2 px-6 py-1 flex justify-center font-medium  ${checkListName === "checkListStagiair" &&
                   "bg-[#002548] text-white"
-                }`}
+                  }`}
               >
                 Stagiair
               </button>
               <button
                 onClick={() => setCheckListName("checklistStagebegeleider")}
                 type="button"
-                className={`rounded-l-md border-[#002548] border-2 px-6 py-1 flex justify-center font-medium ${
-                  checkListName === "checklistStagebegeleider" &&
+                className={`rounded-l-md border-[#002548] border-2 px-6 py-1 flex justify-center font-medium ${checkListName === "checklistStagebegeleider" &&
                   "bg-[#002548] text-white"
-                }`}
+                  }`}
               >
                 Begeleider
               </button>
@@ -398,27 +396,7 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
           {/* Documenten */}
           <div className="flex-col bg-gray-200  rounded-lg overflow-hidden  mt-10 p-5">
             {data.documents.map((document) => (
-              <div key={document.id}>
-                <a
-                  href={
-                    "https://res.cloudinary.com/dhjblvbsd/image/upload/f_auto,q_auto/" +
-                    document.public_id
-                  }
-                >
-                  <h2 className="text-2xl mt-5 ml-2">
-                    {document.original_filename}
-                  </h2>
-                </a>
-                <h3 className="text-gray  ml-2 text-gray-400">
-                  {formatDate(document.created_at)} door {data.name} (
-                  {document.bytes}
-                  kb)
-                </h3>
-                <div className="flex justify-start text-gray-400 ">
-                  <BiComment className="mt-1 ml-2" />
-                  <h3 className="text-gray ml-2 flex ">3 comments</h3>
-                </div>
-              </div>
+              <DocumentDetail document={document}/>
             ))}
             {/* <button type="button" className="flex mt-5">
               <GrAdd className=" mt-1 ml-2 text-gray-400 " />
