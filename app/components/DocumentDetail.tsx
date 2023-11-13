@@ -8,6 +8,7 @@ import { BiComment } from "react-icons/bi";
 import { BsFillTrashFill } from "react-icons/bs";
 import CommentDocument from "./CommentDocument";
 import useDeleteDocument from "@/hooks/useDeleteDocument";
+import DeleteDocumentModal from "./DeleteDocumentModal";
 
 interface DocumentDetailProps {
   document: IDocument
@@ -54,7 +55,7 @@ const DocumentDetail = (document: DocumentDetailProps) => {
                 <a href={"https://res.cloudinary.com/dhjblvbsd/image/upload/f_auto,q_auto/" + document.document.public_id} target="_blank" rel="noopener noreferrer" >
                   <h2 className="float-left"> {document.document.original_filename} </h2>
                 </a>
-                <BsFillTrashFill className="float-right text-3xl mx-auto bg-gray-100 top-0 right-0" onClick={() => useDeleteDocument(document.document.id)}></BsFillTrashFill>
+                <DeleteDocumentModal documentId={document.document.id} />
               </label>
             </div>
             {/* FOR LOOP ALLE COMMENTS VAN DOCUMENT EN DISPLAY DIT MET JUISTE INFO */}

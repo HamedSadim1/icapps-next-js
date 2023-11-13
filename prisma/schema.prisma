@@ -131,7 +131,7 @@ model Document {
 model DocumentComment {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
   comment    String
-  document   Document @relation(fields: [documentID], references: [id])
+  document   Document @relation(fields: [documentID], references: [id], onDelete: Cascade)
   createdAt  DateTime @default(now())
   documentID String   @db.ObjectId
 }

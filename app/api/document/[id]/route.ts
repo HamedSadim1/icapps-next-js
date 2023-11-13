@@ -1,4 +1,4 @@
-import { NextResponse, NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/prisma/client";
 import { connectToDatabase } from "@/lib";
 
@@ -9,10 +9,10 @@ interface Params {
 export async function GET(request: NextRequest, { params: { id } }: Params) {
   try {
     await connectToDatabase();
-    const document = await prisma.document.findUnique({
+    const doel = await prisma.document.findUnique({
       where: { id },
     });
-    return NextResponse.json(document, { status: 200 });
+    return NextResponse.json(doel, { status: 200 });
   } catch (error) {
     console.log(error);
     return NextResponse.json({ error: error }, { status: 400 });
@@ -24,14 +24,23 @@ export async function GET(request: NextRequest, { params: { id } }: Params) {
 export async function DELETE(request: NextRequest, { params: { id } }: Params) {
   try {
     await connectToDatabase();
-    const document = await prisma.document.delete({
-      where: { id },
+    // before deleting the document, delete all comments
+    await prisma.document.deleteMany({
+      where: {
+        id: id,
+      },
     });
-    return NextResponse.json(document, { status: 200 });
+    // delete the document
+    const doel = await prisma.document.delete({
+      where: {
+        id,
+      }
+    });
+    return NextResponse.json(doel, { status: 200 });
   } catch (error) {
     console.log(error);
     return NextResponse.json({ error: error }, { status: 400 });
   } finally {
-    await prisma.$disconnect();
+    prisma.$disconnect();
   }
 }
