@@ -24,14 +24,14 @@ const CommentModal = () => {
   return (
     <>
       <div className="bg-white text-gray-500 hover:text-gray-900 border-none pl-1 ml-10 mt-2">
-        <div onClick={() => setDiv(true)}>
+        <button onClick={() => setDiv(true)}>
           <AiOutlinePlus className="float-left mt-1 text-gray-700" />
           &nbsp;Commentaar toevoegen
-        </div>
+        </button>
       </div>
 
       {showDiv == true && (
-        <div className="h-screen w-screen flex flex-col justify-center items-center fixed top-0 left-0 right-0 bottom-0 z-50 bg-opacity-75 bg-gray-900">
+        <div className="flex flex-col justify-end p-28 items-center fixed top-0 left-0 right-0 bottom-0 z-50 bg-opacity-50 bg-gray-700">
           <div className="bg-white shadow-xl h-auto pb-7 text-gray-500 z-2 rounded-md">
             <div
               className="btn btn-sm btn-circle btn-ghost float-right text-xl mr-3 mt-3"
@@ -54,8 +54,17 @@ const CommentModal = () => {
                   }
                 ></input>
                 <br />
-                <div className="w-full text-center">
-                  <button type="submit" className="px-7 py-2 rounded-md bg-[#002548] text-white font-semibold">
+                <div className="w-full text-right">
+                  <button
+                    className="mr-4 px-7 py-2 rounded-md bg-gray-200 text-[#002548] font-semibold hover:bg-gray-400"
+                    onClick={() => setDiv(false)}
+                  >
+                    Annuleren
+                  </button>
+                  <button
+                    type="submit"
+                    className="px-7 py-2 rounded-md bg-[#002548] text-white font-semibold hover:bg-blue-500"
+                  >
                     Opslaan
                   </button>
                 </div>

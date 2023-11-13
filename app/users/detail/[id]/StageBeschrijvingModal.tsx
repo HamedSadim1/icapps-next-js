@@ -91,10 +91,10 @@ const StageBeschrijvingModal = ({
   };
 
   return (
-    <dialog id="my_modal_3" className="modal">
+    <dialog id="my_modal_3" className="modal duration-0">
       {isModalOpen && (
-        <div className="modal-box">
-          <h1 className="text-2xl font-semibold mb-3">Stage details</h1>
+        <div className="modal-box px-10 rounded-md">
+          <h1 className="text-2xl font-semibold mb-4">Stage details</h1>
           <form method="dialog" onSubmit={handleSubmitForm}>
             <button
               className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
@@ -104,7 +104,7 @@ const StageBeschrijvingModal = ({
             </button>
             <div className="form-control">
               <label className="label">
-                <span className="label-text">Beschrijving</span>
+                <span className="label-text text-base">Beschrijving</span>
               </label>
               <textarea
                 value={stageBeschrijving.beschrijving}
@@ -119,8 +119,8 @@ const StageBeschrijvingModal = ({
               ></textarea>
             </div>
             <div className="form-control">
-              <label className="label">
-                <span className="label-text">Stage begeleider(s)</span>
+              <label className="label text-base">
+                <span className="label-text text-base">Stage begeleider(s)</span>
               </label>
               <Select
                 defaultValue={stagair?.stagebegeleider.map(
@@ -156,7 +156,7 @@ const StageBeschrijvingModal = ({
             <div className="flex justify-between">
               <div className="form-control">
                 <label className="label">
-                  <span className="label-text">Start datum</span>
+                  <span className="label-text text-base">Start datum</span>
                 </label>
                 <input
                   type="date"
@@ -174,7 +174,7 @@ const StageBeschrijvingModal = ({
               {/* Einddatum */}
               <div className="form-control">
                 <label className="label">
-                  <span className="label-text">Eind datum</span>
+                  <span className="label-text text-base">Eind datum</span>
                 </label>
                 <input
                   type="date"
@@ -193,7 +193,7 @@ const StageBeschrijvingModal = ({
             {/* School */}
             <div className="form-control">
               <label className="label">
-                <span className="label-text">School</span>
+                <span className="label-text text-base">School</span>
               </label>
               <input
                 type="text"
@@ -212,7 +212,7 @@ const StageBeschrijvingModal = ({
             <h2 className="text-lg font-bold mt-3">Contactpersoon</h2>
             <div className="form-control">
               <label className="label">
-                <span className="label-text">Naam</span>
+                <span className="label-text text-base">Naam</span>
               </label>
               <input
                 type="text"
@@ -230,7 +230,7 @@ const StageBeschrijvingModal = ({
             <div className="flex">
               <div className="form-control">
                 <label className="label">
-                  <span className="label-text">Telefoon Nummer</span>
+                  <span className="label-text text-base">Telefoonnummer</span>
                 </label>
                 <input
                   type="text"
@@ -247,12 +247,12 @@ const StageBeschrijvingModal = ({
               </div>
               <div className="form-control">
                 <label className="label">
-                  <span className="label-text ml-8">Email</span>
+                  <span className="label-text ml-3 text-base">Email</span>
                 </label>
                 <input
                   type="email"
                   placeholder="Email"
-                  className="ml-7 w-full p-3 border-2 rounded-md mb-5"
+                  className="ml-3 w-full p-3 border-2 rounded-md mb-5"
                   value={stageBeschrijving.contactPersoonEmail}
                   onChange={(e) =>
                     setStageBeschrijving({
@@ -266,12 +266,12 @@ const StageBeschrijvingModal = ({
 
             <div className="w-full text-right mt-2 ">
               <button
-                className="mr-4 px-7 py-2 rounded-md bg-gray-200 text-[#002548] font-semibold"
+                className="mr-4 px-7 py-2 rounded-md bg-gray-200 text-[#002548] font-semibold hover:bg-gray-400"
                 onClick={handleModal}
               >
                 Annuleren
               </button>
-              <button className="px-7 py-2 rounded-md bg-[#002548] text-white font-semibold">
+              <button className="px-7 py-2 rounded-md bg-[#002548] text-white font-semibold hover:bg-blue-500">
                 Opslaan
               </button>
             </div>

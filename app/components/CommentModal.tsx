@@ -31,10 +31,10 @@ const CommentModal = () => {
       </div>
 
       {showDiv == true && (
-        <div className="h-screen w-screen flex flex-col justify-center items-center fixed top-0 left-0 right-0 bottom-0 z-50 bg-opacity-75 bg-gray-900">
-          <div className="bg-white shadow-xl h-auto pb-7 text-gray-500 z-2 rounded-md">
+        <div className=" pointer-events-none h-screen w-screen flex flex-col justify-center items-center fixed top-0 left-0 right-0 bottom-0 z-50 bg-opacity-50 bg-gray-700">
+          <div className="bg-white shadow-2xl h-auto pb-7 text-gray-500 z-2 rounded-md">
             <div
-              className="btn btn-sm btn-circle btn-ghost float-right text-xl mr-3 mt-3"
+              className="btn btn-sm btn-circle btn-ghost float-right text-xl mr-3 mt-3 pointer-events-auto"
               onClick={() => setDiv(false)}
             >
               <MdClose />
@@ -45,7 +45,7 @@ const CommentModal = () => {
                   Commentaar
                 </label>
                 <textarea
-                  className="w-full p-3 border-2 rounded-md mb-5"
+                  className="w-full p-3 border-2 rounded-md mb-5 pointer-events-auto"
                   name="beschrijving"
                   id="beschrijving"
                   value={comment.comment}
@@ -54,16 +54,16 @@ const CommentModal = () => {
                   }
                 ></textarea>
                 <br />
-                <div className="w-full text-right">
+                <div className="w-full text-right pointer-events-auto">
                   <button
-                    className="mr-4 px-7 py-2 rounded-md bg-gray-200 text-[#002548] font-semibold"
+                    className="mr-4 px-7 py-2 rounded-md bg-gray-200 text-[#002548] font-semibold hover:bg-gray-400"
                     onClick={() => setDiv(false)}
                   >
                     Annuleren
                   </button>
                   <button
                     type="submit"
-                    className="px-7 py-2 rounded-md bg-[#002548] text-white font-semibold"
+                    className="px-7 py-2 rounded-md bg-[#002548] text-white font-semibold hover:bg-blue-500"
                   >
                     Opslaan
                   </button>

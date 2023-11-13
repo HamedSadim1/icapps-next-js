@@ -32,6 +32,7 @@ const UploadDocument = ({ stagiairId }: IUploadDocumentProps) => {
         stagiairID: info.stagiairID,
         bytes: info.bytes,
         resource_type: info.resource_type,
+        comments: ""
       };
 
       await useStagairStore.setState({ documents: uploadedDocument });
@@ -55,7 +56,7 @@ const UploadDocument = ({ stagiairId }: IUploadDocumentProps) => {
           }}
         >
           {({ open }) => (
-            <button onClick={() => open()}>&nbsp;Document toevegen</button>
+            <button onClick={() => open()}>&nbsp;Document toevoegen</button>
           )}
         </CldUploadWidget>
       </div>
