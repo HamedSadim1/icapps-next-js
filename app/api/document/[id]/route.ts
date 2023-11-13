@@ -20,3 +20,18 @@ export async function GET(request: NextRequest, { params: { id } }: Params) {
     await prisma.$disconnect();
   }
 }
+
+export async function DELETE(request: NextRequest, { params: { id } }: Params) {
+  try {
+    await connectToDatabase();
+    const document = await prisma.document.delete({
+      where: { id },
+    });
+    return NextResponse.json(document, { status: 200 });
+  } catch (error) {
+    console.log(error);
+    return NextResponse.json({ error: error }, { status: 400 });
+  } finally {
+    await prisma.$disconnect();
+  }
+}
