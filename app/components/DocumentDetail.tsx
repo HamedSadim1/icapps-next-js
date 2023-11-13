@@ -33,9 +33,7 @@ const DocumentDetail = (document: DocumentDetailProps) => {
         </h3>
         <div className="flex justify-start text-gray-400 ">
           <BiComment className="mt-1 ml-2" />
-          <h3 className="text-gray ml-2 flex ">
-            {/* {document.document.comments.length} */}
-            3 comments</h3>
+          <h3 className="text-gray ml-2 flex "> {(document.document.comments) != undefined ? document.document.comments.length : "0"} comments</h3>
         </div>
       </div>
       {showDiv == true && (
