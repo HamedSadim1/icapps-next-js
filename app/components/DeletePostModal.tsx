@@ -9,6 +9,7 @@ import { inputFormDater } from "@/lib";
 import usePost from "@/hooks/usePost";
 import { IPost } from "@/types";
 
+
 interface DeletePostModalProps {
   postId: string;
   post:IPost

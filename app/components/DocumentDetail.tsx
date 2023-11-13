@@ -24,7 +24,7 @@ const DocumentDetail = (document: DocumentDetailProps) => {
     <>
       <div key={document.document.id}>
         <a onClick={() => setDiv(true)}>
-          <h2 className="text-2xl mt-5 ml-2"> {document.document.original_filename} </h2>
+          <button><h2 className="text-2xl mt-5 ml-2"> {document.document.original_filename} </h2></button>
         </a>
         <h3 className="text-gray  ml-2 text-gray-400">
           {formatDate(document.document.created_at)} door {user.data?.name} (
@@ -55,7 +55,10 @@ const DocumentDetail = (document: DocumentDetailProps) => {
                 <a href={"https://res.cloudinary.com/dhjblvbsd/image/upload/f_auto,q_auto/" + document.document.public_id} target="_blank" rel="noopener noreferrer" >
                   <h2 className="float-left"> {document.document.original_filename} </h2>
                 </a>
-                <DeleteDocumentModal documentId={document.document.id} />
+                {/* DELETE DOCUMENT BUTTON */}
+                <button className="float-right">
+                  <DeleteDocumentModal documentId={document.document.id} />
+                </button>
               </label>
             </div>
             {/* FOR LOOP ALLE COMMENTS VAN DOCUMENT EN DISPLAY DIT MET JUISTE INFO */}
