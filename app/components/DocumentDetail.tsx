@@ -33,13 +33,11 @@ const DocumentDetail = (document: DocumentDetailProps) => {
         </h3>
         <div className="flex justify-start text-gray-400 ">
           <BiComment className="mt-1 ml-2" />
-          <h3 className="text-gray ml-2 flex ">
-            {/* {document.document.comments.length} */}
-            3 comments</h3>
+          <h3 className="text-gray ml-2 flex "> {(document.document.comments) != undefined ? document.document.comments.length : "0"} comments</h3>
         </div>
       </div>
       {showDiv == true && (
-        <div className="h-screen w-screen flex flex-col justify-center items-center fixed top-0 left-0 right-0 bottom-0 z-50 bg-opacity-75 bg-gray-900">
+        <div className="h-screen w-screen flex flex-col justify-center items-center fixed top-0 left-0 right-0 bottom-0 z-50 bg-opacity-75 bg-gray-700">
           <div className="bg-white shadow-xl w-1/3 h-auto pb-7 text-gray-500 z-2 rounded-md">
             <button
               className="btn btn-sm btn-circle btn-ghost float-right mt-3 mr-3 text-xl"
