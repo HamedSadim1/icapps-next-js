@@ -7,6 +7,7 @@ import {
   IChecklistStagiair,
   IDocument,
   UserRole,
+  IDocumentComment,
 } from "@/types";
 
 export interface IStore {
@@ -39,6 +40,11 @@ export interface IStore {
   setIsPostModal: (isPostModal: boolean) => void;
   role: UserRole | null;
   setRole: (role: UserRole) => void;
+  setDocumentId: (documentId: string) => void;
+  documentComment: IDocumentComment;
+  setDocumentComment: (comment: IDocumentComment) => void;
+  documentId: string;
+  documentCommentId: (documentId: string) => void;
 }
 
 const useStagairStore  = create<IStore>((set) => ({

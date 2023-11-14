@@ -5,7 +5,7 @@ import { FormEvent, useState } from "react";
 import useStagairStore from "@/store";
 import usePostComment from "@/hooks/usePostComment";
 
-const CommentModal = () => {
+const CommentDocument = () => {
   const [showDiv, setDiv] = useState<boolean>(false);
   const comment = useStagairStore((s) => s.comment);
   const setComment = useStagairStore((s) => s.setComment);
@@ -23,7 +23,7 @@ const CommentModal = () => {
 
   return (
     <>
-      <div className="bg-white text-gray-500 hover:text-gray-900 border-none pl-1 ml-10 mt-2">
+      <div className="ml-16 flex px-4 py-2 text-gray-400 hover:text-gray-500">
         <div onClick={() => setDiv(true)}>
           <AiOutlinePlus className="float-left mt-1 text-gray-700" />
           &nbsp;Commentaar toevoegen
@@ -39,12 +39,12 @@ const CommentModal = () => {
             >
               <MdClose />
             </div>
-            <div className="flex flex-col pt-10 mx-16">
+            <div className="flex flex-col pt-16 mx-16">
               <form onSubmit={handleSubmitButton}>
                 <label className="float-left" htmlFor="beschrijving">
                   Commentaar
                 </label>
-                <input type="text"
+                <textarea
                   className="w-full p-3 border-2 rounded-md mb-5"
                   name="beschrijving"
                   id="beschrijving"
@@ -52,10 +52,19 @@ const CommentModal = () => {
                   onChange={(e) =>
                     setComment({ ...comment, comment: e.target.value })
                   }
-                ></input>
+                ></textarea>
                 <br />
-                <div className="w-full text-center">
-                  <button type="submit" className="px-7 py-2 rounded-md bg-[#002548] text-white font-semibold">
+                <div className="w-full text-right">
+                  <button
+                    className="mr-4 px-7 py-2 rounded-md bg-gray-200 text-[#002548] font-semibold"
+                    onClick={() => setDiv(false)}
+                  >
+                    Annuleren
+                  </button>
+                  <button
+                    type="submit"
+                    className="px-7 py-2 rounded-md bg-[#002548] text-white font-semibold"
+                  >
                     Opslaan
                   </button>
                 </div>
@@ -68,4 +77,4 @@ const CommentModal = () => {
   );
 };
 
-export default CommentModal;
+export default CommentDocument;

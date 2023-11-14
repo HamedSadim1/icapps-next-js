@@ -5,10 +5,10 @@ import { IDocument, IStagaire } from "@/types";
 import { formatDate } from "@/lib";
 import useStagair from "@/hooks/useStagair";
 import { BiComment } from "react-icons/bi";
-import { BsFillTrashFill } from "react-icons/bs";
-import CommentDocument from "./CommentDocument";
+import { BsFillTrashFill, BsTypeH1 } from "react-icons/bs";
 import useDeleteDocument from "@/hooks/useDeleteDocument";
 import DeleteDocumentModal from "./DeleteDocumentModal";
+import CommentDocument from "./CommentDocument";
 
 interface DocumentDetailProps {
   document: IDocument
@@ -61,6 +61,7 @@ const DocumentDetail = (document: DocumentDetailProps) => {
             </div>
             {/* FOR LOOP ALLE COMMENTS VAN DOCUMENT EN DISPLAY DIT MET JUISTE INFO */}
             {/* ------------------------------------------------------------------ */}
+
             <div className="mx-6 pt-5">
               <FaRegCircleUser className="text-cyan-600 text-3xl float-left w-8 h-16"></FaRegCircleUser>
               <b className="text-cyan-600 ml-4 text-sm font-semibold">
@@ -71,7 +72,7 @@ const DocumentDetail = (document: DocumentDetailProps) => {
                 ipsum dolor, sit amet consectetur adipisicing elit.{" "}
               </p>
             </div>
-            {/* ------------------------------------------------------------------ */}
+            {/*  ------------------------------------------------------------------ */}
             <CommentDocument />
           </div>
         </div>
