@@ -68,7 +68,9 @@ export const AddCheckListItem = ({ stagiairId }: AddChecklistProps) => {
                   min={inputFormDater(new Date().toISOString().split("T")[0])}
                 />
                 <div className="w-full text-right">
-                  <button className="mr-4 px-7 py-2 rounded-md bg-blue-100 text-[#002548] font-semibold hover:bg-blue-200">
+                  <button className="mr-4 px-7 py-2 rounded-md bg-blue-100 text-[#002548] font-semibold hover:bg-blue-200"
+                    onClick={() => setDiv(false)}
+                  >
                     Annuleren
                   </button>
                   <button
