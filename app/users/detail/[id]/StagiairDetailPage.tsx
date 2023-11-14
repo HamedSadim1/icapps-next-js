@@ -335,7 +335,7 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
           {data.stagebeschriving.map((stagebeschriving) => (
             <div
               key={stagebeschriving.id}
-              className="bg-gray-200 mt-11 rounded-lg pb-5 p-5"
+              className="bg-blue-50  mt-11 rounded-lg pb-5 p-5"
             >
               <div className="flex justify-between items-center ml-2">
                 <h2 className="text-2xl font-semibold text-[#002548]">
@@ -394,7 +394,9 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
           ))}
 
           {/* Documenten */}
-          <div className="flex-col bg-gray-200  rounded-lg overflow-hidden  mt-10 p-5">
+          
+          <div className="flex-col bg-blue-50  rounded-lg overflow-hidden  mt-10 pl-7 py-3 text-[#002548]">
+          <h2 className="text-2xl mt-5 font-semibold text-[#002548]">Documenten</h2>
             {data.documents.map((document) => (
               <DocumentDetail document={document}/>
             ))}

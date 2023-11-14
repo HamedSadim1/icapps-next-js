@@ -123,7 +123,7 @@ const DeletePostModal = ({ postId,post }: DeletePostModalProps) => {
                 </div>
                 <div className="w-full text-right mt-28">
                   <button
-                    className="mr-4 px-7 py-2 rounded-md bg-gray-200 text-[#002548] font-semibold hover:bg-gray-400"
+                    className="mr-4 px-7 py-2 rounded-md bg-blue-100 text-[#002548] font-semibold hover:bg-blue-200"
                     onClick={handleCloseModal}
                   >
                     Annuleren

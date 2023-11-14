@@ -56,7 +56,7 @@ const CommentModal = () => {
                 <br />
                 <div className="w-full text-right pointer-events-auto">
                   <button
-                    className="mr-4 px-7 py-2 rounded-md bg-gray-200 text-[#002548] font-semibold hover:bg-gray-400"
+                    className="mr-4 px-7 py-2 rounded-md bg-blue-100 text-[#002548] font-semibold hover:bg-blue-200"
                     onClick={() => setDiv(false)}
                   >
                     Annuleren
@@ -65,7 +65,7 @@ const CommentModal = () => {
                     type="submit"
                     className="px-7 py-2 rounded-md bg-[#002548] text-white font-semibold hover:bg-blue-500"
                   >
-                    Opslaan
+                    Plaatsen
                   </button>
                 </div>
               </form>

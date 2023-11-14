@@ -23,7 +23,7 @@ const CommentDocument = () => {
 
   return (
     <>
-      <div className="bg-white text-gray-500 hover:text-gray-900 border-none pl-1 ml-10 mt-2">
+      <div className="bg-white text-gray-500 hover:text-gray-900 border-none pl-1 ml-12 mt-2">
         <button onClick={() => setDiv(true)}>
           <AiOutlinePlus className="float-left mt-1 text-gray-700" />
           &nbsp;Commentaar toevoegen
@@ -56,7 +56,7 @@ const CommentDocument = () => {
                 <br />
                 <div className="w-full text-right">
                   <button
-                    className="mr-4 px-7 py-2 rounded-md bg-gray-200 text-[#002548] font-semibold hover:bg-gray-400"
+                    className="mr-4 px-7 py-2 rounded-md bg-blue-100 text-[#002548] font-semibold hover:bg-blue-200"
                     onClick={() => setDiv(false)}
                   >
                     Annuleren
@@ -65,7 +65,7 @@ const CommentDocument = () => {
                     type="submit"
                     className="px-7 py-2 rounded-md bg-[#002548] text-white font-semibold hover:bg-blue-500"
                   >
-                    Opslaan
+                    Plaatsen
                   </button>
                 </div>
               </form>

@@ -37,7 +37,7 @@ const Doel = ({ stagiarId }: DoelProps) => {
           <GoGoal className="text-3xl text-blue-400 mr-4 mb-1" />
           <h2 className="font-bold text-2xl mb-1">Doelen</h2>
         </div>
-        <div className="flex px-4 py-2 text-[#002548] font-semibold bg-gray-200 rounded-md hover:bg-gray-300">
+        <div className="flex px-4 py-2 text-[#002548] font-semibold bg-blue-50  rounded-md hover:bg-gray-300">
           <button onClick={() => setDiv(true)} className="">
             <AiOutlinePlus className="float-left mt-1"></AiOutlinePlus>
             &nbsp;Nieuw doel
@@ -90,7 +90,7 @@ const Doel = ({ stagiarId }: DoelProps) => {
                 />
                 <div className="w-full text-right">
                   <button
-                    className="mr-4 px-7 py-2 rounded-md bg-gray-200 text-[#002548] font-semibold hover:bg-gray-400"
+                    className="mr-4 px-7 py-2 rounded-md bg-blue-100  text-[#002548] font-semibold hover:bg-blue-200" 
                     onClick={() => setDiv(false)}
                   >
                     Annuleren
