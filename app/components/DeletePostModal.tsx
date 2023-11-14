@@ -65,7 +65,7 @@ const DeletePostModal = ({ postId,post }: DeletePostModalProps) => {
   return (
     <>
       {isPostModal && (
-        <div className="h-screen w-screen flex flex-col justify-center items-center fixed top-0 left-0 right-0 bottom-0 z-50 bg-opacity-75 bg-gray-900">
+        <div className="h-screen w-screen flex flex-col justify-center items-center fixed top-0 left-0 right-0 bottom-0 z-50 bg-opacity-50 bg-gray-700">
           <div className="bg-white shadow-xl w-4/10 h-auto pb-7 text-gray-500 z-2 rounded-md">
             <button
               className="btn btn-sm btn-circle btn-ghost float-right text-xl mr-3 mt-3"
@@ -123,14 +123,14 @@ const DeletePostModal = ({ postId,post }: DeletePostModalProps) => {
                 </div>
                 <div className="w-full text-right mt-28">
                   <button
-                    className="mr-4 px-7 py-2 rounded-md bg-gray-200 text-[#002548] font-semibold"
+                    className="mr-4 px-7 py-2 rounded-md bg-gray-200 text-[#002548] font-semibold hover:bg-gray-400"
                     onClick={handleCloseModal}
                   >
                     Annuleren
                   </button>
                   <button
                     type="submit"
-                    className="px-7 py-2 rounded-md bg-[#002548] text-white font-semibold"
+                    className="px-7 py-2 rounded-md bg-[#002548] text-white font-semibold hover:bg-blue-500"
                   >
                     Opslaan
                   </button>

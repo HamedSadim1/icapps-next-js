@@ -59,14 +59,17 @@ const StagairForm = ({ params: { id } }: Params) => {
   return (
     <dialog
       id="my_modal_3"
-      className={`modal ${isModalOpen ? "open" : "close"}`}
+      className={`modal ${isModalOpen ? "open" : "close"} cursor-auto`}
     >
       {isModalOpen && (
-        <div className="modal-box">
+        <div className="modal-box px-10 py-10 cursor-auto">
+          <h2 className="mb-8 text-[#002548] font-semibold text-2xl flex ">
+                Stagiair wijzigen
+              </h2>
           <form onSubmit={handleSubmitForm} method="dialog">
             <button
               onClick={closeModal}
-              className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+              className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 "
             >
               <AiOutlineClose />
             </button>
@@ -76,7 +79,7 @@ const StagairForm = ({ params: { id } }: Params) => {
                   Naam
                 </label>
                 <input
-                  className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500"
+                  className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md pointer-events-auto"
                   id="name"
                   type="text"
                   name="name"
@@ -89,7 +92,7 @@ const StagairForm = ({ params: { id } }: Params) => {
                   Email
                 </label>
                 <input
-                  className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500"
+                  className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md pointer-events-auto"
                   id="email"
                   type="email"
                   name="email"
@@ -102,7 +105,7 @@ const StagairForm = ({ params: { id } }: Params) => {
                   Startdatum
                 </label>
                 <input
-                  className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500"
+                  className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md pointer-events-auto"
                   id="startDate"
                   type="date"
                   name="startDate"
@@ -118,7 +121,7 @@ const StagairForm = ({ params: { id } }: Params) => {
                   Einddatum
                 </label>
                 <input
-                  className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500"
+                  className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md pointer-events-auto"
                   id="endDate"
                   type="date"
                   name="endDate"
@@ -147,7 +150,7 @@ const StagairForm = ({ params: { id } }: Params) => {
                     label: stagebegeleider.name,
                     value: stagebegeleider.id,
                   }))}
-                  className="basic-multi-select"
+                  className="basic-multi-select pointer-events-auto"
                   classNamePrefix="select"
                   onChange={(selected, actionMeta) => {
                     //! selectedOptions is an array of unique strings
@@ -161,10 +164,11 @@ const StagairForm = ({ params: { id } }: Params) => {
                     });
                   }}
                 />
+                
               </div>
 
               <button
-                className="px-6 py-2 mt-2 text-white bg-[#002548] rounded-md focus:outline-non absolute bottom-6 right-6"
+                className="px-10 py-2 mt-2 text-white font-semibold bg-[#002548] rounded-md absolute bottom-10 right-10 hover:bg-blue-500"
                 type="submit"
               >
                 Opslaan
