@@ -51,7 +51,7 @@ const DocumentDetail = (document: DocumentDetailProps) => {
             <div className="flex pt-14 mx-16">
               <label
                 htmlFor="docKiezen"
-                className="w-full text-xl bg-zinc-100 py-3 px-3 text-blue-900 font-medium"
+                className="w-full text-xl bg-zinc-100 py-3 px-3 text-blue-900 font-medium rounded-md"
               >
                 <a href={"https://res.cloudinary.com/dhjblvbsd/image/upload/f_auto,q_auto/" + document.document.public_id} target="_blank" rel="noopener noreferrer" >
                   <h2 className="float-left"> {document.document.original_filename} </h2>

@@ -37,6 +37,7 @@ export async function DELETE(request: NextRequest, { params: { id } }: Params) {
       }
     });
     return NextResponse.json(doel, { status: 200 });
+    
   } catch (error) {
     console.log(error);
     return NextResponse.json({ error: error }, { status: 400 });
