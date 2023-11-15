@@ -1,4 +1,3 @@
-import { StagaireFakeData } from "@/data";
 import { sortDate } from "@/lib";
 
 import Email from "@/app/components/Email";
