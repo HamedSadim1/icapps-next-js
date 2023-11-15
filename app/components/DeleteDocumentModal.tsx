@@ -3,6 +3,7 @@ import { MouseEvent } from "react";
 import { BsTrash } from "react-icons/bs";
 import useDeleteDocument from "@/hooks/useDeleteDocument";
 import { useState } from "react";
+import { cp } from "fs";
 
 interface DeleteDocumentModalProps {
   documentId: string;

@@ -71,13 +71,14 @@ export interface IComment {
 export interface IDocumentComment {
   id: string;
   comment: string;
-  documentID: string;
+  documentId: string;
   createdAt: string;
-  comments: IDocumentComment[];
+  img?: string;
+  commentatorName: string;
 }
 
 export interface IDocument {
-  comments: string;
+  comments: IDocumentComment[];
   id: string;
   original_filename: string;
   url: string;
