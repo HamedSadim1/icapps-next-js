@@ -46,7 +46,7 @@ const DocumentDetail = (document: DocumentDetailProps) => {
             >
               <MdClose></MdClose>
             </button>
-            <div className="flex pt-14 mx-16">
+            <div className="flex pt-14 mx-16 ">
               <label
                 htmlFor="docKiezen"
                 className="w-full text-xl bg-zinc-100 py-3 px-3 text-blue-900 font-medium rounded-md"

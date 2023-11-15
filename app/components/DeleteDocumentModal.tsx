@@ -29,7 +29,7 @@ const DeleteDocumentModal = ({ documentId}: DeleteDocumentModalProps) => {
           <div className="bg-white shadow-xl w-1/3 h-auto pb-7 text-gray-500 z-2 rounded-md justify-center items-center">
             <h2 className="p-5 text-[#002548]">Are you sure?</h2>
             <button className="border-2 p-1 pointer-events-auto rounded-md hover:bg-red-500 hover:border-red-500 text-[#002548]" onClick={HandleDelete}>Yes</button>&ensp;
-            <button className="border-2 p-1 pointer-events-auto rounded-md hover:bg-blue-200 hover:bg-blue-200 text-[#002548]" onClick={() => setDiv(false)}>No</button>
+            <button className="border-2 p-1 pointer-events-auto rounded-md hover:bg-blue-200 hover:border-blue-200 text-[#002548]" onClick={() => setDiv(false)}>No</button>
           </div>
         </div>
       )}
