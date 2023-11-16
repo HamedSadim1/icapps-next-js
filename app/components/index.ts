@@ -15,6 +15,7 @@ import WelcomePage from "./WelcomePage";
 import TanstackProvider from "./provider/TanstackProvider";
 import ToastProvider from "./provider/ToastProvider";
 import StageBeschrijvingModal from "../users/detail/[id]/StageBeschrijvingModal";
+import Notification from "./Notification";
 
 export {
   AddCheckListItem,
@@ -34,4 +35,5 @@ export {
   TanstackProvider,
   ToastProvider,
   StageBeschrijvingModal,
+  Notification,
 };

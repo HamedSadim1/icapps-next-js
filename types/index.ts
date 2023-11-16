@@ -10,7 +10,7 @@ export interface IStagaire {
   stagebegeleider: IStagebegeleider[];
   posts: IPost[];
   user: IUser[];
-  checkListStagiair: IChecklistStagiair[];
+  checklistsection: IChecklistSection[];
   documents: IDocument[];
   checkliststagebegeleider: ICheckListStagebegeleider[];
 }
@@ -90,13 +90,21 @@ export interface IDocument {
   resource_type: string;
 }
 
-export interface IChecklistStagiair {
+export interface IChecklistItem {
   id: string;
   title: string;
   isChecked: boolean;
-  stagiairID: string;
   createdAt: string;
   date: string;
+  updatedAt: string;
+}
+
+export interface IChecklistSection {
+  id: string;
+  sectionTitle: string;
+  createdAt: string;
+  updatedAt: string;
+  items: IChecklistItem[];
 }
 
 export interface ICheckListStagebegeleider {

@@ -1,5 +1,4 @@
 "use client";
-
 import { AiOutlinePlus } from "react-icons/ai";
 import { MdClose } from "react-icons/md";
 import { FormEvent, useState } from "react";
@@ -31,7 +30,6 @@ export const AddCheckListItem = ({ stagiairId }: AddChecklistProps) => {
           className="text-gray-500 hover:text-gray-900 z-0"
           onClick={() => setDiv(true)}
         >
-          {" "}
           <AiOutlinePlus className="float-left mt-1" /> Item toevoegen
         </button>
       )}
@@ -46,16 +44,18 @@ export const AddCheckListItem = ({ stagiairId }: AddChecklistProps) => {
             </button>
             <div className="flex flex-col pt-16 mx-16">
               <h2 className="pb-10 text-[#002548] font-semibold text-2xl flex">
-                Sectie toevoegen &nbsp;{" "}
+                Sectie toevoegen &nbsp;
               </h2>
               <form onSubmit={handlePostChecklistStagiair}>
-                <label htmlFor="titel">Item</label>
+                <label htmlFor="titel">SectionTitle</label>
                 <input
                   type="text"
                   className="w-full p-3 border-2 rounded-md mb-5"
                   name="titel"
                   id="titel"
-                  onChange={(e) => setItem({ ...item, title: e.target.value })}
+                  onChange={(e) =>
+                    setItem({ ...item, sectionTitle: e.target.value })
+                  }
                 />
                 <label htmlFor="einddatum">Datum</label>
                 <br />
@@ -64,11 +64,14 @@ export const AddCheckListItem = ({ stagiairId }: AddChecklistProps) => {
                   type="date"
                   name="einddatum"
                   id="einddatum"
-                  onChange={(e) => setItem({ ...item, date: e.target.value })}
+                  onChange={(e) =>
+                    setItem({ ...item, updatedAt: e.target.value })
+                  }
                   min={inputFormDater(new Date().toISOString().split("T")[0])}
                 />
                 <div className="w-full text-right">
-                  <button className="mr-4 px-7 py-2 rounded-md bg-blue-100 text-[#002548] font-semibold hover:bg-blue-200"
+                  <button
+                    className="mr-4 px-7 py-2 rounded-md bg-blue-100 text-[#002548] font-semibold hover:bg-blue-200"
                     onClick={() => setDiv(false)}
                   >
                     Annuleren

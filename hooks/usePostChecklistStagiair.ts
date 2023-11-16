@@ -1,18 +1,17 @@
-import { IChecklistStagiair } from "@/types";
+import { IChecklistSection } from "@/types";
 import { useMutation, useQueryClient } from "react-query";
 import axios from "axios";
 
 const usePostChecklistStagiair = (
-  checklistStagiair: IChecklistStagiair,
+  checklistStagiair: IChecklistSection,
   stagiairId: string
 ) => {
   const queryClient = useQueryClient();
   const mutation = useMutation(
     () => {
       return axios.post(`/api/checkliststagiair`, {
-        title: checklistStagiair.title,
-        isChecked: checklistStagiair.isChecked,
-        stagiairID: stagiairId,
+        checklistStagiair,
+        stagiairId,
       });
     },
     {

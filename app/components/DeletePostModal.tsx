@@ -1,39 +1,38 @@
 "use client";
 import { MdClose } from "react-icons/md";
-import { FormEvent, useEffect, useState, MouseEvent } from "react";
+import { FormEvent, useEffect, MouseEvent } from "react";
 import { BsTrash } from "react-icons/bs";
 import useStagairStore from "@/store";
 import useDeletePost from "@/hooks/useDeletePost";
 import useUpdatePost from "@/hooks/useUpdatePost";
 import { inputFormDater } from "@/lib";
-import usePost from "@/hooks/usePost";
 import { IPost } from "@/types";
-
 
 interface DeletePostModalProps {
   postId: string;
-  post:IPost
+  post: IPost;
 }
 
-const DeletePostModal = ({ postId,post }: DeletePostModalProps) => {
-  // const postId = useStagairStore((s) => s.updatePostId);
-  // const { data, error, isLoading } = usePost(postId);
-
+const DeletePostModal = ({ postId, post }: DeletePostModalProps) => {
+  console.log(
+    "🚀 ~ file: DeletePostModal.tsx:20 ~ DeletePostModal ~ postIdpostId:",
+    postId
+  );
+  const updatePostId = useStagairStore((s) => s.updatePostId);
   const doel = useStagairStore((s) => s.updatePost);
   const setDoel = useStagairStore((s) => s.setUpdatePost);
   const isPostModal = useStagairStore((s) => s.isPostModal);
   const setIsPostModal = useStagairStore((s) => s.setIsPostModal);
 
-  const { mutate } = useDeletePost(postId);
+  const { mutate } = useDeletePost(updatePostId);
 
-  const { mutate: updatePost } = useUpdatePost(doel, postId);
+  const { mutate: updatePost } = useUpdatePost(doel, updatePostId);
 
   useEffect(() => {
-    if (post) {
+    if (post && postId) {
       useStagairStore.setState({ updatePost: post });
     }
-  }, [post]);
-
+  }, [post, postId]);
   //! Delete the doel button
   const HandleDelete = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -47,15 +46,6 @@ const DeletePostModal = ({ postId,post }: DeletePostModalProps) => {
     await updatePost();
     setIsPostModal(false);
   };
-
-  // if (error) {
-  //   <div>{error.message}</div>;
-  // }
-
-  // if (!data || !doel) {
-  //   return null;
-  // }
-  // if(isLoading) return null;
 
   const handleCloseModal = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();

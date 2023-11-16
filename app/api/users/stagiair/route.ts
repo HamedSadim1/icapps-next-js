@@ -1,7 +1,6 @@
 import { connectToDatabase } from "@/lib";
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/prisma/client";
-import schema from "./schema";
 
 export async function GET(request: NextRequest) {
   try {
@@ -16,8 +15,12 @@ export async function GET(request: NextRequest) {
             comments: true,
           },
         },
-        checkListStagiair: true,
         documents: true,
+        checklistsection: {
+          include: {
+            items: true,
+          },
+        },
       },
       orderBy: {
         startDate: "asc",

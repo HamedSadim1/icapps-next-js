@@ -4,7 +4,7 @@ import {
   IStagebeschrijving,
   IPost,
   IComment,
-  IChecklistStagiair,
+  IChecklistSection,
   IDocument,
   UserRole,
   IDocumentComment,
@@ -28,8 +28,8 @@ export interface IStore {
   setComment: (comment: IComment) => void;
   commentId: string;
   setCommentId: (commentId: string) => void;
-  checklistStagiair: IChecklistStagiair;
-  setChecklistStagiair: (checklistStagiair: IChecklistStagiair) => void;
+  checklistStagiair: IChecklistSection;
+  setChecklistStagiair: (checklistStagiair: IChecklistSection) => void;
   documents: IDocument;
   setDocuments: (documents: IDocument) => void;
   updatePost: IPost;
@@ -47,7 +47,7 @@ export interface IStore {
   documentCommentId: (documentId: string) => void;
 }
 
-const useStagairStore  = create<IStore>((set) => ({
+const useStagairStore = create<IStore>((set) => ({
   stagiairModal: false,
   commentModal: false,
   stagaires: {
@@ -62,7 +62,7 @@ const useStagairStore  = create<IStore>((set) => ({
     stagebeschriving: [],
     stagebegeleider: [],
     user: [],
-    checkListStagiair: [],
+    checklistsection: [],
     documents: [],
     checkliststagebegeleider: [],
     doel: [],
@@ -96,10 +96,10 @@ const useStagairStore  = create<IStore>((set) => ({
   },
   checklistStagiair: {
     id: "",
-    stagiairID: "",
+    sectionTitle: "",
     createdAt: "",
-    date: "",
-    isChecked: false,
+    updatedAt: "",
+    items: [],
     title: "",
   },
   documents: {
@@ -112,6 +112,7 @@ const useStagairStore  = create<IStore>((set) => ({
     public_id: "",
     resource_type: "",
     secure_url: "",
+    comments: [],
   },
   updatePost: {
     body: "",
@@ -162,6 +163,18 @@ const useStagairStore  = create<IStore>((set) => ({
   setUpdatePost(updatePost) {
     set({ updatePost });
   },
+  setDocumentId: (documentId) => set({ documentId }),
+  documentComment: {
+    comment: "",
+    createdAt: "",
+    id: "",
+    documentId: "",
+    commentatorName: "",
+    img: "",
+  },
+  setDocumentComment: (comment) => set({ documentComment: comment }),
+  documentId: "",
+  documentCommentId: (documentId) => set({ documentId }),
 
   updateStagairesAsync: async (stagaire) => {
     try {

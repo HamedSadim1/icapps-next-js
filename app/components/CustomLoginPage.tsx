@@ -27,9 +27,10 @@ const CustomLoginPage = () => {
   const { role } = useCheckAuthorizeUser();
 
   const stagiairDetail = usePrefetchStagairDetails();
-
+  console.log("Role:", role);
   console.log("Session Data:", session);
   console.log("Stagairs Data:", stagairs);
+  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -86,7 +87,7 @@ const CustomLoginPage = () => {
   ]);
 
   useEffect(() => {
-    if (status === "authenticated") {
+    if (status === "authenticated" && role) {
       if (role === UserRole.STAGIAIR && stagairs && stagairs.length > 0) {
         const stagair = stagairs.find(
           (st) => st.email === session?.user?.email
@@ -97,9 +98,11 @@ const CustomLoginPage = () => {
           useStagairStore.setState({ role: user.role });
           stagiairDetail.prefetchData(stagair.id);
           router.push(`/users/detail/${stagair.id}`);
+          console.log("Navigating to:", `/users/detail/${stagair.id}`);
         }
       } else {
         router.push("/users/stagiair");
+        console.log("Navigating to:", "/users/stagiair");
       }
     }
   }, [status, role, stagairs, session, router, stagiairDetail, users]);
