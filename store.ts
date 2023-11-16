@@ -62,7 +62,7 @@ const useStagairStore = create<IStore>((set) => ({
     stagebeschriving: [],
     stagebegeleider: [],
     user: [],
-    checkListSection: [],
+    checklistsection: [],
     documents: [],
     checkliststagebegeleider: [],
     doel: [],
