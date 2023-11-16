@@ -180,7 +180,7 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
                 <button
                   onClick={() => handleCommentId(post.id)}
                   type="button"
-                  className="flex mt-3"
+                  className="mt-3"
                 >
                   <CommentModal />
                 </button>
