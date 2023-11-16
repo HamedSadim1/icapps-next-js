@@ -35,6 +35,10 @@ interface Params {
 
 const StagiairDetailPage = ({ params: { id } }: Params) => {
   const { data, error, isLoading } = useStagair(id);
+  console.log(
+    "🚀 ~ file: StagiairDetailPage.tsx:38 ~ StagiairDetailPage ~ data:",
+    data
+  );
 
   const setIsModalOpen = useStagairStore((state) => state.setCommentModal);
   const setCommentId = useStagairStore((s) => s.setCommentId);
@@ -53,7 +57,7 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
   }
 
   const navigateToNextSection = () => {
-    if (selectedSection < data!.checkListSection.length - 1) {
+    if (selectedSection < data!.checklistsection.length - 1) {
       setSelectedSection(selectedSection + 1);
     }
   };
@@ -238,8 +242,8 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
           </div>
 
           {/* Sections CheckList */}
-          {data.checkListSection && checkListName === "checkListStagiair" ? (
-            data.checkListSection.map((checklist) => (
+          {data.checklistsection && checkListName === "checkListStagiair" ? (
+            data.checklistsection.map((checklist) => (
               <div key={checklist.id} className="flex flex-col">
                 <div className="flex gap-2 mb-2">
                   <span className="flex font-medium">

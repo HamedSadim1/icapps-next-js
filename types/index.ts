@@ -10,7 +10,7 @@ export interface IStagaire {
   stagebegeleider: IStagebegeleider[];
   posts: IPost[];
   user: IUser[];
-  checkListSection: IChecklistSection[];
+  checklistsection: IChecklistSection[];
   documents: IDocument[];
   checkliststagebegeleider: ICheckListStagebegeleider[];
 }
