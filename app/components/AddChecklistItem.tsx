@@ -31,7 +31,6 @@ export const AddCheckListItem = ({ stagiairId }: AddChecklistProps) => {
           className="text-gray-500 hover:text-gray-900 z-0"
           onClick={() => setDiv(true)}
         >
-          {" "}
           <AiOutlinePlus className="float-left mt-1" /> Item toevoegen
         </button>
       )}
@@ -46,10 +45,10 @@ export const AddCheckListItem = ({ stagiairId }: AddChecklistProps) => {
             </button>
             <div className="flex flex-col pt-16 mx-16">
               <h2 className="pb-10 text-[#002548] font-semibold text-2xl flex">
-                Sectie toevoegen &nbsp;{" "}
+                Sectie toevoegen &nbsp;
               </h2>
               <form onSubmit={handlePostChecklistStagiair}>
-                <label htmlFor="titel">Item</label>
+                <label htmlFor="titel">SectionTitle</label>
                 <input
                   type="text"
                   className="w-full p-3 border-2 rounded-md mb-5"
