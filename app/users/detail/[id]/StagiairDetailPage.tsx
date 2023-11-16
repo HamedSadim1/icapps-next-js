@@ -5,7 +5,6 @@ import {
   AiOutlineLeft,
   AiOutlineRight,
 } from "react-icons/ai";
-import { BiComment } from "react-icons/bi";
 import { VscChecklist } from "react-icons/vsc";
 import { formatDate } from "@/lib";
 import useStagair from "@/hooks/useStagair";
@@ -37,16 +36,16 @@ interface Params {
 const StagiairDetailPage = ({ params: { id } }: Params) => {
   const { data, error, isLoading } = useStagair(id);
 
-
   const setIsModalOpen = useStagairStore((state) => state.setCommentModal);
   const setCommentId = useStagairStore((s) => s.setCommentId);
   const setUpdatePostId = useStagairStore((s) => s.setUpdatePostId);
   const setIsPostModal = useStagairStore((s) => s.setIsPostModal);
+  const setClickedPostId = useStagairStore((s) => s.setUpdatePostId);
   const [checkListName, setCheckListName] =
     useState<string>("checkListStagiair");
   const { role, isLoading: loading } = useCheckAuthorizeUser();
-  const geenGegevensBeschikbaarVoorStageBeschrijving: string = "Geen gegevens beschikbaar";
-
+  const geenGegevensBeschikbaarVoorStageBeschrijving: string =
+    "Geen gegevens beschikbaar";
 
   console.log(role);
   if (role !== null) {
@@ -54,7 +53,7 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
   }
 
   const navigateToNextSection = () => {
-    if (selectedSection < data!.checkListStagiair.length - 1) {
+    if (selectedSection < data!.checkListSection.length - 1) {
       setSelectedSection(selectedSection + 1);
     }
   };
@@ -126,7 +125,7 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
                     <EditDoelButton
                       role={UserRole.ADMIN || UserRole.STAGEBEGELEIDER}
                       userRole={role}
-                      setUpdateGoalId={setUpdatePostId}
+                      setUpdateGoalId={setClickedPostId}
                       goal={post}
                       setIsGoalModal={setIsPostModal}
                     />
@@ -203,18 +202,20 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
               <button
                 type="button"
                 onClick={() => setCheckListName("checkListStagiair")}
-                className={`rounded-l-md border-[#002548] border-2 px-6 py-1 flex justify-center font-medium  ${checkListName === "checkListStagiair" &&
+                className={`rounded-l-md border-[#002548] border-2 px-6 py-1 flex justify-center font-medium  ${
+                  checkListName === "checkListStagiair" &&
                   "bg-[#002548] text-white"
-                  }`}
+                }`}
               >
                 Stagiair
               </button>
               <button
                 onClick={() => setCheckListName("checklistStagebegeleider")}
                 type="button"
-                className={`rounded-l-md border-[#002548] border-2 px-6 py-1 flex justify-center font-medium ${checkListName === "checklistStagebegeleider" &&
+                className={`rounded-l-md border-[#002548] border-2 px-6 py-1 flex justify-center font-medium ${
+                  checkListName === "checklistStagebegeleider" &&
                   "bg-[#002548] text-white"
-                  }`}
+                }`}
               >
                 Begeleider
               </button>
@@ -237,32 +238,36 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
           </div>
 
           {/* Sections CheckList */}
-          {checkListName === "checkListStagiair" ? (
-            data.checkListStagiair.map((checkListStagiair) => (
-              <div key={checkListStagiair.id} className="flex flex-col">
+          {data.checkListSection && checkListName === "checkListStagiair" ? (
+            data.checkListSection.map((checklist) => (
+              <div key={checklist.id} className="flex flex-col">
                 <div className="flex gap-2 mb-2">
                   <span className="flex font-medium">
-                    Section {selectedSection}
+                    {checklist.sectionTitle}
                   </span>
-                  {/* shows all two checklist, navigate if you want to see other section */}
-                  <span className="text-gray-400 text-xs mt-1">2</span>
+                  {/* shows the number of items in the section */}
+                  <span className="text-gray-400 text-xs mt-1">
+                    {checklist.items.length}
+                  </span>
                 </div>
                 <div className="flex flex-col justify-start mb-4 gap-3">
                   <div className="flex gap-3 border-2 border-gray-500-400 p-2 rounded">
-                    <input
-                      value={checkListStagiair.isChecked.toString()}
-                      type="checkbox"
-                      name="item"
-                    />
-                    {checkListStagiair.title} <br />
-                    <div className="text-sm text-gray-400">
-                      {formatDate(checkListStagiair.date)}
-                    </div>
-                    <div className="">
-                      <button type="button" className="text-gray-400">
-                        <AiOutlineEdit className="text-2xl mr-2 mt-4" />
-                      </button>
-                    </div>
+                    {checklist.items &&
+                      checklist.items.map((item) => (
+                        <div key={item.id}>
+                          <input
+                            value={item.isChecked.toString()}
+                            type="checkbox"
+                            name="item"
+                          />
+                          <p>
+                            {item.title} <br />
+                            <div className="text-sm text-gray-400">
+                              {formatDate(item.createdAt)}
+                            </div>
+                          </p>
+                        </div>
+                      ))}
                   </div>
                 </div>
               </div>
@@ -394,11 +399,15 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
           ))}
 
           {/* Documenten */}
-          
+
           <div className="flex-col bg-blue-50  rounded-lg overflow-hidden  mt-10 pl-7 py-3 text-[#002548]">
-          <h2 className="text-2xl mt-5 font-semibold text-[#002548]">Documenten</h2>
+            <h2 className="text-2xl mt-5 font-semibold text-[#002548]">
+              Documenten
+            </h2>
             {data.documents.map((document) => (
-              <DocumentDetail document={document}/>
+              <div key={document.id}>
+                <DocumentDetail document={document} />
+              </div>
             ))}
             {/* <button type="button" className="flex mt-5">
               <GrAdd className=" mt-1 ml-2 text-gray-400 " />

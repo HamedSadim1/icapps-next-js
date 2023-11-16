@@ -5,7 +5,11 @@ import { connectToDatabase } from "@/lib";
 export async function GET(request: NextRequest) {
   try {
     await connectToDatabase();
-    const checklist = await prisma.checkListStagiair.findMany();
+    const checklist = await prisma.checklistSection.findMany({
+      include: {
+        items: true,
+      },
+    });
     return NextResponse.json(checklist, { status: 200 });
   } catch (error) {
   } finally {
@@ -17,11 +21,14 @@ export async function POST(request: NextRequest) {
   try {
     const data = await request.json();
     await connectToDatabase();
-    const checklist = await prisma.checkListStagiair.create({
+    const checklist = await prisma.checklistSection.create({
       data: {
-        title: data.title,
-        isChecked: data.isChecked,
-        stagiairID: data.stagiairID
+        sectionTitle: data.sectionTitle,
+
+        items: {
+          create: data.items,
+        },
+        stagiairID: data.stagiairID,
       },
     });
 

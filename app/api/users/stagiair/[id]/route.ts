@@ -19,11 +19,15 @@ export async function GET(
         stagebeschriving: true,
         checkliststagebegeleider: true,
         user: true,
-        checkListStagiair: true,
         documents: true,
         posts: {
           include: {
             comments: true,
+          },
+        },
+        checklistsection: {
+          include: {
+            items: true,
           },
         },
       },

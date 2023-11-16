@@ -9,7 +9,7 @@ import DeleteDocumentModal from "./DeleteDocumentModal";
 import CommentDocument from "./CommentDocument";
 
 interface DocumentDetailProps {
-  document: IDocument
+  document: IDocument;
 }
 
 const DocumentDetail = (document: DocumentDetailProps) => {
@@ -22,7 +22,12 @@ const DocumentDetail = (document: DocumentDetailProps) => {
     <>
       <div key={document.document.id}>
         <a onClick={() => setDiv(true)}>
-          <button><h2 className="text-xl mt-5 ml-2"> {document.document.original_filename} </h2></button>
+          <button>
+            <h2 className="text-xl mt-5 ml-2">
+              {" "}
+              {document.document.original_filename}{" "}
+            </h2>
+          </button>
         </a>
         <h3 className="text-gray ml-2 text-gray-400">
           {formatDate(document.document.created_at)} door {user.data?.name} (
@@ -31,7 +36,13 @@ const DocumentDetail = (document: DocumentDetailProps) => {
         </h3>
         <div className="flex justify-start text-gray-400">
           <BiComment className="mt-1 ml-2" />
-          <h3 className="text-gray ml-2 flex"> {(document.document.comments) != undefined ? document.document.comments.length : "0"} comments</h3>
+          <h3 className="text-gray ml-2 flex">
+            {" "}
+            {document.document.comments != undefined
+              ? document.document.comments.length
+              : "0"}{" "}
+            comments
+          </h3>
         </div>
       </div>
       <br />
@@ -39,7 +50,6 @@ const DocumentDetail = (document: DocumentDetailProps) => {
       {showDiv == true && (
         <div className="h-screen w-screen flex flex-col justify-center items-center fixed top-0 left-0 right-0 bottom-0 z-50 bg-opacity-50 bg-gray-500">
           <div className="bg-white shadow-2xl w-1/3 h-auto pb-7 text-gray-500 z-2 rounded-md">
-
             <button
               className="btn btn-sm btn-circle btn-ghost float-right mt-3 mr-3 text-xl"
               onClick={() => setDiv(false)}
@@ -51,8 +61,18 @@ const DocumentDetail = (document: DocumentDetailProps) => {
                 htmlFor="docKiezen"
                 className="w-full text-xl bg-zinc-100 py-3 px-3 text-blue-900 font-medium rounded-md"
               >
-                <a href={"https://res.cloudinary.com/dhjblvbsd/image/upload/f_auto,q_auto/" + document.document.public_id} target="_blank" rel="noopener noreferrer" >
-                  <h2 className="float-left"> {document.document.original_filename} </h2>
+                <a
+                  href={
+                    "https://res.cloudinary.com/dhjblvbsd/image/upload/f_auto,q_auto/" +
+                    document.document.public_id
+                  }
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <h2 className="float-left">
+                    {" "}
+                    {document.document.original_filename}{" "}
+                  </h2>
                 </a>
                 {/* DELETE DOCUMENT BUTTON */}
                 <button className="float-right">
@@ -62,7 +82,10 @@ const DocumentDetail = (document: DocumentDetailProps) => {
             </div>
             {/* DOCUMENT COMMENTS */}
             <div className="flex flex-justify-between mt-3 mx-6">
-                { document.document.comments != null && document.document.comments.map((comment) => <h1>{comment.comment}</h1>) }
+              {document.document.comments != null &&
+                document.document.comments.map((comment) => (
+                  <h1 key={comment.id}>{comment.comment}</h1>
+                ))}
             </div>
             <CommentDocument />
           </div>

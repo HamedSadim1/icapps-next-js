@@ -55,7 +55,9 @@ export const AddCheckListItem = ({ stagiairId }: AddChecklistProps) => {
                   className="w-full p-3 border-2 rounded-md mb-5"
                   name="titel"
                   id="titel"
-                  onChange={(e) => setItem({ ...item, title: e.target.value })}
+                  onChange={(e) =>
+                    setItem({ ...item, sectionTitle: e.target.value })
+                  }
                 />
                 <label htmlFor="einddatum">Datum</label>
                 <br />
@@ -64,11 +66,14 @@ export const AddCheckListItem = ({ stagiairId }: AddChecklistProps) => {
                   type="date"
                   name="einddatum"
                   id="einddatum"
-                  onChange={(e) => setItem({ ...item, date: e.target.value })}
+                  onChange={(e) =>
+                    setItem({ ...item, updatedAt: e.target.value })
+                  }
                   min={inputFormDater(new Date().toISOString().split("T")[0])}
                 />
                 <div className="w-full text-right">
-                  <button className="mr-4 px-7 py-2 rounded-md bg-blue-100 text-[#002548] font-semibold hover:bg-blue-200"
+                  <button
+                    className="mr-4 px-7 py-2 rounded-md bg-blue-100 text-[#002548] font-semibold hover:bg-blue-200"
                     onClick={() => setDiv(false)}
                   >
                     Annuleren

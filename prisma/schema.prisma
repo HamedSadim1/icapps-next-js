@@ -68,8 +68,8 @@ model Stagiair {
   posts                    Doelen[]
   user                     User[]
   documents                Document[]
-  checkListStagiair        CheckListStagiair[]
   checkliststagebegeleider CheckListStageBegeleider[]
+  checklistsection         ChecklistSection[]
 }
 
 model StageBeschrijving {
@@ -131,24 +131,35 @@ model Document {
 model DocumentComment {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
   comment    String
-  document   Document @relation(fields: [documentID], references: [id], onDelete: Cascade)
+  document   Document @relation(fields: [documentID], references: [id])
   createdAt  DateTime @default(now())
   documentID String   @db.ObjectId
 }
 
-//! CheckListStagiair
-model CheckListStagiair {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  title      String
-  isChecked  Boolean  @default(false)
-  createdAt  DateTime @default(now())
-  stagiair   Stagiair @relation(fields: [stagiairID], references: [id])
-  stagiairID String   @db.ObjectId
-  date       DateTime @default(now())
+//! ChecklistItem
+model ChecklistItem {
+  id                     String           @id @default(auto()) @map("_id") @db.ObjectId
+  title                  String
+  isChecked              Boolean          @default(false)
+  createdAt              DateTime         @default(now())
+  date                   DateTime         @default(now())
+  updatedAt              DateTime         @updatedAt
+  checklistItemSection   ChecklistSection @relation(fields: [checklistItemSectionID], references: [id])
+  checklistItemSectionID String           @db.ObjectId
+}
+
+//! ChecklistSection
+model ChecklistSection {
+  id           String          @id @default(auto()) @map("_id") @db.ObjectId
+  sectionTitle String
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+  items        ChecklistItem[]
+  stagiair     Stagiair        @relation(fields: [stagiairID], references: [id])
+  stagiairID   String          @db.ObjectId
 }
 
 //! CheckListStageBegeleider
-
 model CheckListStageBegeleider {
   id                String          @id @default(auto()) @map("_id") @db.ObjectId
   title             String
