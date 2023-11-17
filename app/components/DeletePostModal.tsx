@@ -55,7 +55,7 @@ const DeletePostModal = ({ postId, post }: DeletePostModalProps) => {
   return (
     <>
       {isPostModal && (
-        <div className="h-screen w-screen flex flex-col justify-center items-center fixed top-0 left-0 right-0 bottom-0 z-50 bg-opacity-50 bg-gray-700">
+        <div className="h-screen w-screen flex flex-col justify-center items-center fixed top-0 left-0 right-0 bottom-0 z-50 bg-opacity-25 bg-gray-700">
           <div className="bg-white shadow-xl w-4/10 h-auto pb-7 text-gray-500 z-2 rounded-md">
             <button
               className="btn btn-sm btn-circle btn-ghost float-right text-xl mr-3 mt-3"

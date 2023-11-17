@@ -22,15 +22,44 @@ const CommentModal = () => {
   };
 
   return (
-    <>
+    <>{showDiv == false &&
       <div className="ml-16 flex px-4 py-2 text-gray-400 hover:text-gray-500">
         <div onClick={() => setDiv(true)}>
           <AiOutlinePlus className="float-left mt-1 text-gray-700" />
           &nbsp;Commentaar toevoegen
         </div>
-      </div>
+      </div>}
+      {showDiv == true &&
+      <div className="ml-16 mb-16">
+        <form className="absolute flex items-end" onSubmit={handleSubmitButton}>
+          <textarea cols={50} rows={2}
+            className="ml-4 border-2 p-1 rounded-md pointer-events-auto"
+            name="beschrijving"
+            id="beschrijving"
+            value={comment.comment}
+            onChange={(e) =>
+              setComment({ ...comment, comment: e.target.value })
+            }
+          ></textarea>
+          <div className=" pointer-events-auto">
+            <button
+              className="ml-4 px-6 py-1 rounded-md bg-blue-100 text-[#002548] font-semibold hover:bg-blue-200"
+              onClick={() => setDiv(false)}
+            >
+              Annuleren
+            </button>
+            <button
+              type="submit"
+              className="ml-4 px-6 py-1 rounded-md bg-[#002548] text-white font-semibold hover:bg-blue-500 "
+            >
+              Plaatsen
+            </button>
+          </div>
+        </form>
+        </div>
+      }
 
-      {showDiv == true && (
+      {/* {showDiv == true && (
         <div className=" pointer-events-none h-screen w-screen flex flex-col justify-center items-center fixed top-0 left-0 right-0 bottom-0 z-50 bg-opacity-50 bg-gray-700">
           <div className="bg-white shadow-2xl h-auto pb-7 text-gray-500 z-2 rounded-md">
             <div
@@ -72,7 +101,7 @@ const CommentModal = () => {
             </div>
           </div>
         </div>
-      )}
+      )} */}
     </>
   );
 };
