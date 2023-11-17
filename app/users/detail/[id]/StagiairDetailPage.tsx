@@ -218,7 +218,7 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
               <button
                 onClick={() => setCheckListName("checklistStagebegeleider")}
                 type="button"
-                className={`rounded-l-md border-[#002548] border-2 px-6 py-1 flex justify-center font-medium ${
+                className={`rounded-r-md border-[#002548] border-2 px-6 py-1 flex justify-center font-medium ${
                   checkListName === "checklistStagebegeleider" &&
                   "bg-[#002548] text-white"
                 }`}
