@@ -21,70 +21,60 @@ const CustomLoginPage = () => {
   const { data: stagairs } = useStagairs();
   const { data: users } = useUsers();
   const { prefetchData } = usePrefetchData();
+
   const router = useRouter();
 
-  const { mutateAsync, isSuccess, data } = usePostUser(session!);
+  const { mutate, isSuccess, data } = usePostUser();
   const { role } = useCheckAuthorizeUser();
 
   const stagiairDetail = usePrefetchStagairDetails();
   console.log("Role:", role);
   console.log("Session Data:", session);
   console.log("Stagairs Data:", stagairs);
-  
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        if (isSuccess) {
-          await mutateAsync();
-          console.log("User successfully logged in. Mutating data...");
+       
+        await mutate();
+        console.log("User successfully logged in. Mutating data...");
+        
+        // if (isSuccess) {
+        //   // User is successfully logged in
+        //   if (role === UserRole.STAGIAIR) {
+        //     // If the user's role is Stagiair, redirect to the detail page
+        //     if (stagairs && stagairs.length > 0) {
+        //       const stagair = stagairs.find(
+        //         (st) => st.email === session?.user?.email
+        //       );
+        //       if (stagair && stagair.id) {
+        //         await prefetchData();
+        //         await router.push(`/users/detail/${stagair.id}`);
+        //       }
+        //     }
+        //   } else {
+        //     await router.push("/users/stagiair");
+        //   }
+        // } else {
 
-          // if (isSuccess) {
-          //   // User is successfully logged in
-          //   if (role === UserRole.STAGIAIR) {
-          //     // If the user's role is Stagiair, redirect to the detail page
-          //     if (stagairs && stagairs.length > 0) {
-          //       const stagair = stagairs.find(
-          //         (st) => st.email === session?.user?.email
-          //       );
-          //       if (stagair && stagair.id) {
-          //         await prefetchData();
-          //         await router.push(`/users/detail/${stagair.id}`);
-          //       }
-          //     }
-          //   } else {
-          //     await router.push("/users/stagiair");
-          //   }
-          // } else {
-
-          //   setError("Er is iets misgegaan, probeer het later opnieuw");
-          // }
-        }
+        //   setError("Er is iets misgegaan, probeer het later opnieuw");
+        // }
       } catch (error) {
         console.error("Error in fetchData:", error);
         setError("Er is iets misgegaan, probeer het later opnieuw");
       }
     };
-    const PrefetchData = async () => {
-      try {
-        await prefetchData();
-        console.log("Prefetching data...");
-      } catch (error) {
-        console.error("Error in PrefetchData:", error);
-      }
-    };
-    PrefetchData();
+    // const PrefetchData = async () => {
+    //   try {
+    //     await prefetchData();
+    //     console.log("Prefetching data...");
+    //   } catch (error) {
+    //     console.error("Error in PrefetchData:", error);
+    //   }
+    // };
+    // PrefetchData();
     fetchData();
-  }, [
-    session,
-    stagairs,
-    router,
-    isSuccess,
-    data,
-    mutateAsync,
-    role,
-    prefetchData,
-  ]);
+  }, [session, stagairs, router, isSuccess, data, mutate, role]);
 
   useEffect(() => {
     if (status === "authenticated" && role) {

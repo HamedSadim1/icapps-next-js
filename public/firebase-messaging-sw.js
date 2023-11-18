@@ -20,32 +20,28 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const messaging = getMessaging(app);
 
-export const requestPermission = () => {
-  console.log("requestPermission");
-  Notification.requestPermission().then((permission) => {
+export const requestPermission = async () => {
+  try {
+    console.log("Requesting permission for notifications...");
+    const permission = await Notification.requestPermission();
+
     if (permission === "granted") {
       console.log("Notification User Permission Granted");
+      const currentToken = await getToken(messaging);
 
-      return getToken(messaging, {
-        vapidKey:
-          "BB8RmNjPnIcaMUmbgfXzeA3RDmq7EczWlbuC9ixCjHcm0wcUNSlwdHo3Y5dlt6pCKJ_eVhWzF0-BcYt4BDma0EQ",
-      })
-        .then((currentToken) => {
-          if (currentToken) {
-            console.log("Token =>", currentToken);
-          } else {
-            console.log(
-              "No registration token available. Request permission to generate one."
-            );
-          }
-        })
-        .catch((err) => {
-          console.log("An error occurred while retrieving token. ", err);
-        });
+      if (currentToken) {
+        console.log("Token:", currentToken);
+      } else {
+        console.log(
+          "No registration token available. Request permission to generate one."
+        );
+      }
     } else {
       console.log("User Permission Denied");
     }
-  });
+  } catch (error) {
+    console.error("An error occurred while requesting permission:", error);
+  }
 };
 
 requestPermission();

@@ -1,16 +1,18 @@
 import { useMutation, useQueryClient } from "react-query";
 import axios from "axios";
-import {Session} from "next-auth"
+import { useSession } from "next-auth/react";
 
-const usePostUser = (session:Session) => {
+const usePostUser = () => {
   const queryClient = useQueryClient();
 
+  const { data: user } = useSession();
+  const session = user?.user;
   const mutation = useMutation(
     () =>
       axios.post("http://localhost:3000/api/users", {
-        name: session?.user?.name,
-        email: session?.user?.email,
-        img: session?.user?.image,
+        name: session?.name,
+        email: session?.email,
+        img: session?.image,
       }),
     {
       onSuccess: () => {
@@ -26,7 +28,7 @@ const usePostUser = (session:Session) => {
     }
   );
 
-  return mutation
+  return mutation;
 };
 
 export default usePostUser;
