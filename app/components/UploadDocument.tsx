@@ -65,7 +65,7 @@ const UploadDocument = ({ stagiairId }: IUploadDocumentProps) => {
               
               <div className="flex pt-16 pb-10 ml-14 ">
 
-                <input className="p-4 bg-gray-200 rounded-md" type="file" onChange={(e) => setUpload(e.target.files)}/>
+                <input className="p-5 bg-gray-200 rounded-md" type="file" onChange={(e) => setUpload(e.target.files)}/>
               </div>
               <div className="w-full text-right">
                   <button
@@ -74,7 +74,7 @@ const UploadDocument = ({ stagiairId }: IUploadDocumentProps) => {
                   >
                     Annuleren
                   </button>
-              <a className="mr-11 rounded-md bg-[#002548] text-white font-semibold hover:bg-blue-500 px-7 py-2 cursor-pointer" onClick={() => setDiv(false)}><button onClick={() => postDocument(upload)}>Upload</button></a>
+              <a className="mr-16 rounded-md bg-[#002548] text-white font-semibold hover:bg-blue-500 px-7 py-2 cursor-pointer" onClick={() => setDiv(false)}><button onClick={() => postDocument(upload)}>Upload</button></a>
             </div>
             </div>
           </div>
