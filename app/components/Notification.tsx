@@ -160,8 +160,7 @@ const Notification = () => {
 
   return (
     <div>
-      <button onClick={handleNotificationClick}>Test click</button>
-      <h1>{ pushNotificationId ? pushNotificationId :"nothing"}</h1>
+      
     </div>
   );
 };
