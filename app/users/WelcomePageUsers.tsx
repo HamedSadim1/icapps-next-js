@@ -9,20 +9,20 @@ import useStagairs from "@/hooks/useStagairs";
 import {Notification} from "../components";
 
 const WelcomePageUsers = () => {
-  const { prefetchData } = usePrefetchData();
-  const { data: stagairs } = useStagairs();
-  const { data: session } = useSession();
-  const stagair = stagairs?.find(
-    (stagair) => stagair.email === session?.user?.email
-  );
-  const stagairDetail = usePrefetchStagairDetails();
+  // const { prefetchData } = usePrefetchData();
+  // const { data: stagairs } = useStagairs();
+  // const { data: session } = useSession();
+  // const stagair = stagairs?.find(
+  //   (stagair) => stagair.email === session?.user?.email
+  // );
+  // const stagairDetail = usePrefetchStagairDetails();
 
-  useEffect(() => {
-    prefetchData();
-    if (stagair && stagair.id) {
-      stagairDetail.prefetchData(stagair.id);
-    }
-  }, [prefetchData, stagair, stagairDetail]);
+  // useEffect(() => {
+  //   prefetchData();
+  //   if (stagair && stagair.id) {
+  //     stagairDetail.prefetchData(stagair.id);
+  //   }
+  // }, [prefetchData, stagair, stagairDetail]);
   return (
     <div className="flex flex-col items-center justify-center h-screen">
       <Notification/>

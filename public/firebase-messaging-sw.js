@@ -6,6 +6,11 @@ import firebase from "firebase/app";
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+
+// importScripts("https://www.gstatic.com/firebasejs/5.5.0/firebase-app.js");
+
+// importScripts("https://www.gstatic.com/firebasejs/5.5.0/firebase-messaging.js");
+
 const firebaseConfig = {
   apiKey: "AIzaSyCMpkEh78GgEUx8tW5KBwvcUdDK0iqXF9M",
   authDomain: "icapps-notification.firebaseapp.com",
