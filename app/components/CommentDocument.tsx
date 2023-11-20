@@ -22,57 +22,43 @@ const CommentDocument = () => {
   };
 
   return (
-    <>
+    <>{showDiv == false &&
       <div className="bg-white text-gray-500 hover:text-gray-900 border-none pl-1 ml-12 mt-2">
         <button onClick={() => setDiv(true)}>
-          <AiOutlinePlus className="float-left mt-1 text-gray-700" />
+          <AiOutlinePlus className="float-left ml-3 mt-1 text-gray-700" />
           &nbsp;Commentaar toevoegen
         </button>
       </div>
-
-      {showDiv == true && (
-        <div className="flex flex-col justify-end p-28 items-center fixed top-0 left-0 right-0 bottom-0 z-50 bg-opacity-50 bg-gray-700">
-          <div className="bg-white shadow-xl h-auto pb-7 text-gray-500 z-2 rounded-md">
-            <div
-              className="btn btn-sm btn-circle btn-ghost float-right text-xl mr-3 mt-3"
+}
+      {showDiv == true &&
+      <div className="ml-16 mb-16 h-12">
+        <form className="absolute flex flex-col items-end" onSubmit={handleSubmitButton}>
+          <textarea cols={58} rows={2}
+            className="mb-4 border-2 p-1 rounded-md pointer-events-auto"
+            name="beschrijving"
+            id="beschrijving"
+            value={comment.comment}
+            onChange={(e) =>
+              setComment({ ...comment, comment: e.target.value })
+            }
+          ></textarea>
+          <div className=" pointer-events-auto">
+            <button
+              className="ml-4 px-6 py-1 rounded-md bg-blue-100 text-[#002548] font-semibold hover:bg-blue-200"
               onClick={() => setDiv(false)}
             >
-              <MdClose />
-            </div>
-            <div className="flex flex-col pt-16 mx-16">
-              <form onSubmit={handleSubmitButton}>
-                <label className="float-left" htmlFor="beschrijving">
-                  Commentaar
-                </label>
-                <textarea
-                  className="w-full p-3 border-2 rounded-md mb-5"
-                  name="beschrijving"
-                  id="beschrijving"
-                  value={comment.comment}
-                  onChange={(e) =>
-                    setComment({ ...comment, comment: e.target.value })
-                  }
-                ></textarea>
-                <br />
-                <div className="w-full text-right">
-                  <button
-                    className="mr-4 px-7 py-2 rounded-md bg-blue-100 text-[#002548] font-semibold hover:bg-blue-200"
-                    onClick={() => setDiv(false)}
-                  >
-                    Annuleren
-                  </button>
-                  <button
-                    type="submit"
-                    className="px-7 py-2 rounded-md bg-[#002548] text-white font-semibold hover:bg-blue-500"
-                  >
-                    Plaatsen
-                  </button>
-                </div>
-              </form>
-            </div>
+              Annuleren
+            </button>
+            <button
+              type="submit"
+              className="ml-4 px-6 py-1 rounded-md bg-[#002548] text-white font-semibold hover:bg-blue-500 "
+            >
+              Plaatsen
+            </button>
           </div>
+        </form>
         </div>
-      )}
+      }
     </>
   );
 };
