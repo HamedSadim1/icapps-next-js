@@ -56,18 +56,19 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
   if (role !== null) {
     console.log("User Role:", UserRole[role]);
   }
+  const [selectedSection, setSelectedSection] = useState<number>(0);
 
   const navigateToNextSection = () => {
-    if (selectedSection < data!.checklistsection.length - 1) {
+    if (selectedSection < data!.checklistsection.length) {
       setSelectedSection(selectedSection + 1);
     }
   };
   const navigateToPreviousSection = () => {
-    if (selectedSection > 1) {
+    if (selectedSection > 0) {
       setSelectedSection(selectedSection - 1);
     }
   };
-  const [selectedSection, setSelectedSection] = useState<number>(1); // 1 is the first section
+  // 1 is the first section
 
   if (isLoading || loading || role == null) return <Loading />;
 
@@ -243,9 +244,11 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
           </div>
 
           {/* Sections CheckList */}
+        
           {data.checklistsection && checkListName === "checkListStagiair" ? (
-            data.checklistsection.map((checklist) => (
-              <div key={checklist.id} className="flex flex-col">
+            data.checklistsection.map((checklist,index:number) => (
+              <div key={index} style={{ display: index === selectedSection ? 'block' : 'none' }}>
+              <div className="flex flex-col">
                 <div className="flex gap-2 mb-2">
                   <span className="flex font-medium">
                     {checklist.sectionTitle}
@@ -255,11 +258,11 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
                     {checklist.items.length}
                   </span>
                 </div>
+                
                 <div className="flex flex-col justify-start mb-4 gap-3">
-                  <div className="flex gap-3 border-2 border-gray-500-400 p-2 rounded">
                     {checklist.items &&
                       checklist.items.map((item) => (
-                        <div key={item.id}>
+                        <div key={item.id} className="flex gap-3 border-2 border-gray-500-400 p-2 rounded">
                           <input
                             value={item.isChecked.toString()}
                             type="checkbox"
@@ -275,7 +278,7 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
                       ))}
                   </div>
                 </div>
-              </div>
+                </div>
             ))
           ) : (
             // checklistStagebegeleider

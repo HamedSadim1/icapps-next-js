@@ -5,13 +5,15 @@ import { FormEvent, useState } from "react";
 import useStagairStore from "@/store";
 import usePostComment from "@/hooks/usePostComment";
 
+
 const CommentModal = () => {
   const [showDiv, setDiv] = useState<boolean>(false);
   const comment = useStagairStore((s) => s.comment);
   const setComment = useStagairStore((s) => s.setComment);
   const commentId = useStagairStore((s) => s.commentId);
+ 
 
-  const { mutate } = usePostComment(comment!, commentId);
+  const { mutate,status } = usePostComment(comment!, commentId);
 
   if (!comment) return null;
 
@@ -19,17 +21,43 @@ const CommentModal = () => {
     e.preventDefault();
     await mutate();
     setDiv(false);
-  };
 
+    console.log("not"+status)
+      if (status === "success") {
+        console.log("succes"+status)
+        // Reset Zustand state by setting the state to the initial values
+        useStagairStore.setState((state) => ({
+          ...state,
+          comment: { id: '', postId: '', createdAt: '', commentatorName: '', comment: '' }, // Update with the correct structure
+        }));
+    
+
+  }
+}
+
+  const handleOpenCommentaar=() =>{
+    setDiv(true)
+
+  }
+
+  const handleCloseCommentaar=() =>{
+    setDiv(false)
+    
+  }
+
+ 
   return (
-    <>{showDiv == false &&
+    <>
+ {console.log("showDiv:", showDiv)} {/* Add this line */}
+    {showDiv === false && (
       <div className="ml-16 flex px-4 py-2 text-gray-400 hover:text-gray-500">
-        <div onClick={() => setDiv(true)}>
+        <button onClick={handleOpenCommentaar} disabled={showDiv}>
           <AiOutlinePlus className="float-left mt-1 text-gray-700" />
           &nbsp;Commentaar toevoegen
-        </div>
-      </div>}
-      {showDiv == true &&
+        </button>
+      </div>
+    )}
+      {showDiv == true && 
       <div className="ml-16 mb-16">
         <form className="absolute flex items-end" onSubmit={handleSubmitButton}>
           <textarea cols={50} rows={2}
@@ -44,13 +72,14 @@ const CommentModal = () => {
           <div className=" pointer-events-auto">
             <button
               className="ml-4 px-6 py-1 rounded-md bg-blue-100 text-[#002548] font-semibold hover:bg-blue-200"
-              onClick={() => setDiv(false)}
+              onClick={handleCloseCommentaar}
             >
               Annuleren
             </button>
             <button
               type="submit"
               className="ml-4 px-6 py-1 rounded-md bg-[#002548] text-white font-semibold hover:bg-blue-500 "
+              disabled={comment.comment.length< 4}
             >
               Plaatsen
             </button>
