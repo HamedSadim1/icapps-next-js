@@ -6,7 +6,8 @@ import {
 import { useEffect } from "react";
 import { useSession } from "next-auth/react";
 import useStagairs from "@/hooks/useStagairs";
-import {Notification} from "../components";
+import { Notification } from "../components";
+import FirebaseNotification from "../components/FirebaseNotification";
 
 const WelcomePageUsers = () => {
   // const { prefetchData } = usePrefetchData();
@@ -25,7 +26,8 @@ const WelcomePageUsers = () => {
   // }, [prefetchData, stagair, stagairDetail]);
   return (
     <div className="flex flex-col items-center justify-center h-screen">
-      <Notification/>
+      <Notification />
+      <FirebaseNotification />
       <div className="flex flex-col items-center justify-center w-1/2 h-1/2 bg-white rounded-lg shadow-lg">
         <h1 className="text-3xl font-bold">Welcome </h1>
       </div>

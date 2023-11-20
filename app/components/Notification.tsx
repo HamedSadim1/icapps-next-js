@@ -7,7 +7,6 @@ import React, { useState, useEffect } from "react";
 import { Toaster } from "react-hot-toast";
 import OneSignal from "react-onesignal";
 
-
 // interface IOneSignalOneSignal {
 // 	Slidedown: IOneSignalSlidedown;
 // 	Notifications: IOneSignalNotifications;
@@ -58,7 +57,6 @@ import OneSignal from "react-onesignal";
 
 // export default Notification;
 
-
 //   const [notification, setNotification] = useState({ title: "", body: "" });
 
 //   useEffect(() => {
@@ -93,74 +91,61 @@ import OneSignal from "react-onesignal";
 //   );
 // };
 const Notification = () => {
- const [pushNotificationId,setPushNotificationId]=  useState<string>("")
+  const [pushNotificationId, setPushNotificationId] = useState<string>("");
   useEffect(() => {
+    // OneSignal.init({
+    //   appId: "439afa83-e31f-46b4-9bcc-3859f0d499c5",
+    //   safari_web_id: "web.onesignal.auto.6514249a-4cb8-451b-a889-88f5913c9a7f",
+    //   notifyButton: {
+    //     enable: true,
+    //   },
+    //   allowLocalhostAsSecureOrigin: true,
 
-    const initializeOneSignal = async () => { OneSignal.init({
-      appId: "439afa83-e31f-46b4-9bcc-3859f0d499c5",
-      notifyButton: {
-        enable: true,
-      },
+    // });
+    // const subscriptionId = OneSignal.User?.PushSubscription?.id;
+    // if (subscriptionId) {
+    //   console.log(subscriptionId);
+    //   setPushNotificationId(subscriptionId);
+    // }
 
-      allowLocalhostAsSecureOrigin: true,
-      welcomeNotification: {
-        title: "Welcome!",
-        message: "Thanks for subscribing!",
-      },
+    const initializeOneSignal = async () => {
+      await OneSignal.init({
+        appId: "439afa83-e31f-46b4-9bcc-3859f0d499c5",
+        notifyButton: {
+          enable: true,
+        },
+        allowLocalhostAsSecureOrigin: true,
+      });
 
-      
-      
-      
-    });
-    const subscriptionId = OneSignal.User?.PushSubscription?.id;
+      // Listen for OneSignal.getUserId event
+      //   OneSignal.on('subscriptionChange', async (isSubscribed) => {
+      //     if (isSubscribed) {
+      //       const userId = await OneSignal.getUserId();
+      //       setPushNotificationId(userId);
+      //     } else {
+      //       setPushNotificationId(null);
+      //     }
+      //   });
+      // };
+    };
 
-    if (subscriptionId) {
-      console.log(subscriptionId);
-      setPushNotificationId(subscriptionId);
-      // Add any other logic you need with the subscription ID here
-    }
-
-    
-  
-    // Add a click event listener during component initialization
-    // const clickHandler = (event:any) => {
-    //   console.log("The notification was clicked!", event);
-    //   OneSignal.User.PushSubscription.id
-    //   OneSignal.init
-    // };
-
-    // const dismissHandler = (event:any) => {
-    //   console.log("The notification was dismissed", event);
-    // };
-   
-
-    // OneSignal.Notifications.addEventListener("click", clickHandler);
-    // OneSignal.Notifications.addEventListener("dismiss", dismissHandler);
-    // // Clean up the event listeners when the component is unmounted
-    // return () => {
-    //   OneSignal.Notifications.removeEventListener("click", clickHandler);
-    //   OneSignal.Notifications.removeEventListener("dismiss", dismissHandler);
-    // };
-    }
     initializeOneSignal();
+  }, []);
 
-  });
-  
+  // const handleNotificationClick = () => {
+  //   OneSignal.User.addTag("Key", "Value");
+  //   // OneSignal.Slidedown.promptPush();
 
-  const handleNotificationClick = () => {
-    OneSignal.User.addTag("Key","Value")
-    // OneSignal.Slidedown.promptPush();
-    
-  OneSignal.Notifications.addEventListener('click', (event) => {
-  console.log("The notification was clicked!", event);
-
-  
-});
-  }
+  //   OneSignal.Notifications.addEventListener("click", (event) => {
+  //     console.log("The notification was clicked!", event);
+  //   });
+  // };
 
   return (
     <div>
-      
+      <Toaster />
+      {/* <button onClick={handleNotificationClick}>Test click</button> */}
+      <h1>{pushNotificationId ? pushNotificationId : "nothing"}</h1>
     </div>
   );
 };
