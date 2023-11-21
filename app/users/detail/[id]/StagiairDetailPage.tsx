@@ -30,6 +30,7 @@ import EditStageBeschrijving from "@/app/components/EditButton/EditStageBeschrij
 import LinkToStagiairOverzciht from "@/app/components/LinkToStagiairOverzicht";
 import DocumentDetail from "@/app/components/DocumentDetail";
 
+
 interface Params {
   params: { id: string };
 }
@@ -40,6 +41,9 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
     "🚀 ~ file: StagiairDetailPage.tsx:38 ~ StagiairDetailPage ~ data:",
     data
   );
+
+  
+
 
   const setIsModalOpen = useStagairStore((state) => state.setCommentModal);
   const setCommentId = useStagairStore((s) => s.setCommentId);
@@ -74,7 +78,7 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
 
   if (error) return <FetchingError error={error.message} />;
 
-  if (!data && !error) return <NoDataError />;
+  if (!data && !error || !id) return <NoDataError />;
 
   const getStagebegeleiderName = () => {
     return data.stagebegeleider

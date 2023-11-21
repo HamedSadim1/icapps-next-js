@@ -115,3 +115,11 @@ export interface ICheckListStagebegeleider {
   createdAt: string;
   stagiairID: string;
 }
+
+export interface INotification {
+  app_id?: string;
+  include_player_ids: string[];
+  headings: { [language: string]: string };
+  contents: { [language: string]: string };
+  
+}

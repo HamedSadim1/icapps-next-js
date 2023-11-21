@@ -92,7 +92,9 @@ import OneSignal from "react-onesignal";
 // };
 const Notification = () => {
   const [pushNotificationId, setPushNotificationId] = useState<string>("");
-  useEffect(() => {
+
+  
+  // useEffect(() => {
     // OneSignal.init({
     //   appId: "439afa83-e31f-46b4-9bcc-3859f0d499c5",
     //   safari_web_id: "web.onesignal.auto.6514249a-4cb8-451b-a889-88f5913c9a7f",
@@ -108,14 +110,14 @@ const Notification = () => {
     //   setPushNotificationId(subscriptionId);
     // }
 
-    const initializeOneSignal = async () => {
-      await OneSignal.init({
-        appId: "439afa83-e31f-46b4-9bcc-3859f0d499c5",
-        notifyButton: {
-          enable: true,
-        },
-        allowLocalhostAsSecureOrigin: true,
-      });
+    // const initializeOneSignal = async () => {
+    //   await OneSignal.init({
+    //     appId: "439afa83-e31f-46b4-9bcc-3859f0d499c5",
+    //     notifyButton: {
+    //       enable: true,
+    //     },
+    //     allowLocalhostAsSecureOrigin: true,
+    //   });
 
       // Listen for OneSignal.getUserId event
       //   OneSignal.on('subscriptionChange', async (isSubscribed) => {
@@ -127,10 +129,10 @@ const Notification = () => {
       //     }
       //   });
       // };
-    };
+  //   };
 
-    initializeOneSignal();
-  }, []);
+  //   initializeOneSignal();
+  // }, []);
 
   // const handleNotificationClick = () => {
   //   OneSignal.User.addTag("Key", "Value");

@@ -45,6 +45,8 @@ export interface IStore {
   setDocumentComment: (comment: IDocumentComment) => void;
   documentId: string;
   documentCommentId: (documentId: string) => void;
+  pushNotificationId:string;
+  setPushNotificationId:(pushNotificationId:string) => void;
 }
 
 const useStagairStore = create<IStore>((set) => ({
@@ -123,6 +125,8 @@ const useStagairStore = create<IStore>((set) => ({
     id: "",
     title: "",
   },
+  pushNotificationId:"",
+  setPushNotificationId:(pushNotificationId) => set({pushNotificationId}),
   role: null,
   setRole: (role) => set({ role }),
   isPostModal: false,

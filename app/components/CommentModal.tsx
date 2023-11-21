@@ -4,6 +4,8 @@ import { MdClose } from "react-icons/md";
 import { FormEvent, useState } from "react";
 import useStagairStore from "@/store";
 import usePostComment from "@/hooks/usePostComment";
+import useOneSignalNotification from "@/hooks/useOneSignalNotification";
+import usePostNotification from "@/hooks/usePostNotification";
 
 
 const CommentModal = () => {
@@ -11,9 +13,13 @@ const CommentModal = () => {
   const comment = useStagairStore((s) => s.comment);
   const setComment = useStagairStore((s) => s.setComment);
   const commentId = useStagairStore((s) => s.commentId);
- 
+  const pushNotificationId = useStagairStore((s) => s.pushNotificationId);
 
-  const { mutate,status } = usePostComment(comment!, commentId);
+
+  const { mutate, status } = usePostComment(comment!, commentId);
+  const { mutate: mutateNotification } = usePostNotification(pushNotificationId)
+
+  const oneSignalHook=useOneSignalNotification();
 
   if (!comment) return null;
 
@@ -22,72 +28,100 @@ const CommentModal = () => {
     await mutate();
     setDiv(false);
 
-    console.log("not"+status)
-      if (status === "success") {
-        console.log("succes"+status)
-        // Reset Zustand state by setting the state to the initial values
-        useStagairStore.setState((state) => ({
-          ...state,
-          comment: { id: '', postId: '', createdAt: '', commentatorName: '', comment: '' }, // Update with the correct structure
-        }));
+    console.log("not" + status);
+    if (status === "success") {
+      console.log("succes" + status);
+      // Reset Zustand state by setting the state to the initial values
+      useStagairStore.setState((state) => ({
+        ...state,
+        comment: {
+          id: "",
+          postId: "",
+          createdAt: "",
+          commentatorName: "",
+          comment: "",
+        }, 
+      }));
+    }
+    await mutateNotification({
+      include_player_ids: [pushNotificationId],
+      headings: { en: "New Comment", nl: "Nieuw Commentaar" },
+      contents: { en: "A new comment has been added", nl: "Er is een nieuw commentaar toegevoegd" },
+      
+    })
     
+  };
 
-  }
-}
+  const handleOpenCommentaar = () => {
 
-  const handleOpenCommentaar=() =>{
-    setDiv(true)
+    setDiv(true);
+    // Reset Zustand state by setting the state to the initial values
+    useStagairStore.setState((state) => ({
+      ...state,
+      comment: {
+        id: "",
+        postId: "",
+        createdAt: "",
+        commentatorName: "",
+        comment: "",
+      }, 
+    }));
+  };
 
-  }
-
-  const handleCloseCommentaar=() =>{
-    setDiv(false)
+  const handleCloseCommentaar = () => {
+    setDiv(false);
     
-  }
+  };
 
- 
   return (
     <>
- {console.log("showDiv:", showDiv)} {/* Add this line */}
-    {showDiv === false && (
-      <div className="ml-16 flex px-4 py-2 text-gray-400 hover:text-gray-500">
-        <button onClick={handleOpenCommentaar} disabled={showDiv}>
-          <AiOutlinePlus className="float-left mt-1 text-gray-700" />
-          &nbsp;Commentaar toevoegen
-        </button>
-      </div>
-    )}
-      {showDiv == true && 
-      <div className="ml-16 mb-16">
-        <form className="absolute flex items-end" onSubmit={handleSubmitButton}>
-          <textarea cols={50} rows={2}
-            className="ml-4 border-2 p-1 rounded-md pointer-events-auto"
-            name="beschrijving"
-            id="beschrijving"
-            value={comment.comment}
-            onChange={(e) =>
-              setComment({ ...comment, comment: e.target.value })
-            }
-          ></textarea>
-          <div className=" pointer-events-auto">
-            <button
-              className="ml-4 px-6 py-1 rounded-md bg-blue-100 text-[#002548] font-semibold hover:bg-blue-200"
-              onClick={handleCloseCommentaar}
-            >
-              Annuleren
-            </button>
-            <button
-              type="submit"
-              className="ml-4 px-6 py-1 rounded-md bg-[#002548] text-white font-semibold hover:bg-blue-500 "
-              disabled={comment.comment.length< 4}
-            >
-              Plaatsen
-            </button>
-          </div>
-        </form>
+      {showDiv === false && (
+        <div className="ml-16 flex px-4 py-2 text-gray-400 hover:text-gray-500">
+          <button onClick={handleOpenCommentaar} disabled={showDiv}>
+            <AiOutlinePlus className="float-left mt-1 text-gray-700" />
+            &nbsp;Commentaar toevoegen
+          </button>
         </div>
-      }
-
+      )}
+      {showDiv == true && (
+        <div className="ml-16 mb-16">
+          <form
+            className="absolute flex items-end"
+            onSubmit={handleSubmitButton}
+          >
+            <textarea
+              cols={50}
+              rows={2}
+              className="ml-4 border-2 p-1 rounded-md pointer-events-auto"
+              name="beschrijving"
+              id="beschrijving"
+              value={comment.comment}
+              onChange={(e) =>
+                setComment({ ...comment, comment: e.target.value })
+              }
+            ></textarea>
+            <div className=" pointer-events-auto">
+              <button
+                className="ml-4 px-6 py-1 rounded-md bg-blue-100 text-[#002548] font-semibold hover:bg-blue-200"
+                onClick={handleCloseCommentaar}
+              >
+                Annuleren
+              </button>
+              <button
+                type="submit"
+                className={`ml-4 px-6 py-1 rounded-md bg-[#002548] text-white font-semibold hover:bg-blue-500${
+                  comment.comment.length < 4
+                    ? " cursor-not-allowed  opacity-50"
+                    : ""
+                }`}
+                disabled={comment.comment.length < 4}
+              >
+                Plaatsen
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
       {/* {showDiv == true && (
         <div className=" pointer-events-none h-screen w-screen flex flex-col justify-center items-center fixed top-0 left-0 right-0 bottom-0 z-50 bg-opacity-50 bg-gray-700">
           <div className="bg-white shadow-2xl h-auto pb-7 text-gray-500 z-2 rounded-md">
@@ -136,3 +170,7 @@ const CommentModal = () => {
 };
 
 export default CommentModal;
+function useMemo(arg0: () => void, arg1: never[]) {
+  throw new Error("Function not implemented.");
+}
+

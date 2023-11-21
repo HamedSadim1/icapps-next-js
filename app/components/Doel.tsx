@@ -6,6 +6,7 @@ import { GoGoal } from "react-icons/go";
 import useStagairStore from "@/store";
 import usePostDoel from "@/hooks/usePostDoel";
 import { inputFormDater } from "@/lib";
+import usePostNotification from "@/hooks/usePostNotification";
 
 interface DoelProps {
   stagiarId: string;
@@ -13,21 +14,31 @@ interface DoelProps {
 
 const Doel = ({ stagiarId }: DoelProps) => {
   const [showDiv, setDiv] = useState<boolean>(false);
- const stagaires = useStagairStore((s) => s.stagaires)
+  const stagaires = useStagairStore((s) => s.stagaires);
 
   const doel = useStagairStore((s) => s.doel);
   const setDoel = useStagairStore((s) => s.setDoel);
-  const { mutate, error,isSuccess } = usePostDoel(doel, stagiarId);
+  const { mutate, error, isSuccess } = usePostDoel(doel, stagiarId);
+  const pushNotificationId = useStagairStore((s) => s.pushNotificationId);
+  const { mutate: MutateNotification } =
+    usePostNotification(pushNotificationId);
 
   const handleSubmitButton = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-
     await mutate();
     setDiv(false);
     if (error) {
       console.log(error);
     }
+
+    await MutateNotification({
+      include_player_ids: [pushNotificationId],
+      headings: { en: "New Post", nl: " Nieuw doel" },
+      contents: {
+        en: "A new doel has been added",
+        nl: "Er is een nieuw doel toegevoegd",
+      },
+    });
   };
 
   return (
@@ -90,7 +101,7 @@ const Doel = ({ stagiarId }: DoelProps) => {
                 />
                 <div className="w-full text-right">
                   <button
-                    className="mr-4 px-7 py-2 rounded-md bg-blue-100  text-[#002548] font-semibold hover:bg-blue-200" 
+                    className="mr-4 px-7 py-2 rounded-md bg-blue-100  text-[#002548] font-semibold hover:bg-blue-200"
                     onClick={() => setDiv(false)}
                   >
                     Annuleren
