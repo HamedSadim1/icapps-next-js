@@ -5,31 +5,27 @@ import {
   AiOutlineLeft,
   AiOutlineRight,
 } from "react-icons/ai";
-import { VscChecklist } from "react-icons/vsc";
 import { formatDate } from "@/lib";
 import useStagair from "@/hooks/useStagair";
-import Image from "next/image";
 import useStagairStore from "@/store";
 import { useEffect, useState } from "react";
 import { UserRole } from "@/types";
 import useCheckAuthorizeUser from "@/hooks/useCheckAuthorizeUser";
 import {
   AddCheckListItem,
-  CommentModal,
-  DeletePostModal,
   Doel,
   FetchingError,
   UploadDocument,
   NoDataError,
   Loading,
   StageBeschrijvingModal,
-  Notification,
 } from "@/app/components";
-import EditDoelButton from "@/app/components/EditButton/EditDoelButton";
+
 import EditStageBeschrijving from "@/app/components/EditButton/EditStageBeschrijving";
 import LinkToStagiairOverzciht from "@/app/components/LinkToStagiairOverzicht";
 import DocumentDetail from "@/app/components/DocumentDetail";
-
+import Post from "@/app/components/Post";
+import CheckList from "@/app/components/UI/Checklist";
 
 interface Params {
   params: { id: string };
@@ -37,13 +33,6 @@ interface Params {
 
 const StagiairDetailPage = ({ params: { id } }: Params) => {
   const { data, error, isLoading } = useStagair(id);
-  console.log(
-    "🚀 ~ file: StagiairDetailPage.tsx:38 ~ StagiairDetailPage ~ data:",
-    data
-  );
-
-  
-
 
   const setIsModalOpen = useStagairStore((state) => state.setCommentModal);
   const setCommentId = useStagairStore((s) => s.setCommentId);
@@ -61,15 +50,27 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
     console.log("User Role:", UserRole[role]);
   }
   const [selectedSection, setSelectedSection] = useState<number>(0);
+  const [selectedSectionId,setSelectedSectionId] = useState<string>("");
+
+  useEffect(() => {
+    if(data){
+      if (data.checklistsection.length > 0) {
+      setSelectedSectionId(data!.checklistsection[0].id);
+    }
+    }
+  }, [data]); 
 
   const navigateToNextSection = () => {
-    if (selectedSection < data!.checklistsection.length) {
+    if (selectedSection < data!.checklistsection.length - 1) {
       setSelectedSection(selectedSection + 1);
+      setSelectedSectionId(data!.checklistsection[selectedSection + 1].id);
     }
   };
+
   const navigateToPreviousSection = () => {
     if (selectedSection > 0) {
       setSelectedSection(selectedSection - 1);
+      setSelectedSectionId(data!.checklistsection[selectedSection - 1].id);
     }
   };
   // 1 is the first section
@@ -78,7 +79,7 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
 
   if (error) return <FetchingError error={error.message} />;
 
-  if (!data && !error || !id) return <NoDataError />;
+  if ((!data && !error) || !id) return <NoDataError />;
 
   const getStagebegeleiderName = () => {
     return data.stagebegeleider
@@ -109,128 +110,27 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
           {/* Post and comment loop over the array */}
           {role !== null && data.posts.length > 0 ? (
             data.posts.map((post) => (
-              <div key={post.id}>
-                {/* Post */}
-                <div className="flex flex-col rounded-lg mt-6">
-                  <div className="flex">
-                    <h2 className="text-xl font-bold">{post.title}</h2>
-                    {/* Edit button for post */}
-                    {/* check if the user role is admin or stagebegeleider */}
-
-                    {/* {role === UserRole.ADMIN ? (
-                      // Render the edit button for admins and stagebegeleiders
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setUpdatePostId(post.id);
-                          // setClickedPostId(post.id);
-                          useStagairStore.setState({ updatePost: post });
-                          setIsPostModal(true);
-                        }}
-                        className="hover:text-gray-400 w-6 ml-2"
-                      >
-                        <BsPencil className="text-xl" />
-                      </button>
-                    ) : null} */}
-                    <EditDoelButton
-                      role={UserRole.ADMIN || UserRole.STAGEBEGELEIDER}
-                      userRole={role}
-                      setUpdateGoalId={setClickedPostId}
-                      goal={post}
-                      setIsGoalModal={setIsPostModal}
-                    />
-                    {/* Delete button for post */}
-                    {/* check if the user role is admin or stagebegeleider */}
-                    {/* {clickedPostId === post.id && ( */}
-                    <DeletePostModal postId={post.id} post={post} />
-                    {/* )} */}
-                  </div>
-                  <span className="text-gray-400 text-sm">
-                    {formatDate(post.createdAt)}
-                  </span>
-                  <p className="text-gray-600 text-base font-medium leading-relaxed mt-2">
-                    {post.body}
-                  </p>
-                </div>
-                {/* Comment Section */}
-                <div className="flex flex-justify-between mt-3 mx-6">
-                  <div>
-                    {post.comments.map((comment) => (
-                      <div key={comment.id} className="flex items-start mb-3">
-                        {/* Comment Avatar */}
-                        <div className="avatar w-12 h-12 mr-3 mt-1">
-                          {comment.img && (
-                            <Image
-                              src={comment.img}
-                              alt="User avatar"
-                              className="rounded-full"
-                              sizes="70%"
-                              width={100}
-                              height={100}
-                            />
-                          )}
-                        </div>
-                        {/* Comment Content */}
-                        <div>
-                          <h3 className="text-1 xl text-blue-400 mb-1">
-                            {comment.commentatorName || ""}
-                          </h3>
-                          <div className="flex flex-col rounded-lg">
-                            <p className="text-gray-600 text-base font-medium leading-relaxed">
-                              {comment.comment}
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                {/* Comment Button and Border Line */}
-                <button
-                  onClick={() => handleCommentId(post.id)}
-                  type="button"
-                  className="mt-3"
-                >
-                  <CommentModal />
-                </button>
-                <div className="border border-b-gray-500-400 mt-4"></div>
-              </div>
+              <Post
+                key={post.id}
+                role={role}
+                post={post}
+                setClickedPostId={setClickedPostId}
+                setIsPostModal={setIsPostModal}
+                handleCommentId={handleCommentId}
+              />
             ))
           ) : (
-            //? if there no doel show this message
             <div className="text-gray-600 text-base mt-4">
-              Er werden nog geen doelen gedefinieerd
+              Er zijn geen berichten gevonden.
             </div>
           )}
+
           {/* Checklist */}
-          <div className="flex justify-between mt-7 mb-5 ">
-            <span className="flex gap-3">
-              <VscChecklist className="text-3xl text-blue-400" />
-              <h3 className="text-[1.3rem] font-medium">Checklist</h3>
-            </span>
-            <span className="flex ">
-              <button
-                type="button"
-                onClick={() => setCheckListName("checkListStagiair")}
-                className={`rounded-l-md border-[#002548] border-2 px-6 py-1 flex justify-center font-medium  ${
-                  checkListName === "checkListStagiair" &&
-                  "bg-[#002548] text-white"
-                }`}
-              >
-                Stagiair
-              </button>
-              <button
-                onClick={() => setCheckListName("checklistStagebegeleider")}
-                type="button"
-                className={`rounded-r-md border-[#002548] border-2 px-6 py-1 flex justify-center font-medium ${
-                  checkListName === "checklistStagebegeleider" &&
-                  "bg-[#002548] text-white"
-                }`}
-              >
-                Begeleider
-              </button>
-            </span>
-          </div>
+          <CheckList
+            checkListName={checkListName}
+            setCheckListName={setCheckListName}
+          />
+
           {/* Arrow Left and Arrow Right */}
           <div className="flex justify-center mb-5 gap-3 ">
             <span className=" bg-[#f8f9fa] p-3 rounded-md ">
@@ -248,25 +148,32 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
           </div>
 
           {/* Sections CheckList */}
-        
           {data.checklistsection && checkListName === "checkListStagiair" ? (
-            data.checklistsection.map((checklist,index:number) => (
-              <div key={index} style={{ display: index === selectedSection ? 'block' : 'none' }}>
-              <div className="flex flex-col">
-                <div className="flex gap-2 mb-2">
-                  <span className="flex font-medium">
-                    {checklist.sectionTitle}
-                  </span>
-                  {/* shows the number of items in the section */}
-                  <span className="text-gray-400 text-xs mt-1">
-                    {checklist.items.length}
-                  </span>
-                </div>
-                
-                <div className="flex flex-col justify-start mb-4 gap-3">
+            data.checklistsection.map((checklist, index: number) => (
+              <div
+                key={index}
+                style={{
+                  display: index === selectedSection ? "block" : "none",
+                }}
+              >
+                <div className="flex flex-col">
+                  <div className="flex gap-2 mb-2">
+                    <span className="flex font-medium">
+                      {checklist.sectionTitle}
+                    </span>
+                    {/* shows the number of items in the section */}
+                    <span className="text-gray-400 text-xs mt-1">
+                      {checklist.items.length}
+                    </span>
+                  </div>
+
+                  <div className="flex flex-col justify-start mb-4 gap-3">
                     {checklist.items &&
                       checklist.items.map((item) => (
-                        <div key={item.id} className="flex gap-3 border-2 border-gray-500-400 p-2 rounded">
+                        <div
+                          key={item.id}
+                          className="flex gap-3 border-2 border-gray-500-400 p-2 rounded"
+                        >
                           <input
                             value={item.isChecked.toString()}
                             type="checkbox"
@@ -282,7 +189,8 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
                       ))}
                   </div>
                 </div>
-                </div>
+                <AddCheckListItem checklistItemId={selectedSectionId} />
+              </div>
             ))
           ) : (
             // checklistStagebegeleider
@@ -325,11 +233,11 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
           )}
           {/* Add new item to checklist */}
 
-          {checkListName === "checkListStagiair" ? (
+          {/* {checkListName === "checkListStagiair" ? (
             <AddCheckListItem stagiairId={id} />
           ) : (
             <div></div>
-          )}
+          )} */}
         </div>
 
         {/* Beschrijving */}
@@ -358,14 +266,7 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
                 <h2 className="text-2xl font-semibold text-[#002548]">
                   Beschrijving
                 </h2>
-                {/* Edit the stage from */}
-                {/* <button
-                  type="button"
-                  className="hover:text-gray-400"
-                  onClick={() => setIsModalOpen(true)}
-                >
-                  <BsPencil className="text-xl" />
-                </button> */}
+                {/* Edit Stagebeschrijving */}
                 <EditStageBeschrijving
                   role={UserRole.ADMIN || UserRole.STAGEBEGELEIDER}
                   userRole={role}
@@ -409,9 +310,7 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
               </h3>
             </div>
           ))}
-
           {/* Documenten */}
-
           <div className="flex-col bg-blue-50  rounded-lg overflow-hidden  mt-10 pl-7 py-3 text-[#002548]">
             <h2 className="text-2xl mt-5 font-semibold text-[#002548]">
               Documenten
@@ -421,10 +320,6 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
                 <DocumentDetail document={document} />
               </div>
             ))}
-            {/* <button type="button" className="flex mt-5">
-              <GrAdd className=" mt-1 ml-2 text-gray-400 " />
-              <input type="file" className="text-gray-400 ml-2" />
-            </button> */}
             <UploadDocument stagiairId={id} />
           </div>
         </div>

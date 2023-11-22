@@ -7,15 +7,17 @@ import usePostChecklistStagiair from "@/hooks/usePostChecklistStagiair";
 import { inputFormDater } from "@/lib";
 
 interface AddChecklistProps {
-  stagiairId: string;
+  checklistItemId: string;
 }
-export const AddCheckListItem = ({ stagiairId }: AddChecklistProps) => {
+export const AddCheckListItem = ({ checklistItemId }: AddChecklistProps) => {
   const [showDiv, setDiv] = useState(false);
+
+  console.log("  checklistItemId  " + checklistItemId    )
 
   const item = useStagairStore((s) => s.checklistStagiair);
   const setItem = useStagairStore((s) => s.setChecklistStagiair);
 
-  const { mutate } = usePostChecklistStagiair(item, stagiairId);
+  const { mutate } = usePostChecklistStagiair(item, checklistItemId);
 
   const handlePostChecklistStagiair = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();

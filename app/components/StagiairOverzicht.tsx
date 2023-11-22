@@ -3,7 +3,7 @@ import useStagairs from "@/hooks/useStagairs";
 import { formatDate } from "@/lib";
 import useStagairStore from "@/store";
 import { BsPencil } from "react-icons/bs";
-import StagairForm from "./[id]/StagairForm";
+import StagairForm from "../stagiair/[id]/StagairForm";
 import Loading from "@/app/components/Loading";
 import { useRouter } from "next/navigation";
 import { usePrefetchStagairDetails } from "@/hooks/usePrefetchData";
@@ -18,13 +18,13 @@ const StagiairOverzicht = () => {
   const role = useStagairStore((s) => s.role);
   const router = useRouter();
   const auth = useCheckAuthorizeUser();
- 
+
   const prefetchStagairDetails = usePrefetchStagairDetails();
 
   useEffect(() => {
     if (stagiairData)
       stagiairData.map((stagiair) => {
-        router.prefetch(`/users/detail/${stagiair.id}`);
+        router.prefetch(`/detail/${stagiair.id}`);
         prefetchStagairDetails.prefetchData(stagiair.id);
       });
     useStagairStore.setState({ role: auth.role });
@@ -47,10 +47,10 @@ const StagiairOverzicht = () => {
 
   const handleRouter = (id: string) => {
     // Prefetch the route in the background
-    router.prefetch(`/users/detail/${id}`);
+    router.prefetch(`/detail/${id}`);
     prefetchStagairDetails.prefetchData(id);
     // Navigate to the route when clicked
-    router.push(`/users/detail/${id}`);
+    router.push(`/detail/${id}`);
   };
 
   return (

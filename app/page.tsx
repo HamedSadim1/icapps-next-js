@@ -1,9 +1,9 @@
-import UserLoginPage from "./users/page";
+import StagiairOverzicht from "./components/StagiairOverzicht";
 
 export default function Home() {
   return (
     <main>
-      <UserLoginPage />
+      <StagiairOverzicht />
     </main>
   );
 }

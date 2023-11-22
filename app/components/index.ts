@@ -14,8 +14,9 @@ import UploadDocument from "./UploadDocument";
 import WelcomePage from "./WelcomePage";
 import TanstackProvider from "./provider/TanstackProvider";
 import ToastProvider from "./provider/ToastProvider";
-import StageBeschrijvingModal from "../users/detail/[id]/StageBeschrijvingModal";
+
 import Notification from "./Notification";
+import StageBeschrijvingModal from "../detail/[id]/StageBeschrijvingModal";
 
 export {
   AddCheckListItem,

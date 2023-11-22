@@ -1,9 +1,6 @@
-import useStagebeschrijving from "@/hooks/useStagebeschrijving";
 import useStagairStore from "@/store";
 import { useEffect, MouseEvent, FormEvent } from "react";
 import Select from "react-select";
-import FetchingError from "@/app/components/FetchingError";
-import useStagair from "@/hooks/useStagair";
 import useStagebegeleiders from "@/hooks/useStagebegeleiders";
 import { inputFormDater } from "@/lib";
 import useUpdateStagiair from "@/hooks/useUpdateStagiair";
@@ -25,8 +22,6 @@ const StageBeschrijvingModal = ({
 }: StageBeschrijvingModal) => {
   const isModalOpen = useStagairStore((s) => s.commentModal);
   const setIsModalOpen = useStagairStore((state) => state.setCommentModal);
-  // const { data, error } = useStagebeschrijving(id);
-  // const { data: stagair } = useStagair(stagairId);
 
   const stageBeschrijving = useStagairStore((s) => s.stageBeschrijving);
   const setStageBeschrijving = useStagairStore((s) => s.setStageBeschrijving);
