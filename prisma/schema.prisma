@@ -134,6 +134,8 @@ model DocumentComment {
   document   Document @relation(fields: [documentID], references: [id])
   createdAt  DateTime @default(now())
   documentID String   @db.ObjectId
+  img             String
+  commentatorName String
 }
 
 //! ChecklistItem

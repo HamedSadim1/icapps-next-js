@@ -73,7 +73,7 @@ export interface IDocumentComment {
   comment: string;
   documentId: string;
   createdAt: string;
-  img?: string;
+  img: string;
   commentatorName: string;
 }
 
@@ -121,5 +121,4 @@ export interface INotification {
   include_player_ids: string[];
   headings: { [language: string]: string };
   contents: { [language: string]: string };
-  
 }
