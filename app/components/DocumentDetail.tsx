@@ -30,7 +30,7 @@ const DocumentDetail = (document: DocumentDetailProps) => {
           </button>
         </a>
         <h3 className="text-gray ml-2 text-gray-400">
-          {formatDate(document.document.created_at)} door {user.data?.name} (
+          {formatDate(document.document.created_at)} door  {document.document.documentUploaderName}  (
           {document.document.bytes}
           kb)
         </h3>

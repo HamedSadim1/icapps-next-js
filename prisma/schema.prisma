@@ -114,26 +114,28 @@ model Comment {
 
 //! Document
 model Document {
-  id                String            @id @default(auto()) @map("_id") @db.ObjectId
-  original_filename String
-  url               String
-  secure_url        String
-  public_id         String
-  created_at        DateTime          @default(now())
-  stagiair          Stagiair          @relation(fields: [stagiairID], references: [id])
-  stagiairID        String            @db.ObjectId
-  bytes             Int               @default(0)
-  resource_type     String
-  comments          DocumentComment[]
+  id                   String            @id @default(auto()) @map("_id") @db.ObjectId
+  original_filename    String
+  url                  String
+  secure_url           String
+  public_id            String
+  created_at           DateTime          @default(now())
+  stagiair             Stagiair          @relation(fields: [stagiairID], references: [id])
+  stagiairID           String            @db.ObjectId
+  bytes                Int               @default(0)
+  resource_type        String
+  comments             DocumentComment[]
+  img                  String?
+  documentUploaderName String?
 }
 
 //! DocumentComment
 model DocumentComment {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  comment    String
-  document   Document @relation(fields: [documentID], references: [id])
-  createdAt  DateTime @default(now())
-  documentID String   @db.ObjectId
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  comment         String
+  document        Document @relation(fields: [documentID], references: [id])
+  createdAt       DateTime @default(now())
+  documentID      String   @db.ObjectId
   img             String
   commentatorName String
 }

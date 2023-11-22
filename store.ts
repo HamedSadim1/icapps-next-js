@@ -115,6 +115,8 @@ const useStagairStore = create<IStore>((set) => ({
     resource_type: "",
     secure_url: "",
     comments: [],
+    documentUploaderName: "",
+    img: "",
   },
   updatePost: {
     body: "",

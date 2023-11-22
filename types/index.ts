@@ -88,6 +88,8 @@ export interface IDocument {
   stagiairID: string;
   bytes: number;
   resource_type: string;
+  img: string;
+  documentUploaderName: string;
 }
 
 export interface IChecklistItem {

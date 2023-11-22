@@ -87,12 +87,12 @@ const CustomLoginPage = () => {
         if (stagair && stagair.id && user) {
           useStagairStore.setState({ role: user.role });
           stagiairDetail.prefetchData(stagair.id);
-          router.push(`/users/detail/${stagair.id}`);
+          router.push(`/detail/${stagair.id}`);
           console.log("Navigating to:", `/users/detail/${stagair.id}`);
         }
       } else {
-        router.push("/users/stagiair");
-        console.log("Navigating to:", "/users/stagiair");
+        router.push("/");
+        console.log("Navigating to:", "/");
       }
     }
   }, [status, role, stagairs, session, router, stagiairDetail, users]);

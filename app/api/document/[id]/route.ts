@@ -9,10 +9,10 @@ interface Params {
 export async function GET(request: NextRequest, { params: { id } }: Params) {
   try {
     await connectToDatabase();
-    const doel = await prisma.document.findUnique({
+    const document = await prisma.document.findUnique({
       where: { id },
     });
-    return NextResponse.json(doel, { status: 200 });
+    return NextResponse.json(document, { status: 200 });
   } catch (error) {
     console.log(error);
     return NextResponse.json({ error: error }, { status: 400 });
@@ -31,13 +31,12 @@ export async function DELETE(request: NextRequest, { params: { id } }: Params) {
       },
     });
     // delete the document
-    const doel = await prisma.document.delete({
+    const document = await prisma.document.delete({
       where: {
         id,
-      }
+      },
     });
-    return NextResponse.json(doel, { status: 200 });
-    
+    return NextResponse.json(document, { status: 200 });
   } catch (error) {
     console.log(error);
     return NextResponse.json({ error: error }, { status: 400 });

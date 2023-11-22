@@ -15,6 +15,8 @@ const usePostDocument = (document: IDocument, stagiairId: string) => {
         stagiairID: stagiairId,
         bytes: document.bytes,
         resource_type: document.resource_type,
+        img: document.img,
+        documentUploaderName: document.documentUploaderName,
       });
     },
     {

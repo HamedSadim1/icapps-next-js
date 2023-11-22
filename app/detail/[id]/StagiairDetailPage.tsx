@@ -98,7 +98,7 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
           <LinkToStagiairOverzciht
             role={UserRole.ADMIN || UserRole.STAGEBEGELEIDER}
             userRole={role}
-            href="/users/stagiair"
+            href="/"
             title="Terug naar overzicht"
           />
           {/* Name of the user */}
