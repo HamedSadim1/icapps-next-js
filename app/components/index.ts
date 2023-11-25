@@ -11,7 +11,7 @@ import Navar from "./Navbar";
 import NoDataError from "./NoDataError";
 import Pagination from "./Pagination";
 import UploadDocument from "./UploadDocument";
-import WelcomePage from "./WelcomePage";
+import SearchStagiair from "./SearchStagiair";
 import TanstackProvider from "./provider/TanstackProvider";
 import ToastProvider from "./provider/ToastProvider";
 
@@ -32,7 +32,7 @@ export {
   NoDataError,
   Pagination,
   UploadDocument,
-  WelcomePage,
+  SearchStagiair as WelcomePage,
   TanstackProvider,
   ToastProvider,
   StageBeschrijvingModal,

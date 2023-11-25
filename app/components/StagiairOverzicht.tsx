@@ -7,10 +7,11 @@ import StagairForm from "../stagiair/[id]/StagairForm";
 import Loading from "@/app/components/Loading";
 import { useRouter } from "next/navigation";
 import { usePrefetchStagairDetails } from "@/hooks/usePrefetchData";
-import { useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 import AuthorizedRole from "@/app/components/AuthorizedRole";
 import { UserRole } from "@/types";
 import useCheckAuthorizeUser from "@/hooks/useCheckAuthorizeUser";
+import SearchStagiair from "./SearchStagiair";
 
 const StagiairOverzicht = () => {
   const { data: stagiairData, error, isLoading } = useStagairs();
@@ -18,6 +19,17 @@ const StagiairOverzicht = () => {
   const role = useStagairStore((s) => s.role);
   const router = useRouter();
   const auth = useCheckAuthorizeUser();
+  const [searchStagiair, setsearchStagiair] = useState<string>("");
+
+  const filteredStagiair = useMemo(() => {
+    const searchTerm =
+      searchStagiair.toLowerCase().length > 3
+        ? searchStagiair.toLowerCase()
+        : "";
+    return stagiairData && stagiairData.filter((item) =>
+      item.name.toLowerCase().includes(searchTerm)
+    );
+  }, [searchStagiair, stagiairData]);
 
   const prefetchStagairDetails = usePrefetchStagairDetails();
 
@@ -59,6 +71,7 @@ const StagiairOverzicht = () => {
         role={UserRole.ADMIN || UserRole.STAGEBEGELEIDER}
         userRole={role}
       >
+        <SearchStagiair search={searchStagiair} setSearch={setsearchStagiair} />
         <div className="overflow-x-auto">
           <table className="min-w-full bg-white border border-gray-200 mt-12">
             <thead className="bg-gray-100">
@@ -72,7 +85,7 @@ const StagiairOverzicht = () => {
               </tr>
             </thead>
             <tbody>
-              {stagiairData.map((stagiair) => (
+              {filteredStagiair?.map((stagiair) => (
                 <tr
                   key={stagiair.id}
                   className="hover:bg-gray-50 cursor-pointer"

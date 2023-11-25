@@ -1,10 +1,12 @@
-"use client";
 import { AiOutlineSearch } from "react-icons/ai";
 import Emails from "./Emails";
-import { useState } from "react";
 
-const WelcomePage = () => {
-  const [search, setSearch] = useState<string>("");
+interface Props {
+  search: string;
+  setSearch: (search: string) => void;
+}
+
+const SearchStagiair = ({ search, setSearch }: Props) => {
   return (
     <>
       <section className="flex flex-row mt-9 flex-wrap justify-start ">
@@ -29,4 +31,4 @@ const WelcomePage = () => {
   );
 };
 
-export default WelcomePage;
+export default SearchStagiair;
