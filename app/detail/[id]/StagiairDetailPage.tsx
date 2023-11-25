@@ -51,6 +51,22 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
   }
   const [selectedSection, setSelectedSection] = useState<number>(0);
   const [selectedSectionId, setSelectedSectionId] = useState<string>("");
+  
+
+  const handleCheckboxChange = (event: any, itemId: string) => {
+    const isChecked = event.target.checked;
+    console.log("Item ID:", itemId);
+  
+
+    useStagairStore.setState({
+      checklistItemStagiair: {
+        ...useStagairStore.getState().checklistItemStagiair,
+        isChecked: isChecked,
+      },
+    });
+    console.log('Updated State:', useStagairStore.getState().checklistItemStagiair);
+  };
+
 
   useEffect(() => {
     if (data) {
@@ -60,6 +76,7 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
     }
   }, [data]);
 
+  
   const navigateToNextSection = () => {
     if (selectedSection < data!.checklistsection.length - 1) {
       setSelectedSection(selectedSection + 1);
@@ -175,9 +192,13 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
                           className="flex gap-3 border-2 border-gray-500-400 p-2 rounded"
                         >
                           <input
-                            value={item.isChecked.toString()}
                             type="checkbox"
+                            key={item.id}
                             name="item"
+                            onChange={(event) =>
+                              handleCheckboxChange(event, item.id)
+                            }
+                            checked={Boolean(item.isChecked)}
                           />
                           <p>
                             {item.title} <br />
@@ -210,7 +231,9 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
                       {checklistStagebegeleider.sectionTitle}
                     </span>
                     {/* shows all two checklist, navigate if you want to see other section */}
-                    <span className="text-gray-400 text-xs mt-1">{/*checklistStagebegeleider.items.length*/}2</span>
+                    <span className="text-gray-400 text-xs mt-1">
+                      {/*checklistStagebegeleider.items.length*/}2
+                    </span>
                   </div>
                   <div className="flex flex-col justify-start mb-4 gap-3">
                     {checklistStagebegeleider.items &&
