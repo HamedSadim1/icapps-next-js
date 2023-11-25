@@ -8,6 +8,7 @@ import {
   IDocument,
   UserRole,
   IDocumentComment,
+  IChecklistItem,
 } from "@/types";
 
 export interface IStore {
@@ -28,8 +29,8 @@ export interface IStore {
   setComment: (comment: IComment) => void;
   commentId: string;
   setCommentId: (commentId: string) => void;
-  checklistStagiair: IChecklistSection;
-  setChecklistStagiair: (checklistStagiair: IChecklistSection) => void;
+  checklistItemStagiair: IChecklistItem;
+  setchecklistItemStagiair: (checklistStagiair: IChecklistItem) => void;
   documents: IDocument;
   setDocuments: (documents: IDocument) => void;
   updatePost: IPost;
@@ -45,8 +46,8 @@ export interface IStore {
   setDocumentComment: (comment: IDocumentComment) => void;
   documentId: string;
   documentCommentId: (documentId: string) => void;
-  pushNotificationId:string;
-  setPushNotificationId:(pushNotificationId:string) => void;
+  pushNotificationId: string;
+  setPushNotificationId: (pushNotificationId: string) => void;
 }
 
 const useStagairStore = create<IStore>((set) => ({
@@ -96,12 +97,12 @@ const useStagairStore = create<IStore>((set) => ({
     commentatorName: "",
     img: "",
   },
-  checklistStagiair: {
+  checklistItemStagiair: {
     id: "",
-    sectionTitle: "",
+    date: "",
+    isChecked: false,
     createdAt: "",
     updatedAt: "",
-    items: [],
     title: "",
   },
   documents: {
@@ -127,8 +128,8 @@ const useStagairStore = create<IStore>((set) => ({
     id: "",
     title: "",
   },
-  pushNotificationId:"",
-  setPushNotificationId:(pushNotificationId) => set({pushNotificationId}),
+  pushNotificationId: "",
+  setPushNotificationId: (pushNotificationId) => set({ pushNotificationId }),
   role: null,
   setRole: (role) => set({ role }),
   isPostModal: false,
@@ -162,10 +163,9 @@ const useStagairStore = create<IStore>((set) => ({
   setCommentId: (commentId) => {
     set({ commentId });
   },
-  setChecklistStagiair: (checklistStagiair) => {
-    set({ checklistStagiair });
+  setchecklistItemStagiair: (checklistStagiair) => {
+    set({ checklistItemStagiair: checklistStagiair });
   },
-
   setUpdatePost(updatePost) {
     set({ updatePost });
   },

@@ -5,11 +5,7 @@ import { connectToDatabase } from "@/lib";
 export async function GET(request: NextRequest) {
   try {
     await connectToDatabase();
-    const checklist = await prisma.checklistSection.findMany({
-      include: {
-        items: true,
-      },
-    });
+    const checklist = await prisma.checklistItem.findMany({});
     return NextResponse.json(checklist, { status: 200 });
   } catch (error) {
   } finally {
@@ -21,10 +17,13 @@ export async function POST(request: NextRequest) {
   try {
     const data = await request.json();
     await connectToDatabase();
-    const checklist = await prisma.checklistSection.create({
+    const checklist = await prisma.checklistItem.create({
       data: {
-        sectionTitle: data.sectionTitle,
-        stagiairID: data.stagiairID,
+        title: data.title,
+        isChecked: data.isChecked,
+        checklistItemSectionID: data.checklistItemSectionID,
+        date: data.date,
+
       },
     });
 

@@ -17,3 +17,5 @@ const useFetchDoelen = (): UseQueryResult<IPost[], Error> => {
 
   return useQuery<IPost[], Error>(options);
 };
+
+export default useFetchDoelen;

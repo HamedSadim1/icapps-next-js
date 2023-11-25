@@ -99,6 +99,7 @@ export interface IChecklistItem {
   createdAt: string;
   date: string;
   updatedAt: string;
+  checklistItemSectionID?: string;
 }
 
 export interface IChecklistSection {
@@ -106,6 +107,7 @@ export interface IChecklistSection {
   sectionTitle: string;
   createdAt: string;
   updatedAt: string;
+  stagiairID?: string;
   items: IChecklistItem[];
 }
 

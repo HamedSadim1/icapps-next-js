@@ -5,6 +5,7 @@ import { FormEvent, useState } from "react";
 import useStagairStore from "@/store";
 import usePostChecklistStagiair from "@/hooks/usePostChecklistStagiair";
 import { inputFormDater } from "@/lib";
+import usePostChecklistItem from "@/hooks/usePostChecklistItem";
 
 interface AddChecklistProps {
   checklistItemId: string;
@@ -12,12 +13,12 @@ interface AddChecklistProps {
 export const AddCheckListItem = ({ checklistItemId }: AddChecklistProps) => {
   const [showDiv, setDiv] = useState(false);
 
-  console.log("  checklistItemId  " + checklistItemId    )
+  console.log("  checklistItemId  " + checklistItemId);
 
-  const item = useStagairStore((s) => s.checklistStagiair);
-  const setItem = useStagairStore((s) => s.setChecklistStagiair);
+  const item = useStagairStore((s) => s.checklistItemStagiair);
+  const setItem = useStagairStore((s) => s.setchecklistItemStagiair);
 
-  const { mutate } = usePostChecklistStagiair(item, checklistItemId);
+  const { mutate } = usePostChecklistItem(item, checklistItemId);
 
   const handlePostChecklistStagiair = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -49,15 +50,13 @@ export const AddCheckListItem = ({ checklistItemId }: AddChecklistProps) => {
                 Sectie toevoegen &nbsp;
               </h2>
               <form onSubmit={handlePostChecklistStagiair}>
-                <label htmlFor="titel">SectionTitle</label>
+                <label htmlFor="titel">ItemTitle</label>
                 <input
                   type="text"
                   className="w-full p-3 border-2 rounded-md mb-5"
                   name="titel"
                   id="titel"
-                  onChange={(e) =>
-                    setItem({ ...item, sectionTitle: e.target.value })
-                  }
+                  onChange={(e) => setItem({ ...item, title: e.target.value })}
                 />
                 <label htmlFor="einddatum">Datum</label>
                 <br />
@@ -67,7 +66,7 @@ export const AddCheckListItem = ({ checklistItemId }: AddChecklistProps) => {
                   name="einddatum"
                   id="einddatum"
                   onChange={(e) =>
-                    setItem({ ...item, updatedAt: e.target.value })
+                    setItem({ ...item, date: e.target.value })
                   }
                   min={inputFormDater(new Date().toISOString().split("T")[0])}
                 />
