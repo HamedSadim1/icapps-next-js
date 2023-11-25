@@ -7,53 +7,63 @@ import usePostComment from "@/hooks/usePostComment";
 import useOneSignalNotification from "@/hooks/useOneSignalNotification";
 import usePostNotification from "@/hooks/usePostNotification";
 
-
 const CommentModal = () => {
   const [showDiv, setDiv] = useState<boolean>(false);
   const comment = useStagairStore((s) => s.comment);
   const setComment = useStagairStore((s) => s.setComment);
   const commentId = useStagairStore((s) => s.commentId);
   const pushNotificationId = useStagairStore((s) => s.pushNotificationId);
-
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false); // New state
 
   const { mutate, status } = usePostComment(comment!, commentId);
-  const { mutate: mutateNotification } = usePostNotification(pushNotificationId)
+  const { mutate: mutateNotification } =
+    usePostNotification(pushNotificationId);
 
-  const oneSignalHook=useOneSignalNotification();
+  const oneSignalHook = useOneSignalNotification();
 
   if (!comment) return null;
 
   const handleSubmitButton = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    await mutate();
-    setDiv(false);
 
-    console.log("not" + status);
-    if (status === "success") {
-      console.log("succes" + status);
-      // Reset Zustand state by setting the state to the initial values
-      useStagairStore.setState((state) => ({
-        ...state,
-        comment: {
-          id: "",
-          postId: "",
-          createdAt: "",
-          commentatorName: "",
-          comment: "",
-        }, 
-      }));
+    try {
+      await mutate();
+      setDiv(false);
+
+      console.log("not" + status);
+      if (status === "success") {
+        console.log("succes" + status);
+        // Reset Zustand state by setting the state to the initial values
+        useStagairStore.setState((state) => ({
+          ...state,
+          comment: {
+            id: "",
+            postId: "",
+            createdAt: "",
+            commentatorName: "",
+            comment: "",
+          },
+        }));
+      }
+      await mutateNotification({
+        include_player_ids: [pushNotificationId],
+        headings: { en: "New Comment", nl: "Nieuw Commentaar" },
+        contents: {
+          en: "A new comment has been added",
+          nl: "Er is een nieuw commentaar toegevoegd",
+        },
+      });
+    } finally {
+      setIsSubmitting(false);
     }
-    await mutateNotification({
-      include_player_ids: [pushNotificationId],
-      headings: { en: "New Comment", nl: "Nieuw Commentaar" },
-      contents: { en: "A new comment has been added", nl: "Er is een nieuw commentaar toegevoegd" },
-      
-    })
-    
+
+    if (isSubmitting) {
+      // If already submitting, do nothing
+      return;
+    }
   };
 
   const handleOpenCommentaar = () => {
-
     setDiv(true);
     // Reset Zustand state by setting the state to the initial values
     useStagairStore.setState((state) => ({
@@ -64,20 +74,19 @@ const CommentModal = () => {
         createdAt: "",
         commentatorName: "",
         comment: "",
-      }, 
+      },
     }));
   };
 
   const handleCloseCommentaar = () => {
     setDiv(false);
-    
   };
 
   return (
     <>
       {showDiv === false && (
         <div className="ml-16 flex px-4 py-2 text-gray-400 hover:text-gray-500">
-          <button onClick={handleOpenCommentaar} disabled={showDiv}>
+          <button onClick={handleOpenCommentaar} disabled={isSubmitting}>
             <AiOutlinePlus className="float-left mt-1 text-gray-700" />
             &nbsp;Commentaar toevoegen
           </button>
@@ -114,7 +123,7 @@ const CommentModal = () => {
                     ? " cursor-not-allowed  opacity-50"
                     : ""
                 }`}
-                disabled={comment.comment.length < 4}
+                disabled={comment.comment.length < 4 || isSubmitting}
               >
                 Plaatsen
               </button>
@@ -170,7 +179,4 @@ const CommentModal = () => {
 };
 
 export default CommentModal;
-function useMemo(arg0: () => void, arg1: never[]) {
-  throw new Error("Function not implemented.");
-}
 

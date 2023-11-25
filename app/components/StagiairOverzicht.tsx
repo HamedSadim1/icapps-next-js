@@ -21,6 +21,7 @@ const StagiairOverzicht = () => {
   const auth = useCheckAuthorizeUser();
   const [searchStagiair, setsearchStagiair] = useState<string>("");
 
+  // ? filter data based on search
   const filteredStagiair = useMemo(() => {
     const searchTerm =
       searchStagiair.toLowerCase().length > 3
