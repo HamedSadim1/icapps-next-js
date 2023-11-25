@@ -97,7 +97,7 @@ export interface IChecklistItem {
   title: string;
   isChecked: boolean;
   createdAt: string;
-  date: string;
+  date: string | null;
   updatedAt: string;
   checklistItemSectionID?: string;
 }
@@ -113,11 +113,12 @@ export interface IChecklistSection {
 
 export interface ICheckListStagebegeleider {
   id: string;
-  title: string;
-  isChecked: boolean;
-  stagebegeleiderID: string;
+  sectionTitle: string;
   createdAt: string;
+  updatedAt: string;
+  stagebegeleiderID: string;
   stagiairID: string;
+  items: IChecklistItem[];
 }
 
 export interface INotification {

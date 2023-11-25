@@ -66,10 +66,16 @@ export const AddCheckListItem = ({ checklistItemId }: AddChecklistProps) => {
                   name="einddatum"
                   id="einddatum"
                   onChange={(e) =>
-                    setItem({ ...item, date: e.target.value })
+                    setItem({
+                      ...item,
+                      date: e.target.value
+                        ? new Date(e.target.value).toISOString() // convert to date for prisma and adjust interface to
+                        : null,
+                    })
                   }
                   min={inputFormDater(new Date().toISOString().split("T")[0])}
                 />
+
                 <div className="w-full text-right">
                   <button
                     className="mr-4 px-7 py-2 rounded-md bg-blue-100 text-[#002548] font-semibold hover:bg-blue-200"

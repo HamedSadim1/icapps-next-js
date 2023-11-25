@@ -23,13 +23,13 @@ export async function POST(request: NextRequest) {
         isChecked: data.isChecked,
         checklistItemSectionID: data.checklistItemSectionID,
         date: data.date,
-
       },
     });
 
     return NextResponse.json(checklist, { status: 201 });
   } catch (error) {
-    NextResponse.json(error, { status: 500 });
+    console.error("Prisma Error bij het toevoegen van een nieuwe item:", error);
+    return NextResponse.json(error, { status: 500 });
   } finally {
     prisma.$disconnect();
   }

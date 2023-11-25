@@ -50,15 +50,15 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
     console.log("User Role:", UserRole[role]);
   }
   const [selectedSection, setSelectedSection] = useState<number>(0);
-  const [selectedSectionId,setSelectedSectionId] = useState<string>("");
+  const [selectedSectionId, setSelectedSectionId] = useState<string>("");
 
   useEffect(() => {
-    if(data){
+    if (data) {
       if (data.checklistsection.length > 0) {
-      setSelectedSectionId(data!.checklistsection[0].id);
+        setSelectedSectionId(data!.checklistsection[0].id);
+      }
     }
-    }
-  }, [data]); 
+  }, [data]);
 
   const navigateToNextSection = () => {
     if (selectedSection < data!.checklistsection.length - 1) {
@@ -185,11 +185,16 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
                               {formatDate(item.createdAt)}
                             </div>
                           </p>
+                          <div className="">
+                            <button type="button" className="text-gray-400">
+                              <AiOutlineEdit className="text-2xl mr-2 mt-4" />
+                            </button>
+                          </div>
                         </div>
                       ))}
                   </div>
                 </div>
-                <AddCheckListItem checklistItemId={selectedSectionId} />
+                {/* <AddCheckListItem checklistItemId={selectedSectionId} />*/}
               </div>
             ))
           ) : (
@@ -202,30 +207,36 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
                 >
                   <div className="flex gap-2 mb-2">
                     <span className="flex font-medium">
-                      Section {selectedSection}
+                      {checklistStagebegeleider.sectionTitle}
                     </span>
                     {/* shows all two checklist, navigate if you want to see other section */}
-                    <span className="text-gray-400 text-xs mt-1">2</span>
+                    <span className="text-gray-400 text-xs mt-1">{/*checklistStagebegeleider.items.length*/}2</span>
                   </div>
                   <div className="flex flex-col justify-start mb-4 gap-3">
-                    <div className="flex gap-3 border-2 border-gray-500-400 p-2 rounded">
-                      <input
-                        value={checklistStagebegeleider.isChecked.toString()}
-                        type="checkbox"
-                        name="item"
-                      />
-                      <p>
-                        {checklistStagebegeleider.title} <br />
-                        <div className="text-sm text-gray-400">
-                          {formatDate(checklistStagebegeleider.createdAt)}
+                    {checklistStagebegeleider.items &&
+                      checklistStagebegeleider.items.map((item) => (
+                        <div
+                          key={item.id}
+                          className="flex gap-3 border-2 border-gray-500-400 p-2 rounded"
+                        >
+                          <input
+                            value={item.isChecked.toString()}
+                            type="checkbox"
+                            name="item"
+                          />
+                          <p>
+                            {item.title} <br />
+                            <div className="text-sm text-gray-400">
+                              {formatDate(item.createdAt)}
+                            </div>
+                          </p>
+                          <div className="">
+                            <button type="button" className="text-gray-400">
+                              <AiOutlineEdit className="text-2xl mr-2 mt-4" />
+                            </button>
+                          </div>
                         </div>
-                      </p>
-                      <div className="">
-                        <button type="button" className="text-gray-400">
-                          <AiOutlineEdit className="text-2xl mr-2 mt-4" />
-                        </button>
-                      </div>
-                    </div>
+                      ))}
                   </div>
                 </div>
               ))}
@@ -233,11 +244,11 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
           )}
           {/* Add new item to checklist */}
 
-          {/* {checkListName === "checkListStagiair" ? (
-            <AddCheckListItem stagiairId={id} />
+          {checkListName === "checkListStagiair" ? (
+            <AddCheckListItem checklistItemId={selectedSectionId} />
           ) : (
-            <div></div>
-          )} */}
+            <AddCheckListItem checklistItemId={selectedSectionId} />
+          )}
         </div>
 
         {/* Beschrijving */}
