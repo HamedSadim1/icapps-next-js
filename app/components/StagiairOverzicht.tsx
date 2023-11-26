@@ -27,8 +27,11 @@ const StagiairOverzicht = () => {
       searchStagiair.toLowerCase().length > 3
         ? searchStagiair.toLowerCase()
         : "";
-    return stagiairData && stagiairData.filter((item) =>
-      item.name.toLowerCase().includes(searchTerm)
+    return (
+      stagiairData &&
+      stagiairData.filter((item) =>
+        item.name.toLowerCase().includes(searchTerm)
+      )
     );
   }, [searchStagiair, stagiairData]);
 
@@ -41,7 +44,22 @@ const StagiairOverzicht = () => {
         prefetchStagairDetails.prefetchData(stagiair.id);
       });
     useStagairStore.setState({ role: auth.role });
-  }, [stagiairData, prefetchStagairDetails, router, auth.role]);
+
+    if (role === UserRole.STAGIAIR) {
+      stagiairData?.map((stagiair) => {
+        if (stagiair.email === auth.userEmail) {
+          router.replace(`/detail/${stagiair.id}`);
+        }
+      });
+    }
+  }, [
+    stagiairData,
+    prefetchStagairDetails,
+    router,
+    auth.role,
+    auth.userEmail,
+    role,
+  ]);
 
   if (error) {
     return <div>{error?.message}</div>;
