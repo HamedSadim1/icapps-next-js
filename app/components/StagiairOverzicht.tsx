@@ -38,13 +38,16 @@ const StagiairOverzicht = () => {
   const prefetchStagairDetails = usePrefetchStagairDetails();
 
   useEffect(() => {
+    //? prefetch stagiair details
     if (stagiairData && stagiairData.length > 0 && auth.role)
       stagiairData.map((stagiair) => {
         router.prefetch(`/detail/${stagiair.id}`);
         prefetchStagairDetails.prefetchData(stagiair.id);
       });
+      //? set role in store
     useStagairStore.setState({ role: auth.role });
 
+    //? if user is stagiair redirect to detail page
     if (role === UserRole.STAGIAIR) {
       stagiairData?.map((stagiair) => {
         if (stagiair.email === auth.userEmail) {

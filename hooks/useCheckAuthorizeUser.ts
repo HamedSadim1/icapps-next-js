@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import useUsers from "./useUsers";
 import { UserRole } from "@/types";
+import useStagairStore from "@/store";
 
 function useCheckAuthorizeUser() {
   const { data: session } = useSession();
@@ -21,6 +22,7 @@ function useCheckAuthorizeUser() {
     if (user) {
       setUserEmail(user.email);
       setRole(user.role); // Directly set the user role
+      useStagairStore.setState({ role: user.role });
     } else {
       console.error("User not found in the users data.");
     }
@@ -36,7 +38,7 @@ function useCheckAuthorizeUser() {
 
   console.log(role);
 
-  return { role, isLoading ,userEmail}; // Return both role and isLoading state
+  return { role, isLoading, userEmail }; // Return both role and isLoading state
 }
 
 export default useCheckAuthorizeUser;
