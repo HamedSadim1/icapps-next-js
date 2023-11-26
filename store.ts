@@ -1,4 +1,4 @@
-import { State, create } from "zustand";
+import { create } from "zustand";
 import {
   IStagaire,
   IStagebeschrijving,
@@ -163,13 +163,8 @@ const useStagairStore = create<IStore>((set) => ({
   setCommentId: (commentId) => {
     set({ commentId });
   },
-  setchecklistItemStagiair: () => {
-    set((state) => ({
-      checklistItemStagiair: {
-        ...state.checklistItemStagiair,
-        isChecked: !state.checklistItemStagiair.isChecked,
-      },
-    }));
+  setchecklistItemStagiair: (checklistStagiair) => {
+    set({ checklistItemStagiair: checklistStagiair });
   },
   setUpdatePost(updatePost) {
     set({ updatePost });

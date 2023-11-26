@@ -26,6 +26,7 @@ import LinkToStagiairOverzciht from "@/app/components/LinkToStagiairOverzicht";
 import DocumentDetail from "@/app/components/DocumentDetail";
 import Post from "@/app/components/Post";
 import CheckList from "@/app/components/UI/Checklist";
+import CheckListItemModal from "@/app/components/CheckListItemModal";
 
 interface Params {
   params: { id: string };
@@ -51,22 +52,6 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
   }
   const [selectedSection, setSelectedSection] = useState<number>(0);
   const [selectedSectionId, setSelectedSectionId] = useState<string>("");
-  
-
-  const handleCheckboxChange = (event: any, itemId: string) => {
-    const isChecked = event.target.checked;
-    console.log("Item ID:", itemId);
-  
-
-    useStagairStore.setState({
-      checklistItemStagiair: {
-        ...useStagairStore.getState().checklistItemStagiair,
-        isChecked: isChecked,
-      },
-    });
-    console.log('Updated State:', useStagairStore.getState().checklistItemStagiair);
-  };
-
 
   useEffect(() => {
     if (data) {
@@ -76,7 +61,6 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
     }
   }, [data]);
 
-  
   const navigateToNextSection = () => {
     if (selectedSection < data!.checklistsection.length - 1) {
       setSelectedSection(selectedSection + 1);
@@ -192,25 +176,24 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
                           className="flex gap-3 border-2 border-gray-500-400 p-2 rounded"
                         >
                           <input
+                            value={item.isChecked.toString()}
+                            checked={item.isChecked}
                             type="checkbox"
-                            key={item.id}
                             name="item"
-                            onChange={(event) =>
-                              handleCheckboxChange(event, item.id)
-                            }
-                            checked={Boolean(item.isChecked)}
                           />
+                         
                           <p>
                             {item.title} <br />
                             <div className="text-sm text-gray-400">
                               {formatDate(item.createdAt)}
                             </div>
                           </p>
-                          <div className="">
-                            <button type="button" className="text-gray-400">
-                              <AiOutlineEdit className="text-2xl mr-2 mt-4" />
-                            </button>
-                          </div>
+                          <EditStageBeschrijving
+                            role={UserRole.ADMIN || UserRole.STAGEBEGELEIDER}
+                            userRole={role}
+                            setIsModalOpen={setIsModalOpen}
+                          />
+                          <CheckListItemModal stagiairId={id} checklistItem={item} />
                         </div>
                       ))}
                   </div>
