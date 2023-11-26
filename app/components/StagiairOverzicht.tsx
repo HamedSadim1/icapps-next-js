@@ -35,7 +35,7 @@ const StagiairOverzicht = () => {
   const prefetchStagairDetails = usePrefetchStagairDetails();
 
   useEffect(() => {
-    if (stagiairData)
+    if (stagiairData && stagiairData.length > 0 && auth.role)
       stagiairData.map((stagiair) => {
         router.prefetch(`/detail/${stagiair.id}`);
         prefetchStagairDetails.prefetchData(stagiair.id);

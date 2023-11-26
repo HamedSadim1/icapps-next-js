@@ -4,7 +4,6 @@ import {
   IStagebeschrijving,
   IPost,
   IComment,
-  IChecklistSection,
   IDocument,
   UserRole,
   IDocumentComment,
@@ -104,6 +103,7 @@ const useStagairStore = create<IStore>((set) => ({
     createdAt: "",
     updatedAt: "",
     title: "",
+    checklistItemSectionID: "",
   },
   documents: {
     id: "",

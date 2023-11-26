@@ -50,15 +50,15 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
     console.log("User Role:", UserRole[role]);
   }
   const [selectedSection, setSelectedSection] = useState<number>(0);
-  const [selectedSectionId,setSelectedSectionId] = useState<string>("");
+  const [selectedSectionId, setSelectedSectionId] = useState<string>("");
 
   useEffect(() => {
-    if(data){
+    if (data) {
       if (data.checklistsection.length > 0) {
-      setSelectedSectionId(data!.checklistsection[0].id);
+        setSelectedSectionId(data!.checklistsection[0].id);
+      }
     }
-    }
-  }, [data]); 
+  }, [data]);
 
   const navigateToNextSection = () => {
     if (selectedSection < data!.checklistsection.length - 1) {
@@ -125,10 +125,12 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
             </div>
           )}
 
-          {/* Checklist */}
+          {/* Checklist buttons */}
           <CheckList
             checkListName={checkListName}
             setCheckListName={setCheckListName}
+            role={UserRole.ADMIN || UserRole.STAGEBEGELEIDER}
+            userRole={role}
           />
 
           {/* Arrow Left and Arrow Right */}
@@ -189,6 +191,7 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
                       ))}
                   </div>
                 </div>
+                {/* add checklistitem give id of the checklistItem  */}
                 <AddCheckListItem checklistItemId={selectedSectionId} />
               </div>
             ))

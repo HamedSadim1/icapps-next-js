@@ -1,11 +1,20 @@
 import { VscChecklist } from "react-icons/vsc";
+import AuthorizedRole from "../AuthorizedRole";
+import { UserRole } from "@/types";
 
 interface Props {
   checkListName: string;
   setCheckListName: (checklist: string) => void;
+  role: UserRole;
+  userRole: UserRole;
 }
 
-const CheckList = ({ checkListName, setCheckListName }: Props) => {
+const CheckList = ({
+  checkListName,
+  setCheckListName,
+  role,
+  userRole,
+}: Props) => {
   return (
     <div className="flex justify-between mt-7 mb-5 ">
       <span className="flex gap-3">
@@ -22,16 +31,18 @@ const CheckList = ({ checkListName, setCheckListName }: Props) => {
         >
           Stagiair
         </button>
-        <button
-          onClick={() => setCheckListName("checklistStagebegeleider")}
-          type="button"
-          className={`rounded-r-md border-[#002548] border-2 px-6 py-1 flex justify-center font-medium ${
-            checkListName === "checklistStagebegeleider" &&
-            "bg-[#002548] text-white"
-          }`}
-        >
-          Begeleider
-        </button>
+        <AuthorizedRole role={role} userRole={userRole}>
+          <button
+            onClick={() => setCheckListName("checklistStagebegeleider")}
+            type="button"
+            className={`rounded-r-md border-[#002548] border-2 px-6 py-1 flex justify-center font-medium ${
+              checkListName === "checklistStagebegeleider" &&
+              "bg-[#002548] text-white"
+            }`}
+          >
+            Begeleider
+          </button>
+        </AuthorizedRole>
       </span>
     </div>
   );

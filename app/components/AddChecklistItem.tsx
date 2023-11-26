@@ -65,10 +65,8 @@ export const AddCheckListItem = ({ checklistItemId }: AddChecklistProps) => {
                   type="date"
                   name="einddatum"
                   id="einddatum"
-                  onChange={(e) =>
-                    setItem({ ...item, date: e.target.value })
-                  }
-                  min={inputFormDater(new Date().toISOString().split("T")[0])}
+                  onChange={(e) => setItem({ ...item, date: e.target.value })}
+                  min={new Date().toISOString().split("T")[0]}
                 />
                 <div className="w-full text-right">
                   <button
