@@ -40,10 +40,10 @@ export interface IStore {
   setIsPostModal: (isPostModal: boolean) => void;
   role: UserRole | null;
   setRole: (role: UserRole) => void;
-  setDocumentId: (documentId: string) => void;
   documentComment: IDocumentComment;
   setDocumentComment: (comment: IDocumentComment) => void;
   documentId: string;
+  setDocumentId: (documentId: string) => void;
   documentCommentId: (documentId: string) => void;
   pushNotificationId: string;
   setPushNotificationId: (pushNotificationId: string) => void;

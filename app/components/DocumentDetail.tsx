@@ -24,14 +24,14 @@ const DocumentDetail = (document: DocumentDetailProps) => {
         <a onClick={() => setDiv(true)}>
           <button>
             <h2 className="text-xl mt-5 ml-2">
-              {" "}
+            
               {document.document.original_filename}{" "}
             </h2>
           </button>
         </a>
         <h3 className="text-gray ml-2 text-gray-400">
-          {formatDate(document.document.created_at)} door  {document.document.documentUploaderName}  (
-          {document.document.bytes}
+          {formatDate(document.document.created_at)} door{" "}
+          {document.document.documentUploaderName} ({document.document.bytes}
           kb)
         </h3>
         <div className="flex justify-start text-gray-400">
@@ -76,7 +76,9 @@ const DocumentDetail = (document: DocumentDetailProps) => {
                 </a>
                 {/* DELETE DOCUMENT BUTTON */}
                 <button className="float-right">
-                  <DeleteDocumentModal documentId={document.document.id} />
+                  <button className="btn btn-sm btn-circle btn-ghost float-right mt-3 mr-3 text-xl">
+                    <DeleteDocumentModal documentId={document.document.id} />
+                  </button>
                 </button>
               </label>
             </div>
