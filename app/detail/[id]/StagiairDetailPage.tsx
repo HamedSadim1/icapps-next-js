@@ -63,6 +63,7 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
   const navigateToNextSection = () => {
     if (selectedSection < data!.checklistsection.length - 1) {
       setSelectedSection(selectedSection + 1);
+      //? set the id of the checklistsecion when navigate happen
       setSelectedSectionId(data!.checklistsection[selectedSection + 1].id);
     }
   };
@@ -70,6 +71,7 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
   const navigateToPreviousSection = () => {
     if (selectedSection > 0) {
       setSelectedSection(selectedSection - 1);
+         //? set the id of the checklistsecion when navigate happen
       setSelectedSectionId(data!.checklistsection[selectedSection - 1].id);
     }
   };
