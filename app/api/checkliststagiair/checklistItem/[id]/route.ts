@@ -48,6 +48,8 @@ export async function PATCH(request:NextRequest, { params: { id } }: Params){ //
       where: { id: id},
       data:{
        isChecked: data.isChecked,
+       title:data.title,
+       date:data.date
       }
     })
     return NextResponse.json(checklist, { status: 201 });

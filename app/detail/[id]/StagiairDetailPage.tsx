@@ -28,6 +28,7 @@ import LinkToStagiairOverzciht from "@/app/components/LinkToStagiairOverzicht";
 import DocumentDetail from "@/app/components/DocumentDetail";
 import Post from "@/app/components/Post";
 import CheckList from "@/app/components/UI/Checklist";
+import CheckListItemModal from "@/app/api/checkliststagiair/checklistItem/[id]/CheckListItemModal";
 
 interface Params {
   params: { id: string };
@@ -97,7 +98,8 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
   const handleCommentId = (id: string) => {
     setCommentId(id);
   };
-  const handleCheckboxChange = (itemId: any, newCheckedValue: any) => { //update setChecklistItemUpdate
+  const handleCheckboxChange = (itemId: any, newCheckedValue: any) => {
+    //update setChecklistItemUpdate
     // Update the state locally
     setChecklistItemUpdate({
       id: itemId,
@@ -205,15 +207,24 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
                             type="checkbox"
                             name="item"
                             onChange={() =>
-                              handleCheckboxChange(item.id, !item.isChecked) // true becomes false then when yiu click on it
+                              handleCheckboxChange(item.id, !item.isChecked)
                             }
                           />
                           <p>
-                            {item.title} <br />
+                            {item.title}  <br />
                             <div className="text-sm text-gray-400">
                               {formatDate(item.createdAt)}
                             </div>
                           </p>
+                          <EditStageBeschrijving
+                            role={UserRole.ADMIN || UserRole.STAGEBEGELEIDER}
+                            userRole={role}
+                            setIsModalOpen={setIsModalOpen}
+                          />
+                          <CheckListItemModal
+                            checklistItem={item}
+                            id={item.id}
+                          />
                         </div>
                       ))}
                   </div>
@@ -232,7 +243,7 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
                 >
                   <div className="flex gap-2 mb-2">
                     <span className="flex font-medium">
-                      Section {checklistStagebegeleider.sectionTitle}
+                      {checklistStagebegeleider.sectionTitle}
                     </span>
                     {/* shows all two checklist, navigate if you want to see other section */}
                     <span className="text-gray-400 text-xs mt-1">2</span>
