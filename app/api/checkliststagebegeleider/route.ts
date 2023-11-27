@@ -22,9 +22,7 @@ export async function POST(request: NextRequest) {
     const checklistStageBegeleider =
       await prisma.checkListStageBegeleider.create({
         data: {
-          isChecked: body.isChecked,
-          title: body.title,
-          stagebegeleiderID: body.stagebegeleiderID,
+          sectionTitle: body.sectionTitle,
           stagiairID: body.stagiairID,
         },
       });

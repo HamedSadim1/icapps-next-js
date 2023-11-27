@@ -71,7 +71,7 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
   const navigateToPreviousSection = () => {
     if (selectedSection > 0) {
       setSelectedSection(selectedSection - 1);
-         //? set the id of the checklistsecion when navigate happen
+      //? set the id of the checklistsecion when navigate happen
       setSelectedSectionId(data!.checklistsection[selectedSection - 1].id);
     }
   };
@@ -207,7 +207,7 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
                 >
                   <div className="flex gap-2 mb-2">
                     <span className="flex font-medium">
-                      Section {selectedSection}
+                      Section {checklistStagebegeleider.sectionTitle}
                     </span>
                     {/* shows all two checklist, navigate if you want to see other section */}
                     <span className="text-gray-400 text-xs mt-1">2</span>
@@ -220,7 +220,7 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
                         name="item"
                       />
                       <p>
-                        {checklistStagebegeleider.title} <br />
+                        {checklistStagebegeleider.sectionTitle} <br />
                         <div className="text-sm text-gray-400">
                           {formatDate(checklistStagebegeleider.createdAt)}
                         </div>

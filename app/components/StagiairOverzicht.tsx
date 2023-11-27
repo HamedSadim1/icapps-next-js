@@ -44,7 +44,7 @@ const StagiairOverzicht = () => {
         router.prefetch(`/detail/${stagiair.id}`);
         prefetchStagairDetails.prefetchData(stagiair.id);
       });
-      //? set role in store
+    //? set role in store
     useStagairStore.setState({ role: auth.role });
 
     //? if user is stagiair redirect to detail page
@@ -160,7 +160,7 @@ const StagiairOverzicht = () => {
               ))}
             </tbody>
           </table>
-          {stagiairData.length === 0 && (
+          {filteredStagiair?.length === 0 && (
             <div className="flex justify-center items-center mt-4">
               <h2 className="text-2xl font-bold text-gray-500">
                 No result found

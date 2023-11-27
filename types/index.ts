@@ -113,9 +113,8 @@ export interface IChecklistSection {
 
 export interface ICheckListStagebegeleider {
   id: string;
-  title: string;
+  sectionTitle: string;
   isChecked: boolean;
-  stagebegeleiderID: string;
   createdAt: string;
   stagiairID: string;
 }
