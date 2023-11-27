@@ -12,6 +12,7 @@ import AuthorizedRole from "@/app/components/AuthorizedRole";
 import { UserRole } from "@/types";
 import useCheckAuthorizeUser from "@/hooks/useCheckAuthorizeUser";
 import SearchStagiair from "./SearchStagiair";
+import useOneSignalNotification from "@/hooks/useOneSignalNotification";
 
 const StagiairOverzicht = () => {
   const { data: stagiairData, error, isLoading } = useStagairs();
@@ -20,6 +21,7 @@ const StagiairOverzicht = () => {
   const router = useRouter();
   const auth = useCheckAuthorizeUser();
   const [searchStagiair, setsearchStagiair] = useState<string>("");
+  useOneSignalNotification()
 
   // ? filter data based on search
   const filteredStagiair = useMemo(() => {
