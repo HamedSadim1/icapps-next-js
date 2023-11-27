@@ -40,10 +40,10 @@ export async function DELETE(request: NextRequest, { params: { id } }: Params) {
   }
 }
 
-export async function Put(request:NextRequest, { params: { id } }: Params){
+export async function PATCH(request:NextRequest, { params: { id } }: Params){ //for items checked 
   try{
-    const data= await request.json();
     await connectToDatabase();
+    const data= await request.json();
     const checklist=await prisma.checklistItem.update({
       where: { id: id},
       data:{

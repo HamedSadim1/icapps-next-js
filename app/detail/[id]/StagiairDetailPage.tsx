@@ -8,9 +8,11 @@ import {
 import { formatDate } from "@/lib";
 import useStagair from "@/hooks/useStagair";
 import useStagairStore from "@/store";
-import { FormEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { UserRole } from "@/types";
 import useCheckAuthorizeUser from "@/hooks/useCheckAuthorizeUser";
+import useUpdateChecklistItem from "@/hooks/useUpdateCheckListItem"; //call the hook
+
 import {
   AddCheckListItem,
   Doel,
@@ -26,7 +28,6 @@ import LinkToStagiairOverzciht from "@/app/components/LinkToStagiairOverzicht";
 import DocumentDetail from "@/app/components/DocumentDetail";
 import Post from "@/app/components/Post";
 import CheckList from "@/app/components/UI/Checklist";
-import usePostChecklistItem from "@/hooks/usePostChecklistItem";
 
 interface Params {
   params: { id: string };
@@ -34,9 +35,10 @@ interface Params {
 
 const StagiairDetailPage = ({ params: { id } }: Params) => {
   const { data, error, isLoading } = useStagair(id);
-
-  const   updateChecklist =  useStagairStore((state)=> state.checklistItemUpdate)
-  const setUpdateChecklist = useStagairStore((state)=> state.setChecklistItemUpdate)
+  const updateChecklistItemMutation = useUpdateChecklistItem();
+  const setChecklistItemUpdate = useStagairStore(
+    (s) => s.setChecklistItemUpdate
+  );
   const setIsModalOpen = useStagairStore((state) => state.setCommentModal);
   const setCommentId = useStagairStore((s) => s.setCommentId);
   const setUpdatePostId = useStagairStore((s) => s.setUpdatePostId);
@@ -45,7 +47,6 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
   const [checkListName, setCheckListName] =
     useState<string>("checkListStagiair");
   const { role, isLoading: loading } = useCheckAuthorizeUser();
-   const {mutate:updateChecklistItem} =  usePostChecklistItem(updateChecklist,updateChecklist.id)
   const geenGegevensBeschikbaarVoorStageBeschrijving: string =
     "Geen gegevens beschikbaar";
 
@@ -96,17 +97,23 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
   const handleCommentId = (id: string) => {
     setCommentId(id);
   };
+  const handleCheckboxChange = (itemId: any, newCheckedValue: any) => { //update setChecklistItemUpdate
+    // Update the state locally
+    setChecklistItemUpdate({
+      id: itemId,
+      isChecked: newCheckedValue,
+      title: "",
+      createdAt: "",
+      date: "",
+      updatedAt: "",
+    });
 
-   const handleSubmitChecklist= async(e: FormEvent<HTMLFormElement>)=> {
-
-    e.preventDefault();
-    updateChecklistItem()
-    console.log("subitten")
-   }
-
-  
-
-
+    // Trigger the mutation to update the database
+    updateChecklistItemMutation.mutate({
+      id: itemId,
+      isChecked: newCheckedValue,
+    });
+  };
 
   return (
     <>
@@ -193,15 +200,14 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
                           key={item.id}
                           className="flex gap-3 border-2 border-gray-500-400 p-2 rounded"
                         >
-                          <form onSubmit={handleSubmitChecklist}>
                           <input
-                            value={updateChecklist.isChecked.toString()}
-                            onChange={(e)=> setUpdateChecklist({...item,isChecked:e.target.checked})}
+                            checked={item.isChecked}
                             type="checkbox"
                             name="item"
+                            onChange={() =>
+                              handleCheckboxChange(item.id, !item.isChecked) // true becomes false then when yiu click on it
+                            }
                           />
-                          
-                          </form>
                           <p>
                             {item.title} <br />
                             <div className="text-sm text-gray-400">
@@ -233,14 +239,11 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
                   </div>
                   <div className="flex flex-col justify-start mb-4 gap-3">
                     <div className="flex gap-3 border-2 border-gray-500-400 p-2 rounded">
-                      <form >
                       <input
                         value={checklistStagebegeleider.isChecked.toString()}
                         type="checkbox"
                         name="item"
-                        onChange={(e)=>e.target.checked}
                       />
-                      </form>
                       <p>
                         {checklistStagebegeleider.sectionTitle} <br />
                         <div className="text-sm text-gray-400">

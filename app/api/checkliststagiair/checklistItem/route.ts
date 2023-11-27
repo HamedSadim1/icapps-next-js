@@ -29,7 +29,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json(checklist, { status: 201 });
   } catch (error) {
-    NextResponse.json(error, { status: 500 });
+     return NextResponse.json(error, { status: 500 });
   } finally {
     prisma.$disconnect();
   }

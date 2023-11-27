@@ -2,35 +2,36 @@ import { IChecklistItem } from "@/types";
 import { useMutation, useQueryClient } from "react-query";
 import axios from "axios";
 
+interface UpdateChecklistItemParams {
+  id: string;
+  isChecked: boolean;
+}
 
-const usePostChecklistItem =(checklist:IChecklistItem,id:string) => {
+const useUpdateChecklistItem = () => {
   const queryClient = useQueryClient();
+
   const mutation = useMutation(
-    () => {
-      return axios
-        .patch(`http://localhost:3000/api/checkliststagiair/checklistItem/${id}`, {
-        checklist
-        })
-        .then((res) => {
-          if (res.status === 200) {
-            return res.data;
-          } else {
-            throw new Error("Network response was not ok");
-          }
-        });
+    ({ id, isChecked }: UpdateChecklistItemParams) => {
+      return axios.patch(
+        `http://localhost:3000/api/checkliststagiair/checklistItem/${id}`,
+        {
+          isChecked,
+        }
+      );
     },
     {
       onSuccess: () => {
         queryClient.invalidateQueries("stagair");
         queryClient.invalidateQueries("doelen");
-        console.log("Mutation succes");
+        console.log("Mutation success");
       },
       onError: (error) => {
         console.error("Mutation error:", error);
       },
     }
   );
+
   return mutation;
 };
 
-export default usePostChecklistItem
+export default useUpdateChecklistItem;
