@@ -19,7 +19,7 @@ const CommentModal = () => {
   const { mutate: mutateNotification } =
     usePostNotification(pushNotificationId);
 
-  const oneSignalHook = useOneSignalNotification();
+   useOneSignalNotification();
 
   if (!comment) return null;
 
@@ -179,4 +179,3 @@ const CommentModal = () => {
 };
 
 export default CommentModal;
-

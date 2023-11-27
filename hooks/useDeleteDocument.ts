@@ -1,6 +1,10 @@
 import { useMutation, useQueryClient } from "react-query";
 
 function useDeleteDocument(documentId: string) {
+  console.log(
+    "🚀 ~ file: useDeleteDocument.ts:4 ~ useDeleteDocument ~ documentId:",
+    documentId
+  );
   const queryClient = useQueryClient();
   const mutation = useMutation(
     () => {
@@ -25,7 +29,6 @@ function useDeleteDocument(documentId: string) {
     }
   );
   return mutation;
-};
+}
 
 export default useDeleteDocument;
-
