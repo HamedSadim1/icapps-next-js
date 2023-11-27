@@ -33,8 +33,8 @@ const CommentDocument = () => {
       {showDiv == true &&
       <div className="ml-16 mb-16 h-12">
         <form className="absolute flex flex-col items-end" onSubmit={handleSubmitButton}>
-          <textarea cols={58} rows={2}
-            className="mb-4 border-2 p-1 rounded-md pointer-events-auto"
+          <textarea rows={2}
+            className="mb-4 border-2 p-1 rounded-md pointer-events-auto w-96"
             name="beschrijving"
             id="beschrijving"
             value={comment.comment}

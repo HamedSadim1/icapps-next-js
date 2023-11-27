@@ -26,6 +26,7 @@ import LinkToStagiairOverzciht from "@/app/components/LinkToStagiairOverzicht";
 import DocumentDetail from "@/app/components/DocumentDetail";
 import Post from "@/app/components/Post";
 import CheckList from "@/app/components/UI/Checklist";
+import Link from "next/link";
 
 interface Params {
   params: { id: string };
@@ -248,13 +249,13 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
         {/* Beschrijving */}
         <div className="flex flex-col rounded-lg overflow-hidden  mt-10">
           <div className="flex justify-start rounded-lg  ">
-            <button
+            <Link href="/delen"><button
               type="button"
               className="mr-10 flex justify-center items-center w-32 h-10 bg-[#002548] text-white rounded-lg  hover:bg-[#21415f]"
             >
               <AiOutlineShareAlt className=" text-white  mr-3" />
               Delen
-            </button>
+            </button></Link>
             <button
               type="button"
               className="bg-[#002548] text-white w-60 h-10 rounded-lg  hover:bg-[#21415f]"
