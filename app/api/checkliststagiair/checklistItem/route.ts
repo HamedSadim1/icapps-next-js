@@ -23,7 +23,6 @@ export async function POST(request: NextRequest) {
         isChecked: data.isChecked,
         checklistItemSectionID: data.checklistItemSectionID,
         date: data.date,
-
       },
     });
 
