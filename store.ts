@@ -47,6 +47,8 @@ export interface IStore {
   documentCommentId: (documentId: string) => void;
   pushNotificationId: string;
   setPushNotificationId: (pushNotificationId: string) => void;
+  checklistItemUpdate:IChecklistItem;
+  setChecklistItemUpdate: (checklistItem: IChecklistItem) => void;
 }
 
 const useStagairStore = create<IStore>((set) => ({
@@ -68,6 +70,15 @@ const useStagairStore = create<IStore>((set) => ({
     documents: [],
     checkliststagebegeleider: [],
     doel: [],
+  },
+  checklistItemUpdate:{
+  createdAt:"" ,
+  date:"",
+  id:"",
+  isChecked:false,
+  title:"",
+  updatedAt:"",
+  checklistItemSectionID:"",
   },
   stageBeschrijving: {
     id: "",
@@ -130,6 +141,7 @@ const useStagairStore = create<IStore>((set) => ({
   },
   pushNotificationId: "",
   setPushNotificationId: (pushNotificationId) => set({ pushNotificationId }),
+
   role: null,
   setRole: (role) => set({ role }),
   isPostModal: false,
@@ -148,6 +160,9 @@ const useStagairStore = create<IStore>((set) => ({
       console.error("Error updating stagaires:", error);
     }
   },
+setChecklistItemUpdate:(checklistItemUpdate) =>{
+  set({ checklistItemUpdate: checklistItemUpdate});
+},
   setIsPostModal: (isPostModal) => {
     set({ isPostModal });
   },

@@ -39,3 +39,20 @@ export async function DELETE(request: NextRequest, { params: { id } }: Params) {
     prisma.$disconnect();
   }
 }
+
+export async function Put(request:NextRequest, { params: { id } }: Params){
+  try{
+    const data= await request.json();
+    await connectToDatabase();
+    const checklist=await prisma.checklistItem.update({
+      where: { id: id},
+      data:{
+       isChecked: data.isChecked,
+      }
+    })
+    return NextResponse.json(checklist, { status: 201 });
+  }
+  catch(error){
+    return NextResponse.json(error, { status: 500 });
+  }
+}
