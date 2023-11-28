@@ -35,8 +35,6 @@ interface Params {
 const StagiairDetailPage = ({ params: { id } }: Params) => {
   const { data, error, isLoading } = useStagair(id);
 
-  // const setStagiairId =  useStagairStore((state) => state.setStagiarId(id));
-
   const setIsModalOpen = useStagairStore((state) => state.setCommentModal);
   const setCommentId = useStagairStore((s) => s.setCommentId);
   const setUpdatePostId = useStagairStore((s) => s.setUpdatePostId);
