@@ -47,6 +47,8 @@ export interface IStore {
   documentCommentId: (documentId: string) => void;
   pushNotificationId: string;
   setPushNotificationId: (pushNotificationId: string) => void;
+  StagiarId: string;
+  setStagiarId: (StagiarId: string) => void;
 }
 
 const useStagairStore = create<IStore>((set) => ({
@@ -128,6 +130,8 @@ const useStagairStore = create<IStore>((set) => ({
     id: "",
     title: "",
   },
+  StagiarId: "",
+  setStagiarId: (StagiarId) => set({ StagiarId }),
   pushNotificationId: "",
   setPushNotificationId: (pushNotificationId) => set({ pushNotificationId }),
   role: null,

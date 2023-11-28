@@ -35,6 +35,8 @@ interface Params {
 const StagiairDetailPage = ({ params: { id } }: Params) => {
   const { data, error, isLoading } = useStagair(id);
 
+  // const setStagiairId =  useStagairStore((state) => state.setStagiarId(id));
+
   const setIsModalOpen = useStagairStore((state) => state.setCommentModal);
   const setCommentId = useStagairStore((s) => s.setCommentId);
   const setUpdatePostId = useStagairStore((s) => s.setUpdatePostId);
@@ -249,13 +251,20 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
         {/* Beschrijving */}
         <div className="flex flex-col rounded-lg overflow-hidden  mt-10">
           <div className="flex justify-start rounded-lg  ">
-            <Link href="/delen"><button
-              type="button"
-              className="mr-10 flex justify-center items-center w-32 h-10 bg-[#002548] text-white rounded-lg  hover:bg-[#21415f]"
+            <Link
+              href={{
+                pathname: "/delen",
+                query: { id: id },
+              }}
             >
-              <AiOutlineShareAlt className=" text-white  mr-3" />
-              Delen
-            </button></Link>
+              <button
+                type="button"
+                className="mr-10 flex justify-center items-center w-32 h-10 bg-[#002548] text-white rounded-lg  hover:bg-[#21415f]"
+              >
+                <AiOutlineShareAlt className=" text-white  mr-3" />
+                Delen
+              </button>
+            </Link>
             <button
               type="button"
               className="bg-[#002548] text-white w-60 h-10 rounded-lg  hover:bg-[#21415f]"
