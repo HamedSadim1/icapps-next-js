@@ -1,12 +1,13 @@
-import { IDocument } from "@/types";
 import { useMutation, useQueryClient } from "react-query";
 import axios from "axios";
+import { IDocument } from "@/types";
 
-const usePostDocument = (document: IDocument, stagiairId: string) => {
+const usePostDocument = (stagiairId: string) => {
   const queryClient = useQueryClient();
-  const mutation = useMutation(
-    () => {
-      return axios.post(`/api/document`, {
+
+  const postDocument = async (document: IDocument) => {
+    try {
+      const response = await axios.post(`/api/document`, {
         original_filename: document.original_filename,
         url: document.url,
         secure_url: document.secure_url,
@@ -18,17 +19,23 @@ const usePostDocument = (document: IDocument, stagiairId: string) => {
         img: document.img,
         documentUploaderName: document.documentUploaderName,
       });
-    },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(["stagair"]);
-        console.log("Mutation succes");
-      },
-      onError: (error) => {
-        console.error("Mutation error:", error);
-      },
+
+      return response.data; // You can return any data from the response if needed
+    } catch (error) {
+      throw error; // Propagate the error for better handling in the mutation
     }
-  );
+  };
+
+  const mutation = useMutation(postDocument, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(["stagair"]);
+      console.log("Mutation success");
+    },
+    onError: (error) => {
+      console.error("Mutation error:", error);
+    },
+  });
+
   return mutation;
 };
 

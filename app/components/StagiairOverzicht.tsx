@@ -41,11 +41,11 @@ const StagiairOverzicht = () => {
 
   useEffect(() => {
     //? prefetch stagiair details
-    if (stagiairData && stagiairData.length > 0 && auth.role)
-      stagiairData.map((stagiair) => {
-        router.prefetch(`/detail/${stagiair.id}`);
-        prefetchStagairDetails.prefetchData(stagiair.id);
-      });
+    // if (stagiairData && stagiairData.length > 0 && auth.role)
+    //   stagiairData.map((stagiair) => {
+    //     router.prefetch(`/detail/${stagiair.id}`);
+    //     prefetchStagairDetails.prefetchData(stagiair.id);
+    //   });
     //? set role in store
     useStagairStore.setState({ role: auth.role });
 

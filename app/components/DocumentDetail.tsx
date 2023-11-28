@@ -23,7 +23,7 @@ const DocumentDetail = (document: DocumentDetailProps) => {
       <div key={document.document.id}>
         <a onClick={() => setDiv(true)}>
           <button>
-            <h2 className="text-xl mt-5 ml-2">
+            <h2 className="text-xl mt-5 ">
             
               {document.document.original_filename}{" "}
             </h2>

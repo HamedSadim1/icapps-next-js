@@ -78,7 +78,7 @@ export interface IDocumentComment {
 }
 
 export interface IDocument {
-  comments: IDocumentComment[];
+  comments?: IDocumentComment[];
   id: string;
   original_filename: string;
   url: string;

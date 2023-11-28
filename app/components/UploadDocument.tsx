@@ -13,54 +13,77 @@ interface IUploadDocumentProps {
 }
 
 const UploadDocument = ({ stagiairId }: IUploadDocumentProps) => {
-  const document = useStagairStore((s) => s.documents);
-  const { mutate } = usePostDocument(document, stagiairId);
+  // const document = useStagairStore((s) => s.documents);
+  const { mutate } = usePostDocument(stagiairId);
   const [showDiv, setDiv] = useState(false);
   const [upload, setUpload] = useState<any>();
+  const { data: session } = useSession();
 
   {
     /* POST DOCUMENT TO CLOUDINARY */
   }
-  const postDocument = (files: (string | Blob)[]) => {
+  const postDocument = async (files: (string | Blob)[]) => {
     const formData = new FormData();
     formData.append("file", files[0]);
     formData.append("upload_preset", "haezfifr");
-
-    axios
-      .post("https://api.cloudinary.com/v1_1/dhjblvbsd/image/upload", formData)
-      .then((response) => handleOnUpload(response.data));
+    try {
+      const res = await axios.post(
+        "https://api.cloudinary.com/v1_1/dhjblvbsd/image/upload",
+        formData
+      );
+      const response :IDocument = res.data 
+      console.log(response);
+      if (session && session.user && session.user.name && session.user.image) {
+        const uploadedDocument: IDocument = {
+          id: response.public_id,
+          original_filename: response.original_filename,
+          url: response.url,
+          secure_url: response.secure_url,
+          public_id: response.public_id,
+          created_at: response.created_at,
+          stagiairID: stagiairId,
+          bytes: response.bytes,
+          resource_type: response.resource_type,
+          documentUploaderName: session.user.name,
+          img: session.user?.image,
+        };
+       mutate(uploadedDocument);
+      }
+      
+   
+    } catch (error) {
+      console.error(error);
+    }
   };
-  const { data: session } = useSession();
 
   {
     /* SAVE CLOUDINARY RESPONSE IN DATABASE */
   }
-  const handleOnUpload = async (result: any) => {
-    try {
-      const info = result as IDocument;
-      if (session && session.user && session.user.name && session.user.image) {
-        const uploadedDocument: IDocument = {
-          id: info.public_id,
-          original_filename: info.original_filename,
-          url: info.url,
-          secure_url: info.secure_url,
-          public_id: info.public_id,
-          created_at: info.created_at,
-          stagiairID: info.stagiairID,
-          bytes: info.bytes,
-          resource_type: info.resource_type,
-          comments: info.comments,
-          documentUploaderName: session.user.name,
-          img: session.user?.image,
-        };
-        await useStagairStore.setState({ documents: uploadedDocument });
-      }
+  // const handleOnUpload = async (document: IDocument) => {
+  //   try {
+  //     if (session && session.user && session.user.name && session.user.image) {
+  //       const uploadedDocument: IDocument = {
+  //         id: document.public_id,
+  //         original_filename: document.original_filename,
+  //         url: document.url,
+  //         secure_url: document.secure_url,
+  //         public_id: document.public_id,
+  //         created_at: document.created_at,
+  //         stagiairID: document.stagiairID,
+  //         bytes: document.bytes,
+  //         resource_type: document.resource_type,
+  //         comments: document.comments,
+  //         documentUploaderName: session.user.name,
+  //         img: session.user?.image,
+  //       };
+  //       useStagairStore.setState({ documents: uploadedDocument });
+  //     }
 
-      await mutate();
-    } catch (error) {
-      console.error("Mutation error:", error);
-    }
-  };
+  //     // mutate();
+  //   } catch (error) {
+  //     console.error("Mutation error:", error);
+  //   }
+  // };
 
   return (
     <>

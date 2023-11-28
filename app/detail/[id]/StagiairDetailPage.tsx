@@ -330,7 +330,13 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
             </h2>
             {data.documents.map((document) => (
               <div key={document.id}>
-                <DocumentDetail document={document} />
+                <button
+                  onClick={() =>
+                    useStagairStore.setState({ documentId: document.id })
+                  }
+                >
+                  <DocumentDetail document={document} />
+                </button>
               </div>
             ))}
             <UploadDocument stagiairId={id} />
