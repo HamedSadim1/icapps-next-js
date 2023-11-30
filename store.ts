@@ -128,6 +128,7 @@ const useStagairStore = create<IStore>((set) => ({
     id: "",
     title: "",
   },
+
   pushNotificationId: "",
   setPushNotificationId: (pushNotificationId) => set({ pushNotificationId }),
   role: null,
