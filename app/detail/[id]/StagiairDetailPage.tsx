@@ -344,8 +344,8 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
             {data.documents.length > 0 ? (
               data.documents.map((document) => (
                 <div key={document.id}>
-                  <button 
-                  type="button"
+                  <button
+                    type="button"
                     onClick={() =>
                       useStagairStore.setState({ documentId: document.id })
                     }
@@ -355,7 +355,9 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
                 </div>
               ))
             ) : (
-              <p>Er werden nog geen documenten gedeeld in deze stage</p>
+              <div className="flex">
+                <p>Er werden nog geen documenten gedeeld in deze stage</p>
+              </div>
             )}
             <UploadDocument stagiairId={id} />
           </div>
