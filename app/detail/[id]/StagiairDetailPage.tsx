@@ -344,7 +344,8 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
             {data.documents.length > 0 ? (
               data.documents.map((document) => (
                 <div key={document.id}>
-                  <button
+                  <button 
+                  type="button"
                     onClick={() =>
                       useStagairStore.setState({ documentId: document.id })
                     }
