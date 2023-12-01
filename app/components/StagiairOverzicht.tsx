@@ -13,6 +13,7 @@ import { UserRole } from "@/types";
 import useCheckAuthorizeUser from "@/hooks/useCheckAuthorizeUser";
 import SearchStagiair from "./SearchStagiair";
 import useOneSignalNotification from "@/hooks/useOneSignalNotification";
+import Pagination from "@/app/components/Pagination";
 
 const StagiairOverzicht = () => {
   const { data: stagiairData, error, isLoading } = useStagairs();
@@ -21,21 +22,37 @@ const StagiairOverzicht = () => {
   const router = useRouter();
   const auth = useCheckAuthorizeUser();
   const [searchStagiair, setsearchStagiair] = useState<string>("");
+
   useOneSignalNotification();
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [emailPerPage, setEmailPerPage] = useState(10);
+
+  const indexOfLastEmail = currentPage * emailPerPage;
+
+  const indexOfFirstEmail = indexOfLastEmail - emailPerPage;
+
+  const currentEmails = stagiairData?.slice(
+    indexOfFirstEmail,
+    indexOfLastEmail
+  );
+
+  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
   // ? filter data based on search
   const filteredStagiair = useMemo(() => {
     const searchTerm =
       searchStagiair.toLowerCase().length > 3
-        ? searchStagiair.toLowerCase()
-        : "";
-    return (
-      stagiairData &&
-      stagiairData.filter((item) =>
-        item.name.toLowerCase().includes(searchTerm)
-      )
-    );
-  }, [searchStagiair, stagiairData]);
+        ? currentEmails?.filter((item) =>
+            item.name.toLowerCase().includes(searchStagiair.toLowerCase())
+          )
+
+        : currentEmails;
+
+    return searchTerm;
+        
+    
+  }, [searchStagiair,currentEmails]);
 
   const prefetchStagairDetails = usePrefetchStagairDetails();
 
@@ -166,14 +183,20 @@ const StagiairOverzicht = () => {
               ))}
             </tbody>
           </table>
-          {filteredStagiair?.length === 0 && (
+          {filteredStagiair?.length === 0 ? (
             <div className="flex justify-center items-center mt-4">
               <h2 className="text-2xl font-bold text-gray-500">
                 No result found
               </h2>
             </div>
-          )}
+          ) : <Pagination
+          currentPage={currentPage}
+          emailPerPage={emailPerPage}
+          paginate={paginate}
+          totalEmails={indexOfLastEmail}
+        />}
         </div>
+       
       </AuthorizedRole>
     </section>
   );
