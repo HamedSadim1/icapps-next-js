@@ -21,7 +21,7 @@ const StagiairOverzicht = () => {
   const router = useRouter();
   const auth = useCheckAuthorizeUser();
   const [searchStagiair, setsearchStagiair] = useState<string>("");
-  useOneSignalNotification()
+  useOneSignalNotification();
 
   // ? filter data based on search
   const filteredStagiair = useMemo(() => {
@@ -149,7 +149,11 @@ const StagiairOverzicht = () => {
                   </td>
                   <td className="px-6 py-4">
                     <button
-                      onClick={() => setIsModelOpen()}
+                      onClick={() => {
+                        setIsModelOpen();
+                        useStagairStore.setState({ stagairId: stagiair.id });
+                        useStagairStore.setState({ stagaires: stagiair });
+                      }}
                       className="hover:text-blue-500 focus:outline-none"
                     >
                       <BsPencil className="text-lg" />

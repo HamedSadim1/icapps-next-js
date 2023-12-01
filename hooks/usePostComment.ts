@@ -6,6 +6,7 @@ import { useSession } from "next-auth/react";
 const usePostComment = (comment: IComment, postId: string) => {
   const { data: session } = useSession();
   const queryClient = useQueryClient();
+
   const mutation = useMutation(
     () => {
       return axios.post(`/api/comments`, {

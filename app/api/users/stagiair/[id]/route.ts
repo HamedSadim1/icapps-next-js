@@ -17,9 +17,9 @@ export async function GET(
       include: {
         stagebegeleider: true,
         stagebeschriving: true,
-        checkliststagebegeleider:true,
+        checkliststagebegeleider: true,
         user: true,
-        documents: true,
+        documents: { include: { comments: true } },
         posts: {
           include: {
             comments: true,

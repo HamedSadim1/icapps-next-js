@@ -24,19 +24,42 @@ export async function GET(request: NextRequest, { params: { id } }: Params) {
 export async function DELETE(request: NextRequest, { params: { id } }: Params) {
   try {
     await connectToDatabase();
-    // before deleting the document, delete all comments
-    await prisma.document.deleteMany({
-      where: {
-        id: id,
-      },
-    });
-    // delete the document
-    const document = await prisma.document.delete({
+
+    // Check if the document exists
+    const existingDocument = await prisma.document.findUnique({
       where: {
         id,
       },
+      include: {
+        comments: true,
+      },
     });
-    return NextResponse.json(document, { status: 200 });
+
+    if (!existingDocument) {
+      return NextResponse.json(
+        { error: "Document not found" },
+        { status: 404 }
+      );
+    }
+
+    // Delete all comments related to the document
+    await prisma.documentComment.deleteMany({
+      where: {
+        documentID: id,
+      },
+    });
+
+    // Delete the document
+    const deletedDocument = await prisma.document.delete({
+      where: {
+        id,
+      },
+      include: {
+        comments: true,
+      },
+    });
+
+    return NextResponse.json(deletedDocument, { status: 200 });
   } catch (error) {
     console.log(error);
     return NextResponse.json({ error: error }, { status: 400 });

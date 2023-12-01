@@ -14,7 +14,7 @@ interface DoelProps {
 
 const Doel = ({ stagiarId }: DoelProps) => {
   const [showDiv, setDiv] = useState<boolean>(false);
-  const stagaires = useStagairStore((s) => s.stagaires);
+  // const stagaires = useStagairStore((s) => s.stagaires);
 
   const doel = useStagairStore((s) => s.doel);
   const setDoel = useStagairStore((s) => s.setDoel);

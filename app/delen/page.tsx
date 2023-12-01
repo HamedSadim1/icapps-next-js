@@ -24,6 +24,7 @@ const Delen = async ({ searchParams }: DelenProps) => {
   }
 
   if (!stagiarData) {
+    console.log("No data")
     return;
   }
 

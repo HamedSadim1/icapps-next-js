@@ -19,7 +19,12 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     await connectToDatabase();
     const comment = await prisma.documentComment.create({
-      data: body,
+      data: {
+        comment: body.comment,
+        commentatorName: body.commentatorName,
+        img: body.img,
+        documentID: body.documentID,
+      },
     });
     return NextResponse.json(comment, { status: 201 });
   } catch (error) {

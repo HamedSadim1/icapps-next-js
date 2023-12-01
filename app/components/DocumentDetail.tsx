@@ -1,9 +1,8 @@
-import { FaRegCircleUser } from "react-icons/fa6";
 import { MdClose } from "react-icons/md";
 import { useState } from "react";
-import { IDocument, IStagaire } from "@/types";
+import { IDocument } from "@/types";
+import Image from "next/image";
 import { formatDate } from "@/lib";
-import useStagair from "@/hooks/useStagair";
 import { BiComment } from "react-icons/bi";
 import DeleteDocumentModal from "./DeleteDocumentModal";
 import CommentDocument from "./CommentDocument";
@@ -13,10 +12,7 @@ interface DocumentDetailProps {
 }
 
 const DocumentDetail = (document: DocumentDetailProps) => {
-  const user = useStagair(document.document.stagiairID);
   const [showDiv, setDiv] = useState(false);
-  const [docText, setDocText] = useState("Bestand kiezen");
-  const date = new Date();
 
   return (
     <>
@@ -24,7 +20,6 @@ const DocumentDetail = (document: DocumentDetailProps) => {
         <a onClick={() => setDiv(true)}>
           <button>
             <h2 className="text-xl mt-5 ">
-            
               {document.document.original_filename}{" "}
             </h2>
           </button>
@@ -83,12 +78,43 @@ const DocumentDetail = (document: DocumentDetailProps) => {
               </label>
             </div>
             {/* DOCUMENT COMMENTS */}
-            <div className="flex flex-justify-between mt-3 mx-6">
-              {document.document.comments != null &&
-                document.document.comments.map((comment) => (
-                  <h1 key={comment.id}>{comment.comment}</h1>
-                ))}
-            </div>
+            <div className="flex flex-col mt-3 mx-6">
+  {document.document.comments != null && document.document.comments.length > 0 ? (
+    document.document.comments.map((comment) => (
+      <div key={comment.id} className="flex items-start mb-3 ml-10">
+        {/* Comment Avatar */}
+        <div className="avatar w-12 h-12 mr-3">
+          {comment.img && (
+            <Image
+              src={comment.img}
+              alt="User avatar"
+              className="rounded-full"
+              sizes="70%"
+              width={100}
+              height={100}
+            />
+          )}
+        </div>
+        {/* Comment Content */}
+        <div className="flex flex-col">
+          <h3 className="text-1 xl text-blue-400 mb-1">
+            {comment.commentatorName || ""}
+          </h3>
+          <div className="flex flex-col rounded-lg">
+            <p className="text-gray-600 text-base font-medium leading-relaxed">
+              {comment.comment}
+            </p>
+          </div>
+        </div>
+      </div>
+    ))
+  ) : (
+    <p>Geen opmerkingen beschikbaar.</p>
+  )}
+</div>
+
+
+
             <CommentDocument />
           </div>
         </div>

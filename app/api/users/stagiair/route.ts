@@ -15,7 +15,7 @@ export async function GET(request: NextRequest) {
             comments: true,
           },
         },
-        documents: true,
+        documents: { include: { comments: true } },
         checklistsection: {
           include: {
             items: true,
