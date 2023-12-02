@@ -27,6 +27,7 @@ import DocumentDetail from "@/app/components/DocumentDetail";
 import Post from "@/app/components/Post";
 import CheckList from "@/app/components/UI/Checklist";
 import Link from "next/link";
+import useUpdateChecklistItem from "@/hooks/useUpdateCheckListItem";
 
 interface Params {
   params: { id: string };
@@ -34,7 +35,11 @@ interface Params {
 
 const StagiairDetailPage = ({ params: { id } }: Params) => {
   const { data, error, isLoading } = useStagair(id);
-
+  
+  const updateChecklistItemMutation = useUpdateChecklistItem();
+  const setChecklistItemUpdate = useStagairStore(
+    (s) => s.setChecklistItemUpdate
+  );
   const setIsModalOpen = useStagairStore((state) => state.setCommentModal);
   const setCommentId = useStagairStore((s) => s.setCommentId);
   const setUpdatePostId = useStagairStore((s) => s.setUpdatePostId);
@@ -92,6 +97,24 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
 
   const handleCommentId = (id: string) => {
     setCommentId(id);
+  };
+  const handleCheckboxChange = (itemId: any, newCheckedValue: any) => {
+    //update setChecklistItemUpdate
+    // Update the state locally
+    setChecklistItemUpdate({
+      id: itemId,
+      isChecked: newCheckedValue,
+      title: "",
+      createdAt: "",
+      date: "",
+      updatedAt: "",
+    });
+
+    // Trigger the mutation to update the database
+    updateChecklistItemMutation.mutate({
+      id: itemId,
+      isChecked: newCheckedValue,
+    });
   };
 
   return (
@@ -183,16 +206,24 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
                           className="flex gap-3 border-2 border-gray-500-400 p-2 rounded"
                         >
                           <input
-                            value={item.isChecked.toString()}
+                            checked={item.isChecked}
                             type="checkbox"
                             name="item"
+                            onChange={() =>
+                              handleCheckboxChange(item.id, !item.isChecked)
+                            }
                           />
                           <p>
-                            {item.title} <br />
+                            {item.title}  <br />
                             <div className="text-sm text-gray-400">
                               {formatDate(item.createdAt)}
                             </div>
                           </p>
+                          <EditStageBeschrijving
+                            role={UserRole.ADMIN || UserRole.STAGEBEGELEIDER}
+                            userRole={role}
+                            setIsModalOpen={setIsModalOpen}
+                          />
                         </div>
                       ))}
                   </div>
