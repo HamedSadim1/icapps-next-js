@@ -28,6 +28,8 @@ import Post from "@/app/components/Post";
 import CheckList from "@/app/components/UI/Checklist";
 import Link from "next/link";
 import useUpdateChecklistItem from "@/hooks/useUpdateCheckListItem";
+import CheckListItemModal from "./CheckListItemModal";
+import EditChecklistItem from "@/app/components/EditButton/EditChecklistItem";
 
 interface Params {
   params: { id: string };
@@ -219,10 +221,14 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
                               {formatDate(item.createdAt)}
                             </div>
                           </p>
-                          <EditStageBeschrijving
+                          <EditChecklistItem
                             role={UserRole.ADMIN || UserRole.STAGEBEGELEIDER}
                             userRole={role}
                             setIsModalOpen={setIsModalOpen}
+                          />
+                           <CheckListItemModal
+                            checklistItem={item}
+                            id={item.id}
                           />
                         </div>
                       ))}
@@ -233,48 +239,45 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
               </div>
             ))
           ) : (
-            // checklistStagebegeleider
-            <div className="flex flex-col ">
-              {data.checklistSectionStagebegeleider.map(
-                (checklistStagebegeleider) => (
-                  <div
-                    key={checklistStagebegeleider.id}
-                    className="flex flex-col"
-                  >
-                    <div className="flex gap-2 mb-2">
-                      <span className="flex font-medium">
-                        Section {checklistStagebegeleider.sectionTitle}
-                      </span>
-                      {/* shows all two checklist, navigate if you want to see other section */}
-                      <span className="text-gray-400 text-xs mt-1">2</span>
-                    </div>
-                    <div className="flex flex-col justify-start mb-4 gap-3">
-                      <div className="flex gap-3 border-2 border-gray-500-400 p-2 rounded">
-                        {checklistStagebegeleider.checklistItem.map((item) => (
-                          <div key={item.id}>
-                            <input
-                              value={item.isChecked.toString()}
-                              type="checkbox"
-                              name="item"
-                            />
-                            <p>
-                              {item.title} <br />
-                              <div className="text-sm text-gray-400">
-                                {formatDate(item.createdAt)}
-                              </div>
-                            </p>
-                          </div>
-                        ))}
-                        <div className="">
-                          <button type="button" className="text-gray-400">
-                            <AiOutlineEdit className="text-2xl mr-2 mt-4" />
-                          </button>
-                        </div>
-                      </div>
-                    </div>
+            // Adjusted code for stagebegeleider
+            <div className="flex flex-col">
+              {data.checklistSectionStagebegeleider.map((checklist, index: number) => (
+                <div
+                  key={index}
+                  style={{
+                    display: index === selectedSection ? "block" : "none",
+                  }}
+                >
+                  <div className="flex gap-2 mb-2">
+                    <span className="flex font-medium">{checklist.sectionTitle}</span>
+                    <span className="text-gray-400 text-xs mt-1">
+                      {checklist.checklistItem.length}
+                    </span>
                   </div>
-                )
-              )}
+                  <div className="flex flex-col justify-start mb-4 gap-3">
+                    {checklist.checklistItem &&
+                      checklist.checklistItem.map((item) => (
+                        <div
+                          key={item.id}
+                          className="flex gap-3 border-2 border-gray-500-400 p-2 rounded"
+                        >
+                          <input
+                            value={item.isChecked.toString()}
+                            type="checkbox"
+                            name="item"
+                          />
+                          <p>
+                            {item.title} <br />
+                            <div className="text-sm text-gray-400">
+                              {formatDate(item.createdAt)}
+                            </div>
+                          </p>
+                        </div>
+                      ))}
+                  </div>
+                  <AddCheckListItem checklistItemId={selectedSectionId} />
+                </div>
+              ))}
             </div>
           )}
           {/* Add new item to checklist */}
