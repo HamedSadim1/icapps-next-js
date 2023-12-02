@@ -47,6 +47,8 @@ export interface IStore {
   documentCommentId: (documentId: string) => void;
   pushNotificationId: string;
   setPushNotificationId: (pushNotificationId: string) => void;
+  stagairId:string;
+  setStagairId :(stagairId:string) => void
 }
 
 const useStagairStore = create<IStore>((set) => ({
@@ -128,7 +130,8 @@ const useStagairStore = create<IStore>((set) => ({
     id: "",
     title: "",
   },
-
+  stagairId:"",
+  setStagairId:(stagairId) => set({stagairId}),
   pushNotificationId: "",
   setPushNotificationId: (pushNotificationId) => set({ pushNotificationId }),
   role: null,
@@ -179,7 +182,7 @@ const useStagairStore = create<IStore>((set) => ({
     commentatorName: "",
     img: "",
   },
-  setDocumentComment: (comment) => set({ documentComment: comment }),
+ setDocumentComment:(documentComment) => set({documentComment}),
   documentId: "",
   documentCommentId: (documentId) => set({ documentId }),
 

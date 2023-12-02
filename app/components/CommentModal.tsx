@@ -19,9 +19,23 @@ const CommentModal = () => {
   const { mutate: mutateNotification } =
     usePostNotification(pushNotificationId);
 
-   useOneSignalNotification();
+  useOneSignalNotification();
 
   if (!comment) return null;
+
+  const resetComment = () => {
+    useStagairStore.setState((state) => ({
+      ...state,
+      comment: {
+        id: "",
+        postId: "",
+        createdAt: "",
+        commentatorName: "",
+        comment: "",
+      },
+    }));
+  };
+  
 
   const handleSubmitButton = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -34,16 +48,8 @@ const CommentModal = () => {
       if (status === "success") {
         console.log("succes" + status);
         // Reset Zustand state by setting the state to the initial values
-        useStagairStore.setState((state) => ({
-          ...state,
-          comment: {
-            id: "",
-            postId: "",
-            createdAt: "",
-            commentatorName: "",
-            comment: "",
-          },
-        }));
+        resetComment();
+        
       }
       await mutateNotification({
         include_player_ids: [pushNotificationId],
@@ -66,16 +72,7 @@ const CommentModal = () => {
   const handleOpenCommentaar = () => {
     setDiv(true);
     // Reset Zustand state by setting the state to the initial values
-    useStagairStore.setState((state) => ({
-      ...state,
-      comment: {
-        id: "",
-        postId: "",
-        createdAt: "",
-        commentatorName: "",
-        comment: "",
-      },
-    }));
+    resetComment();
   };
 
   const handleCloseCommentaar = () => {

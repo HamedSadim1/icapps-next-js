@@ -13,6 +13,7 @@ import { UserRole } from "@/types";
 import useCheckAuthorizeUser from "@/hooks/useCheckAuthorizeUser";
 import SearchStagiair from "./SearchStagiair";
 import useOneSignalNotification from "@/hooks/useOneSignalNotification";
+import Pagination from "@/app/components/Pagination";
 
 const StagiairOverzicht = () => {
   const { data: stagiairData, error, isLoading } = useStagairs();
@@ -21,21 +22,44 @@ const StagiairOverzicht = () => {
   const router = useRouter();
   const auth = useCheckAuthorizeUser();
   const [searchStagiair, setsearchStagiair] = useState<string>("");
-  useOneSignalNotification()
+  //? send notification
+  useOneSignalNotification();
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [emailPerPage, setEmailPerPage] = useState(10);
+  //? get last email
+  const indexOfLastEmail = currentPage * emailPerPage;
+  //? get first email
+  const indexOfFirstEmail = indexOfLastEmail - emailPerPage;
+  //? get current emails
+  const currentEmails = stagiairData?.slice(
+    indexOfFirstEmail,
+    indexOfLastEmail
+  );
+  //? change page
+  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
   // ? filter data based on search
   const filteredStagiair = useMemo(() => {
     const searchTerm =
       searchStagiair.toLowerCase().length > 3
-        ? searchStagiair.toLowerCase()
-        : "";
-    return (
-      stagiairData &&
-      stagiairData.filter((item) =>
-        item.name.toLowerCase().includes(searchTerm)
-      )
-    );
-  }, [searchStagiair, stagiairData]);
+        ? currentEmails?.filter((item) =>
+            item.name.toLowerCase().includes(searchStagiair.toLowerCase())
+          )
+        : currentEmails;
+
+    return searchTerm;
+  }, [searchStagiair, currentEmails]);
+
+  //? if the role is stagebegeleider, show only stagiair that are assigned to the stagebegeleider make a new array with stagiair that are assigned to the stagebegeleider
+  const stagiairAssignedToStagebegeleider =
+    role === UserRole.STAGEBEGELEIDER
+      ? filteredStagiair?.filter((stagiair) =>
+          stagiair.stagebegeleider.map(
+            (stagebegeleider) => stagebegeleider.name
+          )
+        )
+      : filteredStagiair;
 
   const prefetchStagairDetails = usePrefetchStagairDetails();
 
@@ -149,7 +173,11 @@ const StagiairOverzicht = () => {
                   </td>
                   <td className="px-6 py-4">
                     <button
-                      onClick={() => setIsModelOpen()}
+                      onClick={() => {
+                        setIsModelOpen();
+                        useStagairStore.setState({ stagairId: stagiair.id });
+                        useStagairStore.setState({ stagaires: stagiair });
+                      }}
                       className="hover:text-blue-500 focus:outline-none"
                     >
                       <BsPencil className="text-lg" />
@@ -162,12 +190,19 @@ const StagiairOverzicht = () => {
               ))}
             </tbody>
           </table>
-          {filteredStagiair?.length === 0 && (
+          {filteredStagiair?.length === 0 ? (
             <div className="flex justify-center items-center mt-4">
               <h2 className="text-2xl font-bold text-gray-500">
                 No result found
               </h2>
             </div>
+          ) : (
+            <Pagination
+              currentPage={currentPage}
+              emailPerPage={emailPerPage}
+              paginate={paginate}
+              totalEmails={indexOfLastEmail}
+            />
           )}
         </div>
       </AuthorizedRole>

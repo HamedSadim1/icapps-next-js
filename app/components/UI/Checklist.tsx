@@ -17,6 +17,7 @@ const CheckList = ({
 }: Props) => {
   return (
     <div className="flex justify-between mt-7 mb-5 ">
+        <AuthorizedRole role={role} userRole={userRole}>
       <span className="flex gap-3">
         <VscChecklist className="text-3xl text-blue-400" />
         <h3 className="text-[1.3rem] font-medium">Checklist</h3>
@@ -31,7 +32,6 @@ const CheckList = ({
         >
           Stagiair
         </button>
-        <AuthorizedRole role={role} userRole={userRole}>
           <button
             onClick={() => setCheckListName("checklistStagebegeleider")}
             type="button"
@@ -42,8 +42,8 @@ const CheckList = ({
           >
             Begeleider
           </button>
-        </AuthorizedRole>
       </span>
+        </AuthorizedRole>
     </div>
   );
 };

@@ -13,17 +13,19 @@ interface Params {
 }
 
 const StagairForm = ({ params: { id } }: Params) => {
-  const { data: stagair } = useStagair(id);
+
+  const stagaireId =  useStagairStore(s=> s.stagairId)
+  // const { data: stagair } = useStagair(stagaireId);
   const data = useStagairStore((state) => state.stagaires);
   const setData = useStagairStore((state) => state.setStagaires);
   const { data: stagebegeleiders } = useStagebegeleiders();
-  const { mutate, data: updatedData, isSuccess } = useUpdateStagiair(id, data);
+  const { mutate, data: updatedData, isSuccess } = useUpdateStagiair(stagaireId, data);
 
-  useEffect(() => {
-    if (stagair) {
-      useStagairStore.setState({ stagaires: stagair });
-    }
-  }, [stagair, isSuccess, updatedData]);
+  // useEffect(() => {
+  //   if (stagair || stagaireId) {
+  //     // useStagairStore.setState({ stagaires: stagair });
+  //   }
+  // }, [stagair, isSuccess, updatedData,stagaireId]);
 
   const isModalOpen = useStagairStore((s) => s.stagiairModal);
   const setIsModalOpen = useStagairStore((state) => state.toggleModal);
@@ -139,7 +141,7 @@ const StagairForm = ({ params: { id } }: Params) => {
 
                 <Select
                   defaultValue={
-                    stagair?.stagebegeleider.map((stagebegeleider) => ({
+                    data.stagebegeleider?.map((stagebegeleider) => ({
                       label: stagebegeleider.name,
                       value: stagebegeleider.id,
                     })) || []
