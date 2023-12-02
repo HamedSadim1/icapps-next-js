@@ -123,7 +123,7 @@ const Delen = async ({ searchParams }: DelenProps) => {
                 >
                   <p className="align-left">{checklistitem.title}</p>
                   <p className="text-[#5ab38a] text-sm ml-auto">
-                    {checklistitem.date}
+                    {formatDate(checklistitem.date)}
                   </p>
                 </div>
               ))}

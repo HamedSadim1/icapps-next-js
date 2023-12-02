@@ -22,21 +22,21 @@ const StagiairOverzicht = () => {
   const router = useRouter();
   const auth = useCheckAuthorizeUser();
   const [searchStagiair, setsearchStagiair] = useState<string>("");
-
+  //? send notification
   useOneSignalNotification();
 
   const [currentPage, setCurrentPage] = useState(1);
   const [emailPerPage, setEmailPerPage] = useState(10);
-
+  //? get last email
   const indexOfLastEmail = currentPage * emailPerPage;
-
+  //? get first email
   const indexOfFirstEmail = indexOfLastEmail - emailPerPage;
-
+  //? get current emails
   const currentEmails = stagiairData?.slice(
     indexOfFirstEmail,
     indexOfLastEmail
   );
-
+  //? change page
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
   // ? filter data based on search
@@ -46,13 +46,20 @@ const StagiairOverzicht = () => {
         ? currentEmails?.filter((item) =>
             item.name.toLowerCase().includes(searchStagiair.toLowerCase())
           )
-
         : currentEmails;
 
     return searchTerm;
-        
-    
-  }, [searchStagiair,currentEmails]);
+  }, [searchStagiair, currentEmails]);
+
+  //? if the role is stagebegeleider, show only stagiair that are assigned to the stagebegeleider make a new array with stagiair that are assigned to the stagebegeleider
+  const stagiairAssignedToStagebegeleider =
+    role === UserRole.STAGEBEGELEIDER
+      ? filteredStagiair?.filter((stagiair) =>
+          stagiair.stagebegeleider.map(
+            (stagebegeleider) => stagebegeleider.name
+          )
+        )
+      : filteredStagiair;
 
   const prefetchStagairDetails = usePrefetchStagairDetails();
 
@@ -189,14 +196,15 @@ const StagiairOverzicht = () => {
                 No result found
               </h2>
             </div>
-          ) : <Pagination
-          currentPage={currentPage}
-          emailPerPage={emailPerPage}
-          paginate={paginate}
-          totalEmails={indexOfLastEmail}
-        />}
+          ) : (
+            <Pagination
+              currentPage={currentPage}
+              emailPerPage={emailPerPage}
+              paginate={paginate}
+              totalEmails={indexOfLastEmail}
+            />
+          )}
         </div>
-       
       </AuthorizedRole>
     </section>
   );
