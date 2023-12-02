@@ -67,7 +67,7 @@ model Stagiair {
   posts                    Doelen[]
   user                     User[]
   documents                Document[]
-  checkliststagebegeleider CheckListStageBegeleider[]
+  checklistSectionStagebegeleider CheckListSectionStageBegeleider[]
   checklistsection         ChecklistSection[]
 }
 
@@ -163,22 +163,24 @@ model ChecklistSection {
 }
 
 //! CheckListStageBegeleider
-model CheckListStageBegeleider {
-  id           String   @id @default(auto()) @map("_id") @db.ObjectId
-  sectionTitle String
-  isChecked    Boolean  @default(false)
-  createdAt    DateTime @default(now())
-  stagiair     Stagiair @relation(fields: [stagiairID], references: [id])
-  stagiairID   String   @db.ObjectId
-  updatedAt    DateTime @updatedAt
-  // checklistsection ChecklistSectionStageBegeleider[]
+model CheckListSectionStageBegeleider {
+  id               String                            @id @default(auto()) @map("_id") @db.ObjectId
+  sectionTitle     String
+  createdAt        DateTime                          @default(now())
+  stagiair         Stagiair                          @relation(fields: [stagiairID], references: [id])
+  stagiairID       String                            @db.ObjectId
+  date             DateTime                          @default(now())
+  updatedAt        DateTime                          @updatedAt
+  checklistItem ChecklistItemStageBegeleider[]
 }
 
-// model ChecklistSectionStageBegeleider {
-//   id                     String                   @id @default(auto()) @map("_id") @db.ObjectId
-//   sectionTitle           String
-//   createdAt              DateTime                 @default(now())
-//   updatedAt              DateTime                 @updatedAt
-//   checklistItemSection   CheckListStageBegeleider @relation(fields: [checklistItemSectionID], references: [id])
-//   checklistItemSectionID String                   @db.ObjectId
-// }
+model ChecklistItemStageBegeleider {
+  id                     String                   @id @default(auto()) @map("_id") @db.ObjectId
+  title                  String
+  date                   DateTime                 @default(now())
+  isChecked              Boolean                  @default(false)
+  updatedAt              DateTime                 @updatedAt
+  checklistItemSection   CheckListSectionStageBegeleider @relation(fields: [checklistItemSectionID], references: [id])
+  checklistItemSectionID String                   @db.ObjectId
+}
+

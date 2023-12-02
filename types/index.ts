@@ -12,7 +12,7 @@ export interface IStagaire {
   user: IUser[];
   checklistsection: IChecklistSection[];
   documents: IDocument[];
-  checkliststagebegeleider: ICheckListStagebegeleider[];
+  checklistSectionStagebegeleider: checklistSectionStagebegeleider[];
 }
 
 export interface IStagebegeleider {
@@ -111,12 +111,13 @@ export interface IChecklistSection {
   items: IChecklistItem[];
 }
 
-export interface ICheckListStagebegeleider {
+export interface checklistSectionStagebegeleider {
   id: string;
   sectionTitle: string;
-  isChecked: boolean;
   createdAt: string;
   stagiairID: string;
+  date: string;
+  checklistItem: ICheckListItemStagebegeleider[];
 }
 
 export interface INotification {
@@ -124,4 +125,14 @@ export interface INotification {
   include_player_ids: string[];
   headings: { [language: string]: string };
   contents: { [language: string]: string };
+}
+
+export interface ICheckListItemStagebegeleider {
+  id: string;
+  title: string;
+  isChecked: boolean;
+  createdAt: string;
+  date: string;
+  updatedAt: string;
+  checklistItemSectionID?: string;
 }

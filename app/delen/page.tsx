@@ -14,7 +14,8 @@ const Delen = async ({ searchParams }: DelenProps) => {
   let stagiarData: IStagaire | null = null;
   try {
     const response = await fetch(
-      `http://localhost:3000/api/users/stagiair/${searchParams.id}`
+      `http://localhost:3000/api/users/stagiair/${searchParams.id}`,
+      { cache: "no-cache" }
     );
     const stagiair: IStagaire = await response.json();
     stagiarData = stagiair;
@@ -24,7 +25,7 @@ const Delen = async ({ searchParams }: DelenProps) => {
   }
 
   if (!stagiarData) {
-    console.log("No data")
+    console.log("No data");
     return;
   }
 
