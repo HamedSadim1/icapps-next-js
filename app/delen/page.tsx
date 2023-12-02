@@ -84,9 +84,9 @@ const Delen = async ({ searchParams }: DelenProps) => {
           </div>
           <div className="w-1/2"></div>
         </div>
-        <div className="flex gap-4 py-10 px-32 mt-16">
+        <div className="flex flex-wrap gap-4 py-10 px-32 mt-16">
           {stagiarData.posts.map((post) => (
-            <div key={post.id} className="w-1/3">
+            <div key={post.id} className="" style={{flex:"1 1 30%"}}>
               <div className="bg-[#1a3854] p-8 rounded-lg" style={{ height: "100%" }}>
                 <h3 className="text-xl font-bold">{post.title}</h3>
                 <p className="text-[#5ab38a]">{formatDate(post.endDate)}</p>
