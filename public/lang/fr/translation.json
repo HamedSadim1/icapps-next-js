@@ -1,0 +1,48 @@
+{
+    "detail": {
+        "back": "Retour à l'aperçu",
+        "share": "Partager",
+        "writeevaluationform": "Rédiger un formulaire d'évaluation",
+        "goals": "Objectifs",
+        "newgoal": "Nouvel objectif",
+        "addcomment": "Ajouter un commentaire",
+        "editgoal": "Modifier l'objectif",
+        "addgoal": "Ajouter un objectif",
+        "title": "Titre",
+        "enddate": "Date de fin",
+        "checklist": "Liste de contrôle",
+        "intern": "Stagiaire",
+        "supervisor": "Superviseur",
+        "additem": "Ajouter un élément",
+        "description": "Description",
+        "internshipsupervisors": "Superviseur(s) de stage",
+        "internshipduration": "Durée du stage",
+        "school": "École",
+        "contactperson": "Personne de contact",
+        "startdate": "Date de début",
+        "name": "Nom",
+        "phonenumber": "Numéro de téléphone",
+        "email": "E-mail",
+        "documents": "Documents",
+        "adddocument": "Ajouter un document",
+        "comment": "Commentaire",
+        "cancel": "Annuler",
+        "save": "Enregistrer",
+        "post": "Publier",
+        "upload": "Télécharger"
+    },
+    "logout": {
+        "header": "Déconnexion",
+        "subtext": "Êtes-vous sûr de vouloir vous déconnecter ?",
+        "button": "Déconnexion"
+    },
+    "userStagiair": {
+        "name": "Nom",
+        "e-mail": "E-mail",
+        "startingdate": "Date de début",
+        "endingdata": "Date de fin",
+        "internshipsupervisors": "Superviseur(s) de stage",
+        "internedit": "Modifier le stagiaire",
+        "save": "Enregistrer"
+    }
+}

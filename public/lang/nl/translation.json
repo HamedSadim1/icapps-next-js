@@ -1,0 +1,48 @@
+{
+    "detail": {
+        "back": "Terug naar overzicht",
+        "share": "Delen",
+        "writeevaluationform": "Beoordeel formulier invullen",
+        "goals": "Doelen",
+        "newgoal": "Nieuw doel",
+        "addcomment": "Opmerking toevoegen",
+        "editgoal": "Doel bewerken",
+        "addgoal": "Doel toevoegen",
+        "title": "Titel",
+        "enddate": "Einddatum",
+        "checklist": "Checklist",
+        "intern": "Stagiair",
+        "supervisor": "Begeleider",
+        "additem": "Item toevoegen",
+        "description": "Beschrijving",
+        "internshipsupervisors": "Stagesupervisor(s)",
+        "internshipduration": "Stageperiode",
+        "school": "School",
+        "contactperson": "Contactpersoon",
+        "startdate": "Startdatum",
+        "name": "Naam",
+        "phonenumber": "Telefoonnummer",
+        "email": "E-mail",
+        "documents": "Documenten",
+        "adddocument": "Document toevoegen",
+        "comment": "Opmerking",
+        "cancel": "Annuleren",
+        "save": "Opslaan",
+        "post": "Publiceren",
+        "upload": "Uploaden"
+    },
+    "logout": {
+        "header": "Afmelden",
+        "subtext": "Weet u zeker dat u wilt afmelden?",
+        "button": "Afmelden"
+    },
+    "userStagiair": {
+        "name": "Naam",
+        "e-mail": "E-mail",
+        "startingdate": "Startdatum",
+        "endingdata": "Einddatum",
+        "internshipsupervisors": "Stagesupervisor(s)",
+        "internedit": "Stagiair bewerken",
+        "save": "Opslaan"
+    }
+}

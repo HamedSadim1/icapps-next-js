@@ -1,0 +1,48 @@
+{
+    "detail": {
+        "back": "Back to overview",
+        "share": "Share",
+        "writeevaluationform": "Write an evaluationform",
+        "goals": "Goals",
+        "newgoal": "New goal",
+        "addcomment": "Add comment",
+        "editgoal": "Edit goal",
+        "addgoal": "Add goal",
+        "title": "Title",
+        "enddate": "End date",
+        "checklist": "Checklist",
+        "intern": "Intern",
+        "supervisor": "Supervisor",
+        "additem": "Add item",
+        "description": "description",
+        "internshipsupervisors": "Internship supervisor(s)",
+        "internshipduration": "Internship duration",
+        "school": "School",
+        "contactperson": "Contact person",
+        "startdate": "Start date",
+        "name": "Name",
+        "phonenumber": "Phone number",
+        "email": "Email",
+        "documents": "Documents",
+        "adddocument": "Add document",
+        "comment": "Comment",
+        "cancel": "Cancel",
+        "save": "Save",
+        "post": "Post",
+        "upload": "Upload"
+    },
+    "logout": {
+        "header": "Signout",
+        "subtext": "Are you sure you want to sign out?",
+        "button": "Sign out"
+    },
+    "userStagiair": {
+        "name": "Name",
+        "e-mail": "E-mail",
+        "startingdate": "Starting date",
+        "endingdata": "Ending date",
+        "internshipsupervisors": "Internship supervisor(s)",
+        "internedit": "Edit Intern",
+        "save": "Save"
+    }
+}
