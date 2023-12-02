@@ -221,15 +221,18 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
                               {formatDate(item.createdAt)}
                             </div>
                           </p>
+                          <button onClick={()=> useStagairStore.setState({checklistItemStagiair: item})}>
                           <EditChecklistItem
                             role={UserRole.ADMIN || UserRole.STAGEBEGELEIDER}
                             userRole={role}
                             setIsModalOpen={setIsModalOpen}
                           />
-                           <CheckListItemModal
+                        </button>
+                          <CheckListItemModal
                             checklistItem={item}
                             id={item.id}
-                          />
+                            />
+                          
                         </div>
                       ))}
                   </div>

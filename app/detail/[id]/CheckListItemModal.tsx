@@ -1,6 +1,9 @@
 import React, { FormEvent, useEffect, useState } from "react";
 import useStagairStore from "@/store";
 import { IChecklistItem } from "@/types";
+import useUpdateChecklistItem from "@/hooks/useUpdateCheckListItem";
+import useCheckListItemUpdateModal from "@/hooks/useCheckListItemUpdateModal";
+import { inputFormDater } from "@/lib";
 
 interface CheckListItemModalProps {
   checklistItem: IChecklistItem;
@@ -8,14 +11,17 @@ interface CheckListItemModalProps {
 }
 
 const CheckListItemModal = ({ checklistItem, id }: CheckListItemModalProps) => {
+
   const isModalOpen = useStagairStore((s) => s.commentModal);
   const setIsModalOpen = useStagairStore((state) => state.setCommentModal);
 
   const checklistItemStagiair=useStagairStore((s)=>s.checklistItemStagiair);
   const setChecklistItemStagiair = useStagairStore((s) => s.setchecklistItemStagiair);
 
-  const [newTitle, setNewTitle] = useState(checklistItem.title);
-  const [newDate, setNewDate] = useState(checklistItem.date);
+
+  const {mutate} = useCheckListItemUpdateModal(id,checklistItem)
+
+
 
   useEffect(() => {
     const modal = document.getElementById("my_modal_3") as HTMLDialogElement;
@@ -36,15 +42,7 @@ const CheckListItemModal = ({ checklistItem, id }: CheckListItemModalProps) => {
   const handleSubmitForm = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      await setChecklistItemStagiair({
-        id: id,
-        title: newTitle,
-        date: newDate,
-        isChecked: false,
-        createdAt: "",
-        updatedAt: ""
-      });
-
+     mutate();
       handleModalClose();
     } catch (error) {
       console.log("Error updating checklist item:", error);
@@ -67,16 +65,17 @@ const CheckListItemModal = ({ checklistItem, id }: CheckListItemModalProps) => {
               </label>
               <input
                 type="text"
-                placeholder="Checklist Item"
+                placeholder={checklistItem.title}
                 className="w-full p-3 border-2 rounded-md mb-5"
-                onChange={(e) => setNewTitle(e.target.value)}
+               value={checklistItemStagiair.title}
+               onChange={(e) => setChecklistItemStagiair({ ...checklistItemStagiair, title: e.target.value })}
               />
               <input
-                value={newDate}
+               value={inputFormDater(checklistItemStagiair.date)}
                 type="date"
                 placeholder="Date"
                 className="w-full p-3 border-2 rounded-md mb-5"
-                onChange={(e) => setNewDate(e.target.value)}
+                onChange={(e) => setChecklistItemStagiair({ ...checklistItemStagiair, date: e.target.value })}
               />
             </div>
             <div className="w-full text-right mt-2 ">
