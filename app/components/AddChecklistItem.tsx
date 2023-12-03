@@ -13,7 +13,7 @@ interface AddChecklistProps {
 export const AddCheckListItem = ({ checklistItemId }: AddChecklistProps) => {
   const [showDiv, setDiv] = useState(false);
 
-  console.log("  checklistItemId  " + checklistItemId);
+  console.log("checklistItemId  " + checklistItemId);
 
   const item = useStagairStore((s) => s.checklistItemStagiair);
   const setItem = useStagairStore((s) => s.setchecklistItemStagiair);

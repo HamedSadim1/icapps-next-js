@@ -13,7 +13,6 @@ const useCheckListItemUpdateModal = (id:string,checklist:IChecklistItem) => {
         {
           title:checklist.title,
           date: new Date(checklist.date).toISOString()
-        
         }
       );
     },

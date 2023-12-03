@@ -45,6 +45,7 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
   );
   const setIsModalOpen = useStagairStore((state) => state.setCommentModal);
   const setChecklistModal = useStagairStore((state) => state.setChecklistModal);
+
   const setCommentId = useStagairStore((s) => s.setCommentId);
   const setUpdatePostId = useStagairStore((s) => s.setUpdatePostId);
   const setIsPostModal = useStagairStore((s) => s.setIsPostModal);
@@ -62,6 +63,9 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
   const [selectedSection, setSelectedSection] = useState<number>(0);
   const [selectedSectionId, setSelectedSectionId] = useState<string>("");
 
+  const [selectedSectionBegleider, setSelectedSectionBegleider] = useState<number>(0);
+  const [selectedSectionIdBegleider, setSelectedSectionIdBegleider] = useState<string>("");
+
   useEffect(() => {
     if (data) {
       if (data.checklistsection.length > 0) {
@@ -70,21 +74,45 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
     }
   }, [data]);
 
-  const navigateToNextSection = () => {
+  useEffect(() => {
+    if (data) {
+      if (data.checklistSectionStagebegeleider.length > 0) {
+        setSelectedSectionIdBegleider(data!.checklistSectionStagebegeleider[0].id);
+      }
+    }
+  }, [data]);
+
+  const navigateToNextSectionStagiair = () => {
     if (selectedSection < data!.checklistsection.length - 1) {
       setSelectedSection(selectedSection + 1);
-      //? set the id of the checklistsecion when navigate happen
       setSelectedSectionId(data!.checklistsection[selectedSection + 1].id);
     }
   };
 
-  const navigateToPreviousSection = () => {
+  const navigateToPreviousSectionStagiair = () => {
     if (selectedSection > 0) {
       setSelectedSection(selectedSection - 1);
-      //? set the id of the checklistsecion when navigate happen
       setSelectedSectionId(data!.checklistsection[selectedSection - 1].id);
     }
   };
+
+  const navigateToNextSectionBegleider = () => {
+    if (selectedSectionBegleider < data!.checklistSectionStagebegeleider.length - 1) {
+      setSelectedSectionBegleider(selectedSectionBegleider + 1);
+      setSelectedSectionIdBegleider(data!.checklistSectionStagebegeleider[selectedSectionBegleider + 1].id);
+    }
+  };
+
+  const navigateToPreviousSectionBegleider = () => {
+    if (selectedSectionBegleider > 0) {
+      setSelectedSectionBegleider(selectedSectionBegleider - 1);
+      setSelectedSectionIdBegleider(data!.checklistSectionStagebegeleider[selectedSectionBegleider - 1].id);
+    }
+  };
+
+  //ArrowNavigation: call for whos is selected
+  const navigateToNextSection = checkListName === "checkListStagiair" ? navigateToNextSectionStagiair : navigateToNextSectionBegleider;
+  const navigateToPreviousSection = checkListName === "checkListStagiair" ? navigateToPreviousSectionStagiair : navigateToPreviousSectionBegleider;
   // 1 is the first section
 
   if (isLoading || loading || role == null) return <Loading />;
@@ -165,15 +193,18 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
 
           {/* Arrow Left and Arrow Right */}
           <div className="flex justify-center mb-5 gap-3 ">
-            <button type="button" className=" bg-[#f8f9fa] p-3 rounded-md ">
+            <button
+              type="button"
+              className={`bg-[#f8f9fa] p-3 rounded-md transition-colors hover:bg-[#bbebf7]`}
+            >
               <AiOutlineLeft
-                className="w-5 h-5 text-[#bdc1c2]"
+                className=" w-5 h-5 text-[#2bd0db]"
                 onClick={navigateToPreviousSection}
               />
             </button>
             <button
               type="button"
-              className="bg-[#bbebf7] p-3 rounded-md font-extrabold"
+              className={`bg-[#f8f9fa] p-3 rounded-md transition-colors hover:bg-[#bbebf7]`}
             >
               <AiOutlineRight
                 className=" w-5 h-5 text-[#2bd0db]"
@@ -219,7 +250,7 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
                           />
                           <p>
                             {item.title} <br />
-                            <div  className={`text-sm ${item.isChecked ? 'text-red-500' : 'text-gray-400'}`}>
+                            <div className={`text-sm ${item.isChecked ? 'text-red-500' : 'text-gray-400'}`}>
                               {formatDate(item.date)}
                             </div>
                           </p>
@@ -256,7 +287,7 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
                   <div
                     key={index}
                     style={{
-                      display: index === selectedSection ? "block" : "none",
+                      display: index === selectedSectionBegleider ? "block" : "none",
                     }}
                   >
                     <div className="flex gap-2 mb-2">
@@ -288,7 +319,7 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
                           </div>
                         ))}
                     </div>
-                    <AddCheckListItem checklistItemId={selectedSectionId} />
+                    <AddCheckListItem checklistItemId={selectedSectionIdBegleider} />
                   </div>
                 )
               )}
