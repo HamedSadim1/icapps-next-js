@@ -14,7 +14,7 @@ interface IUploadDocumentProps {
 
 const UploadDocument = ({ stagiairId }: IUploadDocumentProps) => {
   // const document = useStagairStore((s) => s.documents);
-  const { mutate } = usePostDocument(stagiairId);
+  const { mutate,isLoading } = usePostDocument(stagiairId);
   const [showDiv, setDiv] = useState(false);
   const [upload, setUpload] = useState<any>();
   const { data: session } = useSession();
@@ -85,6 +85,12 @@ const UploadDocument = ({ stagiairId }: IUploadDocumentProps) => {
   //   }
   // };
 
+  const handleCloseModal= () => {
+    if(!isLoading){
+      setDiv(false)
+    }
+  }
+
   return (
     <>
       <>
@@ -125,7 +131,9 @@ const UploadDocument = ({ stagiairId }: IUploadDocumentProps) => {
                   className="mr-16 rounded-md bg-[#002548] text-white font-semibold hover:bg-blue-500 px-7 py-2 cursor-pointer"
                   onClick={() => setDiv(false)}
                 >
-                  <button onClick={() => postDocument(upload)}>Upload</button>
+                  <button onClick={() => postDocument(upload)}>
+                    {isLoading ? "uploading" :"upload"}
+                  </button>
                 </a>
               </div>
             </div>
