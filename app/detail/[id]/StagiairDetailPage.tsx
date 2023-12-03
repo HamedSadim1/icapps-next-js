@@ -37,12 +37,13 @@ interface Params {
 
 const StagiairDetailPage = ({ params: { id } }: Params) => {
   const { data, error, isLoading } = useStagair(id);
-  
+
   const updateChecklistItemMutation = useUpdateChecklistItem();
   const setChecklistItemUpdate = useStagairStore(
     (s) => s.setChecklistItemUpdate
   );
   const setIsModalOpen = useStagairStore((state) => state.setCommentModal);
+  const setChecklistModal = useStagairStore((state) => state.setChecklistModal);
   const setCommentId = useStagairStore((s) => s.setCommentId);
   const setUpdatePostId = useStagairStore((s) => s.setUpdatePostId);
   const setIsPostModal = useStagairStore((s) => s.setIsPostModal);
@@ -216,23 +217,28 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
                             }
                           />
                           <p>
-                            {item.title}  <br />
+                            {item.title} <br />
                             <div className="text-sm text-gray-400">
                               {formatDate(item.createdAt)}
                             </div>
                           </p>
-                          <button onClick={()=> useStagairStore.setState({checklistItemStagiair: item})}>
-                          <EditChecklistItem
-                            role={UserRole.ADMIN || UserRole.STAGEBEGELEIDER}
-                            userRole={role}
-                            setIsModalOpen={setIsModalOpen}
-                          />
-                        </button>
+                          <button
+                            onClick={() =>
+                              useStagairStore.setState({
+                                checklistItemStagiair: item,
+                              })
+                            }
+                          >
+                            <EditChecklistItem
+                              role={UserRole.ADMIN || UserRole.STAGEBEGELEIDER}
+                              userRole={role}
+                              setIsModalOpen={setChecklistModal}
+                            />
+                          </button>
                           <CheckListItemModal
                             checklistItem={item}
                             id={item.id}
-                            />
-                          
+                          />
                         </div>
                       ))}
                   </div>
@@ -244,43 +250,47 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
           ) : (
             // Adjusted code for stagebegeleider
             <div className="flex flex-col">
-              {data.checklistSectionStagebegeleider.map((checklist, index: number) => (
-                <div
-                  key={index}
-                  style={{
-                    display: index === selectedSection ? "block" : "none",
-                  }}
-                >
-                  <div className="flex gap-2 mb-2">
-                    <span className="flex font-medium">{checklist.sectionTitle}</span>
-                    <span className="text-gray-400 text-xs mt-1">
-                      {checklist.checklistItem.length}
-                    </span>
+              {data.checklistSectionStagebegeleider.map(
+                (checklist, index: number) => (
+                  <div
+                    key={index}
+                    style={{
+                      display: index === selectedSection ? "block" : "none",
+                    }}
+                  >
+                    <div className="flex gap-2 mb-2">
+                      <span className="flex font-medium">
+                        {checklist.sectionTitle}
+                      </span>
+                      <span className="text-gray-400 text-xs mt-1">
+                        {checklist.checklistItem.length}
+                      </span>
+                    </div>
+                    <div className="flex flex-col justify-start mb-4 gap-3">
+                      {checklist.checklistItem &&
+                        checklist.checklistItem.map((item) => (
+                          <div
+                            key={item.id}
+                            className="flex gap-3 border-2 border-gray-500-400 p-2 rounded"
+                          >
+                            <input
+                              value={item.isChecked.toString()}
+                              type="checkbox"
+                              name="item"
+                            />
+                            <p>
+                              {item.title} <br />
+                              <div className="text-sm text-gray-400">
+                                {formatDate(item.createdAt)}
+                              </div>
+                            </p>
+                          </div>
+                        ))}
+                    </div>
+                    <AddCheckListItem checklistItemId={selectedSectionId} />
                   </div>
-                  <div className="flex flex-col justify-start mb-4 gap-3">
-                    {checklist.checklistItem &&
-                      checklist.checklistItem.map((item) => (
-                        <div
-                          key={item.id}
-                          className="flex gap-3 border-2 border-gray-500-400 p-2 rounded"
-                        >
-                          <input
-                            value={item.isChecked.toString()}
-                            type="checkbox"
-                            name="item"
-                          />
-                          <p>
-                            {item.title} <br />
-                            <div className="text-sm text-gray-400">
-                              {formatDate(item.createdAt)}
-                            </div>
-                          </p>
-                        </div>
-                      ))}
-                  </div>
-                  <AddCheckListItem checklistItemId={selectedSectionId} />
-                </div>
-              ))}
+                )
+              )}
             </div>
           )}
           {/* Add new item to checklist */}

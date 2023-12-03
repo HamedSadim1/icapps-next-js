@@ -47,10 +47,12 @@ export interface IStore {
   documentCommentId: (documentId: string) => void;
   pushNotificationId: string;
   setPushNotificationId: (pushNotificationId: string) => void;
-  stagairId:string;
-  setStagairId :(stagairId:string) => void
-  checklistItemUpdate:IChecklistItem;
+  stagairId: string;
+  setStagairId: (stagairId: string) => void;
+  checklistItemUpdate: IChecklistItem;
   setChecklistItemUpdate: (checklistItem: IChecklistItem) => void;
+checklistModal :boolean;
+setChecklistModal: (checklistModal: boolean) => void;
 }
 
 const useStagairStore = create<IStore>((set) => ({
@@ -70,18 +72,18 @@ const useStagairStore = create<IStore>((set) => ({
     user: [],
     checklistsection: [],
     documents: [],
-    checkliststagebegeleider: [],
+    checklistSectionStagebegeleider: [],
     doel: [],
   },
-  checklistItemUpdate:{
-    createdAt:"" ,
-    date:"",
-    id:"",
-    isChecked:false,
-    title:"",
-    updatedAt:"",
-    checklistItemSectionID:"",
-    },
+  checklistItemUpdate: {
+    createdAt: "",
+    date: "",
+    id: "",
+    isChecked: false,
+    title: "",
+    updatedAt: "",
+    checklistItemSectionID: "",
+  },
   stageBeschrijving: {
     id: "",
     beschrijving: "",
@@ -141,8 +143,8 @@ const useStagairStore = create<IStore>((set) => ({
     id: "",
     title: "",
   },
-  stagairId:"",
-  setStagairId:(stagairId) => set({stagairId}),
+  stagairId: "",
+  setStagairId: (stagairId) => set({ stagairId }),
   pushNotificationId: "",
   setPushNotificationId: (pushNotificationId) => set({ pushNotificationId }),
   role: null,
@@ -163,9 +165,11 @@ const useStagairStore = create<IStore>((set) => ({
       console.error("Error updating stagaires:", error);
     }
   },
-  setChecklistItemUpdate:(checklistItemUpdate) =>{
-    set({ checklistItemUpdate: checklistItemUpdate});
+  setChecklistItemUpdate: (checklistItemUpdate) => {
+    set({ checklistItemUpdate: checklistItemUpdate });
   },
+
+
   setIsPostModal: (isPostModal) => {
     set({ isPostModal });
   },
@@ -196,7 +200,7 @@ const useStagairStore = create<IStore>((set) => ({
     commentatorName: "",
     img: "",
   },
- setDocumentComment:(documentComment) => set({documentComment}),
+  setDocumentComment: (documentComment) => set({ documentComment }),
   documentId: "",
   documentCommentId: (documentId) => set({ documentId }),
 
@@ -207,6 +211,8 @@ const useStagairStore = create<IStore>((set) => ({
       console.error("Error updating stagaires:", error);
     }
   },
+  checklistModal:false,
+  setChecklistModal: (checklistModal) => set({ checklistModal }),
 }));
 
 export default useStagairStore;

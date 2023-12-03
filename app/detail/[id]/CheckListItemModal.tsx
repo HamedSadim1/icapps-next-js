@@ -11,20 +11,21 @@ interface CheckListItemModalProps {
 }
 
 const CheckListItemModal = ({ checklistItem, id }: CheckListItemModalProps) => {
+  const isModalOpen = useStagairStore((s) => s.checklistModal);
+  const setIsModalOpen = useStagairStore((state) => state.setChecklistModal);
 
-  const isModalOpen = useStagairStore((s) => s.commentModal);
-  const setIsModalOpen = useStagairStore((state) => state.setCommentModal);
+  const checklistItemStagiair = useStagairStore((s) => s.checklistItemStagiair);
+  const setChecklistItemStagiair = useStagairStore(
+    (s) => s.setchecklistItemStagiair
+  );
 
-  const checklistItemStagiair=useStagairStore((s)=>s.checklistItemStagiair);
-  const setChecklistItemStagiair = useStagairStore((s) => s.setchecklistItemStagiair);
-
-
-  const {mutate} = useCheckListItemUpdateModal(id,checklistItem)
-
-
+  const { mutate } = useCheckListItemUpdateModal(
+    checklistItemStagiair.id,
+    checklistItemStagiair
+  );
 
   useEffect(() => {
-    const modal = document.getElementById("my_modal_3") as HTMLDialogElement;
+    const modal = document.getElementById("my_modal_4") as HTMLDialogElement;
 
     if (modal) {
       if (isModalOpen) {
@@ -42,7 +43,7 @@ const CheckListItemModal = ({ checklistItem, id }: CheckListItemModalProps) => {
   const handleSubmitForm = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-     mutate();
+      mutate();
       handleModalClose();
     } catch (error) {
       console.log("Error updating checklist item:", error);
@@ -50,7 +51,7 @@ const CheckListItemModal = ({ checklistItem, id }: CheckListItemModalProps) => {
   };
 
   return (
-    <dialog id="my_modal_3" className="modal duration-0 rounded-md">
+    <dialog id="my_modal_4" className="modal duration-0 rounded-md">
       {isModalOpen && (
         <div className="modal-box p-10">
           <h1 className="text-2xl font-semibold mb-5 text-[#002548]">
@@ -67,15 +68,25 @@ const CheckListItemModal = ({ checklistItem, id }: CheckListItemModalProps) => {
                 type="text"
                 placeholder={checklistItem.title}
                 className="w-full p-3 border-2 rounded-md mb-5"
-               value={checklistItemStagiair.title}
-               onChange={(e) => setChecklistItemStagiair({ ...checklistItemStagiair, title: e.target.value })}
+                value={checklistItemStagiair.title}
+                onChange={(e) =>
+                  setChecklistItemStagiair({
+                    ...checklistItemStagiair,
+                    title: e.target.value,
+                  })
+                }
               />
               <input
-               value={inputFormDater(checklistItemStagiair.date)}
+                value={inputFormDater(checklistItemStagiair.date)}
                 type="date"
                 placeholder="Date"
                 className="w-full p-3 border-2 rounded-md mb-5"
-                onChange={(e) => setChecklistItemStagiair({ ...checklistItemStagiair, date: e.target.value })}
+                onChange={(e) =>
+                  setChecklistItemStagiair({
+                    ...checklistItemStagiair,
+                    date: e.target.value,
+                  })
+                }
               />
             </div>
             <div className="w-full text-right mt-2 ">
