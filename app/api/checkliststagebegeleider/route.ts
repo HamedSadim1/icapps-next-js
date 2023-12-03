@@ -6,7 +6,7 @@ export async function GET(request: NextRequest) {
   try {
     await connectToDatabase();
     const checklistStageBegeleider =
-      await prisma.checkListStageBegeleider.findMany();
+      await prisma.checkListSectionStageBegeleider.findMany();
     return NextResponse.json(checklistStageBegeleider, { status: 200 });
   } catch (error) {
     return NextResponse.json({ error: error }, { status: 500 });
@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     await connectToDatabase();
     const checklistStageBegeleider =
-      await prisma.checkListStageBegeleider.create({
+      await prisma.checkListSectionStageBegeleider.create({
         data: {
           sectionTitle: body.sectionTitle,
           stagiairID: body.stagiairID,
