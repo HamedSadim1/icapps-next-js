@@ -220,7 +220,7 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
                           <p>
                             {item.title} <br />
                             <div className="text-sm text-gray-400">
-                              {formatDate(item.createdAt)}
+                              {formatDate(item.date)}
                             </div>
                           </p>
                           <button

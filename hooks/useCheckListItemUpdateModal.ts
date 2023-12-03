@@ -12,7 +12,7 @@ const useCheckListItemUpdateModal = (id:string,checklist:IChecklistItem) => {
         `http://localhost:3000/api/checkliststagiair/checklistItem/${id}`,
         {
           title:checklist.title,
-          date:checklist.date,
+          date: new Date(checklist.date).toISOString()
         
         }
       );

@@ -79,7 +79,7 @@ const CheckListItemModal = ({ checklistItem, id }: CheckListItemModalProps) => {
               <input
                 value={inputFormDater(checklistItemStagiair.date)}
                 type="date"
-                placeholder="Date"
+                placeholder={checklistItemStagiair.date}
                 className="w-full p-3 border-2 rounded-md mb-5"
                 onChange={(e) =>
                   setChecklistItemStagiair({
