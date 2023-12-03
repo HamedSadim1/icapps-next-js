@@ -219,7 +219,7 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
                           />
                           <p>
                             {item.title} <br />
-                            <div className="text-sm text-gray-400">
+                            <div  className={`text-sm ${item.isChecked ? 'text-red-500' : 'text-gray-400'}`}>
                               {formatDate(item.date)}
                             </div>
                           </p>
