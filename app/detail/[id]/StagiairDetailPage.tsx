@@ -30,6 +30,7 @@ import Link from "next/link";
 import useUpdateChecklistItem from "@/hooks/useUpdateCheckListItem";
 import CheckListItemModal from "./CheckListItemModal";
 import EditChecklistItem from "@/app/components/EditButton/EditChecklistItem";
+import StageBeschrijving from "@/app/components/StageBeschrijving";
 
 interface Params {
   params: { id: string };
@@ -328,61 +329,16 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
           </div>
           {data.stagebeschriving.length > 0 ? (
             data.stagebeschriving.map((stagebeschriving) => (
-              <div
+              <StageBeschrijving
                 key={stagebeschriving.id}
-                className="bg-blue-50  mt-11 rounded-lg pb-5 p-5"
-              >
-                <div className="flex justify-between items-center ml-2">
-                  <h2 className="text-2xl font-semibold text-[#002548]">
-                    Beschrijving
-                  </h2>
-                  {/* Edit Stagebeschrijving */}
-                  <EditStageBeschrijving
-                    role={UserRole.ADMIN || UserRole.STAGEBEGELEIDER}
-                    userRole={role}
-                    setIsModalOpen={setIsModalOpen}
-                  />
-                  <StageBeschrijvingModal
-                    stagairId={id}
-                    id={stagebeschriving.id}
-                    stagebeshrijving={stagebeschriving}
-                    stagair={data}
-                  />
-                </div>
-                <p className="text-gray-600 text-base leading-relaxed mt-2 ml-2 mr-10">
-                  {stagebeschriving.beschrijving}
-                </p>
-                <h2 className="text-2xl mt-5 ml-2 font-semibold text-[#002548]">
-                  Stage begeleider(s)
-                </h2>
-                <h3 className="text-gray-600 ml-2">
-                  {getStagebegeleiderName()}
-                </h3>
-                <h2 className="text-2xl mt-5 ml-2 font-semibold text-[#002548]">
-                  Stage duur
-                </h2>
-                <h3 className="text-gray-600 ml-2">
-                  {formatDate(data.startDate)} - {formatDate(data.endDate)}
-                </h3>
-                <h2 className="text-2xl mt-5 ml-2 font-semibold text-[#002548]">
-                  School
-                </h2>
-                <h3 className="text-gray-600 ml-2">
-                  {stagebeschriving.school}
-                </h3>
-                <h2 className="text-2xl mt-5 ml-2 font-semibold text-[#002548]">
-                  Contactpersoon
-                </h2>
-                <h3 className="text-gray-600 ml-2">
-                  {stagebeschriving.contactPersoonName}
-                </h3>
-                <h3 className="text-gray-600 ml-2 mt-1">
-                  {stagebeschriving.contactPersoonEmail}
-                </h3>
-                <h3 className="text-gray-600 ml-2 mt-1">
-                  {stagebeschriving.contactPersoonTelefoon}
-                </h3>
-              </div>
+                role={UserRole.ADMIN || UserRole.STAGEBEGELEIDER}
+                userRole={role}
+                setIsModalOpen={setIsModalOpen}
+                id={id}
+                data={data}
+                stagebeschriving={stagebeschriving}
+                getStagebegeleiderName={getStagebegeleiderName}
+              />
             ))
           ) : (
             <div className="text-gray-600 text-base mt-4 flex">
