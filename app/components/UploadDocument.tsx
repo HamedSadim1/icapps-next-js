@@ -132,7 +132,7 @@ const UploadDocument = ({ stagiairId }: IUploadDocumentProps) => {
                   onClick={() => setDiv(false)}
                 >
                   <button onClick={() => postDocument(upload)}>
-                    {isLoading ? "uploading" :"upload"}
+                    {isLoading ? "Uploading" :"Upload"}
                   </button>
                 </a>
               </div>

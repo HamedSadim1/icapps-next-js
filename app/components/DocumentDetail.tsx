@@ -43,7 +43,7 @@ const DocumentDetail = (document: DocumentDetailProps) => {
       <br />
       <hr className="mr-7" />
       {showDiv == true && (
-        <div className="h-screen w-screen flex flex-col justify-center items-center fixed top-0 left-0 right-0 bottom-0 z-50 bg-opacity-50 bg-gray-500">
+        <div className="h-screen w-screen flex flex-col justify-center cursor-auto items-center fixed top-0 left-0 right-0 bottom-0 z-50 bg-opacity-50 bg-gray-500">
           <div className="bg-white shadow-2xl w-1/3 h-auto pb-7 text-gray-500 z-2 rounded-md">
             <button
               className="btn btn-sm btn-circle btn-ghost float-right mt-3 mr-3 text-xl"
@@ -96,15 +96,13 @@ const DocumentDetail = (document: DocumentDetailProps) => {
           )}
         </div>
         {/* Comment Content */}
-        <div className="flex flex-col">
-          <h3 className="text-1 xl text-blue-400 mb-1">
+        <div className="">
+          <h3 className="text-1 xl text-blue-400 mb-1 mr-4">
             {comment.commentatorName || ""}
           </h3>
-          <div className="flex flex-col rounded-lg">
-            <p className="text-gray-600 text-base font-medium leading-relaxed">
+            <p className="text-gray-600 text-base float-left font-medium leading-relaxed">
               {comment.comment}
             </p>
-          </div>
         </div>
       </div>
     ))

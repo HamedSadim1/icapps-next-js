@@ -117,7 +117,7 @@ const CommentModal = () => {
                 type="submit"
                 className={`ml-4 px-6 py-1 rounded-md bg-[#002548] text-white font-semibold hover:bg-blue-500${
                   comment.comment.length < 4
-                    ? " cursor-not-allowed  opacity-50"
+                    ? "cursor-not-allowed"
                     : ""
                 }`}
                 disabled={comment.comment.length < 4 || isSubmitting}
