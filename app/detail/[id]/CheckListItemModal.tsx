@@ -55,18 +55,18 @@ const CheckListItemModal = ({ checklistItem, id }: CheckListItemModalProps) => {
       {isModalOpen && (
         <div className="modal-box p-10">
           <h1 className="text-2xl font-semibold mb-5 text-[#002548]">
-            Checklist Item
+            Checklist item wijzigen
           </h1>
           <form method="dialog" onSubmit={handleSubmitForm} className="">
             <div className="form-control">
               <label className="label text-base mb-5">
                 <span className="label-text text-base text-gray-500">
-                  Item Title
+                  Titel
                 </span>
               </label>
               <input
                 type="text"
-                placeholder={checklistItem.title}
+                placeholder="Titel wijzigen"
                 className="w-full p-3 border-2 rounded-md mb-5"
                 value={checklistItemStagiair.title}
                 onChange={(e) =>
@@ -76,6 +76,11 @@ const CheckListItemModal = ({ checklistItem, id }: CheckListItemModalProps) => {
                   })
                 }
               />
+              <label className="label text-base mb-5">
+                <span className="label-text text-base text-gray-500">
+                  Datum
+                </span>
+              </label>
               <input
                 value={inputFormDater(checklistItemStagiair.date)}
                 type="date"
@@ -91,7 +96,7 @@ const CheckListItemModal = ({ checklistItem, id }: CheckListItemModalProps) => {
             </div>
             <div className="w-full text-right mt-2 ">
               <button
-                className="mr-4 px-7 py-2 rounded-md bg-gray-200 text-[#002548] font-semibold hover:bg-gray-400"
+                className="mr-4 px-7 py-2 rounded-md bg-blue-50 text-[#002548] font-semibold hover:bg-blue-200"
                 onClick={handleModalClose}
               >
                 Annuleren

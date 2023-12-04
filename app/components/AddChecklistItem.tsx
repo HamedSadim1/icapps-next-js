@@ -30,7 +30,7 @@ export const AddCheckListItem = ({ checklistItemId }: AddChecklistProps) => {
     <>
       {showDiv == false && (
         <button
-          className="text-gray-500 hover:text-gray-900 z-0"
+          className="text-gray-500 hover:text-gray-900 z-0 flex gap-1"
           onClick={() => setDiv(true)}
         >
           <AiOutlinePlus className="float-left mt-1" /> Item toevoegen
@@ -38,7 +38,7 @@ export const AddCheckListItem = ({ checklistItemId }: AddChecklistProps) => {
       )}
       {showDiv == true && (
         <div className="h-screen w-screen flex flex-col justify-center items-center fixed top-0 left-0 right-0 bottom-0 z-50 bg-opacity-50 bg-gray-700">
-          <div className="bg-white shadow-2xl w-4/10 h-auto pb-7 text-gray-500 z-2 rounded-md">
+          <div className="bg-white shadow-2xl w-1/3 h-auto pb-7 text-gray-500 z-2 rounded-md">
             <button
               className="btn btn-sm btn-circle btn-ghost float-right mt-3 mr-3 text-xl"
               onClick={() => setDiv(false)}
@@ -47,10 +47,10 @@ export const AddCheckListItem = ({ checklistItemId }: AddChecklistProps) => {
             </button>
             <div className="flex flex-col pt-16 mx-16">
               <h2 className="pb-10 text-[#002548] font-semibold text-2xl flex">
-                Sectie toevoegen &nbsp;
+                Checklist item toevoegen &nbsp;
               </h2>
               <form onSubmit={handlePostChecklistStagiair}>
-                <label htmlFor="titel">ItemTitle</label>
+                <label htmlFor="titel">Titel</label>
                 <input
                   type="text"
                   className="w-full p-3 border-2 rounded-md mb-5"
@@ -70,7 +70,7 @@ export const AddCheckListItem = ({ checklistItemId }: AddChecklistProps) => {
                 />
                 <div className="w-full text-right">
                   <button
-                    className="mr-4 px-7 py-2 rounded-md bg-blue-100 text-[#002548] font-semibold hover:bg-blue-200"
+                    className="mr-4 px-7 py-2 rounded-md bg-blue-50 text-[#002548] font-semibold hover:bg-blue-200"
                     onClick={() => setDiv(false)}
                   >
                     Annuleren

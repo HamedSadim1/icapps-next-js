@@ -25,7 +25,7 @@ const Post = ({
       {/* Post */}
       <div className="flex flex-col rounded-lg mt-6">
         <div className="flex">
-          <h2 className="text-xl font-bold">{post.title}</h2>
+          <h2 className="text-xl font-bold text-[#002548]">{post.title}</h2>
           {/* Edit Button */}
           <EditDoelButton
             role={UserRole.ADMIN || UserRole.STAGEBEGELEIDER}
@@ -40,7 +40,7 @@ const Post = ({
         <span className="text-gray-400 text-sm">
           {formatDate(post.createdAt)}
         </span>
-        <p className="text-gray-600 text-base font-medium leading-relaxed mt-2">
+        <p className="text-[#002548] text-base font-medium leading-relaxed mt-2">
           {post.body}
         </p>
       </div>

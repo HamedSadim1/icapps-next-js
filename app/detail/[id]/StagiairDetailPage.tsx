@@ -4,6 +4,7 @@ import {
   AiOutlineEdit,
   AiOutlineLeft,
   AiOutlineRight,
+  AiOutlinePlus,
 } from "react-icons/ai";
 import { formatDate } from "@/lib";
 import useStagair from "@/hooks/useStagair";
@@ -31,6 +32,7 @@ import useUpdateChecklistItem from "@/hooks/useUpdateCheckListItem";
 import CheckListItemModal from "./CheckListItemModal";
 import EditChecklistItem from "@/app/components/EditButton/EditChecklistItem";
 import StageBeschrijving from "@/app/components/StageBeschrijving";
+import { BsPencil } from "react-icons/bs";
 
 interface Params {
   params: { id: string };
@@ -179,7 +181,7 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
             ))
           ) : (
             <div className="text-gray-600 text-base mt-4 flex">
-              Er werden nog geen doelen gedefinieerd
+              Er zijn nog geen doelen aangemaakt.
             </div>
           )}
 
@@ -194,23 +196,23 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
           {/* Arrow Left and Arrow Right */}
           <div className="flex justify-center mb-5 gap-3 ">
             <button
-             onClick={navigateToPreviousSection}
+              onClick={navigateToPreviousSection}
               type="button"
-              className={`bg-[#f8f9fa] p-3 rounded-md transition-colors hover:bg-[#bbebf7]`}
+              className={`p-3 rounded-md transition-colors hover:bg-[#002548] bg-blue-50`}
             >
               <AiOutlineLeft
-                className=" w-5 h-5 text-[#2bd0db]"
-               
+                className=" w-5 h-5 text-blue-400"
+
               />
             </button>
             <button
-            onClick={navigateToNextSection}
+              onClick={navigateToNextSection}
               type="button"
-              className={`bg-[#f8f9fa] p-3 rounded-md transition-colors hover:bg-[#bbebf7]`}
+              className={`p-3 rounded-md transition-colors hover:bg-[#002548] bg-blue-50`}
             >
               <AiOutlineRight
-                className=" w-5 h-5 text-[#2bd0db]"
-                
+                className=" w-5 h-5 text-blue-400"
+
               />
             </button>
           </div>
@@ -229,10 +231,17 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
                     <span className="flex font-medium">
                       {checklist.sectionTitle}
                     </span>
-                    {/* shows the number of items in the section */}
-                    <span className="text-gray-400 text-xs mt-1">
-                      {checklist.items.length}
-                    </span>
+                    <button
+                      type="button"
+                      className="hover:text-gray-400"
+                    >
+                      <BsPencil className="text-lg" />
+                    </button>
+                    <button
+                      className="text-gray-500 hover:text-gray-900 flex gap-1 ml-auto"
+                    >
+                      <AiOutlinePlus className="ml-auto mt-1" />Sectie toevoegen
+                    </button>
                   </div>
 
                   <div className="flex flex-col justify-start mb-4 gap-3">
@@ -298,9 +307,17 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
                       <span className="flex font-medium">
                         {checklist.sectionTitle}
                       </span>
-                      <span className="text-gray-400 text-xs mt-1">
-                        {checklist.checklistItem.length}
-                      </span>
+                      <button
+                      type="button"
+                      className="hover:text-gray-400"
+                    >
+                      <BsPencil className="text-lg" />
+                    </button>
+                      <button
+                        className="text-gray-500 hover:text-gray-900 flex gap-1 ml-auto"
+                      >
+                        <AiOutlinePlus className="ml-auto mt-1" />Sectie toevoegen
+                      </button>
                     </div>
                     <div className="flex flex-col justify-start mb-4 gap-3">
                       {checklist.checklistItem &&
@@ -324,7 +341,7 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
                         ))}
                     </div>
                     <div className="mb-10">
-                    <AddCheckListItem checklistItemId={selectedSectionIdBegleider} />
+                      <AddCheckListItem checklistItemId={selectedSectionIdBegleider} />
                     </div>
                   </div>
                 )
@@ -361,7 +378,7 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
               type="button"
               className="bg-[#002548] text-white w-60 h-10 rounded-lg  hover:bg-[#21415f]"
             >
-              Evaluatieformulier Invullen
+              Evaluatieformulier invullen
             </button>
           </div>
           {data.stagebeschriving.length > 0 ? (
@@ -402,7 +419,7 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
               ))
             ) : (
               <div className="flex">
-                <p>Er werden nog geen documenten gedeeld in deze stage</p>
+                <p>Er zijn momenteel nog geen documenten gedeeld.</p>
               </div>
             )}
             <UploadDocument stagiairId={id} />

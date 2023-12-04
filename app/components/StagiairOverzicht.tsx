@@ -136,7 +136,7 @@ const StagiairOverzicht = () => {
               {filteredStagiair?.map((stagiair) => (
                 <tr
                   key={stagiair.id}
-                  className="hover:bg-gray-50 cursor-pointer"
+                  className="hover:bg-blue-100 cursor-pointer"
                 >
                   <td
                     className="px-6 py-4"
@@ -192,8 +192,8 @@ const StagiairOverzicht = () => {
           </table>
           {filteredStagiair?.length === 0 ? (
             <div className="flex justify-center items-center mt-4">
-              <h2 className="text-2xl font-bold text-gray-500">
-                No result found
+              <h2 className="text-xl font-semibold text-gray-500">
+                No results found
               </h2>
             </div>
           ) : (

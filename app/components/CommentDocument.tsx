@@ -76,18 +76,14 @@ const CommentDocument = () => {
             ></textarea>
             <div className=" pointer-events-auto">
               <button
-                className="ml-4 px-6 py-1 rounded-md bg-blue-100 text-[#002548] font-semibold hover:bg-blue-200"
+                className="ml-4 px-6 py-1 rounded-md bg-blue-50 text-[#002548] font-semibold hover:bg-blue-200"
                 onClick={handleCloseCommentaar}
               >
                 Annuleren
               </button>
               <button
                 type="submit"
-                className={`ml-4 px-6 py-1 rounded-md bg-[#002548] text-white font-semibold hover:bg-blue-500${
-                  comment.comment.length < 4
-                    ? "cursor-not-allowed"
-                    : ""
-                }`}
+                className="ml-4 px-6 py-1 rounded-md bg-[#002548] text-white font-semibold hover:bg-blue-500"
               >
                 Plaatsen
               </button>

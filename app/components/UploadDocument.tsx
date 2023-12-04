@@ -122,7 +122,7 @@ const UploadDocument = ({ stagiairId }: IUploadDocumentProps) => {
               </div>
               <div className="w-full text-right">
                 <button
-                  className="mr-4 px-7 py-2 rounded-md bg-blue-100 text-[#002548] font-semibold hover:bg-blue-200"
+                  className="mr-4 px-7 py-2 rounded-md bg-blue-50 text-[#002548] font-semibold hover:bg-blue-200"
                   onClick={() => setDiv(false)}
                 >
                   Annuleren

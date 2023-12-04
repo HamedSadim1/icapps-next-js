@@ -108,7 +108,7 @@ const CommentModal = () => {
             ></textarea>
             <div className=" pointer-events-auto">
               <button
-                className="ml-4 px-6 py-1 rounded-md bg-blue-100 text-[#002548] font-semibold hover:bg-blue-200"
+                className="ml-4 px-6 py-1 rounded-md bg-blue-50 text-[#002548] font-semibold hover:bg-blue-200"
                 onClick={handleCloseCommentaar}
               >
                 Annuleren

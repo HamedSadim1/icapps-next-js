@@ -16,10 +16,10 @@ const DocumentDetail = (document: DocumentDetailProps) => {
 
   return (
     <>
-      <div className="flex flex-col items-start"  key={document.document.id}>
-        <a onClick={() => setDiv(true)}>
+      <div className="flex flex-col items-start hover:opacity-75" onClick={() => setDiv(true)} key={document.document.id}>
+        <a>
           <button>
-            <h2 className="text-xl mt-5 text-left ">
+            <h2 className="text-xl mt-5 text-left">
               {document.document.original_filename}{" "}
             </h2>
           </button>
