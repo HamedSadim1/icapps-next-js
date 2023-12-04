@@ -194,21 +194,23 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
           {/* Arrow Left and Arrow Right */}
           <div className="flex justify-center mb-5 gap-3 ">
             <button
+             onClick={navigateToPreviousSection}
               type="button"
               className={`bg-[#f8f9fa] p-3 rounded-md transition-colors hover:bg-[#bbebf7]`}
             >
               <AiOutlineLeft
                 className=" w-5 h-5 text-[#2bd0db]"
-                onClick={navigateToPreviousSection}
+               
               />
             </button>
             <button
+            onClick={navigateToNextSection}
               type="button"
               className={`bg-[#f8f9fa] p-3 rounded-md transition-colors hover:bg-[#bbebf7]`}
             >
               <AiOutlineRight
                 className=" w-5 h-5 text-[#2bd0db]"
-                onClick={navigateToNextSection}
+                
               />
             </button>
           </div>
@@ -248,13 +250,13 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
                               handleCheckboxChange(item.id, !item.isChecked)
                             }
                           />
-                          <p>
+                          <p className={`text-sm ${item.isChecked ? 'text-gray-400' : 'text-black'}`}>
                             {item.title} <br />
-                            <div className={`text-sm ${item.isChecked ? 'text-red-500' : 'text-gray-400'}`}>
+                            <div >
                               {formatDate(item.date)}
                             </div>
                           </p>
-                          <button
+                          <button className="ml-auto"
                             onClick={() =>
                               useStagairStore.setState({
                                 checklistItemStagiair: item,
@@ -275,8 +277,10 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
                       ))}
                   </div>
                 </div>
-                {/* add checklistitem give id of the checklistItem  */}
-                <AddCheckListItem checklistItemId={selectedSectionId} />
+                <div className="mb-10">
+                  {/* add checklistitem give id of the checklistItem  */}
+                  <AddCheckListItem checklistItemId={selectedSectionId} />
+                </div>
               </div>
             ))
           ) : (
@@ -319,7 +323,9 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
                           </div>
                         ))}
                     </div>
+                    <div className="mb-10">
                     <AddCheckListItem checklistItemId={selectedSectionIdBegleider} />
+                    </div>
                   </div>
                 )
               )}

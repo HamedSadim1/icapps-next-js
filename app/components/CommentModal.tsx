@@ -82,9 +82,9 @@ const CommentModal = () => {
   return (
     <>
       {showDiv === false && (
-        <div className="ml-16 flex px-4 py-2 text-gray-400 hover:text-gray-500">
+        <div className="ml-16 flex px-4 py-2 text-gray-500 hover:text-gray-900">
           <button onClick={handleOpenCommentaar} disabled={isSubmitting}>
-            <AiOutlinePlus className="float-left mt-1 text-gray-700" />
+            <AiOutlinePlus className="float-left mt-1 text-gray-500 hover:text-gray-900" />
             &nbsp;Commentaar toevoegen
           </button>
         </div>

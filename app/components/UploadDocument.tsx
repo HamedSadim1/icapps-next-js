@@ -99,7 +99,7 @@ const UploadDocument = ({ stagiairId }: IUploadDocumentProps) => {
             className="text-gray-500 hover:text-gray-900 z-0 mt-3"
             onClick={() => setDiv(true)}
           >
-            <AiOutlinePlus className="float-left mt-1 ml-1 text-gray-700" />
+            <AiOutlinePlus className="float-left mt-1 ml-1 text-gray-500" />
             &nbsp;Document toevoegen
           </button>
         )}

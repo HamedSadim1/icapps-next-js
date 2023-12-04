@@ -53,7 +53,7 @@ const CommentDocument = () => {
       {showDiv == false && (
         <div className="bg-white text-gray-500 hover:text-gray-900 border-none pl-1 float-left ml-24 mt-2 cursor-pointer">
           <button onClick={() => setDiv(true)}>
-            <AiOutlinePlus className="float-left ml-3 mt-1 text-gray-700" />
+            <AiOutlinePlus className="float-left ml-3 mt-1 text-gray-500 hover:text-gray-900" />
             &nbsp;Commentaar toevoegen
           </button>
         </div>
