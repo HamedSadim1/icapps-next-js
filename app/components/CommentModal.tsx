@@ -82,9 +82,9 @@ const CommentModal = () => {
   return (
     <>
       {showDiv === false && (
-        <div className="ml-16 flex px-4 py-2 text-gray-400 hover:text-gray-500">
+        <div className="ml-16 flex px-4 py-2 text-gray-500 hover:text-gray-900">
           <button onClick={handleOpenCommentaar} disabled={isSubmitting}>
-            <AiOutlinePlus className="float-left mt-1 text-gray-700" />
+            <AiOutlinePlus className="float-left mt-1 text-gray-500 hover:text-gray-900" />
             &nbsp;Commentaar toevoegen
           </button>
         </div>
@@ -108,7 +108,7 @@ const CommentModal = () => {
             ></textarea>
             <div className=" pointer-events-auto">
               <button
-                className="ml-4 px-6 py-1 rounded-md bg-blue-100 text-[#002548] font-semibold hover:bg-blue-200"
+                className="ml-4 px-6 py-1 rounded-md bg-blue-50 text-[#002548] font-semibold hover:bg-blue-200"
                 onClick={handleCloseCommentaar}
               >
                 Annuleren
@@ -117,7 +117,7 @@ const CommentModal = () => {
                 type="submit"
                 className={`ml-4 px-6 py-1 rounded-md bg-[#002548] text-white font-semibold hover:bg-blue-500${
                   comment.comment.length < 4
-                    ? " cursor-not-allowed  opacity-50"
+                    ? "cursor-not-allowed"
                     : ""
                 }`}
                 disabled={comment.comment.length < 4 || isSubmitting}

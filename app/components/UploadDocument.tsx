@@ -99,7 +99,7 @@ const UploadDocument = ({ stagiairId }: IUploadDocumentProps) => {
             className="text-gray-500 hover:text-gray-900 z-0 mt-3"
             onClick={() => setDiv(true)}
           >
-            <AiOutlinePlus className="float-left mt-1 ml-1 text-gray-700" />
+            <AiOutlinePlus className="float-left mt-1 ml-1 text-gray-500" />
             &nbsp;Document toevoegen
           </button>
         )}
@@ -122,7 +122,7 @@ const UploadDocument = ({ stagiairId }: IUploadDocumentProps) => {
               </div>
               <div className="w-full text-right">
                 <button
-                  className="mr-4 px-7 py-2 rounded-md bg-blue-100 text-[#002548] font-semibold hover:bg-blue-200"
+                  className="mr-4 px-7 py-2 rounded-md bg-blue-50 text-[#002548] font-semibold hover:bg-blue-200"
                   onClick={() => setDiv(false)}
                 >
                   Annuleren
@@ -132,7 +132,7 @@ const UploadDocument = ({ stagiairId }: IUploadDocumentProps) => {
                   onClick={() => setDiv(false)}
                 >
                   <button onClick={() => postDocument(upload)}>
-                    {isLoading ? "uploading" :"upload"}
+                    {isLoading ? "Uploading" :"Upload"}
                   </button>
                 </a>
               </div>
