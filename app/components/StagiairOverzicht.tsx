@@ -197,12 +197,14 @@ const StagiairOverzicht = () => {
               </h2>
             </div>
           ) : (
-            <Pagination
-              currentPage={currentPage}
-              emailPerPage={emailPerPage}
-              paginate={paginate}
-              totalEmails={indexOfLastEmail}
-            />
+            currentPage !== 1 && (
+              <Pagination
+                currentPage={currentPage}
+                emailPerPage={emailPerPage}
+                paginate={paginate}
+                totalEmails={indexOfLastEmail}
+              />
+            )
           )}
         </div>
       </AuthorizedRole>
