@@ -1,6 +1,5 @@
 "use client";
 import { IDocument } from "@/types";
-import useStagairStore from "@/store";
 import usePostDocument from "@/hooks/usePostDocument";
 import { useState } from "react";
 import { MdClose } from "react-icons/md";
@@ -13,10 +12,13 @@ interface IUploadDocumentProps {
 }
 
 const UploadDocument = ({ stagiairId }: IUploadDocumentProps) => {
-  // const document = useStagairStore((s) => s.documents);
-  const { mutate,isLoading } = usePostDocument(stagiairId);
+  //? post document to database with usePostDocument hook
+  const { mutate } = usePostDocument(stagiairId);
+  //? show div state for upload document
   const [showDiv, setDiv] = useState(false);
+  //? upload file state for cloudinary upload function
   const [upload, setUpload] = useState<any>();
+  //? get session data from next auth session
   const { data: session } = useSession();
 
   {
@@ -31,7 +33,7 @@ const UploadDocument = ({ stagiairId }: IUploadDocumentProps) => {
         "https://api.cloudinary.com/v1_1/dhjblvbsd/image/upload",
         formData
       );
-      const response :IDocument = res.data 
+      const response: IDocument = res.data;
       console.log(response);
       if (session && session.user && session.user.name && session.user.image) {
         const uploadedDocument: IDocument = {
@@ -47,53 +49,15 @@ const UploadDocument = ({ stagiairId }: IUploadDocumentProps) => {
           documentUploaderName: session.user.name,
           img: session.user?.image,
         };
-       mutate(uploadedDocument);
+        mutate(uploadedDocument);
       }
-      
-   
     } catch (error) {
       console.error(error);
     }
   };
 
-  {
-    /* SAVE CLOUDINARY RESPONSE IN DATABASE */
-  }
-  // const handleOnUpload = async (document: IDocument) => {
-  //   try {
-  //     if (session && session.user && session.user.name && session.user.image) {
-  //       const uploadedDocument: IDocument = {
-  //         id: document.public_id,
-  //         original_filename: document.original_filename,
-  //         url: document.url,
-  //         secure_url: document.secure_url,
-  //         public_id: document.public_id,
-  //         created_at: document.created_at,
-  //         stagiairID: document.stagiairID,
-  //         bytes: document.bytes,
-  //         resource_type: document.resource_type,
-  //         comments: document.comments,
-  //         documentUploaderName: session.user.name,
-  //         img: session.user?.image,
-  //       };
-  //       useStagairStore.setState({ documents: uploadedDocument });
-  //     }
-
-  //     // mutate();
-  //   } catch (error) {
-  //     console.error("Mutation error:", error);
-  //   }
-  // };
-
-  const handleCloseModal= () => {
-    if(!isLoading){
-      setDiv(false)
-    }
-  }
-
   return (
     <>
-      <>
         {showDiv == false && (
           <button
             className="text-gray-500 hover:text-gray-900 z-0 mt-3"
@@ -110,7 +74,7 @@ const UploadDocument = ({ stagiairId }: IUploadDocumentProps) => {
                 className="btn btn-sm btn-circle btn-ghost float-right mt-3 mr-3 text-xl"
                 onClick={() => setDiv(false)}
               >
-                <MdClose></MdClose>
+                <MdClose/>
               </button>
 
               <div className="flex pt-16 pb-10 ml-14 ">
@@ -132,14 +96,13 @@ const UploadDocument = ({ stagiairId }: IUploadDocumentProps) => {
                   onClick={() => setDiv(false)}
                 >
                   <button onClick={() => postDocument(upload)}>
-                    {isLoading ? "Uploading" :"Upload"}
+                  upload
                   </button>
                 </a>
               </div>
             </div>
           </div>
         )}
-      </>
     </>
   );
 };

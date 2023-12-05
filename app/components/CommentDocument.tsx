@@ -5,15 +5,19 @@ import useStagairStore from "@/store";
 import usePostDocumentComment from "@/hooks/usePostDocumentComment";
 
 const CommentDocument = () => {
+  //? show div state for upload document
   const [showDiv, setDiv] = useState<boolean>(false);
+  //? get comment from store
   const comment = useStagairStore((s) => s.documentComment);
+  //? set comment to store
   const setComment = useStagairStore((s) => s.setDocumentComment);
+  //? get document id from store
   const documentId = useStagairStore((s) => s.documentId);
-
+  //? post comment to database with usePostDocumentComment hook
   const { mutate } = usePostDocumentComment(comment, documentId);
-
+//? if there is no comment, return null
   if (!comment) return null;
-
+//? reset the comment to empty string
   const resetComment = () => {
     useStagairStore.setState((state) => ({
       ...state,
@@ -28,9 +32,10 @@ const CommentDocument = () => {
     }));
   };
   
-
+  //? handle submit button
   const handleSubmitButton = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    //? post comment to database
     mutate();
        // reset the comment
        resetComment()

@@ -3,7 +3,7 @@ import useStagairs from "@/hooks/useStagairs";
 import { formatDate } from "@/lib";
 import useStagairStore from "@/store";
 import { BsPencil } from "react-icons/bs";
-import StagairForm from "../stagiair/[id]/StagairForm";
+import StagairForm from "./StagairForm";
 import Loading from "@/app/components/Loading";
 import { useRouter } from "next/navigation";
 import { usePrefetchStagairDetails } from "@/hooks/usePrefetchData";
@@ -104,7 +104,7 @@ const StagiairOverzicht = () => {
       </div>
     );
   }
-
+  //? handle router to detail page and prefetch data for detail page and navigate to detail page when clicked on stagiair
   const handleRouter = (id: string) => {
     // Prefetch the route in the background
     router.prefetch(`/detail/${id}`);
@@ -183,7 +183,7 @@ const StagiairOverzicht = () => {
                       <BsPencil className="text-lg" />
                     </button>
                     <span>
-                      <StagairForm params={{ id: stagiair.id }} />
+                      <StagairForm />
                     </span>
                   </td>
                 </tr>

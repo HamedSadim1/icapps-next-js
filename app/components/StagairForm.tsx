@@ -1,38 +1,32 @@
 "use client";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useEffect } from "react";
 import useStagairStore from "@/store";
 import Select from "react-select";
 import useStagebegeleiders from "@/hooks/useStagebegeleiders";
-import useStagair from "@/hooks/useStagair";
 import { inputFormDater } from "@/lib";
 import { AiOutlineClose } from "react-icons/ai";
 import useUpdateStagiair from "@/hooks/useUpdateStagiair";
 
-interface Params {
-  params: { id: string };
-}
-
-const StagairForm = ({ params: { id } }: Params) => {
-
-  const stagaireId =  useStagairStore(s=> s.stagairId)
-  // const { data: stagair } = useStagair(stagaireId);
+const StagairForm = () => {
+  //? get stagairId from store
+  const stagaireId = useStagairStore((s) => s.stagairId);
+  //? get stagaires from store
   const data = useStagairStore((state) => state.stagaires);
+  //? set stagaires to store
   const setData = useStagairStore((state) => state.setStagaires);
+  //? get stagebegeleiders from hook
   const { data: stagebegeleiders } = useStagebegeleiders();
-  const { mutate, data: updatedData, isSuccess } = useUpdateStagiair(stagaireId, data);
-
-  // useEffect(() => {
-  //   if (stagair || stagaireId) {
-  //     // useStagairStore.setState({ stagaires: stagair });
-  //   }
-  // }, [stagair, isSuccess, updatedData,stagaireId]);
-
+  //? hook to update Stagiair
+  const { mutate } = useUpdateStagiair(stagaireId, data);
+  //? state for modal
   const isModalOpen = useStagairStore((s) => s.stagiairModal);
   const setIsModalOpen = useStagairStore((state) => state.toggleModal);
 
   useEffect(() => {
+    //? get modal
     const modal = document.getElementById("my_modal_3") as HTMLDialogElement;
 
+    //? check if modal exist
     if (modal) {
       if (isModalOpen) {
         modal.showModal();
@@ -42,12 +36,14 @@ const StagairForm = ({ params: { id } }: Params) => {
     }
   }, [isModalOpen]);
 
+  //? handle submit form
   const handleSubmitForm = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     await mutate();
     setIsModalOpen();
   };
 
+  //? close modal
   const closeModal = (e: React.MouseEvent<HTMLButtonElement>) => {
     setIsModalOpen();
     e.preventDefault();
@@ -66,8 +62,8 @@ const StagairForm = ({ params: { id } }: Params) => {
       {isModalOpen && (
         <div className="modal-box px-10 py-10 cursor-auto">
           <h2 className="mb-8 text-[#002548] font-semibold text-2xl flex ">
-                Stagiair wijzigen
-              </h2>
+            Stagiair wijzigen
+          </h2>
           <form onSubmit={handleSubmitForm} method="dialog">
             <button
               onClick={closeModal}
@@ -166,7 +162,6 @@ const StagairForm = ({ params: { id } }: Params) => {
                     });
                   }}
                 />
-                
               </div>
 
               <button

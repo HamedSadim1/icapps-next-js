@@ -49,7 +49,7 @@ const DocumentDetail = (document: DocumentDetailProps) => {
               className="btn btn-sm btn-circle btn-ghost float-right mt-3 mr-3 text-xl"
               onClick={() => setDiv(false)}
             >
-              <MdClose></MdClose>
+              <MdClose/>
             </button>
             <div className="flex pt-14 mx-16 ">
               <label
@@ -111,7 +111,7 @@ const DocumentDetail = (document: DocumentDetailProps) => {
   )}
 </div>
 
-
+{/* Comment Modal */}
 
             <CommentDocument />
           </div>
