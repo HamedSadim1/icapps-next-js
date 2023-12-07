@@ -17,6 +17,7 @@ import ToastProvider from "./provider/ToastProvider";
 
 import Notification from "./Notification";
 import StageBeschrijvingModal from "../detail/[id]/StageBeschrijvingModal";
+import AddSection from "./Section/AddSection";
 
 export {
   AddCheckListItem,
@@ -37,4 +38,5 @@ export {
   ToastProvider,
   StageBeschrijvingModal,
   Notification,
+  AddSection,
 };

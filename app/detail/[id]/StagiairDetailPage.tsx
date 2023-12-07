@@ -20,6 +20,7 @@ import {
   NoDataError,
   Loading,
   StageBeschrijvingModal,
+  AddSection,
 } from "@/app/components";
 
 import EditStageBeschrijving from "@/app/components/EditButton/EditStageBeschrijving";
@@ -237,11 +238,7 @@ const StagiairDetailPage = ({ params: { id } }: Params) => {
                     >
                       <BsPencil className="text-lg" />
                     </button>
-                    <button
-                      className="text-gray-500 hover:text-gray-900 flex gap-1 ml-auto"
-                    >
-                      <AiOutlinePlus className="ml-auto mt-1" />Sectie toevoegen
-                    </button>
+                    <AddSection/>
                   </div>
 
                   <div className="flex flex-col justify-start mb-4 gap-3">
