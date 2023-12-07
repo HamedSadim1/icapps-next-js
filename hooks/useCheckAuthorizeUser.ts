@@ -36,8 +36,6 @@ function useCheckAuthorizeUser() {
     }
   }, [role]); // Depend only on role
 
-  console.log(role);
-
   return { role, isLoading, userEmail }; // Return both role and isLoading state
 }
 
