@@ -20,50 +20,71 @@ import { Query } from "react-query";
 import StagairForm from "./StagairForm";
 
 const StagiairOverzicht = ({ lang }: { lang: string }) => {
-  const { data: stagiairData, error, isLoading } = useStagairs();
-  const setIsModelOpen = useStagairStore((state) => state.toggleModal);
-  const role = useStagairStore((s) => s.role);
-  const router = useRouter();
-  const auth = useCheckAuthorizeUser();
-  const [searchStagiair, setsearchStagiair] = useState<string>("");
-  //? send notification
-  useOneSignalNotification();
+// Fetch stagiair data using a custom hook (assuming it's for fetching data)
+const { data: stagiairData, error, isLoading } = useStagairs();
+// Get a function to set the modal state from the store
+const setIsModelOpen = useStagairStore((state) => state.toggleModal);
+// Get the role from the store
+const role = useStagairStore((s) => s.role);
+// Get the Next.js router object
+const router = useRouter();
+// Get authorization details using a custom hook
+const auth = useCheckAuthorizeUser();
+// Set up state for search term
+const [searchStagiair, setsearchStagiair] = useState<string>("");
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const [emailPerPage, setEmailPerPage] = useState(10);
-  //? get last email
-  const indexOfLastEmail = currentPage * emailPerPage;
-  //? get first email
-  const indexOfFirstEmail = indexOfLastEmail - emailPerPage;
-  //? get current emails
-  const currentEmails = stagiairData?.slice(
-    indexOfFirstEmail,
-    indexOfLastEmail
-  );
-  //? change page
-  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+// Trigger a notification using the OneSignalNotification hook
+useOneSignalNotification();
 
-  // ? filter data based on search
-  const filteredStagiair = useMemo(() => {
-    const searchTerm =
-      searchStagiair.toLowerCase().length > 3
-        ? currentEmails?.filter((item) =>
-          item.name.toLowerCase().includes(searchStagiair.toLowerCase())
-        )
-        : currentEmails;
+ // Set the initial state for the current page using the useState hook
+const [currentPage, setCurrentPage] = useState(1);
+// Set the initial state for the number of emails per page using the useState hook
+const [emailPerPage, setEmailPerPage] = useState(5);
 
-    return searchTerm;
-  }, [searchStagiair, currentEmails]);
+// Calculate the index of the last email on the current page
+const indexOfLastEmail = currentPage * emailPerPage;
+
+// Get the slice of emails to be displayed on the current page
+const currentEmails = stagiairData?.slice(
+  (currentPage - 1) * emailPerPage, // Calculate the index of the first email on the current page
+  currentPage * emailPerPage // Use the index of the last email to get the slice
+);
+
+// Function to change the current page
+const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+
+
+// ? filter data based on search
+//?
+const filteredStagiair = useMemo(() => {
+  // Convert the search term to lowercase for case-insensitive comparison
+  const searchTerm = searchStagiair.toLowerCase();
+  
+  // Check if the search term has more than 3 letters
+  if (searchTerm.length > 3) {
+    // Apply the filter when the search term is longer than 3 letters
+    return currentEmails?.filter((item) => 
+      // Check if the name or email includes the search term
+      item.name.toLowerCase().includes(searchTerm) ||
+      item.email.toLowerCase().includes(searchTerm)
+    );
+  } else {
+    // If the search term is less than or equal to 3 letters, return the unfiltered data
+    return currentEmails;
+  }
+}, [searchStagiair, currentEmails]);
+
+
 
   //? if the role is stagebegeleider, show only stagiair that are assigned to the stagebegeleider make a new array with stagiair that are assigned to the stagebegeleider
-  const stagiairAssignedToStagebegeleider =
-    role === UserRole.STAGEBEGELEIDER
-      ? filteredStagiair?.filter((stagiair) =>
-        stagiair.stagebegeleider.map(
-          (stagebegeleider) => stagebegeleider.name
-        )
-      )
-      : filteredStagiair;
+  // const stagiairAssignedToStagebegeleider =
+  //   role === UserRole.STAGEBEGELEIDER
+  //     ? filteredStagiair?.filter((stagiair) =>
+  //       stagiair.stagebegeleider.map(
+  //         (stagebegeleider) => stagebegeleider.name
+  //       )
+  //     )
+  //     : filteredStagiair;
 
   const prefetchStagairDetails = usePrefetchStagairDetails();
 
@@ -201,15 +222,17 @@ const StagiairOverzicht = ({ lang }: { lang: string }) => {
               </h2>
             </div>
           ) : (
-            currentPage !== 1 && (
+        //? Pagination component 
               <Pagination
                 currentPage={currentPage}
                 emailPerPage={emailPerPage}
                 paginate={paginate}
-                totalEmails={indexOfLastEmail}
+                totalEmails={stagiairData?.length || 0} // Use the length of filteredStagiair
+                
               />
             )
-          )}
+          
+        }
         </div>
       </AuthorizedRole>
     </section>
