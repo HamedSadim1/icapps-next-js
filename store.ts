@@ -8,6 +8,7 @@ import {
   UserRole,
   IDocumentComment,
   IChecklistItem,
+  ICheckListItemStagebegeleider,
 } from "@/types";
 
 export interface IStore {
@@ -30,6 +31,11 @@ export interface IStore {
   setCommentId: (commentId: string) => void;
   checklistItemStagiair: IChecklistItem;
   setchecklistItemStagiair: (checklistStagiair: IChecklistItem) => void;
+
+  //new begeleider
+  checklistItemBegeleider: ICheckListItemStagebegeleider; 
+  setchecklistItemBegeleider: (checklistItemBegeleider: ICheckListItemStagebegeleider) => void;
+
   documents: IDocument;
   setDocuments: (documents: IDocument) => void;
   updatePost: IPost;
@@ -51,8 +57,14 @@ export interface IStore {
   setStagairId: (stagairId: string) => void;
   checklistItemUpdate: IChecklistItem;
   setChecklistItemUpdate: (checklistItem: IChecklistItem) => void;
-checklistModal :boolean;
-setChecklistModal: (checklistModal: boolean) => void;
+  checklistModal :boolean;
+  setChecklistModal: (checklistModal: boolean) => void;
+
+  checklistBegeleiderUpdate:ICheckListItemStagebegeleider; //new begeleider
+  setChecklistBegeleiderUpdate: (checklistBegeleider: ICheckListItemStagebegeleider) =>void; //new begeleider
+
+  checklistbegeleiderModal :boolean;  //new begeleider
+  setChecklistBegeleiderModal: (checklistBegleiderModal: boolean) => void; //new begeleider
 }
 
 const useStagairStore = create<IStore>((set) => ({
@@ -84,6 +96,15 @@ const useStagairStore = create<IStore>((set) => ({
     updatedAt: "",
     checklistItemSectionID: "",
   },
+  checklistBegeleiderUpdate:{  //new begeleider
+    id: "",
+    date: "",
+    isChecked: false,
+    createdAt: "",
+    updatedAt: "",
+    title: "",
+    checklistItemSectionID: "",
+  },
   stageBeschrijving: {
     id: "",
     beschrijving: "",
@@ -112,6 +133,15 @@ const useStagairStore = create<IStore>((set) => ({
     img: "",
   },
   checklistItemStagiair: {
+    id: "",
+    date: "",
+    isChecked: false,
+    createdAt: "",
+    updatedAt: "",
+    title: "",
+    checklistItemSectionID: "",
+  }, 
+  checklistItemBegeleider: {  //new begeleider
     id: "",
     date: "",
     isChecked: false,
@@ -168,7 +198,10 @@ const useStagairStore = create<IStore>((set) => ({
   setChecklistItemUpdate: (checklistItemUpdate) => {
     set({ checklistItemUpdate: checklistItemUpdate });
   },
-
+  setChecklistBegeleiderUpdate:(checklistBegeleiderUpdate)=>{ //new begeleider
+    set({ checklistBegeleiderUpdate: checklistBegeleiderUpdate });
+  }
+  ,
 
   setIsPostModal: (isPostModal) => {
     set({ isPostModal });
@@ -187,6 +220,10 @@ const useStagairStore = create<IStore>((set) => ({
   },
   setchecklistItemStagiair: (checklistStagiair) => {
     set({ checklistItemStagiair: checklistStagiair });
+  },
+
+  setchecklistItemBegeleider(checklistItemBegeleider) { //new
+    set({ checklistItemBegeleider:checklistItemBegeleider});
   },
   setUpdatePost(updatePost) {
     set({ updatePost });
@@ -213,6 +250,9 @@ const useStagairStore = create<IStore>((set) => ({
   },
   checklistModal:false,
   setChecklistModal: (checklistModal) => set({ checklistModal }),
+
+  checklistbegeleiderModal:false, //new begeleider
+  setChecklistBegeleiderModal:(checklistbegeleiderModal)=>set({checklistbegeleiderModal}) //new begeleider
 }));
 
 export default useStagairStore;

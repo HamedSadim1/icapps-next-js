@@ -36,6 +36,10 @@ import StageBeschrijving from "@/app/[lang]/components/StageBeschrijving";
 import getTranslation from "../../components/getTranslation";
 import { Locale } from "@/i18n-config";
 import { BsPencil } from "react-icons/bs";
+import { AddCheckListItemBegleider } from "../../components/AddCheckListItemBegleider";
+import EditButtonBegleider from "../../components/EditButton/EditButtonBegleider";
+import ChecklistBegeleiderItemsModal from "./ChecklistBegeleiderItemsModal";
+import useUpdateBegeleiderChecklistItem from "@/hooks/useUpdateBegeleiderChecklistItem";
 
 interface Params {
   params: { id: string, lang: string };
@@ -48,8 +52,15 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
   const setChecklistItemUpdate = useStagairStore(
     (s) => s.setChecklistItemUpdate
   );
+
+  const updateChecklistBegeleiderItemMutation=useUpdateBegeleiderChecklistItem(); //new begeleider
+  const setChecklistBegeleiderUpdate=useStagairStore( //new begeleider
+    (s)=>s.setChecklistBegeleiderUpdate
+  );
+
   const setIsModalOpen = useStagairStore((state) => state.setCommentModal);
   const setChecklistModal = useStagairStore((state) => state.setChecklistModal);
+  const setChecklistBegeleiderModal=useStagairStore((state)=>state.setChecklistBegeleiderModal ) //new begeleider
 
   const setCommentId = useStagairStore((s) => s.setCommentId);
   const setUpdatePostId = useStagairStore((s) => s.setUpdatePostId);
@@ -61,7 +72,6 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
   const geenGegevensBeschikbaarVoorStageBeschrijving: string =
     "Geen gegevens beschikbaar";
 
-  console.log(role);
   if (role !== null) {
     console.log("User Role:", UserRole[role]);
   }
@@ -74,18 +84,15 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
   useEffect(() => {
     if (data) {
       if (data.checklistsection.length > 0) {
-        setSelectedSectionId(data!.checklistsection[0].id);
+        setSelectedSectionId(data.checklistsection[0].id);
       }
-    }
-  }, [data]);
-
-  useEffect(() => {
-    if (data) {
+  
       if (data.checklistSectionStagebegeleider.length > 0) {
-        setSelectedSectionIdBegleider(data!.checklistSectionStagebegeleider[0].id);
+        setSelectedSectionIdBegleider(data.checklistSectionStagebegeleider[0].id);
       }
     }
   }, [data]);
+  
 
   const navigateToNextSectionStagiair = () => {
     if (selectedSection < data!.checklistsection.length - 1) {
@@ -149,6 +156,25 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
 
     // Trigger the mutation to update the database
     updateChecklistItemMutation.mutate({
+      id: itemId,
+      isChecked: newCheckedValue,
+    });
+  };
+
+  const handleCheckboxChangeBeg = (itemId: any, newCheckedValue: any) => { //new begeleider
+    //update setChecklistItemUpdate
+    // Update the state locally
+    setChecklistBegeleiderUpdate({
+      id: itemId,
+      isChecked: newCheckedValue,
+      title: "",
+      createdAt: "",
+      date: "",
+      updatedAt: "",
+    });
+
+    // Trigger the mutation to update the database
+    updateChecklistBegeleiderItemMutation.mutate({
       id: itemId,
       isChecked: newCheckedValue,
     });
@@ -330,21 +356,43 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
                             className="flex gap-3 border-2 border-gray-500-400 p-2 rounded"
                           >
                             <input
-                              value={item.isChecked.toString()}
-                              type="checkbox"
-                              name="item"
-                            />
+                            checked={item.isChecked}
+                            type="checkbox"
+                            name="item"
+                            onChange={() =>
+                              handleCheckboxChangeBeg(item.id, !item.isChecked)
+                            }
+                          />
                             <p>
                               {item.title} <br />
                               <div className="text-sm text-gray-400">
-                                {formatDate(item.createdAt)}
+                                {formatDate(item.date)}
                               </div>
                             </p>
+                            <button className="ml-auto"
+                            onClick={() =>
+                              useStagairStore.setState({
+                                checklistItemBegeleider: item,
+                              })
+                            }
+                          >
+                            <EditButtonBegleider
+                              role={UserRole.ADMIN || UserRole.STAGEBEGELEIDER}
+                              userRole={role}
+                              setIsModalOpen={setChecklistBegeleiderModal}
+                              lang={lang}
+                            />
+                          </button>
+                          <ChecklistBegeleiderItemsModal
+                            checklistItem={item}
+                            id={item.id}
+                            lang={lang}
+                          />
                           </div>
                         ))}
                     </div>
                     <div className="mb-10">
-                      <AddCheckListItem checklistItemId={selectedSectionIdBegleider} lang={lang} />
+                      <AddCheckListItemBegleider checklistItemId={selectedSectionIdBegleider} lang={lang} />
                     </div>
                   </div>
                 )
