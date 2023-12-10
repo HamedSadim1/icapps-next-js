@@ -30,8 +30,13 @@ interface LanguagueProviderProps{
 export const LanguageProvider = ({ children }:LanguagueProviderProps) => {
     const [language, setLanguageState] = useState<string>(() => {
         // Retrieve the language from localStorage on component mount
-        const storedLanguage = window.localStorage.getItem('language');
-        return storedLanguage || 'en'; // Default to 'en' if not found
+         // Check if window is defined before accessing localStorage
+    if (typeof window !== 'undefined') {
+      // Retrieve the language from localStorage on component mount
+      const storedLanguage = window.localStorage.getItem('language');
+      return storedLanguage || 'en'; // Default to 'en' if not found
+    }
+    return 'en'; // Fallback for server-side rendering
     });
     
     const router = useRouter();
