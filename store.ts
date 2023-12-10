@@ -57,6 +57,7 @@ export interface IStore {
   setStagairId: (stagairId: string) => void;
   checklistItemUpdate: IChecklistItem;
   setChecklistItemUpdate: (checklistItem: IChecklistItem) => void;
+  
   checklistModal :boolean;
   setChecklistModal: (checklistModal: boolean) => void;
 

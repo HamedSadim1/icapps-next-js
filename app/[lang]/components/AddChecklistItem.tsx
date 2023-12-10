@@ -13,7 +13,7 @@ interface AddChecklistProps {
   checklistItemId: string;
   lang: string;
 }
-export const AddCheckListItem = ({ checklistItemId,lang }: AddChecklistProps) => {
+export const AddCheckListItem = ({ checklistItemId, lang }: AddChecklistProps) => {
   const [showDiv, setDiv] = useState(false);
   const translation = getTranslation(lang as Locale);
   console.log("checklistItemId  " + checklistItemId);
@@ -50,7 +50,7 @@ export const AddCheckListItem = ({ checklistItemId,lang }: AddChecklistProps) =>
             </button>
             <div className="flex flex-col pt-16 mx-16">
               <h2 className="pb-10 text-[#002548] font-semibold text-2xl flex">
-              {translation.detail.addsection} &nbsp;
+                {translation.detail.addsection} &nbsp;
               </h2>
               <form onSubmit={handlePostChecklistStagiair}>
                 <label htmlFor="titel">{translation.detail.title}</label>
