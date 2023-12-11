@@ -1,16 +1,38 @@
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 import { MdClose } from "react-icons/md";
+import usePostChecklistSection from "@/hooks/usePostChecklistSection";
 import getTranslation from "../getTranslation";
 import { Locale } from "@/i18n-config";
+import useStagairStore from "@/store";
 
 interface Props {
-  lang : string
+  lang: string;
+  stagairId: string;
+  secionId:string,
 }
 
-const AddSection = ({lang}:Props) => {
+const AddSection = ({ lang, stagairId,secionId }: Props) => {
   const [showDiv, setDiv] = useState<boolean>(false);
-  const translation = getTranslation(lang as Locale)
+  const translation = getTranslation(lang as Locale);
+
+  const checklistSection = useStagairStore((s) => s.checklistSection);
+  const setChecklistSection = useStagairStore((s) => s.setChecklistSection);
+  const { mutate } = usePostChecklistSection();
+
+  const handlePostChecklistStagiair = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    await mutate(checklistSection);
+    setChecklistSection({
+      id:"",
+      createdAt: "",
+      updatedAt: "",
+      sectionTitle: "",
+      stagiairID: stagairId,
+      items: [],
+    });
+    setDiv(false);
+  };
   return (
     <>
       {showDiv == false && (
@@ -35,37 +57,33 @@ const AddSection = ({lang}:Props) => {
               <h2 className="pb-10 text-[#002548] font-semibold text-2xl flex">
               {translation.detail.addsection}&nbsp;
               </h2>
-              <form>
+              <form onSubmit={handlePostChecklistStagiair}>
                 <label htmlFor="section"> {translation.detail.section}</label>
                 <input
                   type="text"
                   className="w-full p-3 border-2 rounded-md mb-5"
                   name="section"
                   id="section"
-                  // onChange={(e) => setItem({ ...item, title: e.target.value })}
-                />
-                <label htmlFor="einddatum"> {translation.detail.date}</label>
-                <br />
-                <input
-                  className="p-3 border-2 rounded-md mb-5"
-                  type="date"
-                  name="einddatum"
-                  id="einddatum"
-                  // onChange={(e) => setItem({ ...item, date: e.target.value })}
-                  min={new Date().toISOString().split("T")[0]}
+                  value={checklistSection.sectionTitle}
+                  onChange={(e) =>
+                    setChecklistSection({
+                      ...checklistSection,
+                      sectionTitle: e.target.value,
+                    })
+                  }
                 />
                 <div className="w-full text-right">
                   <button
                     className="mr-4 px-7 py-2 rounded-md bg-blue-50 text-[#002548] font-semibold hover:bg-blue-200"
                     onClick={() => setDiv(false)}
                   >
-                     {translation.detail.cancel}
+                    {translation.detail.cancel}
                   </button>
                   <button
                     type="submit"
                     className="px-7 py-2 rounded-md bg-[#002548] text-white font-semibold hover:bg-blue-500"
                   >
-                     {translation.detail.save}
+                    {translation.detail.save}
                   </button>
                 </div>
               </form>

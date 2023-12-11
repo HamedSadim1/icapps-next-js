@@ -14,7 +14,6 @@ export async function GET(request: NextRequest, { params: { id } }: Params) {
     });
     return NextResponse.json(document, { status: 200 });
   } catch (error) {
-    console.log(error);
     return NextResponse.json({ error: error }, { status: 400 });
   } finally {
     await prisma.$disconnect();
@@ -33,7 +32,6 @@ export async function DELETE(request: NextRequest, { params: { id } }: Params) {
 
     return NextResponse.json(document, { status: 200 });
   } catch (error) {
-    console.log(error);
     return NextResponse.json({ error: error }, { status: 400 });
   } finally {
     prisma.$disconnect();

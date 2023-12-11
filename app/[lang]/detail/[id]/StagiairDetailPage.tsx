@@ -39,6 +39,7 @@ import { AddCheckListItemBegleider } from "../../components/AddCheckListItemBegl
 import EditButtonBegleider from "../../components/EditButton/EditButtonBegleider";
 import useUpdateBegeleiderChecklistItem from "@/hooks/useUpdateBegeleiderChecklistItem";
 import { IoIosInformationCircleOutline } from "react-icons/io";
+import AddSectionBegeleider from "../../components/Section/AddSectionBegeleider";
 
 interface Params {
   params: { id: string, lang: string };
@@ -294,7 +295,7 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
                     >
                       <BsPencil className="text-lg" />
                     </button>
-                    <AddSection lang={lang} />
+                    <AddSection lang={lang} stagairId={data.id} secionId={checklist.id} />
                   </div>
 
                   <div className="flex flex-col justify-start mb-4 gap-3">
@@ -355,11 +356,7 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
                       >
                         <BsPencil className="text-lg" />
                       </button>
-                      <button
-                        className="text-gray-500 hover:text-gray-900 flex gap-1 ml-auto"
-                      >
-                        <AiOutlinePlus className="ml-auto mt-1" />{translation.detail.addsection}
-                      </button>
+                      <AddSectionBegeleider lang={lang} stagairId={data.id} secionId={checklist.id} />
                     </div>
                     <div className="flex flex-col justify-start mb-4 gap-3">
                       {checklist.checklistItem &&

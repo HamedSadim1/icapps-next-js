@@ -1,42 +1,50 @@
-"use client";
+import { FormEvent, useState } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 import { MdClose } from "react-icons/md";
-import { FormEvent, useState } from "react";
-import useStagairStore from "@/store";
-import usePostChecklistItem from "@/hooks/usePostChecklistItem";
-import getTranslation from "./getTranslation";
+import usePostChecklistSection from "@/hooks/usePostChecklistSection";
+import getTranslation from "../getTranslation";
 import { Locale } from "@/i18n-config";
+import useStagairStore from "@/store";
+import usePostChecklistSectionBegeleider from "@/hooks/usePostChecklistSectionBegeleider";
 
-interface AddChecklistProps {
-  checklistItemId: string;
+interface Props {
   lang: string;
+  stagairId: string;
+  secionId:string,
 }
-export const AddCheckListItem = ({ checklistItemId, lang }: AddChecklistProps) => {
-  const [showDiv, setDiv] = useState(false);
+
+const AddSectionBegeleider = ({ lang, stagairId,secionId }: Props) => {
+  const [showDiv, setDiv] = useState<boolean>(false);
   const translation = getTranslation(lang as Locale);
-  console.log("checklistItemId  " + checklistItemId);
 
-  const item = useStagairStore((s) => s.checklistItemStagiair);
-  const setItem = useStagairStore((s) => s.setchecklistItemStagiair);
-
-  const { mutate } = usePostChecklistItem(item, checklistItemId);
+  const checklistSectionBegeleider = useStagairStore((s) => s.checklistSectionBegeleider);
+  const setChecklistSectionBegeleider = useStagairStore((s) => s.setChecklistSectionBegeleider);
+  const { mutate } = usePostChecklistSectionBegeleider();
 
   const handlePostChecklistStagiair = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    await mutate();
+    mutate(checklistSectionBegeleider);
+    setChecklistSectionBegeleider({
+      id: "",
+      createdAt: "",
+      sectionTitle: "",
+      stagiairID: stagairId,
+      checklistItem: [],
+      date:""
+    });
     setDiv(false);
   };
-
   return (
     <>
       {showDiv == false && (
         <button
-          className="text-gray-500 hover:text-gray-900 z-0 flex gap-1"
+          className="text-gray-500 hover:text-gray-900 flex gap-1 ml-auto"
           onClick={() => setDiv(true)}
         >
-          <AiOutlinePlus className="float-left mt-1" /> {translation.detail.additem}
+          <AiOutlinePlus className="float-left mt-1" /> {translation.detail.addsection}
         </button>
       )}
+
       {showDiv == true && (
         <div className="h-screen w-screen flex flex-col justify-center items-center fixed top-0 left-0 right-0 bottom-0 z-50 bg-opacity-50 bg-gray-700">
           <div className="bg-white shadow-2xl w-1/3 h-auto pb-7 text-gray-500 z-2 rounded-md">
@@ -44,30 +52,26 @@ export const AddCheckListItem = ({ checklistItemId, lang }: AddChecklistProps) =
               className="btn btn-sm btn-circle btn-ghost float-right mt-3 mr-3 text-xl"
               onClick={() => setDiv(false)}
             >
-              <MdClose>x</MdClose>
+              <MdClose />
             </button>
             <div className="flex flex-col pt-16 mx-16">
               <h2 className="pb-10 text-[#002548] font-semibold text-2xl flex">
-                {translation.detail.addsection} &nbsp;
+              {translation.detail.addsection}&nbsp;
               </h2>
               <form onSubmit={handlePostChecklistStagiair}>
-                <label htmlFor="titel">{translation.detail.title}</label>
+                <label htmlFor="section"> {translation.detail.section}</label>
                 <input
                   type="text"
                   className="w-full p-3 border-2 rounded-md mb-5"
-                  name="titel"
-                  id="titel"
-                  onChange={(e) => setItem({ ...item, title: e.target.value })}
-                />
-                <label htmlFor="einddatum">{translation.detail.date}</label>
-                <br />
-                <input
-                  className="p-3 border-2 rounded-md mb-5"
-                  type="date"
-                  name="einddatum"
-                  id="einddatum"
-                  onChange={(e) => setItem({ ...item, date: e.target.value })}
-                  min={new Date().toISOString().split("T")[0]}
+                  name="section"
+                  id="section"
+                  value={checklistSectionBegeleider.sectionTitle}
+                  onChange={(e) =>
+                    setChecklistSectionBegeleider({
+                      ...checklistSectionBegeleider,
+                      sectionTitle: e.target.value,
+                    })
+                  }
                 />
                 <div className="w-full text-right">
                   <button
@@ -91,3 +95,5 @@ export const AddCheckListItem = ({ checklistItemId, lang }: AddChecklistProps) =
     </>
   );
 };
+
+export default AddSectionBegeleider;

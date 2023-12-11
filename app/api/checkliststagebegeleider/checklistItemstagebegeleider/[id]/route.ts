@@ -33,7 +33,6 @@ export async function DELETE(request: NextRequest, { params: { id } }: Params) {
 
     return NextResponse.json(document, { status: 200 });
   } catch (error) {
-    console.log(error);
     return NextResponse.json({ error: error }, { status: 400 });
   } finally {
     prisma.$disconnect();

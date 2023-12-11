@@ -14,7 +14,6 @@ interface AddChecklistBegleiderProps {
 export const AddCheckListItemBegleider = ({ checklistItemId,lang }: AddChecklistBegleiderProps) => {
   const [showDiv, setDiv] = useState(false);
   const translation = getTranslation(lang as Locale);
-  console.log("checklistItemId  " + checklistItemId);
 
   const item = useStagairStore((s) => s.checklistItemBegeleider);
   const setItem = useStagairStore((s) => s.setchecklistItemBegeleider);

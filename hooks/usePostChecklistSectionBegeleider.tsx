@@ -1,18 +1,15 @@
-import { IChecklistItem } from "@/types";
+import { IChecklistSection, checklistSectionStagebegeleider } from "@/types";
 import { useMutation, useQueryClient } from "react-query";
 import axios from "axios";
 
-const usePostChecklistItem = (
-  checklistItem: IChecklistItem,
-  checkListSectionId: string
-) => {
+const usePostChecklistSectionBegeleider = () => {
   const queryClient = useQueryClient();
+  
   const mutation = useMutation(
-    () => {
-      return axios.post(`/api/checkliststagiair/checklistItem`, {
-        title: checklistItem.title,
-        date: "2021-06-01T00:00:00.000Z",
-        checklistItemSectionID: checkListSectionId,
+    (sectionData: checklistSectionStagebegeleider) => {
+      return axios.post(`/api/checkliststagebegeleider`, {
+        sectionTitle: sectionData.sectionTitle,
+        stagiairID: sectionData.stagiairID,
       });
     },
     {
@@ -25,7 +22,8 @@ const usePostChecklistItem = (
       },
     }
   );
+
   return mutation;
 };
 
-export default usePostChecklistItem;
+export default usePostChecklistSectionBegeleider;
