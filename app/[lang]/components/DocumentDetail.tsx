@@ -20,20 +20,20 @@ const DocumentDetail = ({ document, lang }: DocumentDetailProps) => {
 
   return (
     <>
-      <div className="flex flex-col items-start hover:opacity-75" onClick={() => setDiv(true)} key={document.id}>
+      <div className="flex flex-col text-left hover:opacity-75 w-full" onClick={() => setDiv(true)} key={document.id}>
         <a>
           <button>
-            <h2 className="text-xl mt-5 text-left">
+            <h2 className="text-xl mt-5 ml-2">
               {document.original_filename}{" "}
             </h2>
           </button>
         </a>
-        <h3 className="text-gray ml-2 text-gray-400">
+        <h3 className="text-gray ml-2 text-gray-400 text-left">
           {formatDate(document.created_at)} {translation.detail.by}{" "}
           {document.documentUploaderName} ({document.bytes}
           kb)
         </h3>
-        <div className="flex justify-start text-gray-400">
+        <div className="flex justify-start text-gray-400 text-left">
           <BiComment className="mt-1 ml-2" />
           <h3 className="text-gray ml-2 flex">
             {" "}
@@ -45,7 +45,7 @@ const DocumentDetail = ({ document, lang }: DocumentDetailProps) => {
         </div>
       </div>
       <br />
-      <hr className="mr-7" />
+      <hr className="mr-7 w-full" />
       {showDiv == true && (
         <div className="h-screen w-screen flex flex-col justify-center cursor-auto items-center fixed top-0 left-0 right-0 bottom-0 z-50 bg-opacity-50 bg-gray-500">
           <div className="bg-white shadow-2xl w-1/3 h-auto pb-7 text-gray-500 z-2 rounded-md">

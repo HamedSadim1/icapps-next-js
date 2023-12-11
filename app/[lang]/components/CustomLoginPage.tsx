@@ -112,17 +112,17 @@ const CustomLoginPage = ({lang}:Props) => {
       {status === "loading" && <Loading />}
       {status === "unauthenticated" && (
         <div className="flex items-center justify-center w-full h-screen bg-[#E4E9F0]">
-          <div className="flex flex-col items-center justify-center w-3/6 h-3/6 bg-white">
-            <h1 className="text-2xl font-bold tracking-tighter leading-tight md:text-6xl lg:text-6xl">
+          <div className="flex flex-col items-center justify-center shadow-md xs:w-5/6 sm:w-4/6 md:w-3/6 xs:h-48 sm:h-3/6 xs:mb-80 sm:mb-0 bg-white">
+            <h1 className="text-[#002548] font-bold tracking-widest leading-tight xs:text-3xl  sm:text-5xl xs:-mt-2 sm:mt-0">
               / CAPPS
             </h1>
-            <h2 className="text-cyan-500 m-1">{translation.login.stagebegeleiding}</h2>
+            <h2 className="text-[#009AC7] font-nova font-semibold mt-3 xs:text-xl sm:text-3xl m-1">{translation.login.stagebegeleiding}</h2>
 
             <>
-              <div className="bg-[#E4E9F0] rounded-lg shadow-md p-4 mt-5">
+              <div className="bg-[#E4E9F0] rounded-lg xs: py-2 sm:py-4 px-6 xs: mt-5 sm:mt-12">
                 <button
                   onClick={handleSignin}
-                  className="text-2xl flex items-center"
+                  className="xs:text-lg sm:text-2xl font-medium flex items-center"
                 >
                   <FcGoogle className="mr-2" />
                   {translation.login.verdergaanmetgoogle}

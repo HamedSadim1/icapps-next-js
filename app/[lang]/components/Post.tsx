@@ -25,7 +25,7 @@ const Post = ({
   return (
     <div key={post.id}>
       {/* Post */}
-      <div className="flex flex-col rounded-lg mt-6">
+      <div className="flex flex-col rounded-lg mt-6 xs:px-4 md:px-0">
         <div className="flex">
           <h2 className="text-xl font-bold text-[#002548]">{post.title}</h2>
           {/* Edit Button */}
@@ -88,7 +88,7 @@ const Post = ({
         <CommentModal lang={lang} />
       </button>
       {/* border */}
-      <div className="border border-b-gray-500-400 mt-4"></div>
+      <div className="xs:hidden md:block border border-b-gray-500-400 mt-4"></div>
     </div>
   );
 };
