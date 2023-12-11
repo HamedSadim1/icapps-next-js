@@ -38,6 +38,7 @@ import { BsPencil } from "react-icons/bs";
 import { AddCheckListItemBegleider } from "../../components/AddCheckListItemBegleider";
 import EditButtonBegleider from "../../components/EditButton/EditButtonBegleider";
 import useUpdateBegeleiderChecklistItem from "@/hooks/useUpdateBegeleiderChecklistItem";
+import { IoIosInformationCircleOutline } from "react-icons/io";
 
 interface Params {
   params: { id: string, lang: string };
@@ -178,18 +179,45 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
   const translation = getTranslation(lang as Locale)
   return (
     <>
-      <section className="grid grid-rows-2 grid-flow-col gap-4 ml-20 mr-20">
-        <div className="row-span-2 mt-2">
-          <LinkToStagiairOverzciht
-            role={UserRole.ADMIN || UserRole.STAGEBEGELEIDER}
-            userRole={role}
-            href={`/`}
-            title={translation.detail.back}
-          />
+      <div className="mt-8 xs:mx-8 md:mx-auto xs:px-0 md:px-20 ">
+        <LinkToStagiairOverzciht
+          role={UserRole.ADMIN || UserRole.STAGEBEGELEIDER}
+          userRole={role}
+          href="/"
+          title="Terug naar overzicht"
+        />
+      </div>
+      <section className="flex xs:flex-col l:flex-row l:gap-32 xs:mx-8 l:mx-20 px-0 mb-5">
+        <div className="row-span-2 mt-2 order-1 ">
           {/* Name of the user */}
-          <h1 className="text-3xl text-[#002548] font-semibold mb-10 mt-5">
+          <h1 className="hidden l:flex text-3xl text-[#002548] font-semibold my-8">
             {data.name}
           </h1>
+          <div className=" l:hidden flex mt-4 text-3xl text-blue-400">
+            <IoIosInformationCircleOutline />
+            <h2 className="text-2xl font-medium text-[#002548] ml-3">Jouw stage info</h2>
+          </div>
+          <div className="l:hidden flex flex-col rounded-lg mb-14 ">
+            {data.stagebeschriving.length > 0 ? (
+              data.stagebeschriving.map((stagebeschriving) => (
+                <StageBeschrijving
+                  key={stagebeschriving.id}
+                  role={UserRole.ADMIN || UserRole.STAGEBEGELEIDER}
+                  userRole={role}
+                  setIsModalOpen={setIsModalOpen}
+                  id={id}
+                  data={data}
+                  stagebeschriving={stagebeschriving}
+                  getStagebegeleiderName={getStagebegeleiderName}
+                  lang={lang}
+                />
+              ))
+            ) : (
+              <div className="text-gray-600 text-base mt-4 flex">
+                <p>{translation.detail.nodata}</p>
+              </div>
+            )}
+          </div>
           {/* Pop up Doel   */}
           <Doel stagiarId={id} lang={lang} />
           {/* Post and comment loop over the array */}
@@ -210,6 +238,8 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
               {translation.detail.nogoals}
             </div>
           )}
+         
+
 
           {/* Checklist buttons */}
           <CheckList
@@ -379,75 +409,88 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
         </div>
 
         {/* Beschrijving */}
-        <div className="flex flex-col rounded-lg overflow-hidden  mt-10">
-          <div className="flex justify-start rounded-lg  ">
-            <Link
-              href={{
-                pathname: "/delen",
-                query: { id: id },
-              }}
-            >
+
+        <div className="flex flex-col order-2">
+          <div className="xs:hidden l:flex flex-col rounded-lg mt-10 ">
+            <div className="flex justify-start rounded-lg  ">
+              <Link
+                href={{
+                  pathname: "/delen",
+                  query: { id: id },
+                }}
+              >
+                <button
+                  type="button"
+                  className="mr-10 flex justify-center items-center w-32 h-10 bg-[#002548] text-white rounded-lg  hover:bg-[#21415f]"
+                >
+                  <AiOutlineShareAlt className=" text-white  mr-3" />
+                  {translation.detail.share}
+                </button>
+              </Link>
               <button
                 type="button"
-                className="mr-10 flex justify-center items-center w-32 h-10 bg-[#002548] text-white rounded-lg  hover:bg-[#21415f]"
+                className="bg-[#002548] text-white w-60 h-10 rounded-lg  hover:bg-[#21415f]"
               >
-                <AiOutlineShareAlt className=" text-white  mr-3" />
-                {translation.detail.share}
+                {translation.detail.writeevaluationform}
               </button>
-            </Link>
-            <button
-              type="button"
-              className="bg-[#002548] text-white w-60 h-10 rounded-lg  hover:bg-[#21415f]"
-            >
-              {translation.detail.writeevaluationform}
-            </button>
-          </div>
-          {data.stagebeschriving.length > 0 ? (
-            data.stagebeschriving.map((stagebeschriving) => (
-              <StageBeschrijving
-                key={stagebeschriving.id}
-                role={UserRole.ADMIN || UserRole.STAGEBEGELEIDER}
-                userRole={role}
-                setIsModalOpen={setIsModalOpen}
-                id={id}
-                data={data}
-                stagebeschriving={stagebeschriving}
-                getStagebegeleiderName={getStagebegeleiderName}
-                lang={lang}
-              />
-            ))
-          ) : (
-            <div className="text-gray-600 text-base mt-4 flex">
-              <p>{translation.detail.nodata}</p>
             </div>
-          )}
-          {/* Documenten */}
-          <div className="flex-col bg-blue-50  rounded-lg overflow-hidden  mt-10 pl-7 py-3 text-[#002548]">
-            <h2 className="text-2xl mt-5 font-semibold text-[#002548]">
-              {translation.detail.documents}
-            </h2>
-            {data.documents.length > 0 ? (
-              data.documents.map((document) => (
-                <div key={document.id}>
-                  <button
-                    type="button"
-                    onClick={() =>
-                      useStagairStore.setState({ documentId: document.id })
-                    }
-                  >
-                    <DocumentDetail document={document} lang={lang} />
-                  </button>
-                </div>
+            {data.stagebeschriving.length > 0 ? (
+              data.stagebeschriving.map((stagebeschriving) => (
+                <StageBeschrijving
+                  key={stagebeschriving.id}
+                  role={UserRole.ADMIN || UserRole.STAGEBEGELEIDER}
+                  userRole={role}
+                  setIsModalOpen={setIsModalOpen}
+                  id={id}
+                  data={data}
+                  stagebeschriving={stagebeschriving}
+                  getStagebegeleiderName={getStagebegeleiderName}
+                  lang={lang}
+                />
               ))
             ) : (
-              <div className="flex">
-                <p>{translation.detail.nodocuments}</p>
+              <div className="text-gray-600 text-base mt-4 flex">
+                <p>{translation.detail.nodata}</p>
               </div>
             )}
-            <UploadDocument stagiairId={id} lang={lang} />
+          </div>
+          {/* Documenten */}
+          <div className="flex flex-col rounded-lg  mt-10">
+            <div className="bg-blue-50  rounded-lg overflow-hidden  mt-10 px-7 py-3 text-[#002548] w-full">
+              <h2 className="text-2xl mt-5 font-semibold text-[#002548]">
+                {translation.detail.documents}
+              </h2>
+              {data.documents.length > 0 ? (
+                data.documents.map((document) => (
+                  <div key={document.id} className="flex justify-start w-full">
+                    <button
+                      type="button"
+                      onClick={() =>
+                        useStagairStore.setState({ documentId: document.id })
+                      }
+                    >
+                      <DocumentDetail document={document} lang={lang} />
+                    </button>
+                  </div>
+                ))
+              ) : (
+                <div className="flex">
+                  <p>{translation.detail.nodocuments}</p>
+                </div>
+              )}
+              <UploadDocument stagiairId={id} lang={lang} />
+            </div>
+            <div className="flex justify-start w-full mt-6 l:hidden">
+              <button
+                type="button"
+                className="bg-[#002548] text-white w-full h-10 rounded-lg  hover:bg-[#21415f]"
+              >
+                Evaluatieformulier Invullen
+              </button>
           </div>
         </div>
-      </section>
+      </div>
+    </section >
     </>
   );
 };

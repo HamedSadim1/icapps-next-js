@@ -19,37 +19,37 @@ const CheckList = ({
   userRole,
   lang
 }: Props) => {
-  
+
   const translation = getTranslation(lang as Locale);
   return (
-    <div className="flex justify-between mt-7 mb-5 ">
-        <AuthorizedRole role={role} userRole={userRole}>
-      <span className="flex gap-3">
-        <VscChecklist className="text-3xl text-blue-400" />
-        <h3 className="text-[1.3rem] font-medium">{translation.detail.checklist}</h3>
-      </span>
-      <span className="flex ">
-        <button
-          type="button"
-          onClick={() => setCheckListName("checkListStagiair")}
-          className={`rounded-l-md border-[#002548] border-2 px-6 py-1 flex justify-center font-medium  ${
-            checkListName === "checkListStagiair" && "bg-[#002548] text-white"
-          }`}
-        >
-          {translation.detail.intern}
-        </button>
-          <button
-            onClick={() => setCheckListName("checklistStagebegeleider")}
-            type="button"
-            className={`rounded-r-md border-[#002548] border-2 px-6 py-1 flex justify-center font-medium ${
-              checkListName === "checklistStagebegeleider" &&
-              "bg-[#002548] text-white"
-            }`}
-          >
-            {translation.detail.supervisor}
-          </button>
-      </span>
-        </AuthorizedRole>
+    <div className="flex flex-col l:flex-row l: gap-5 justify-between mt-7 mb-5 ">
+      <AuthorizedRole role={role} userRole={userRole}>
+        <span className="flex gap-3">
+          <VscChecklist className="text-3xl text-blue-400" />
+          <h3 className="text-[1.3rem] font-medium">{translation.detail.checklist}</h3>
+        </span>
+        <div className="self-center l:self-end my-4 l:my-0">
+          <span className="flex ">
+            <button
+              type="button"
+              onClick={() => setCheckListName("checkListStagiair")}
+              className={`rounded-l-md border-[#002548] border-2 px-6 py-1 flex justify-center font-medium  ${checkListName === "checkListStagiair" && "bg-[#002548] text-white"
+                }`}
+            >
+              {translation.detail.intern}
+            </button>
+            <button
+              onClick={() => setCheckListName("checklistStagebegeleider")}
+              type="button"
+              className={`rounded-r-md border-[#002548] border-2 px-6 py-1 flex justify-center font-medium ${checkListName === "checklistStagebegeleider" &&
+                "bg-[#002548] text-white"
+                }`}
+            >
+              {translation.detail.supervisor}
+            </button>
+          </span>
+        </div>
+      </AuthorizedRole>
     </div>
   );
 };

@@ -16,6 +16,7 @@ import Pagination from "@/app/[lang]/components/Pagination";
 import { Locale } from "@/i18n-config";
 import getTranslation from "./getTranslation";
 import StagairForm from "./StagairForm";
+import useMediaQuery from "@/hooks/useMediaQuery";
 
 const StagiairOverzicht = ({ lang }: { lang: string }) => {
   // Fetch stagiair data using a custom hook (assuming it's for fetching data)
@@ -30,6 +31,7 @@ const StagiairOverzicht = ({ lang }: { lang: string }) => {
   const auth = useCheckAuthorizeUser();
   // Set up state for search term
   const [searchStagiair, setsearchStagiair] = useState<string>("");
+  const isDesktop = useMediaQuery('(min-width: 650px)');
 
   // Trigger a notification using the OneSignalNotification hook
   useOneSignalNotification();
@@ -140,7 +142,7 @@ const StagiairOverzicht = ({ lang }: { lang: string }) => {
   };
   const translation = getTranslation(lang as Locale);
   return (
-    <section className="container mx-auto p-4">
+    <section className="xs:mx-8 md:mx-auto xs:px-0 md:px-20">
       <AuthorizedRole 
       role={
         role === UserRole.STAGEBEGELEIDER
@@ -157,32 +159,22 @@ const StagiairOverzicht = ({ lang }: { lang: string }) => {
         />
         <div className="overflow-x-auto">
           <table className="min-w-full bg-white border border-gray-200 mt-12">
-            <thead className="bg-gray-100">
-              <tr>
-                <th className="px-6 py-3 text-left">
-                  {translation.userStagiair["name"]}
-                </th>
-                <th className="px-6 py-3 text-left">
-                  {translation.userStagiair["e-mail"]}
-                </th>
-                <th className="px-6 py-3 text-left">
-                  {translation.userStagiair["startingdate"]}
-                </th>
-                <th className="px-6 py-3 text-left">
-                  {translation.userStagiair["endingdata"]}
-                </th>
-                <th className="px-6 py-3 text-left">
-                  {translation.userStagiair["internshipsupervisors"]}
-                </th>
-                <th className="px-6 py-3"></th>
-              </tr>
+            <thead className="text-transform: uppercase text-[#6F7784]">
+            {isDesktop ? <tr>
+                <th className="px-6 py-1 text-left font-normal">{translation.userStagiair["name"]}</th>
+                <th className="px-6 py-1 text-left font-normal">{translation.userStagiair["e-mail"]}</th>
+                <th className="px-6 py-1 text-left font-normal">{translation.userStagiair["startingdate"]}</th>
+                <th className="px-6 py-1 text-left font-normal">{translation.userStagiair["endingdata"]}</th>
+                <th className="px-6 py-1 text-left font-normal">{translation.userStagiair["internshipsupervisors"]}</th>
+                <th className="px-6 py-1"></th>
+              </tr> : <th className="px-6 py-1 text-left font-normal">{translation.userStagiair["name"]}</th>}
             </thead>
-            <tbody>
+            <tbody className="border text-[#002548]">
               
               {stagiairAssignedToStagebegeleider?.map((stagiair) => (
                 <tr
                   key={stagiair.id}
-                  className="hover:bg-blue-100 cursor-pointer"
+                  className="hover:bg-gray-200 cursor-pointer even:bg-[#FFFFFF]  odd:bg-slate-100"
                 >
                   <td
                     className="px-6 py-4"
@@ -191,32 +183,32 @@ const StagiairOverzicht = ({ lang }: { lang: string }) => {
                     {stagiair.name}
                   </td>
 
-                  <td
+                  {isDesktop ?<td
                     className="px-6 py-4"
                     onClick={() => handleRouter(stagiair.id)}
                   >
                     {stagiair.email}
-                  </td>
-                  <td
+                  </td> : <td></td>}
+                  {isDesktop ?<td
                     className="px-6 py-4"
                     onClick={() => handleRouter(stagiair.id)}
                   >
                     {formatDate(stagiair.startDate)}
-                  </td>
-                  <td
+                  </td> : <td></td>}
+                  {isDesktop ?<td
                     className="px-6 py-4"
                     onClick={() => handleRouter(stagiair.id)}
                   >
                     {formatDate(stagiair.endDate)}
-                  </td>
-                  <td
+                  </td> : <td></td>}
+                  {isDesktop ?<td
                     className="px-6 py-4"
                     onClick={() => handleRouter(stagiair.id)}
                   >
                     {stagiair.stagebegeleider
                       .map((stagebegeleider) => stagebegeleider.name)
                       .join(",")}
-                  </td>
+                  </td> : <td></td>}
                   <td className="px-6 py-4">
                     <button
                       onClick={() => {
@@ -236,6 +228,8 @@ const StagiairOverzicht = ({ lang }: { lang: string }) => {
               ))}
             </tbody>
           </table>
+          </div>
+          <div>
           {stagiairAssignedToStagebegeleider?.length === 0 ? (
             <div className="flex justify-center items-center mt-4">
               <h2 className="text-xl font-semibold text-gray-500">
