@@ -2,14 +2,16 @@ import StagiairDetailPage from "./StagiairDetailPage";
 
 interface Params {
   params: {
-    id: string;
+    id: string,
+    lang: string
   };
 }
 
-const StagiairDetail = ({ params: { id } }: Params) => {
+const StagiairDetail = ({ params: { lang,id } }: Params) => {
   return (
     <StagiairDetailPage
       params={{
+        lang,
         id,
       }}
     />
