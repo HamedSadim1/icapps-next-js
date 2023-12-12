@@ -21,37 +21,38 @@ export const useLanguage = () => {
   return context;
 };
 
-interface LanguagueProviderProps{
-    children: ReactNode;
+interface LanguagueProviderProps {
+  children: ReactNode;
 
 }
 
 // LanguageProvider component
-export const LanguageProvider = ({ children }:LanguagueProviderProps) => {
-    const [language, setLanguageState] = useState<string>(() => {
-        // Retrieve the language from localStorage on component mount
-         // Check if window is defined before accessing localStorage
+export const LanguageProvider = ({ children }: LanguagueProviderProps) => {
+  const [language, setLanguageState] = useState<string>(() => {
+    // Retrieve the language from localStorage on component mount
+    // Check if window is defined before accessing localStorage
     if (typeof window !== 'undefined') {
       // Retrieve the language from localStorage on component mount
       const storedLanguage = window.localStorage.getItem('language');
-      return storedLanguage || 'en'; // Default to 'en' if not found
+      return storedLanguage || 'nl'; // Default to 'en' if not found
     }
-    return 'en'; // Fallback for server-side rendering
-    });
-    
-    const router = useRouter();
-    
+    return 'nl'; // Fallback for server-side rendering
+  });
+
+  const router = useRouter();
+
   useEffect(() => {
     // Save the language to localStorage whenever it changes
     localStorage.setItem('language', language);
   }, [language]);
-
+  
   // Set language based on router language on route change
-   useEffect(() => {
-     if (router) {
-       setLanguageState(router);
-     }
-   }, [router]);
+  useEffect(() => {
+    if (router) {
+      // Assuming `router.locale` contains the current language
+      setLanguageState(localStorage.getItem('language') || 'nl'); // Default to 'nl' if not found
+    }
+  }, [router]);
 
   const setLanguage: LanguageContextType['setLanguage'] = (newLanguage) => {
     // setLanguageState(newLanguage);
@@ -62,4 +63,4 @@ export const LanguageProvider = ({ children }:LanguagueProviderProps) => {
       {children}
     </LanguageContext.Provider>
   );
-  }
+}
