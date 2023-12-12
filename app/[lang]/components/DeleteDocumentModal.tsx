@@ -21,7 +21,15 @@ const DeleteDocumentModal = ({ documentId,lang }: DeleteDocumentModalProps) => {
     await setDiv(false);
     await mutate();
   };
+  if (typeof window !== "undefined") { // close image if escape is pressed
+    window.addEventListener("keydown", (e: KeyboardEvent) => {
+        if (e.key == "Escape") {
+          setDiv(false);
 
+        }
+    })
+
+}
   return (
     <>
       <button onClick={() => setDiv(true)}>

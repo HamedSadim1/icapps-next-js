@@ -17,6 +17,15 @@ interface DocumentDetailProps {
 const DocumentDetail = ({ document, lang }: DocumentDetailProps) => {
   const [showDiv, setDiv] = useState(false);
   const translation = getTranslation(lang as Locale);
+  if (typeof window !== "undefined") { // close image if escape is pressed
+    window.addEventListener("keydown", (e: KeyboardEvent) => {
+        if (e.key == "Escape") {
+          setDiv(false);
+
+        }
+    })
+
+}
 
   return (
     <>

@@ -44,7 +44,15 @@ const Doel = ({ stagiarId, lang }: DoelProps) => {
       },
     });
   };
+  if (typeof window !== "undefined") { // close image if escape is pressed
+    window.addEventListener("keydown", (e: KeyboardEvent) => {
+        if (e.key == "Escape") {
+          setDiv(false);
 
+        }
+    })
+
+}
   return (
     <>
       <div className="flex justify-between">

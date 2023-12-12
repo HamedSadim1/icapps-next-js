@@ -33,6 +33,15 @@ const AddSection = ({ lang, stagairId,secionId }: Props) => {
     });
     setDiv(false);
   };
+  if (typeof window !== "undefined") { // close image if escape is pressed
+    window.addEventListener("keydown", (e: KeyboardEvent) => {
+        if (e.key == "Escape") {
+          setDiv(false);
+
+        }
+    })
+
+}
   return (
     <>
       {showDiv == false && (

@@ -26,6 +26,15 @@ export const AddCheckListItem = ({ checklistItemId, lang }: AddChecklistProps) =
     await mutate();
     setDiv(false);
   };
+  if (typeof window !== "undefined") { // close image if escape is pressed
+    window.addEventListener("keydown", (e: KeyboardEvent) => {
+        if (e.key == "Escape") {
+          setDiv(false);
+
+        }
+    })
+
+}
 
   return (
     <>

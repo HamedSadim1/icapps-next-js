@@ -55,6 +55,14 @@ const DeletePostModal = ({ postId, post, lang }: DeletePostModalProps) => {
     e.preventDefault();
     setIsPostModal(false);
   };
+  if (typeof window !== "undefined") { // close image if escape is pressed
+    window.addEventListener("keydown", (e: KeyboardEvent) => {
+      if (e.key == "Escape") {
+        setIsPostModal(false);
+      }
+    })
+
+  }
 
   return (
     <>
@@ -69,7 +77,7 @@ const DeletePostModal = ({ postId, post, lang }: DeletePostModalProps) => {
             </button>
             <div className="flex flex-col pt-16 mx-16">
               <h2 className="pb-10 text-[#002548] font-semibold text-2xl flex">
-              {translation.detail.editgoal} &nbsp;
+                {translation.detail.editgoal} &nbsp;
                 {/* Delete button */}
                 <button onClick={HandleDelete}>
                   <BsTrash className="mt-1 text-red-400 hover:text-red-600"></BsTrash>
@@ -78,7 +86,7 @@ const DeletePostModal = ({ postId, post, lang }: DeletePostModalProps) => {
               {/* Form */}
               <form onSubmit={HandleUpdate}>
                 <label className="float-left" htmlFor="titel">
-                {translation.detail.title}
+                  {translation.detail.title}
                 </label>
                 <input
                   type="text"
@@ -89,7 +97,7 @@ const DeletePostModal = ({ postId, post, lang }: DeletePostModalProps) => {
                   onChange={(e) => setDoel({ ...doel, title: e.target.value })}
                 />
                 <label className="float-left" htmlFor="beschrijving">
-                {translation.detail.description}
+                  {translation.detail.description}
                 </label>
                 <textarea
                   className="w-full p-3 border-2 rounded-md mb-5"
@@ -100,7 +108,7 @@ const DeletePostModal = ({ postId, post, lang }: DeletePostModalProps) => {
                 ></textarea>
                 <div className="float-left">
                   <label className="float-left" htmlFor="einddatum">
-                  {translation.detail.enddate}
+                    {translation.detail.enddate}
                   </label>
                   <br />
                   <input
