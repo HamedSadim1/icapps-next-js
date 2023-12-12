@@ -184,8 +184,8 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
         <LinkToStagiairOverzciht
           role={UserRole.ADMIN || UserRole.STAGEBEGELEIDER}
           userRole={role}
-          href="/"
-          title="Terug naar overzicht"
+          href={'/' + lang}
+          title={translation.detail.back}
         />
       </div>
       <section className="flex xs:flex-col l:flex-row l:gap-32 xs:mx-8 l:mx-20 px-0 mb-5">
