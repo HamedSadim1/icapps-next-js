@@ -9,8 +9,6 @@ interface DelenProps {
 }
 
 const Delen = async ({ searchParams }: DelenProps) => {
-  console.log(searchParams.id);
-
   let stagiarData: IStagaire | null = null;
   try {
     const response = await fetch(
@@ -19,14 +17,12 @@ const Delen = async ({ searchParams }: DelenProps) => {
     );
     const stagiair: IStagaire = await response.json();
     stagiarData = stagiair;
-    console.log(stagiarData);
   } catch (error) {
     console.log(error);
   }
 
   if (!stagiarData) {
-    console.log("No data");
-    return;
+    return <h1>No data</h1>;
   }
 
   return (
@@ -142,7 +138,7 @@ const Delen = async ({ searchParams }: DelenProps) => {
       </div>
 
       <footer className="bg-[#102234] p-8 text-white flex px-24 mt-20">
-        <h2 className="">iCapps Logo here</h2>
+        <h2 className="text-2xl font-bold text-white ml-8 mr-6">/ ICAPPS</h2>
         <div className="flex ml-auto gap-16">
           <p>info@icapps.com</p>
           <p>Hangar 26/27 - Rijnkaai 100 B16 - 2000 Antwerpen</p>
