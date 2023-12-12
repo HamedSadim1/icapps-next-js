@@ -411,7 +411,10 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
           <div className="xs:hidden l:flex flex-col rounded-lg mt-10 ">
             <div className="flex justify-start rounded-lg  ">
               <Link
-                href={`/delen/${id}`}
+                href={{
+                  pathname: `/delen`,
+                  query: { id: id },
+                }}
               >
                 <button
                   type="button"
