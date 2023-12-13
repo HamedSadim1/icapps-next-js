@@ -1,5 +1,4 @@
 import { AiOutlineSearch } from "react-icons/ai";
-import Emails from "./Emails";
 import getTranslation from "./getTranslation";
 import { Locale } from "@/i18n-config";
 
@@ -30,7 +29,6 @@ const SearchStagiair = ({ search, setSearch, lang }: Props) => {
           </div>
         </div>
       </section>
-      <Emails search={search} />
     </>
   );
 };

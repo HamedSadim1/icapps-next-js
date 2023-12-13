@@ -4,7 +4,6 @@ import CustomLoginPage from "./CustomLoginPage";
 import DeletePostModal from "./DeletePostModal";
 import Doel from "./Doel";
 import Email from "./Email";
-import Emails from "./Emails";
 import FetchingError from "./FetchingError";
 import Loading from "./Loading";
 import Navar from "./Navbar";
@@ -26,7 +25,6 @@ export {
   DeletePostModal,
   Doel,
   Email,
-  Emails,
   FetchingError,
   Loading,
   Navar,

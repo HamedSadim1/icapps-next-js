@@ -1,3 +1,8 @@
+export interface IStagaireResponse {
+  stagiairs: IStagaire[];      // Array of individual items  
+  totalPage: number;       // Number of items per page
+}
+
 export interface IStagaire {
   id: string;
   name: string;
