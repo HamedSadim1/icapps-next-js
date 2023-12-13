@@ -19,11 +19,14 @@ import useMediaQuery from "@/hooks/useMediaQuery";
 import { useGetAllStagiaire } from "@/hooks/useGetAllStagiaire";
 import StagiairOverviewSkeleton from "./StagiarOverzichtLoading";
 
-
 const StagiairOverzicht = ({ lang }: { lang: string }) => {
-
   const setIsModelOpen = useStagairStore((state) => state.toggleModal);
-  const {data:Stagiaires,error,isLoading:isStagiaresLoading,isFetching:isStagiairesFetching} =useStagairs()
+  const {
+    data: Stagiaires,
+    error,
+    isLoading: isStagiaresLoading,
+    isFetching: isStagiairesFetching,
+  } = useStagairs();
   // Get the role from the store
   const role = useStagairStore((s) => s.role);
   // Get the Next.js router object
@@ -42,29 +45,28 @@ const StagiairOverzicht = ({ lang }: { lang: string }) => {
   // Set the initial state for the number of emails per page using the useState hook
   const [emailPerPage, setEmailPerPage] = useState(10);
 
-  const { data,isLoading,isFetching } = useGetAllStagiaire(searchStagiair.length > 3 ? searchStagiair :"", currentPage);
+  const { data, isLoading, isFetching } = useGetAllStagiaire(
+    searchStagiair.length > 3 ? searchStagiair : "",
+    currentPage
+  );
   console.log(data?.totalPage);
-  
-
 
   // Function to change the current page
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
-
   //? if the role is stagebegeleider, show only stagiair that are assigned to the stagebegeleider make a new array with stagiair that are assigned to the stagebegeleider
-  // const stagiairAssignedToStagebegeleider =
-  // role === UserRole.STAGEBEGELEIDER
-  //   ? stagiairData?.filter((stagiair) =>
-  //       stagiair.stagebegeleider.some(
-  //         (stagebegeleider) => stagebegeleider.email === auth.userEmail
-  //       )
-  //     )
-  //   : filteredStagiair;
+  const stagiairAssignedToStagebegeleider =
+    role === UserRole.STAGEBEGELEIDER
+      ? Stagiaires?.filter((stagiair) =>
+          stagiair.stagebegeleider.some(
+            (stagebegeleider) => stagebegeleider.email === auth.userEmail
+          )
+        )
+      :data?.stagiairs ;
 
   // const prefetchStagairDetails = usePrefetchStagairDetails();
 
   useEffect(() => {
-  
     //? set role in store
     useStagairStore.setState({ role: auth.role });
 
@@ -76,19 +78,20 @@ const StagiairOverzicht = ({ lang }: { lang: string }) => {
         }
       });
     }
-  }, [
-    router,
-    auth.role,
-    auth.userEmail,
-    role,
-    data
-  ]);
+  }, [router, auth.role, auth.userEmail, role, data]);
 
   if (error) {
     return <div>{error.message}</div>;
   }
-  if (isLoading || !role || !data || isFetching) {
-    return <StagiairOverviewSkeleton/>;
+  if (
+    isLoading ||
+    !role ||
+    !data ||
+    isFetching ||
+    isStagiaresLoading ||
+    isStagiairesFetching
+  ) {
+    return <StagiairOverviewSkeleton />;
   }
 
   // if (!stagiairData || stagiairData.length === 0  ) {
@@ -151,7 +154,7 @@ const StagiairOverzicht = ({ lang }: { lang: string }) => {
               )}
             </thead>
             <tbody className="border text-[#002548]">
-              {data.stagiairs?.map((stagiair) => (
+              {stagiairAssignedToStagebegeleider?.map((stagiair) => (
                 <tr
                   key={stagiair.id}
                   className="hover:bg-gray-200 cursor-pointer even:bg-[#FFFFFF]  odd:bg-slate-100"
@@ -233,7 +236,6 @@ const StagiairOverzicht = ({ lang }: { lang: string }) => {
               </h2>
             </div>
           ) : (
-      
             //? Pagination component
             <Pagination
               currentPage={currentPage}
@@ -249,8 +251,6 @@ const StagiairOverzicht = ({ lang }: { lang: string }) => {
                 // 0
                 data?.totalPage
               } // Use the length of filteredStagiair
-
-              
             />
           )}
         </div>
