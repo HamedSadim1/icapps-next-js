@@ -5,6 +5,7 @@ import usePostChecklistSection from "@/hooks/usePostChecklistSection";
 import getTranslation from "../getTranslation";
 import { Locale } from "@/i18n-config";
 import useStagairStore from "@/store";
+import usePostChecklistSectionBegeleider from "@/hooks/usePostChecklistSectionBegeleider";
 
 interface Props {
   lang: string;
@@ -12,24 +13,24 @@ interface Props {
   secionId:string,
 }
 
-const AddSection = ({ lang, stagairId,secionId }: Props) => {
+const AddSectionBegeleider = ({ lang, stagairId,secionId }: Props) => {
   const [showDiv, setDiv] = useState<boolean>(false);
   const translation = getTranslation(lang as Locale);
 
-  const checklistSection = useStagairStore((s) => s.checklistSection);
-  const setChecklistSection = useStagairStore((s) => s.setChecklistSection);
-  const { mutate } = usePostChecklistSection();
+  const checklistSectionBegeleider = useStagairStore((s) => s.checklistSectionBegeleider);
+  const setChecklistSectionBegeleider = useStagairStore((s) => s.setChecklistSectionBegeleider);
+  const { mutate } = usePostChecklistSectionBegeleider();
 
   const handlePostChecklistStagiair = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    await mutate(checklistSection);
-    setChecklistSection({
-      id:"",
+    mutate(checklistSectionBegeleider);
+    setChecklistSectionBegeleider({
+      id: "",
       createdAt: "",
-      updatedAt: "",
       sectionTitle: "",
       stagiairID: stagairId,
-      items: [],
+      checklistItem: [],
+      date:""
     });
     setDiv(false);
   };
@@ -73,10 +74,10 @@ const AddSection = ({ lang, stagairId,secionId }: Props) => {
                   className="w-full p-3 border-2 rounded-md mb-5"
                   name="section"
                   id="section"
-                  value={checklistSection.sectionTitle}
+                  value={checklistSectionBegeleider.sectionTitle}
                   onChange={(e) =>
-                    setChecklistSection({
-                      ...checklistSection,
+                    setChecklistSectionBegeleider({
+                      ...checklistSectionBegeleider,
                       sectionTitle: e.target.value,
                     })
                   }
@@ -104,4 +105,4 @@ const AddSection = ({ lang, stagairId,secionId }: Props) => {
   );
 };
 
-export default AddSection;
+export default AddSectionBegeleider;

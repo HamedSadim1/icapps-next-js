@@ -6,7 +6,6 @@ interface PaginationProps {
 }
 
 const Pagination = ({
-  emailPerPage,
   paginate,
   totalEmails,
   currentPage,
@@ -17,7 +16,7 @@ const Pagination = ({
 
   //? loop through total number of emails
   //? and push the page number to the array
-  for (let i = 1; i <= Math.ceil(totalEmails / emailPerPage); i++) {
+  for (let i = 1; i <= totalEmails; i++) {
     pageNumbers.push(i);
   }
 

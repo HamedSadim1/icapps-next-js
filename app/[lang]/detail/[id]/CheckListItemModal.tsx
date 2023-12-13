@@ -41,7 +41,15 @@ const CheckListItemModal: React.FC<CheckListItemModalProps> = ({
       console.log("Error updating checklist item:", error);
     }
   };
+  if (typeof window !== "undefined") { // close image if escape is pressed
+    window.addEventListener("keydown", (e: KeyboardEvent) => {
+        if (e.key == "Escape") {
+          setDiv(false);
 
+        }
+    })
+
+}
   return (
     <>
       {showDiv && (

@@ -3,8 +3,6 @@ import { AiOutlinePlus } from "react-icons/ai";
 import { MdClose } from "react-icons/md";
 import { FormEvent, useState } from "react";
 import useStagairStore from "@/store";
-import usePostChecklistStagiair from "@/hooks/usePostChecklistStagiair";
-import { inputFormDater } from "@/lib";
 import usePostChecklistItem from "@/hooks/usePostChecklistItem";
 import getTranslation from "./getTranslation";
 import { Locale } from "@/i18n-config";
@@ -28,6 +26,15 @@ export const AddCheckListItem = ({ checklistItemId, lang }: AddChecklistProps) =
     await mutate();
     setDiv(false);
   };
+  if (typeof window !== "undefined") { // close image if escape is pressed
+    window.addEventListener("keydown", (e: KeyboardEvent) => {
+        if (e.key == "Escape") {
+          setDiv(false);
+
+        }
+    })
+
+}
 
   return (
     <>

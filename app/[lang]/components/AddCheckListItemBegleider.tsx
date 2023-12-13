@@ -14,7 +14,6 @@ interface AddChecklistBegleiderProps {
 export const AddCheckListItemBegleider = ({ checklistItemId,lang }: AddChecklistBegleiderProps) => {
   const [showDiv, setDiv] = useState(false);
   const translation = getTranslation(lang as Locale);
-  console.log("checklistItemId  " + checklistItemId);
 
   const item = useStagairStore((s) => s.checklistItemBegeleider);
   const setItem = useStagairStore((s) => s.setchecklistItemBegeleider);
@@ -27,6 +26,15 @@ export const AddCheckListItemBegleider = ({ checklistItemId,lang }: AddChecklist
     setDiv(false);
   };
 
+  if (typeof window !== "undefined") { // close image if escape is pressed
+    window.addEventListener("keydown", (e: KeyboardEvent) => {
+        if (e.key == "Escape") {
+          setDiv(false);
+
+        }
+    })
+
+}
   return (
     <>
       {showDiv == false && (

@@ -6,11 +6,7 @@ export async function GET(request: NextRequest) {
   try {
     await connectToDatabase();
     const checklistStageBegeleider =
-      await prisma.checkListSectionStageBegeleider.findMany({
-        include: {
-          checklistItem: true,
-        },
-      });
+      await prisma.checkListSectionStageBegeleider.findMany({});
     return NextResponse.json(checklistStageBegeleider, { status: 200 });
   } catch (error) {
     return NextResponse.json({ error: error }, { status: 500 });
@@ -19,20 +15,21 @@ export async function GET(request: NextRequest) {
   }
 }
 
+
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json();
+    const data = await request.json();
     await connectToDatabase();
-    const checklistStageBegeleider =
-      await prisma.checkListSectionStageBegeleider.create({
-        data: {
-          sectionTitle: body.sectionTitle,
-          stagiairID: body.stagiairID,
-        },
-      });
-    return NextResponse.json(checklistStageBegeleider, { status: 200 });
+    const checklist = await prisma.checkListSectionStageBegeleider.create({
+      data: {
+        sectionTitle: data.sectionTitle,
+        stagiairID: data.stagiairID,
+      },
+    });
+
+    return NextResponse.json(checklist, { status: 201 });
   } catch (error) {
-    return NextResponse.json({ error: error }, { status: 500 });
+     return NextResponse.json(error, { status: 500 });
   } finally {
     prisma.$disconnect();
   }

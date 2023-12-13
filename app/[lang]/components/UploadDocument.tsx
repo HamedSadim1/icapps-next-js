@@ -60,6 +60,15 @@ const UploadDocument = ({ stagiairId, lang }: IUploadDocumentProps) => {
       console.error(error);
     }
   };
+  if (typeof window !== "undefined") { // close image if escape is pressed
+    window.addEventListener("keydown", (e: KeyboardEvent) => {
+        if (e.key == "Escape") {
+          setDiv(false);
+
+        }
+    })
+
+}
 
   return (
     <>

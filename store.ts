@@ -9,6 +9,8 @@ import {
   IDocumentComment,
   IChecklistItem,
   ICheckListItemStagebegeleider,
+  IChecklistSection,
+  checklistSectionStagebegeleider,
 } from "@/types";
 
 export interface IStore {
@@ -66,6 +68,12 @@ export interface IStore {
 
   checklistbegeleiderModal :boolean;  //new begeleider
   setChecklistBegeleiderModal: (checklistBegleiderModal: boolean) => void; //new begeleider
+
+  checklistSection: IChecklistSection;
+  setChecklistSection: (checklistSection: IChecklistSection) => void;
+
+  checklistSectionBegeleider: checklistSectionStagebegeleider;
+  setChecklistSectionBegeleider: (checklistSectionBegeleider: checklistSectionStagebegeleider) => void;
 }
 
 const useStagairStore = create<IStore>((set) => ({
@@ -88,6 +96,23 @@ const useStagairStore = create<IStore>((set) => ({
     checklistSectionStagebegeleider: [],
     doel: [],
   },
+  checklistSection: {  //new section checklist
+    id: "",
+    createdAt: "",
+    updatedAt: "",
+    sectionTitle: "",
+    stagiairID: "",
+    items: [],
+  },
+  checklistSectionBegeleider:{ //new section checklist
+    id: "",
+    createdAt: "",
+    sectionTitle: "",
+    stagiairID: "",
+    date: "",
+    checklistItem: [],
+  }
+  ,
   checklistItemUpdate: {
     createdAt: "",
     date: "",
@@ -97,7 +122,7 @@ const useStagairStore = create<IStore>((set) => ({
     updatedAt: "",
     checklistItemSectionID: "",
   },
-  checklistBegeleiderUpdate:{  //new begeleider
+  checklistBegeleiderUpdate:{  //new begeleider section
     id: "",
     date: "",
     isChecked: false,
@@ -251,6 +276,14 @@ const useStagairStore = create<IStore>((set) => ({
   },
   checklistModal:false,
   setChecklistModal: (checklistModal) => set({ checklistModal }),
+
+  setChecklistSection: (checklistSection) => { //new section checklist
+    set({ checklistSection:checklistSection });
+  },
+  setChecklistSectionBegeleider:(checklistSectionBegeleider)=>{ //new section checklist
+    set({ checklistSectionBegeleider:checklistSectionBegeleider });
+  }
+  ,
 
   checklistbegeleiderModal:false, //new begeleider
   setChecklistBegeleiderModal:(checklistbegeleiderModal)=>set({checklistbegeleiderModal}) //new begeleider
