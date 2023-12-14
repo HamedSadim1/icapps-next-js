@@ -9,6 +9,7 @@ import { AiOutlinePlus } from "react-icons/ai";
 import { useSession } from "next-auth/react";
 import getTranslation from "./getTranslation";
 import { Locale } from "@/i18n-config";
+import ClipLoader from "react-spinners/ClipLoader";
 
 interface IUploadDocumentProps {
   stagiairId: string;
@@ -29,7 +30,9 @@ const UploadDocument = ({ stagiairId, lang }: IUploadDocumentProps) => {
   {
     /* POST DOCUMENT TO CLOUDINARY */
   }
+  const [spinner, setSpinner] = useState(false);//loading
   const postDocument = async (files: (string | Blob)[]) => {
+    setSpinner(true);//loading
     const formData = new FormData();
     formData.append("file", files[0]);
     formData.append("upload_preset", "haezfifr");
@@ -59,16 +62,20 @@ const UploadDocument = ({ stagiairId, lang }: IUploadDocumentProps) => {
     } catch (error) {
       console.error(error);
     }
+    setTimeout(() => {//loading
+      setDiv(false);
+      setSpinner(false);
+    }, 3000);//loading
   };
   if (typeof window !== "undefined") { // close image if escape is pressed
     window.addEventListener("keydown", (e: KeyboardEvent) => {
-        if (e.key == "Escape") {
-          setDiv(false);
+      if (e.key == "Escape") {
+        setDiv(false);
 
-        }
+      }
     })
 
-}
+  }
 
   return (
     <>
@@ -105,14 +112,27 @@ const UploadDocument = ({ stagiairId, lang }: IUploadDocumentProps) => {
               >
                 {translation.detail.cancel}
               </button>
-              <a
-                className="mr-16 rounded-md bg-[#002548] text-white font-semibold hover:bg-blue-500 px-7 py-2 cursor-pointer"
-                onClick={() => setDiv(false)}
-              >
-                <button onClick={() => postDocument(upload)}>
-                  {translation.detail.upload}
+              {spinner == true ? //loading
+
+                <button className="mr-16 rounded-md bg-[#002548] text-white font-semibold hover:bg-blue-500 px-7 py-2 cursor-pointer">
+                  <ClipLoader
+                    color={"#ffffff"}
+                    loading={true}
+                    size={15}
+                    aria-label="Loading Spinner"
+                    data-testid="loader"
+                  />
                 </button>
-              </a>
+                :
+                <a
+                  className="mr-16 rounded-md bg-[#002548] text-white font-semibold hover:bg-blue-500 px-7 py-2 cursor-pointer"
+                >
+                  <button onClick={() => postDocument(upload)}>
+                    {translation.detail.upload}
+                  </button>
+                </a>//loading t.e.m hier
+              }
+
             </div>
           </div>
         </div>

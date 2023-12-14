@@ -283,15 +283,21 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
                 }}
               >
                 <div className="flex flex-col">
-                  <div className="flex gap-2 mb-2">
-                    <span className="flex font-medium">
-                      {checklist.sectionTitle}
-                    </span>
-                    <EditChecklistSectionStagairTitle role={UserRole.ADMIN || UserRole.STAGEBEGELEIDER}
-                      userRole={role}
-                      lang={lang}
-                      item={checklist} />
-                    <AddSection lang={lang} stagairId={data.id} secionId={checklist.id} />
+                  <div className="flex justify-between gap-2 mb-2">
+                    <div className="flex gap-2">
+                      <div className="flex font-medium">
+                        {checklist.sectionTitle}
+                      </div>
+                      <div>
+                        <EditChecklistSectionStagairTitle role={UserRole.ADMIN || UserRole.STAGEBEGELEIDER}
+                          userRole={role}
+                          lang={lang}
+                          item={checklist} />
+                      </div>
+                    </div>
+                    <div>
+                      <AddSection lang={lang} stagairId={data.id} secionId={checklist.id} />
+                    </div>
                   </div>
 
                   <div className="flex flex-col justify-start mb-4 gap-3">
@@ -342,16 +348,22 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
                       display: index === selectedSectionBegleider ? "block" : "none",
                     }}
                   >
-                    <div className="flex gap-2 mb-2">
-                      <span className="flex font-medium">
-                        {checklist.sectionTitle}
-                      </span>
-                      <EditChecklistSectionBegeleiderTitle
-                       role={UserRole.ADMIN || UserRole.STAGEBEGELEIDER}
-                       userRole={role}
-                       lang={lang}
-                       item={checklist} />
-                      <AddSectionBegeleider lang={lang} stagairId={data.id} secionId={checklist.id} />
+                    <div className="flex justify-between mb-2" style={{ width: "100%" }}>
+                      <div className="flex gap-2">
+                        <div className="font-medium">
+                          {checklist.sectionTitle}
+                        </div>
+                        <div>
+                          <EditChecklistSectionBegeleiderTitle
+                            role={UserRole.ADMIN || UserRole.STAGEBEGELEIDER}
+                            userRole={role}
+                            lang={lang}
+                            item={checklist} />
+                        </div>
+                      </div>
+                      <div className="float-right">
+                        <AddSectionBegeleider lang={lang} stagairId={data.id} secionId={checklist.id} />
+                      </div>
                     </div>
                     <div className="flex flex-col justify-start mb-4 gap-3">
                       {checklist.checklistItem &&
