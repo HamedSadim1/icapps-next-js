@@ -40,6 +40,8 @@ import EditButtonBegleider from "../../components/EditButton/EditButtonBegleider
 import useUpdateBegeleiderChecklistItem from "@/hooks/useUpdateBegeleiderChecklistItem";
 import { IoIosInformationCircleOutline } from "react-icons/io";
 import AddSectionBegeleider from "../../components/Section/AddSectionBegeleider";
+import EditChecklistSectionStagairTitle from "../../components/EditButton/EditChecklistSectionStagairTitle";
+import EditChecklistSectionBegeleiderTitle from "../../components/EditButton/EditChecklistSectionBegeleiderTitle";
 
 interface Params {
   params: { id: string, lang: string };
@@ -238,9 +240,6 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
               {translation.detail.nogoals}
             </div>
           )}
-         
-
-
           {/* Checklist buttons */}
           <CheckList
             checkListName={checkListName}
@@ -288,12 +287,10 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
                     <span className="flex font-medium">
                       {checklist.sectionTitle}
                     </span>
-                    <button
-                      type="button"
-                      className="hover:text-gray-400"
-                    >
-                      <BsPencil className="text-lg" />
-                    </button>
+                    <EditChecklistSectionStagairTitle role={UserRole.ADMIN || UserRole.STAGEBEGELEIDER}
+                      userRole={role}
+                      lang={lang}
+                      item={checklist} />
                     <AddSection lang={lang} stagairId={data.id} secionId={checklist.id} />
                   </div>
 
@@ -349,12 +346,11 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
                       <span className="flex font-medium">
                         {checklist.sectionTitle}
                       </span>
-                      <button
-                        type="button"
-                        className="hover:text-gray-400"
-                      >
-                        <BsPencil className="text-lg" />
-                      </button>
+                      <EditChecklistSectionBegeleiderTitle
+                       role={UserRole.ADMIN || UserRole.STAGEBEGELEIDER}
+                       userRole={role}
+                       lang={lang}
+                       item={checklist} />
                       <AddSectionBegeleider lang={lang} stagairId={data.id} secionId={checklist.id} />
                     </div>
                     <div className="flex flex-col justify-start mb-4 gap-3">
@@ -482,10 +478,10 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
               >
                 Evaluatieformulier Invullen
               </button>
+            </div>
           </div>
         </div>
-      </div>
-    </section >
+      </section >
     </>
   );
 };

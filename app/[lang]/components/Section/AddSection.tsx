@@ -73,7 +73,7 @@ const AddSection = ({ lang, stagairId,secionId }: Props) => {
                   className="w-full p-3 border-2 rounded-md mb-5"
                   name="section"
                   id="section"
-                  value={checklistSection.sectionTitle}
+                  placeholder=""
                   onChange={(e) =>
                     setChecklistSection({
                       ...checklistSection,
