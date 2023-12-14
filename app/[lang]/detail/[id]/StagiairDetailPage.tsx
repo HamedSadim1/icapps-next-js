@@ -42,6 +42,7 @@ import { IoIosInformationCircleOutline } from "react-icons/io";
 import AddSectionBegeleider from "../../components/Section/AddSectionBegeleider";
 import EditChecklistSectionStagairTitle from "../../components/EditButton/EditChecklistSectionStagairTitle";
 import EditChecklistSectionBegeleiderTitle from "../../components/EditButton/EditChecklistSectionBegeleiderTitle";
+import { it } from "node:test";
 
 interface Params {
   params: { id: string, lang: string };
@@ -333,7 +334,7 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
                 </div>
                 <div className="mb-10">
                   {/* add checklistitem give id of the checklistItem  */}
-                  <AddCheckListItem checklistItemId={selectedSectionId} lang={lang} />
+                  <AddCheckListItem checklistItemId={checklist.id} lang={lang} />
                 </div>
               </div>
             ))
@@ -396,7 +397,7 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
                         ))}
                     </div>
                     <div className="mb-10">
-                      <AddCheckListItemBegleider checklistItemId={selectedSectionIdBegleider} lang={lang} />
+                      <AddCheckListItemBegleider checklistItemId={checklist.id} lang={lang} />
                     </div>
                   </div>
                 )
