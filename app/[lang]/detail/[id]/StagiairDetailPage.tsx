@@ -407,7 +407,7 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
             <div className="flex justify-start rounded-lg  ">
               <Link
                 href={{
-                  pathname: `/delen`,
+                  pathname: `/${lang}/delen`,
                   query: { id: id },
                 }}
               >
