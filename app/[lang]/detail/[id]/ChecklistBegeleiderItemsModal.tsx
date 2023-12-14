@@ -58,7 +58,7 @@ const ChecklistBegeleiderItemsModal: React.FC<ChecklistBegeleiderItemsModalProps
             </button>
             <div className="flex flex-col pt-16 mx-16">
               <h2 className="pb-10 text-[#002548] font-semibold text-2xl flex">
-                Title &nbsp;{" "}
+                Item &nbsp;{" "}
               </h2>
               <form method="dialog" onSubmit={handleSubmitForm} className="">
                 <div className="form-control">

@@ -8,6 +8,7 @@ import useOneSignalNotification from "@/hooks/useOneSignalNotification";
 import usePostNotification from "@/hooks/usePostNotification";
 import getTranslation from "./getTranslation";
 import { Locale } from "@/i18n-config";
+import { ClipLoader } from "react-spinners";
 interface commentProps {
   lang: string
 }
@@ -19,6 +20,7 @@ const CommentModal = ({lang}:commentProps) => {
   const commentId = useStagairStore((s) => s.commentId);
   const pushNotificationId = useStagairStore((s) => s.pushNotificationId);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false); // New state
+  const [spinner,setSpinner] = useState(false);//loading
 
   const { mutate, status } = usePostComment(comment!, commentId);
   const { mutate: mutateNotification } =
@@ -41,13 +43,16 @@ const CommentModal = ({lang}:commentProps) => {
     }));
   };
   
-
   const handleSubmitButton = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {
+      setSpinner(true);//loading
       await mutate();
-      setDiv(false);
+      setTimeout(() => {
+        setDiv(false);
+        setSpinner(false);//loading
+      }, 4000);  
 
       console.log("not" + status);
       if (status === "success") {
@@ -130,7 +135,21 @@ const CommentModal = ({lang}:commentProps) => {
                                 {translation.detail.cancel}
 
               </button>
+              {spinner == true ? //loading
               <button
+              type="submit"
+              className="ml-4 px-6 py-1 rounded-md bg-[#002548] text-white font-semibold hover:bg-blue-500 pointer-events-none"
+            >
+              <ClipLoader
+                        color={"#ffffff"}
+                        loading={true}
+                        size={15}
+                        aria-label="Loading Spinner"
+                        data-testid="loader"
+                      />
+            </button>
+            :  
+            <button
                 type="submit"
                 className={`ml-4 px-6 py-1 rounded-md bg-[#002548] text-white font-semibold hover:bg-blue-500${
                   comment.comment.length < 4
@@ -141,6 +160,7 @@ const CommentModal = ({lang}:commentProps) => {
               >
                 {translation.detail.post}
               </button>
+            }
             </div>
           </form>
         </div>

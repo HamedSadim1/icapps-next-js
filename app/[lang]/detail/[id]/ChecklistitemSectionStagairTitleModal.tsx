@@ -32,7 +32,7 @@ const ChecklistitemSectionStagairTitleModal: React.FC<ChecklistitemSectionStagai
     checklistSectionTitleStagiair.id,
     checklistSectionTitleStagiair
   );
-
+    
   const handleSubmitForm = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {

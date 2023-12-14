@@ -19,13 +19,13 @@ const DocumentDetail = ({ document, lang }: DocumentDetailProps) => {
   const translation = getTranslation(lang as Locale);
   if (typeof window !== "undefined") { // close image if escape is pressed
     window.addEventListener("keydown", (e: KeyboardEvent) => {
-        if (e.key == "Escape") {
-          setDiv(false);
+      if (e.key == "Escape") {
+        setDiv(false);
 
-        }
+      }
     })
 
-}
+  }
 
   return (
     <>
@@ -120,7 +120,8 @@ const DocumentDetail = ({ document, lang }: DocumentDetailProps) => {
                   </div>
                 ))
               ) : (
-                <p>{translation.detail.nocomments}</p>)}
+                <p className="px-5 pb-5 flex mx-6">{translation.detail.nocomments}</p>)}
+
             </div>
 
             {/* Comment Modal */}

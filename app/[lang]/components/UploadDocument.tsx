@@ -114,7 +114,7 @@ const UploadDocument = ({ stagiairId, lang }: IUploadDocumentProps) => {
               </button>
               {spinner == true ? //loading
 
-                <button className="mr-16 rounded-md bg-[#002548] text-white font-semibold hover:bg-blue-500 px-7 py-2 cursor-pointer">
+                <button className="mr-16 rounded-md bg-[#002548] text-white font-semibold hover:bg-blue-500 px-7 py-2 pointer-events-none">
                   <ClipLoader
                     color={"#ffffff"}
                     loading={true}
