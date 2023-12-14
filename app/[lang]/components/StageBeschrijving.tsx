@@ -4,12 +4,13 @@ import EditStageBeschrijving from "./EditButton/EditStageBeschrijving";
 import { IStagaire, IStagebeschrijving, UserRole } from "@/types";
 import getTranslation from "./getTranslation";
 import { Locale } from "@/i18n-config";
+import useStagairStore from "@/store";
+import { useState } from "react";
 
 interface StageBeschrijvingProps {
   stagebeschriving: IStagebeschrijving;
   role: UserRole;
   userRole: UserRole;
-  setIsModalOpen: (value: boolean) => void;
   id: string;
   data: IStagaire;
   getStagebegeleiderName: () => string;
@@ -19,13 +20,14 @@ interface StageBeschrijvingProps {
 const StageBeschrijving = ({
   id,
   role,
-  setIsModalOpen,
   data,
   stagebeschriving,
   getStagebegeleiderName,
   lang
 }: StageBeschrijvingProps) => {
   const translation = getTranslation(lang as Locale);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
     <div
       key={stagebeschriving.id}
@@ -46,6 +48,8 @@ const StageBeschrijving = ({
           stagebeshrijving={stagebeschriving}
           stagair={data}
           lang={lang}
+          setIsModalOpen={setIsModalOpen}
+          isModalOpen={isModalOpen}
         />
       </div>
       <p className="text-gray-600 text-base leading-relaxed mt-2 ml-2 mr-10">

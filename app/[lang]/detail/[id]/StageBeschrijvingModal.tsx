@@ -1,5 +1,5 @@
 import useStagairStore from "@/store";
-import { useEffect, MouseEvent, FormEvent } from "react";
+import { useEffect, MouseEvent, FormEvent, useRef } from "react";
 import Select from "react-select";
 import useStagebegeleiders from "@/hooks/useStagebegeleiders";
 import { inputFormDater } from "@/lib";
@@ -15,6 +15,8 @@ interface StageBeschrijvingModal {
   stagair: IStagaire;
   stagebeshrijving: IStagebeschrijving;
   lang: string;
+  isModalOpen: boolean;
+  setIsModalOpen: (open: boolean) => void;
 }
 
 const StageBeschrijvingModal = ({
@@ -22,10 +24,12 @@ const StageBeschrijvingModal = ({
   stagairId,
   stagair,
   stagebeshrijving,
-  lang
+  lang,
+  isModalOpen,
+  setIsModalOpen
 }: StageBeschrijvingModal) => {
-  const isModalOpen = useStagairStore((s) => s.commentModal);
-  const setIsModalOpen = useStagairStore((state) => state.setCommentModal);
+  // const isModalOpen = useStagairStore((s) => s.commentModal);
+  // const setIsModalOpen = useStagairStore((state) => state.setCommentModal);
 
   const stageBeschrijving = useStagairStore((s) => s.stageBeschrijving);
   const setStageBeschrijving = useStagairStore((s) => s.setStageBeschrijving);
@@ -41,6 +45,9 @@ const StageBeschrijvingModal = ({
     stageBeschrijving
   );
 
+
+  const modalRef = useRef(null);
+
   useEffect(() => {
     if (stagebeshrijving && stagair) {
       useStagairStore.setState({ stageBeschrijving: stagebeshrijving });
@@ -49,7 +56,7 @@ const StageBeschrijvingModal = ({
   }, [stagebeshrijving, stagair]);
 
   useEffect(() => {
-    const modal = document.getElementById("my_modal_3") as HTMLDialogElement;
+    const modal = modalRef.current as any;
 
     if (modal) {
       if (isModalOpen) {
@@ -90,7 +97,7 @@ const StageBeschrijvingModal = ({
   };
   const translation = getTranslation(lang as Locale);
   return (
-    <dialog id="my_modal_3" className="modal duration-0 rounded-md">
+    <dialog ref={modalRef} id="my_modal_3" className="modal duration-0 rounded-md">
       {isModalOpen && (
         <div className="modal-box p-10">
           <h1 className="text-2xl font-semibold mb-5 text-[#002548]">{translation.detail.internshipdetails}</h1>

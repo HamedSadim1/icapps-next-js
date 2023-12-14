@@ -205,7 +205,6 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
                   key={stagebeschriving.id}
                   role={UserRole.ADMIN || UserRole.STAGEBEGELEIDER}
                   userRole={role}
-                  setIsModalOpen={setIsModalOpen}
                   id={id}
                   data={data}
                   stagebeschriving={stagebeschriving}
@@ -437,7 +436,6 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
                   key={stagebeschriving.id}
                   role={UserRole.ADMIN || UserRole.STAGEBEGELEIDER}
                   userRole={role}
-                  setIsModalOpen={setIsModalOpen}
                   id={id}
                   data={data}
                   stagebeschriving={stagebeschriving}
