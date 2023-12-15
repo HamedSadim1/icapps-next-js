@@ -1,6 +1,8 @@
 export interface IStagaireResponse {
   stagiairs: IStagaire[];      // Array of individual items  
-  totalPage: number;       // Number of items per page
+  totalPage: number;      // Number of items per page
+  page:number;
+  pageSize:number;
 }
 
 export interface IStagaire {
