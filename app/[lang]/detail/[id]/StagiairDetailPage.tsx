@@ -161,7 +161,7 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
       });
       setTimeout(() => {
         setSpinner(false);//loading
-      }, 5000);
+      }, 8000);
       // Trigger the mutation to update the database
       updateChecklistItemMutation.mutate({
         id: itemId,
@@ -191,7 +191,7 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
       setTimeout(() => {
 
         setSpinner(false);//loading
-      }, 5000);
+      }, 8000);
       // Trigger the mutation to update the database
       updateChecklistBegeleiderItemMutation.mutate({
         id: itemId,

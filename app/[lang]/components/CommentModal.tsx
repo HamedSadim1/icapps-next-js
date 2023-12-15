@@ -13,14 +13,14 @@ interface commentProps {
   lang: string
 }
 
-const CommentModal = ({lang}:commentProps) => {
+const CommentModal = ({ lang }: commentProps) => {
   const [showDiv, setDiv] = useState<boolean>(false);
   const comment = useStagairStore((s) => s.comment);
   const setComment = useStagairStore((s) => s.setComment);
   const commentId = useStagairStore((s) => s.commentId);
   const pushNotificationId = useStagairStore((s) => s.pushNotificationId);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false); // New state
-  const [spinner,setSpinner] = useState(false);//loading
+  const [spinner, setSpinner] = useState(false);//loading
 
   const { mutate, status } = usePostComment(comment!, commentId);
   const { mutate: mutateNotification } =
@@ -42,24 +42,25 @@ const CommentModal = ({lang}:commentProps) => {
       },
     }));
   };
-  
+
   const handleSubmitButton = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {
       setSpinner(true);//loading
-      await mutate();
+      mutate();
       setTimeout(() => {
         setDiv(false);
         setSpinner(false);//loading
-      }, 4000);  
+      }, 7000);
+
 
       console.log("not" + status);
       if (status === "success") {
         console.log("succes" + status);
         // Reset Zustand state by setting the state to the initial values
         resetComment();
-        
+
       }
       await mutateNotification({
         include_player_ids: [pushNotificationId],
@@ -92,13 +93,13 @@ const CommentModal = ({lang}:commentProps) => {
   const translation = getTranslation(lang as Locale)
   if (typeof window !== "undefined") { // close image if escape is pressed
     window.addEventListener("keydown", (e: KeyboardEvent) => {
-        if (e.key == "Escape") {
-          setDiv(false);
+      if (e.key == "Escape") {
+        setDiv(false);
 
-        }
+      }
     })
 
-}
+  }
 
   return (
     <>
@@ -132,35 +133,34 @@ const CommentModal = ({lang}:commentProps) => {
                 className="ml-4 px-6 py-1 rounded-md bg-blue-50 text-[#002548] font-semibold hover:bg-blue-200"
                 onClick={handleCloseCommentaar}
               >
-                                {translation.detail.cancel}
+                {translation.detail.cancel}
 
               </button>
               {spinner == true ? //loading
-              <button
-              type="submit"
-              className="ml-4 px-6 py-1 rounded-md bg-[#002548] text-white font-semibold hover:bg-blue-500 pointer-events-none"
-            >
-              <ClipLoader
-                        color={"#ffffff"}
-                        loading={true}
-                        size={15}
-                        aria-label="Loading Spinner"
-                        data-testid="loader"
-                      />
-            </button>
-            :  
-            <button
-                type="submit"
-                className={`ml-4 px-6 py-1 rounded-md bg-[#002548] text-white font-semibold hover:bg-blue-500${
-                  comment.comment.length < 4
+                <button
+                  type="submit"
+                  className="ml-4 px-6 py-1 rounded-md bg-[#002548] text-white font-semibold hover:bg-blue-500 pointer-events-none"
+                >
+                  <ClipLoader
+                    color={"#ffffff"}
+                    loading={true}
+                    size={15}
+                    aria-label="Loading Spinner"
+                    data-testid="loader"
+                  />
+                </button>
+                :
+                <button
+                  type="submit"
+                  className={`ml-4 px-6 py-1 rounded-md bg-[#002548] text-white font-semibold hover:bg-blue-500${comment.comment.length < 4
                     ? "cursor-not-allowed"
                     : ""
-                }`}
-                disabled={comment.comment.length < 4 || isSubmitting}
-              >
-                {translation.detail.post}
-              </button>
-            }
+                    }`}
+                  disabled={comment.comment.length < 4 || isSubmitting}
+                >
+                  {translation.detail.post}
+                </button>
+              }
             </div>
           </form>
         </div>

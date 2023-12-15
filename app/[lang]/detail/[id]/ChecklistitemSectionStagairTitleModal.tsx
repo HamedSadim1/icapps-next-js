@@ -7,6 +7,7 @@ import getTranslation from "../../components/getTranslation";
 import { Locale } from "@/i18n-config";
 import { MdClose } from "react-icons/md";
 import useChecklistSectionTitleStagairUpdateModal from "@/hooks/useChecklistSectionTitleStagairUpdateModal";
+import { ClipLoader } from "react-spinners";
 
 interface ChecklistitemSectionStagairTitleModalProps {
   lang: string;
@@ -20,6 +21,7 @@ const ChecklistitemSectionStagairTitleModal: React.FC<ChecklistitemSectionStagai
   setDiv,
 }) => {
   const translation = getTranslation(lang as Locale);
+  const [spinner, setSpinner] = useState(false);//loading 
 
   const checklistSectionTitleStagiair = useStagairStore(
     (s) => s.checklistSection
@@ -36,8 +38,12 @@ const ChecklistitemSectionStagairTitleModal: React.FC<ChecklistitemSectionStagai
   const handleSubmitForm = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
+      setSpinner(true);//loading
       mutate();
-      setDiv(false); //automatisch modal close
+      setTimeout(() => {
+        setSpinner(false);//loading
+        setDiv(false); //automatisch modal close
+      }, 8000);
     } catch (error) {
       console.log("Error updating checklist item:", error);
     }
@@ -56,7 +62,7 @@ const ChecklistitemSectionStagairTitleModal: React.FC<ChecklistitemSectionStagai
             </button>
             <div className="flex flex-col pt-16 mx-16">
               <h2 className="pb-10 text-[#002548] font-semibold text-2xl flex">
-                SectionTitle &nbsp;{" "}
+              Section titel wijzigen &nbsp;{" "}
               </h2>
               <form method="dialog" onSubmit={handleSubmitForm} className="">
                 <div className="form-control">
@@ -85,9 +91,27 @@ const ChecklistitemSectionStagairTitleModal: React.FC<ChecklistitemSectionStagai
                   >
                     {translation.detail.cancel}
                   </button>
-                  <button className="px-7 py-2 rounded-md bg-[#002548] text-white font-semibold hover:bg-blue-500">
+                  {spinner == true ? //loading
+                  <button
+                    type="submit"
+                    className="px-7 py-2 rounded-md bg-[#002548] text-white font-semibold hover:bg-blue-500 pointer-events-none"
+                  >
+                    <ClipLoader
+                    color={"#ffffff"}
+                    loading={true}
+                    size={15}
+                    aria-label="Loading Spinner"
+                    data-testid="loader"
+                  />
+                  </button>
+                  :
+                  <button
+                    type="submit"
+                    className="px-7 py-2 rounded-md bg-[#002548] text-white font-semibold hover:bg-blue-500"
+                  >
                     {translation.detail.save}
                   </button>
+}
                 </div>
               </form>
             </div>

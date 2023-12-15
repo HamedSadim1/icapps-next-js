@@ -23,15 +23,14 @@ export const AddCheckListItem = ({ checklistItemId, lang }: AddChecklistProps) =
   const { mutate } = usePostChecklistItem(item, checklistItemId);
 
   const [spinner, setSpinner] = useState(false);//loading
-  const handlePostChecklistStagiair = async (e: FormEvent<HTMLFormElement>) => {   
+  const handlePostChecklistStagiair = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSpinner(true);//loading
     await mutate();
     setTimeout(() => {
       setDiv(false);
       setSpinner(false);//loading
-    }, 4000);
-
+    }, 7000);
   };
   if (typeof window !== "undefined") { // close image if escape is pressed
     window.addEventListener("keydown", (e: KeyboardEvent) => {
@@ -95,7 +94,7 @@ export const AddCheckListItem = ({ checklistItemId, lang }: AddChecklistProps) =
                   {spinner == true ? //loading
                     <button
                       type="submit"
-                      className="px-7 py-2 rounded-md bg-[#002548] text-white font-semibold hover:bg-blue-500 pointer-events-none" 
+                      className="px-7 py-2 rounded-md bg-[#002548] text-white font-semibold hover:bg-blue-500 pointer-events-none"
                     >
                       <ClipLoader
                         color={"#ffffff"}

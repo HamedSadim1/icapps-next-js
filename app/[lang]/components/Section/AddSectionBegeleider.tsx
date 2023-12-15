@@ -6,6 +6,7 @@ import getTranslation from "../getTranslation";
 import { Locale } from "@/i18n-config";
 import useStagairStore from "@/store";
 import usePostChecklistSectionBegeleider from "@/hooks/usePostChecklistSectionBegeleider";
+import { ClipLoader } from "react-spinners";
 
 interface Props {
   lang: string;
@@ -16,6 +17,7 @@ interface Props {
 const AddSectionBegeleider = ({ lang, stagairId,secionId }: Props) => {
   const [showDiv, setDiv] = useState<boolean>(false);
   const translation = getTranslation(lang as Locale);
+  const [spinner, setSpinner] = useState(false);
 
   const checklistSectionBegeleider = useStagairStore((s) => s.checklistSectionBegeleider);
   const setChecklistSectionBegeleider = useStagairStore((s) => s.setChecklistSectionBegeleider);
@@ -23,6 +25,7 @@ const AddSectionBegeleider = ({ lang, stagairId,secionId }: Props) => {
 
   const handlePostChecklistStagiair = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setSpinner(true);
     mutate(checklistSectionBegeleider);
     setChecklistSectionBegeleider({
       id: "",
@@ -32,8 +35,10 @@ const AddSectionBegeleider = ({ lang, stagairId,secionId }: Props) => {
       checklistItem: [],
       date:""
     });
-    setDiv(false);
-  };
+    setTimeout(() => {
+      setSpinner(true);
+      setDiv(false);
+    }, 11000);  };
   if (typeof window !== "undefined") { // close image if escape is pressed
     window.addEventListener("keydown", (e: KeyboardEvent) => {
         if (e.key == "Escape") {
@@ -89,12 +94,27 @@ const AddSectionBegeleider = ({ lang, stagairId,secionId }: Props) => {
                   >
                     {translation.detail.cancel}
                   </button>
-                  <button
-                    type="submit"
-                    className="px-7 py-2 rounded-md bg-[#002548] text-white font-semibold hover:bg-blue-500"
-                  >
-                    {translation.detail.save}
-                  </button>
+                  {spinner == true ? //loading
+                    <button
+                      type="submit"
+                      className="px-7 py-2 rounded-md bg-[#002548] text-white font-semibold hover:bg-blue-500 pointer-events-none"
+                    >
+                      <ClipLoader
+                        color={"#ffffff"}
+                        loading={true}
+                        size={15}
+                        aria-label="Loading Spinner"
+                        data-testid="loader"
+                      />
+                    </button>
+                    :
+                    < button
+                      type="submit"
+                      className="px-7 py-2 rounded-md bg-[#002548] text-white font-semibold hover:bg-blue-500"
+                    >
+                      {translation.detail.save}
+                    </button>
+                  }
                 </div>
               </form>
             </div>

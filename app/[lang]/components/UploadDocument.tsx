@@ -62,10 +62,10 @@ const UploadDocument = ({ stagiairId, lang }: IUploadDocumentProps) => {
     } catch (error) {
       console.error(error);
     }
-    setTimeout(() => {//loading
+    setTimeout(() => {
       setDiv(false);
-      setSpinner(false);
-    }, 3000);//loading
+      setSpinner(false);//loading
+    }, 7000);
   };
   if (typeof window !== "undefined") { // close image if escape is pressed
     window.addEventListener("keydown", (e: KeyboardEvent) => {

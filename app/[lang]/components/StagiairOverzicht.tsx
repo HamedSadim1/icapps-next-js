@@ -18,6 +18,7 @@ import StagairForm from "./StagairForm";
 import useMediaQuery from "@/hooks/useMediaQuery";
 import { useGetAllStagiaire } from "@/hooks/useGetAllStagiaire";
 import StagiairOverviewSkeleton from "./StagiarOverzichtLoading";
+import { ClipLoader } from "react-spinners";
 
 const StagiairOverzicht = ({ lang }: { lang: string }) => {
   const setIsModelOpen = useStagairStore((state) => state.toggleModal);
@@ -36,7 +37,7 @@ const StagiairOverzicht = ({ lang }: { lang: string }) => {
   // Set up state for search term
   const [searchStagiair, setsearchStagiair] = useState<string>("");
   const isDesktop = useMediaQuery("(min-width: 650px)");
-
+  const[spinner,setSpinner] = useState(false);
   // Trigger a notification using the OneSignalNotification hook
   useOneSignalNotification();
 
@@ -103,11 +104,15 @@ const StagiairOverzicht = ({ lang }: { lang: string }) => {
   // }
   //? handle router to detail page and prefetch data for detail page and navigate to detail page when clicked on stagiair
   const handleRouter = (id: string) => {
+    setSpinner(true);
     // Prefetch the route in the background
     router.prefetch(`${lang}/detail/${id}`);
     // prefetchStagairDetails.prefetchData(id);
     // Navigate to the route when clicked
     router.push(`${lang}/detail/${id}`);
+    setTimeout(() => {
+      setSpinner(false);
+    }, 12000);
   };
   const translation = getTranslation(lang as Locale);
   return (
@@ -159,17 +164,34 @@ const StagiairOverzicht = ({ lang }: { lang: string }) => {
                   key={stagiair.id}
                   className="hover:bg-gray-200 cursor-pointer even:bg-[#FFFFFF]  odd:bg-slate-100"
                 >
+                  {spinner == true ?
                   <td
+                  className="px-6 py-4"
+                >
+                  <ClipLoader
+                    color={"black"}
+                    loading={true}
+                    size={15}
+                    aria-label="Loading Spinner"
+                    data-testid="loader"
+                  />
+                </td>
+                :
+                <td
                     className="px-6 py-4"
                     onClick={() => handleRouter(stagiair.id)}
+
                   >
                     {stagiair.name}
                   </td>
+                  }
+                  
 
                   {isDesktop ? (
                     <td
                       className="px-6 py-4"
                       onClick={() => handleRouter(stagiair.id)}
+
                     >
                       {stagiair.email}
                     </td>
@@ -180,6 +202,7 @@ const StagiairOverzicht = ({ lang }: { lang: string }) => {
                     <td
                       className="px-6 py-4"
                       onClick={() => handleRouter(stagiair.id)}
+
                     >
                       {formatDate(stagiair.startDate)}
                     </td>
@@ -190,6 +213,7 @@ const StagiairOverzicht = ({ lang }: { lang: string }) => {
                     <td
                       className="px-6 py-4"
                       onClick={() => handleRouter(stagiair.id)}
+
                     >
                       {formatDate(stagiair.endDate)}
                     </td>
@@ -200,6 +224,7 @@ const StagiairOverzicht = ({ lang }: { lang: string }) => {
                     <td
                       className="px-6 py-4"
                       onClick={() => handleRouter(stagiair.id)}
+
                     >
                       {stagiair.stagebegeleider
                         .map((stagebegeleider) => stagebegeleider.name)

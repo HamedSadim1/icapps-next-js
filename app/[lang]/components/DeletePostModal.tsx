@@ -1,6 +1,6 @@
 "use client";
 import { MdClose } from "react-icons/md";
-import { FormEvent, useEffect, MouseEvent } from "react";
+import { FormEvent, useEffect, MouseEvent, useState } from "react";
 import { BsTrash } from "react-icons/bs";
 import useStagairStore from "@/store";
 import useDeletePost from "@/hooks/useDeletePost";
@@ -9,6 +9,8 @@ import { inputFormDater } from "@/lib";
 import { IPost } from "@/types";
 import getTranslation from "./getTranslation";
 import { Locale } from "@/i18n-config";
+import { ClipLoader } from "react-spinners";
+import { set } from "zod";
 
 interface DeletePostModalProps {
   postId: string;
@@ -27,6 +29,7 @@ const DeletePostModal = ({ postId, post, lang }: DeletePostModalProps) => {
   const setDoel = useStagairStore((s) => s.setUpdatePost);
   const isPostModal = useStagairStore((s) => s.isPostModal);
   const setIsPostModal = useStagairStore((s) => s.setIsPostModal);
+  const [spinner, setSpinner] = useState(false);//loading
 
   const { mutate } = useDeletePost(updatePostId);
 
@@ -40,16 +43,23 @@ const DeletePostModal = ({ postId, post, lang }: DeletePostModalProps) => {
   //! Delete the doel button
   const HandleDelete = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    setSpinner(true);//loading
     await mutate();
-    setIsPostModal(false);
+    setTimeout(() => {
+      setSpinner(false);//loading
+      setIsPostModal(false);
+    }, 7000);
   };
 
   //! Update the doel button
   const HandleUpdate = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setSpinner(true);//loading
     await updatePost();
-    setIsPostModal(false);
-  };
+    setTimeout(() => {
+      setSpinner(false);//loading
+      setIsPostModal(false);
+    }, 7000);  };
 
   const handleCloseModal = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -130,12 +140,27 @@ const DeletePostModal = ({ postId, post, lang }: DeletePostModalProps) => {
                   >
                     {translation.detail.cancel}
                   </button>
-                  <button
-                    type="submit"
-                    className="px-7 py-2 rounded-md bg-[#002548] text-white font-semibold hover:bg-blue-500"
-                  >
-                    {translation.detail.save}
-                  </button>
+                  {spinner == true ? //loading
+                    <button
+                      type="submit"
+                      className="px-7 py-2 rounded-md bg-[#002548] text-white font-semibold hover:bg-blue-500 pointer-events-none"
+                    >
+                      <ClipLoader
+                        color={"#ffffff"}
+                        loading={true}
+                        size={15}
+                        aria-label="Loading Spinner"
+                        data-testid="loader"
+                      />
+                    </button>
+                    :
+                    <button
+                      type="submit"
+                      className="px-7 py-2 rounded-md bg-[#002548] text-white font-semibold hover:bg-blue-500"
+                    >
+                      {translation.detail.save}
+                    </button>
+                  }
                 </div>
               </form>
             </div>

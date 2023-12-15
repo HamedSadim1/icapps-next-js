@@ -1,10 +1,11 @@
-import React, { FormEvent } from "react";
+import React, { FormEvent, useState } from "react";
 import { MdClose } from "react-icons/md";
 import useStagairStore from "@/store";
 import { inputFormDater } from "@/lib";
 import getTranslation from "../../components/getTranslation";
 import { Locale } from "@/i18n-config";
 import useCheckListItemBegeleiderUpdateModal from "@/hooks/useCheckListItemBegeleiderUpdateModal";
+import { ClipLoader } from "react-spinners";
 
 interface ChecklistBegeleiderItemsModalProps {
   lang: string;
@@ -21,6 +22,7 @@ const ChecklistBegeleiderItemsModal: React.FC<ChecklistBegeleiderItemsModalProps
 
   const checklistItemBegeleider = useStagairStore((s) => s.checklistItemBegeleider);
   const setChecklistItemBegeleider = useStagairStore((s) => s.setchecklistItemBegeleider);
+  const [spinner, setSpinner] = useState(false);//loading 
 
   const { mutate } = useCheckListItemBegeleiderUpdateModal(
     checklistItemBegeleider.id,
@@ -30,8 +32,12 @@ const ChecklistBegeleiderItemsModal: React.FC<ChecklistBegeleiderItemsModalProps
   const handleSubmitForm = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      mutate(); // update the new items
-      setDiv(false); // close modal
+      setSpinner(true);//loading
+      mutate();
+      setTimeout(() => {
+        setSpinner(false);//loading
+        setDiv(false); //automatisch modal close
+      }, 8000);
     } catch (error) {
       console.log("Error updating checklist item:", error);
     }
@@ -104,9 +110,27 @@ const ChecklistBegeleiderItemsModal: React.FC<ChecklistBegeleiderItemsModalProps
                   >
                     {translation.detail.cancel}
                   </button>
-                  <button className="px-7 py-2 rounded-md bg-[#002548] text-white font-semibold hover:bg-blue-500">
+                  {spinner == true ? //loading
+                  <button
+                    type="submit"
+                    className="px-7 py-2 rounded-md bg-[#002548] text-white font-semibold hover:bg-blue-500 pointer-events-none"
+                  >
+                    <ClipLoader
+                    color={"#ffffff"}
+                    loading={true}
+                    size={15}
+                    aria-label="Loading Spinner"
+                    data-testid="loader"
+                  />
+                  </button>
+                  :
+                  <button
+                    type="submit"
+                    className="px-7 py-2 rounded-md bg-[#002548] text-white font-semibold hover:bg-blue-500"
+                  >
                     {translation.detail.save}
                   </button>
+}
                 </div>
               </form>
             </div>
