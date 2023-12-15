@@ -505,7 +505,7 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
                 target="_blank"
                 href={{
                   pathname: `/${lang}/delen`,
-                  query: { id: id },
+                  query: { id: id, lang: lang },
                 }}
               >
                 <button
