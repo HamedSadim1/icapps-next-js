@@ -84,13 +84,16 @@ const StagiairOverzicht = ({ lang }: { lang: string }) => {
   }
   if (
     isLoading ||
-    !role ||
     !data ||
     isFetching ||
     isStagiaresLoading ||
     isStagiairesFetching
   ) {
     return <StagiairOverviewSkeleton />;
+  }
+
+  if(!role){
+    return null
   }
 
   // if (!stagiairData || stagiairData.length === 0  ) {

@@ -82,6 +82,7 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
 
   const [selectedSectionBegleider, setSelectedSectionBegleider] = useState<number>(0);
   const [selectedSectionIdBegleider, setSelectedSectionIdBegleider] = useState<string>("");
+  const [stagiairLoadingStateId, setStagiairLoadingStateId] = useState<string>("")
 
   useEffect(() => {
     if (data) {
@@ -145,9 +146,10 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
     setCommentId(id);
   };
 
-  const handleCheckboxChange = (itemId: any, newCheckedValue: any) => {
+  const handleCheckboxChange = (itemId: string, newCheckedValue: any) => {
     //update setChecklistItemUpdate
     // Update the state locally
+    setStagiairLoadingStateId(itemId)
     try {
       setSpinner(true);//loading
 
@@ -332,7 +334,7 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
                           key={item.id}
                           className="flex gap-3 border-2 border-gray-300 p-2 rounded"
                         >
-                          {spinner == true? //loading
+                          {spinner == true && stagiairLoadingStateId === item.id ? //loading
                             <div className="mt-3">
                               <ClipLoader
                                 color={"black"}
