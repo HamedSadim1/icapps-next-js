@@ -5,12 +5,15 @@ import useStagairStore from "@/store";
 import usePostDocumentComment from "@/hooks/usePostDocumentComment";
 import getTranslation from "./getTranslation";
 import { Locale } from "@/i18n-config";
+import { set } from "zod";
+import { ClipLoader } from "react-spinners";
 
 interface Props {
   lang: string;
 }
-
 const CommentDocument = ({ lang }: Props) => {
+  const [spinner, setSpinner] = useState(false);//loading
+
   //? show div state for upload document
   const [showDiv, setDiv] = useState<boolean>(false);
   //? get comment from store
@@ -21,9 +24,9 @@ const CommentDocument = ({ lang }: Props) => {
   const documentId = useStagairStore((s) => s.documentId);
   //? post comment to database with usePostDocumentComment hook
   const { mutate } = usePostDocumentComment(comment, documentId);
-//? if there is no comment, return null
+  //? if there is no comment, return null
   if (!comment) return null;
-//? reset the comment to empty string
+  //? reset the comment to empty string
   const resetComment = () => {
     useStagairStore.setState((state) => ({
       ...state,
@@ -37,24 +40,27 @@ const CommentDocument = ({ lang }: Props) => {
       },
     }));
   };
-  
+
   //? handle submit button
   const handleSubmitButton = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     //? post comment to database
-    mutate();
-       // reset the comment
-       resetComment()
-    
-    setDiv(false);
+    setSpinner(true);//loading
+    await mutate();
+    // reset the comment
+    resetComment()
+    setTimeout(() => {
+      setDiv(false);
+      setSpinner(false);//loading
+    }, 7000);
 
   };
 
   const handleCloseCommentaar = () => {
 
-      // reset the comment
-      resetComment()  
-        
+    // reset the comment
+    resetComment()
+
     setDiv(false);
   };
 
@@ -62,13 +68,13 @@ const CommentDocument = ({ lang }: Props) => {
 
   if (typeof window !== "undefined") { // close image if escape is pressed
     window.addEventListener("keydown", (e: KeyboardEvent) => {
-        if (e.key == "Escape") {
-          setDiv(false);
+      if (e.key == "Escape") {
+        setDiv(false);
 
-        }
+      }
     })
 
-}
+  }
 
   return (
     <>
@@ -103,12 +109,27 @@ const CommentDocument = ({ lang }: Props) => {
               >
                 {translation.detail.cancel}
               </button>
-              <button
-                type="submit"
-                className="ml-4 px-6 py-1 rounded-md bg-[#002548] text-white font-semibold hover:bg-blue-500"
-              >
-                {translation.detail.post}
-              </button>
+              {spinner == true ? //loading
+                <button
+                  type="submit"
+                  className="ml-4 px-6 py-1 rounded-md bg-[#002548] text-white font-semibold hover:bg-blue-500 pointer-events-none"
+                >
+                  <ClipLoader
+                    color={"#ffffff"}
+                    loading={true}
+                    size={15}
+                    aria-label="Loading Spinner"
+                    data-testid="loader"
+                  />
+                </button>
+                :
+                <button
+                  type="submit"
+                  className="ml-4 px-6 py-1 rounded-md bg-[#002548] text-white font-semibold hover:bg-blue-500"
+                >
+                  {translation.detail.post}
+                </button>
+              }
             </div>
           </form>
         </div>

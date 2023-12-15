@@ -34,12 +34,16 @@ import EditChecklistItem from "@/app/[lang]/components/EditButton/EditChecklistI
 import StageBeschrijving from "@/app/[lang]/components/StageBeschrijving";
 import getTranslation from "../../components/getTranslation";
 import { Locale } from "@/i18n-config";
-import { BsPencil } from "react-icons/bs";
+import { BsPencil, BsTruckFlatbed } from "react-icons/bs";
 import { AddCheckListItemBegleider } from "../../components/AddCheckListItemBegleider";
 import EditButtonBegleider from "../../components/EditButton/EditButtonBegleider";
 import useUpdateBegeleiderChecklistItem from "@/hooks/useUpdateBegeleiderChecklistItem";
 import { IoIosInformationCircleOutline } from "react-icons/io";
 import AddSectionBegeleider from "../../components/Section/AddSectionBegeleider";
+import EditChecklistSectionStagairTitle from "../../components/EditButton/EditChecklistSectionStagairTitle";
+import EditChecklistSectionBegeleiderTitle from "../../components/EditButton/EditChecklistSectionBegeleiderTitle";
+import { it } from "node:test";
+import { ClipLoader } from "react-spinners";
 
 interface Params {
   params: { id: string, lang: string };
@@ -59,7 +63,7 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
   );
 
   const setIsModalOpen = useStagairStore((state) => state.setCommentModal);
-
+  const [spinner, setSpinner] = useState(false);//loading
   const setCommentId = useStagairStore((s) => s.setCommentId);
   const setUpdatePostId = useStagairStore((s) => s.setUpdatePostId);
   const setIsPostModal = useStagairStore((s) => s.setIsPostModal);
@@ -140,42 +144,65 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
   const handleCommentId = (id: string) => {
     setCommentId(id);
   };
+
   const handleCheckboxChange = (itemId: any, newCheckedValue: any) => {
     //update setChecklistItemUpdate
     // Update the state locally
-    setChecklistItemUpdate({
-      id: itemId,
-      isChecked: newCheckedValue,
-      title: "",
-      createdAt: "",
-      date: "",
-      updatedAt: "",
-    });
+    try {
+      setSpinner(true);//loading
 
-    // Trigger the mutation to update the database
-    updateChecklistItemMutation.mutate({
-      id: itemId,
-      isChecked: newCheckedValue,
-    });
+      setChecklistItemUpdate({
+        id: itemId,
+        isChecked: newCheckedValue,
+        title: "",
+        createdAt: "",
+        date: "",
+        updatedAt: "",
+      });
+      setTimeout(() => {
+        setSpinner(false);//loading
+      }, 8000);
+      // Trigger the mutation to update the database
+      updateChecklistItemMutation.mutate({
+        id: itemId,
+        isChecked: newCheckedValue,
+      });
+    } catch (error) {
+      console.log(error)
+    }
+
+
   };
 
   const handleCheckboxChangeBeg = (itemId: any, newCheckedValue: any) => { //new begeleider
     //update setChecklistItemUpdate
     // Update the state locally
-    setChecklistBegeleiderUpdate({
-      id: itemId,
-      isChecked: newCheckedValue,
-      title: "",
-      createdAt: "",
-      date: "",
-      updatedAt: "",
-    });
+    try {
+      setSpinner(true);//loading
 
-    // Trigger the mutation to update the database
-    updateChecklistBegeleiderItemMutation.mutate({
-      id: itemId,
-      isChecked: newCheckedValue,
-    });
+      setChecklistBegeleiderUpdate({
+        id: itemId,
+        isChecked: newCheckedValue,
+        title: "",
+        createdAt: "",
+        date: "",
+        updatedAt: "",
+      });
+      setTimeout(() => {
+
+        setSpinner(false);//loading
+      }, 8000);
+      // Trigger the mutation to update the database
+      updateChecklistBegeleiderItemMutation.mutate({
+        id: itemId,
+        isChecked: newCheckedValue,
+      })
+    } catch (error) {
+      console.log(error)
+    }
+
+
+
   };
   const translation = getTranslation(lang as Locale)
   return (
@@ -205,7 +232,6 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
                   key={stagebeschriving.id}
                   role={UserRole.ADMIN || UserRole.STAGEBEGELEIDER}
                   userRole={role}
-                  setIsModalOpen={setIsModalOpen}
                   id={id}
                   data={data}
                   stagebeschriving={stagebeschriving}
@@ -239,9 +265,6 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
               {translation.detail.nogoals}
             </div>
           )}
-         
-
-
           {/* Checklist buttons */}
           <CheckList
             checkListName={checkListName}
@@ -285,17 +308,21 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
                 }}
               >
                 <div className="flex flex-col">
-                  <div className="flex gap-2 mb-2">
-                    <span className="flex font-medium">
-                      {checklist.sectionTitle}
-                    </span>
-                    <button
-                      type="button"
-                      className="hover:text-gray-400"
-                    >
-                      <BsPencil className="text-lg" />
-                    </button>
-                    <AddSection lang={lang} stagairId={data.id} secionId={checklist.id} />
+                  <div className="flex justify-between gap-2 mb-2">
+                    <div className="flex gap-2">
+                      <div className="flex font-medium">
+                        {checklist.sectionTitle}
+                      </div>
+                      <div>
+                        <EditChecklistSectionStagairTitle role={UserRole.ADMIN || UserRole.STAGEBEGELEIDER}
+                          userRole={role}
+                          lang={lang}
+                          item={checklist} />
+                      </div>
+                    </div>
+                    <div>
+                      <AddSection lang={lang} stagairId={data.id} secionId={checklist.id} />
+                    </div>
                   </div>
 
                   <div className="flex flex-col justify-start mb-4 gap-3">
@@ -303,16 +330,29 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
                       checklist.items.map((item) => (
                         <div
                           key={item.id}
-                          className="flex gap-3 border-2 border-gray-500-400 p-2 rounded"
+                          className="flex gap-3 border-2 border-gray-300 p-2 rounded"
                         >
-                          <input
-                            checked={item.isChecked}
-                            type="checkbox"
-                            name="item"
-                            onChange={() =>
-                              handleCheckboxChange(item.id, !item.isChecked)
-                            }
-                          />
+                          {spinner == true? //loading
+                            <div className="mt-3">
+                              <ClipLoader
+                                color={"black"}
+                                loading={true}
+                                size={16}
+                                aria-label="Loading Spinner"
+                                data-testid="loader"
+                              />
+                            </div>
+                            :
+                            <input className="w-4"
+                              checked={item.isChecked}
+                              type="checkbox"
+                              name="item"
+                              onChange={() =>
+                                handleCheckboxChange(item.id, !item.isChecked)
+                              }
+                            />
+                          }
+
                           <p className={`text-sm ${item.isChecked ? 'text-gray-400' : 'text-black'}`}>
                             {item.title} <br />
                             <div >
@@ -331,7 +371,7 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
                 </div>
                 <div className="mb-10">
                   {/* add checklistitem give id of the checklistItem  */}
-                  <AddCheckListItem checklistItemId={selectedSectionId} lang={lang} />
+                  <AddCheckListItem checklistItemId={checklist.id} lang={lang} />
                 </div>
               </div>
             ))
@@ -346,17 +386,22 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
                       display: index === selectedSectionBegleider ? "block" : "none",
                     }}
                   >
-                    <div className="flex gap-2 mb-2">
-                      <span className="flex font-medium">
-                        {checklist.sectionTitle}
-                      </span>
-                      <button
-                        type="button"
-                        className="hover:text-gray-400"
-                      >
-                        <BsPencil className="text-lg" />
-                      </button>
-                      <AddSectionBegeleider lang={lang} stagairId={data.id} secionId={checklist.id} />
+                    <div className="flex justify-between mb-2" style={{ width: "100%" }}>
+                      <div className="flex gap-2">
+                        <div className="font-medium">
+                          {checklist.sectionTitle}
+                        </div>
+                        <div>
+                          <EditChecklistSectionBegeleiderTitle
+                            role={UserRole.ADMIN || UserRole.STAGEBEGELEIDER}
+                            userRole={role}
+                            lang={lang}
+                            item={checklist} />
+                        </div>
+                      </div>
+                      <div className="float-right">
+                        <AddSectionBegeleider lang={lang} stagairId={data.id} secionId={checklist.id} />
+                      </div>
                     </div>
                     <div className="flex flex-col justify-start mb-4 gap-3">
                       {checklist.checklistItem &&
@@ -364,8 +409,18 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
                           <div
                             key={item.id}
                             className="flex gap-3 border-2 border-gray-500-400 p-2 rounded"
-                          >
-                            <input
+                          > {spinner == true ? //loading
+                            <div className="mt-3">
+                              <ClipLoader
+                                color={"black"}
+                                loading={true}
+                                size={16}
+                                aria-label="Loading Spinner"
+                                data-testid="loader"
+                              />
+                            </div>
+                            :
+                            <input className="w-4"
                               checked={item.isChecked}
                               type="checkbox"
                               name="item"
@@ -373,6 +428,7 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
                                 handleCheckboxChangeBeg(item.id, !item.isChecked)
                               }
                             />
+                            }
                             <p>
                               {item.title} <br />
                               <div className="text-sm text-gray-400">
@@ -389,7 +445,7 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
                         ))}
                     </div>
                     <div className="mb-10">
-                      <AddCheckListItemBegleider checklistItemId={selectedSectionIdBegleider} lang={lang} />
+                      <AddCheckListItemBegleider checklistItemId={checklist.id} lang={lang} />
                     </div>
                   </div>
                 )
@@ -412,7 +468,7 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
             <div className="flex justify-start rounded-lg  ">
               <Link
                 href={{
-                  pathname: `/delen`,
+                  pathname: `/${lang}/delen`,
                   query: { id: id },
                 }}
               >
@@ -437,7 +493,6 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
                   key={stagebeschriving.id}
                   role={UserRole.ADMIN || UserRole.STAGEBEGELEIDER}
                   userRole={role}
-                  setIsModalOpen={setIsModalOpen}
                   id={id}
                   data={data}
                   stagebeschriving={stagebeschriving}
@@ -484,10 +539,10 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
               >
                 Evaluatieformulier Invullen
               </button>
+            </div>
           </div>
         </div>
-      </div>
-    </section >
+      </section >
     </>
   );
 };

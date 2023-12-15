@@ -1,5 +1,5 @@
 "use client";
-import { FormEvent, useEffect } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import useStagairStore from "@/store";
 import Select from "react-select";
 import useStagebegeleiders from "@/hooks/useStagebegeleiders";
@@ -8,6 +8,7 @@ import { AiOutlineClose } from "react-icons/ai";
 import useUpdateStagiair from "@/hooks/useUpdateStagiair";
 import getTranslation from "./getTranslation";
 import { Locale } from "@/i18n-config";
+import { ClipLoader } from "react-spinners";
 
 interface Params {
   params: { lang: string };
@@ -29,7 +30,7 @@ const StagairForm = ({ params: { lang } }: Params) => {
   //? state for modal
   const isModalOpen = useStagairStore((s) => s.stagiairModal);
   const setIsModalOpen = useStagairStore((state) => state.toggleModal);
-
+  const [spinner, setSpinner] = useState(false);
   useEffect(() => {
     //? get modal
     const modal = document.getElementById("my_modal_3") as HTMLDialogElement;
@@ -47,8 +48,16 @@ const StagairForm = ({ params: { lang } }: Params) => {
   //? handle submit form
   const handleSubmitForm = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    await mutate();
-    setIsModalOpen();
+    try {
+      setSpinner(true);//loading
+      await mutate();
+      setTimeout(() => {
+        setIsModalOpen();
+        setSpinner(false);//loading
+      }, 4000);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   //? close modal
@@ -119,7 +128,7 @@ const StagairForm = ({ params: { lang } }: Params) => {
                   onChange={(e) =>
                     setData({ ...data, startDate: e.target.value })
                   }
-                  min={inputFormDater(new Date().toISOString().split("T")[0])}
+                  min={inputFormDater(data.startDate)}
                 />
               </div>
               <div>
@@ -171,13 +180,29 @@ const StagairForm = ({ params: { lang } }: Params) => {
                   }}
                 />
               </div>
-
-              <button
-                className="px-10 py-2 mt-2 text-white font-semibold bg-[#002548] rounded-md absolute bottom-10 right-10 hover:bg-blue-500"
+              {
+                spinner == true ?
+                <button
+                className="px-10 py-2 mt-2 text-white font-semibold bg-[#002548] rounded-md absolute bottom-10 right-10 hover:bg-blue-500 pointer-events-none"
                 type="submit"
               >
-                {translation.userStagiair['save']}
+                <ClipLoader
+                        color={"#ffffff"}
+                        loading={true}
+                        size={15}
+                        aria-label="Loading Spinner"
+                        data-testid="loader"
+                      />
               </button>
+                :
+                  <button
+                    className="px-10 py-2 mt-2 text-white font-semibold bg-[#002548] rounded-md absolute bottom-10 right-10 hover:bg-blue-500"
+                    type="submit"
+                  >
+                    {translation.userStagiair['save']}
+                  </button>
+              }
+
             </div>
           </form>
         </div>

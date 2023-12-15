@@ -9,6 +9,7 @@ import { inputFormDater } from "@/lib";
 import usePostNotification from "@/hooks/usePostNotification";
 import getTranslation from "./getTranslation";
 import { Locale } from "@/i18n-config";
+import { ClipLoader } from "react-spinners";
 
 interface DoelProps {
   stagiarId: string;
@@ -19,7 +20,7 @@ const Doel = ({ stagiarId, lang }: DoelProps) => {
   const [showDiv, setDiv] = useState<boolean>(false);
   const translation = getTranslation(lang as Locale);
   // const stagaires = useStagairStore((s) => s.stagaires);
-
+  const [spinner, setSpinner] = useState(false);//loading
   const doel = useStagairStore((s) => s.doel);
   const setDoel = useStagairStore((s) => s.setDoel);
   const { mutate, error, isSuccess } = usePostDoel(doel, stagiarId);
@@ -29,8 +30,12 @@ const Doel = ({ stagiarId, lang }: DoelProps) => {
 
   const handleSubmitButton = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setSpinner(true);//loading
     await mutate();
-    setDiv(false);
+    setTimeout(() => {
+      setSpinner(false);//loading
+      setDiv(false);
+    }, 7000);
     if (error) {
       console.log(error);
     }
@@ -46,13 +51,13 @@ const Doel = ({ stagiarId, lang }: DoelProps) => {
   };
   if (typeof window !== "undefined") { // close image if escape is pressed
     window.addEventListener("keydown", (e: KeyboardEvent) => {
-        if (e.key == "Escape") {
-          setDiv(false);
+      if (e.key == "Escape") {
+        setDiv(false);
 
-        }
+      }
     })
 
-}
+  }
   return (
     <>
       <div className="flex justify-between">
@@ -78,7 +83,7 @@ const Doel = ({ stagiarId, lang }: DoelProps) => {
             </button>
             <div className="flex flex-col pt-16 mx-16">
               <h2 className="pb-10 text-[#002548] font-semibold text-2xl flex">
-              {translation.detail.addgoal} &nbsp;{" "}
+                {translation.detail.addgoal} &nbsp;{" "}
               </h2>
               <form onSubmit={handleSubmitButton}>
                 <label htmlFor="titel">{translation.detail.title}</label>
@@ -118,12 +123,27 @@ const Doel = ({ stagiarId, lang }: DoelProps) => {
                   >
                     {translation.detail.cancel}
                   </button>
-                  <button
-                    type="submit"
-                    className="px-7 py-2 rounded-md bg-[#002548] text-white font-semibold hover:bg-blue-500"
-                  >
-                    {translation.detail.save}
-                  </button>
+                  {spinner == true ? //loading
+                    <button
+                      type="submit"
+                      className="px-7 py-2 rounded-md bg-[#002548] text-white font-semibold hover:bg-blue-500 pointer-events-none"
+                    >
+                      <ClipLoader
+                        color={"#ffffff"}
+                        loading={true}
+                        size={15}
+                        aria-label="Loading Spinner"
+                        data-testid="loader"
+                      />
+                    </button>
+                    :
+                    <button
+                      type="submit"
+                      className="px-7 py-2 rounded-md bg-[#002548] text-white font-semibold hover:bg-blue-500"
+                    >
+                      {translation.detail.save}
+                    </button>
+                  }
                 </div>
               </form>
             </div>

@@ -6,6 +6,7 @@ import useStagairStore from "@/store";
 import usePostChecklistItem from "@/hooks/usePostChecklistItem";
 import getTranslation from "./getTranslation";
 import { Locale } from "@/i18n-config";
+import { ClipLoader } from "react-spinners";
 
 interface AddChecklistProps {
   checklistItemId: string;
@@ -21,20 +22,25 @@ export const AddCheckListItem = ({ checklistItemId, lang }: AddChecklistProps) =
 
   const { mutate } = usePostChecklistItem(item, checklistItemId);
 
+  const [spinner, setSpinner] = useState(false);//loading
   const handlePostChecklistStagiair = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setSpinner(true);//loading
     await mutate();
-    setDiv(false);
+    setTimeout(() => {
+      setDiv(false);
+      setSpinner(false);//loading
+    }, 7000);
   };
   if (typeof window !== "undefined") { // close image if escape is pressed
     window.addEventListener("keydown", (e: KeyboardEvent) => {
-        if (e.key == "Escape") {
-          setDiv(false);
+      if (e.key == "Escape") {
+        setDiv(false);
 
-        }
+      }
     })
 
-}
+  }
 
   return (
     <>
@@ -85,17 +91,32 @@ export const AddCheckListItem = ({ checklistItemId, lang }: AddChecklistProps) =
                   >
                     {translation.detail.cancel}
                   </button>
-                  <button
-                    type="submit"
-                    className="px-7 py-2 rounded-md bg-[#002548] text-white font-semibold hover:bg-blue-500"
-                  >
-                    {translation.detail.save}
-                  </button>
+                  {spinner == true ? //loading
+                    <button
+                      type="submit"
+                      className="px-7 py-2 rounded-md bg-[#002548] text-white font-semibold hover:bg-blue-500 pointer-events-none"
+                    >
+                      <ClipLoader
+                        color={"#ffffff"}
+                        loading={true}
+                        size={15}
+                        aria-label="Loading Spinner"
+                        data-testid="loader"
+                      />
+                    </button>
+                    :
+                    < button
+                      type="submit"
+                      className="px-7 py-2 rounded-md bg-[#002548] text-white font-semibold hover:bg-blue-500"
+                    >
+                      {translation.detail.save}
+                    </button>
+                  }
                 </div>
               </form>
             </div>
-          </div>
-        </div>
+          </div >
+        </div >
       )}
     </>
   );

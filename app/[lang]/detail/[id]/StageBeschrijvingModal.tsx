@@ -1,5 +1,5 @@
 import useStagairStore from "@/store";
-import { useEffect, MouseEvent, FormEvent } from "react";
+import { useEffect, MouseEvent, FormEvent, useRef, useState } from "react";
 import Select from "react-select";
 import useStagebegeleiders from "@/hooks/useStagebegeleiders";
 import { inputFormDater } from "@/lib";
@@ -8,6 +8,7 @@ import useStagebeschrijvingUpdate from "@/hooks/useStagebeschrijvingUpdate";
 import { IStagaire, IStagebeschrijving } from "@/types";
 import getTranslation from "../../components/getTranslation";
 import { Locale } from "@/i18n-config";
+import { ClipLoader } from "react-spinners";
 
 interface StageBeschrijvingModal {
   id: string;
@@ -15,6 +16,8 @@ interface StageBeschrijvingModal {
   stagair: IStagaire;
   stagebeshrijving: IStagebeschrijving;
   lang: string;
+  isModalOpen: boolean;
+  setIsModalOpen: (open: boolean) => void;
 }
 
 const StageBeschrijvingModal = ({
@@ -22,17 +25,19 @@ const StageBeschrijvingModal = ({
   stagairId,
   stagair,
   stagebeshrijving,
-  lang
+  lang,
+  isModalOpen,
+  setIsModalOpen
 }: StageBeschrijvingModal) => {
-  const isModalOpen = useStagairStore((s) => s.commentModal);
-  const setIsModalOpen = useStagairStore((state) => state.setCommentModal);
+  // const isModalOpen = useStagairStore((s) => s.commentModal);
+  // const setIsModalOpen = useStagairStore((state) => state.setCommentModal);
 
   const stageBeschrijving = useStagairStore((s) => s.stageBeschrijving);
   const setStageBeschrijving = useStagairStore((s) => s.setStageBeschrijving);
 
   const setStagaires = useStagairStore((state) => state.setStagaires);
   const stagaire = useStagairStore((s) => s.stagaires);
-
+  const [spinner, setSpinner] = useState(false);//loading
   const { data: stagebegeleiders } = useStagebegeleiders();
 
   const { mutate: updateStagaire } = useUpdateStagiair(stagairId, stagaire);
@@ -40,6 +45,9 @@ const StageBeschrijvingModal = ({
     id,
     stageBeschrijving
   );
+
+
+  const modalRef = useRef(null);
 
   useEffect(() => {
     if (stagebeshrijving && stagair) {
@@ -49,7 +57,7 @@ const StageBeschrijvingModal = ({
   }, [stagebeshrijving, stagair]);
 
   useEffect(() => {
-    const modal = document.getElementById("my_modal_3") as HTMLDialogElement;
+    const modal = modalRef.current as any;
 
     if (modal) {
       if (isModalOpen) {
@@ -76,9 +84,13 @@ const StageBeschrijvingModal = ({
   const handleSubmitForm = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
+      setSpinner(true);//loading
       await updateStagaire();
       await updateStagebescrhiving();
-      setIsModalOpen(false);
+      setTimeout(() => {
+        setSpinner(false);//loading
+        setIsModalOpen(false);
+      }, 8000);
       useStagairStore.setState({ stagaires: stagaire });
       useStagairStore.setState({ stageBeschrijving: stageBeschrijving });
     } catch (error) {
@@ -90,7 +102,7 @@ const StageBeschrijvingModal = ({
   };
   const translation = getTranslation(lang as Locale);
   return (
-    <dialog id="my_modal_3" className="modal duration-0 rounded-md">
+    <dialog ref={modalRef} id="my_modal_3" className="modal duration-0 rounded-md">
       {isModalOpen && (
         <div className="modal-box p-10">
           <h1 className="text-2xl font-semibold mb-5 text-[#002548]">{translation.detail.internshipdetails}</h1>
@@ -167,7 +179,7 @@ const StageBeschrijvingModal = ({
                   onChange={(e) =>
                     setStagaires({ ...stagaire, startDate: e.target.value })
                   }
-                  min={inputFormDater(new Date().toISOString().split("T")[0])}
+                  min={inputFormDater(stagaire.startDate)}
                 />
               </div>
               {/* Einddatum */}
@@ -271,9 +283,27 @@ const StageBeschrijvingModal = ({
               >
                 {translation.detail.cancel}
               </button>
-              <button className="px-7 py-2 rounded-md bg-[#002548] text-white font-semibold hover:bg-blue-500">
-                {translation.detail.save}
-              </button>
+              {spinner == true ? //loading
+                    <button
+                      type="submit"
+                      className="px-7 py-2 rounded-md bg-[#002548] text-white font-semibold hover:bg-blue-500 pointer-events-none"
+                    >
+                      <ClipLoader
+                        color={"#ffffff"}
+                        loading={true}
+                        size={15}
+                        aria-label="Loading Spinner"
+                        data-testid="loader"
+                      />
+                    </button>
+                    :
+                    <button
+                      type="submit"
+                      className="px-7 py-2 rounded-md bg-[#002548] text-white font-semibold hover:bg-blue-500"
+                    >
+                      {translation.detail.save}
+                    </button>
+                  }
             </div>
           </form>
         </div>

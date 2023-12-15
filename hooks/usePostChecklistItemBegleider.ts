@@ -13,7 +13,7 @@ const usePostChecklistItemBegleider = (
     () => {
       return axios.post(`/api/checkliststagebegeleider/checklistItemstagebegeleider`, {
         title: checklistItem.title,
-        date: "2021-06-01T00:00:00.000Z",
+        date: new Date(checklistItem.date).toISOString(),
         checklistItemSectionID: checkListSectionId,
       });
     },
