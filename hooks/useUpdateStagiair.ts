@@ -62,6 +62,7 @@ const useUpdateStagiair = (id: string, data: IStagaire) => {
     onSuccess: () => {
       queryClient.invalidateQueries(["stagair"]);
       queryClient.invalidateQueries(["stagairs"]);
+      queryClient.invalidateQueries(["overzicht"]);
     },
     onError: (error) => {
       console.log(error);

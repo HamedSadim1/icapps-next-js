@@ -4,8 +4,7 @@ import { formatDate } from "@/lib";
 import useStagairStore from "@/store";
 import { BsPencil } from "react-icons/bs";
 import { useRouter } from "next/navigation";
-import { usePrefetchStagairDetails } from "@/hooks/usePrefetchData";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import AuthorizedRole from "@/app/[lang]/components/AuthorizedRole";
 import { UserRole } from "@/types";
 import useCheckAuthorizeUser from "@/hooks/useCheckAuthorizeUser";
@@ -50,7 +49,6 @@ const StagiairOverzicht = ({ lang }: { lang: string }) => {
     searchStagiair.length > 3 ? searchStagiair : "",
     currentPage
   );
-  console.log(data?.totalPage);
 
   // Function to change the current page
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);

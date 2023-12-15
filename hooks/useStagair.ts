@@ -7,7 +7,6 @@ const apiClient = new APIClient<IStagaire>("/users/stagiair");
 const useStagair = (id: string): UseQueryResult<IStagaire, Error> => {
   const queryFn = async (): Promise<IStagaire> => {
     const response = await apiClient.get(id);
-    console.log(response);
     return response;
   };
 
