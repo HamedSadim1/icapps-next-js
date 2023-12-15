@@ -3,7 +3,6 @@ import {
   AiOutlineShareAlt,
   AiOutlineLeft,
   AiOutlineRight,
-  AiOutlinePlus,
 } from "react-icons/ai";
 import { formatDate } from "@/lib";
 import useStagair from "@/hooks/useStagair";
@@ -18,7 +17,6 @@ import {
   UploadDocument,
   NoDataError,
   Loading,
-  StageBeschrijvingModal,
   AddSection,
 } from "@/app/[lang]/components";
 

@@ -16,10 +16,11 @@ const EditChecklistItem: React.FC<EditChecklistItemProps> = ({
   item,
   role,
   userRole,
-  lang
+  lang,
 }) => {
   const openModal = () => {
-    useStagairStore.setState({  //Zetten wij de item die weegeven in the parent
+    useStagairStore.setState({
+      //Zetten wij de item die weegeven in the parent
       checklistItemStagiair: item,
     });
     setDiv(true); //Dit zorgt ervoor dat de modal opengaat
@@ -28,7 +29,14 @@ const EditChecklistItem: React.FC<EditChecklistItemProps> = ({
   const [showDiv, setDiv] = useState<boolean>(false);
 
   return (
-    <AuthorizedRole role={role} userRole={userRole}>
+    <AuthorizedRole
+      role={
+        role === UserRole.STAGEBEGELEIDER
+          ? UserRole.STAGEBEGELEIDER
+          : UserRole.ADMIN
+      }
+      userRole={userRole}
+    >
       <button
         type="button"
         className="hover:text-gray-400 ml-auto"
@@ -39,7 +47,7 @@ const EditChecklistItem: React.FC<EditChecklistItemProps> = ({
       <CheckListItemModal
         lang={lang}
         showDiv={showDiv}
-        setDiv={setDiv}  //Door op de button te klikken is setDiv true
+        setDiv={setDiv} //Door op de button te klikken is setDiv true
       />
     </AuthorizedRole>
   );

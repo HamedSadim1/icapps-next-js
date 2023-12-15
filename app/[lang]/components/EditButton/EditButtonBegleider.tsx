@@ -30,7 +30,12 @@ const EditButtonBegleider: React.FC<EditChecklistItemProps> = ({
 
   return (
     <>
-      <AuthorizedRole role={role} userRole={userRole}>
+      <AuthorizedRole 
+       userRole={
+        role === UserRole.STAGEBEGELEIDER
+        ? UserRole.STAGEBEGELEIDER
+        : UserRole.ADMIN
+       }>
         <button
           type="button"
           className="hover:text-gray-400 ml-auto"
