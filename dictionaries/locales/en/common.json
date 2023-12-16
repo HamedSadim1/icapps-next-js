@@ -43,7 +43,8 @@
         "no": "No",
         "checklistitem": "Checklist item",
         "checklisttitle": "Title",
-        "section": "Title"
+        "section": "Title",
+        "changesectiontitle": "Change section title"
     },
     "login": {
         "verdergaanmetgoogle": "Continue with Google",

@@ -43,7 +43,8 @@
         "no": "Non",
         "checklistitem": "Élélement de la list de contrôle",
         "checklisttitle": "Titre",
-        "section": "Titre"
+        "section": "Titre",
+        "changesectiontitle": "Changer le titre de la section"
     },
     "login": {
         "verdergaanmetgoogle": "Continuer avec Google",
