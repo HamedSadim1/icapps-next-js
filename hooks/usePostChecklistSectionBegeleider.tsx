@@ -2,14 +2,18 @@ import { IChecklistSection, checklistSectionStagebegeleider } from "@/types";
 import { useMutation, useQueryClient } from "react-query";
 import axios from "axios";
 
-const usePostChecklistSectionBegeleider = () => {
+
+interface UsePostChecklistBegProps{
+  stagairId:string
+}
+const usePostChecklistSectionBegeleider =({ stagairId }: UsePostChecklistBegProps) => {
   const queryClient = useQueryClient();
   
   const mutation = useMutation(
     (sectionData: checklistSectionStagebegeleider) => {
       return axios.post(`/api/checkliststagebegeleider`, {
         sectionTitle: sectionData.sectionTitle,
-        stagiairID: sectionData.stagiairID,
+        stagiairID: stagairId,
       });
     },
     {
