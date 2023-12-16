@@ -1,10 +1,8 @@
 "use client";
 import {
   AiOutlineShareAlt,
-  AiOutlineEdit,
   AiOutlineLeft,
   AiOutlineRight,
-  AiOutlinePlus,
 } from "react-icons/ai";
 import { formatDate } from "@/lib";
 import useStagair from "@/hooks/useStagair";
@@ -19,11 +17,9 @@ import {
   UploadDocument,
   NoDataError,
   Loading,
-  StageBeschrijvingModal,
   AddSection,
 } from "@/app/[lang]/components";
 
-import EditStageBeschrijving from "@/app/[lang]/components/EditButton/EditStageBeschrijving";
 import LinkToStagiairOverzciht from "@/app/[lang]/components/LinkToStagiairOverzicht";
 import DocumentDetail from "@/app/[lang]/components/DocumentDetail";
 import Post from "@/app/[lang]/components/Post";
@@ -34,7 +30,6 @@ import EditChecklistItem from "@/app/[lang]/components/EditButton/EditChecklistI
 import StageBeschrijving from "@/app/[lang]/components/StageBeschrijving";
 import getTranslation from "../../components/getTranslation";
 import { Locale } from "@/i18n-config";
-import { BsPencil, BsTruckFlatbed } from "react-icons/bs";
 import { AddCheckListItemBegleider } from "../../components/AddCheckListItemBegleider";
 import EditButtonBegleider from "../../components/EditButton/EditButtonBegleider";
 import useUpdateBegeleiderChecklistItem from "@/hooks/useUpdateBegeleiderChecklistItem";
@@ -42,11 +37,10 @@ import { IoIosInformationCircleOutline } from "react-icons/io";
 import AddSectionBegeleider from "../../components/Section/AddSectionBegeleider";
 import EditChecklistSectionStagairTitle from "../../components/EditButton/EditChecklistSectionStagairTitle";
 import EditChecklistSectionBegeleiderTitle from "../../components/EditButton/EditChecklistSectionBegeleiderTitle";
-import { it } from "node:test";
 import { ClipLoader } from "react-spinners";
 
 interface Params {
-  params: { id: string, lang: string };
+  params: { id: string; lang: string };
 }
 
 const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
@@ -57,13 +51,15 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
     (s) => s.setChecklistItemUpdate
   );
 
-  const updateChecklistBegeleiderItemMutation = useUpdateBegeleiderChecklistItem(); //new begeleider
-  const setChecklistBegeleiderUpdate = useStagairStore( //new begeleider
+  const updateChecklistBegeleiderItemMutation =
+    useUpdateBegeleiderChecklistItem(); //new begeleider
+  const setChecklistBegeleiderUpdate = useStagairStore(
+    //new begeleider
     (s) => s.setChecklistBegeleiderUpdate
   );
 
   const setIsModalOpen = useStagairStore((state) => state.setCommentModal);
-  const [spinner, setSpinner] = useState(false);//loading
+  const [spinner, setSpinner] = useState(false); //loading
   const setCommentId = useStagairStore((s) => s.setCommentId);
   const setUpdatePostId = useStagairStore((s) => s.setUpdatePostId);
   const setIsPostModal = useStagairStore((s) => s.setIsPostModal);
@@ -71,8 +67,6 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
   const [checkListName, setCheckListName] =
     useState<string>("checkListStagiair");
   const { role, isLoading: loading } = useCheckAuthorizeUser();
-  const geenGegevensBeschikbaarVoorStageBeschrijving: string =
-    "Geen gegevens beschikbaar";
 
   if (role !== null) {
     console.log("User Role:", UserRole[role]);
@@ -80,8 +74,12 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
   const [selectedSection, setSelectedSection] = useState<number>(0);
   const [selectedSectionId, setSelectedSectionId] = useState<string>("");
 
-  const [selectedSectionBegleider, setSelectedSectionBegleider] = useState<number>(0);
-  const [selectedSectionIdBegleider, setSelectedSectionIdBegleider] = useState<string>("");
+  const [selectedSectionBegleider, setSelectedSectionBegleider] =
+    useState<number>(0);
+  const [selectedSectionIdBegleider, setSelectedSectionIdBegleider] =
+    useState<string>("");
+  const [stagiairLoadingStateId, setStagiairLoadingStateId] =
+    useState<string>("");
 
   useEffect(() => {
     if (data) {
@@ -90,11 +88,12 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
       }
 
       if (data.checklistSectionStagebegeleider.length > 0) {
-        setSelectedSectionIdBegleider(data.checklistSectionStagebegeleider[0].id);
+        setSelectedSectionIdBegleider(
+          data.checklistSectionStagebegeleider[0].id
+        );
       }
     }
   }, [data]);
-
 
   const navigateToNextSectionStagiair = () => {
     if (selectedSection < data!.checklistsection.length - 1) {
@@ -111,22 +110,35 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
   };
 
   const navigateToNextSectionBegleider = () => {
-    if (selectedSectionBegleider < data!.checklistSectionStagebegeleider.length - 1) {
+    if (
+      selectedSectionBegleider <
+      data!.checklistSectionStagebegeleider.length - 1
+    ) {
       setSelectedSectionBegleider(selectedSectionBegleider + 1);
-      setSelectedSectionIdBegleider(data!.checklistSectionStagebegeleider[selectedSectionBegleider + 1].id);
+      setSelectedSectionIdBegleider(
+        data!.checklistSectionStagebegeleider[selectedSectionBegleider + 1].id
+      );
     }
   };
 
   const navigateToPreviousSectionBegleider = () => {
     if (selectedSectionBegleider > 0) {
       setSelectedSectionBegleider(selectedSectionBegleider - 1);
-      setSelectedSectionIdBegleider(data!.checklistSectionStagebegeleider[selectedSectionBegleider - 1].id);
+      setSelectedSectionIdBegleider(
+        data!.checklistSectionStagebegeleider[selectedSectionBegleider - 1].id
+      );
     }
   };
 
   //ArrowNavigation: call for whos is selected
-  const navigateToNextSection = checkListName === "checkListStagiair" ? navigateToNextSectionStagiair : navigateToNextSectionBegleider;
-  const navigateToPreviousSection = checkListName === "checkListStagiair" ? navigateToPreviousSectionStagiair : navigateToPreviousSectionBegleider;
+  const navigateToNextSection =
+    checkListName === "checkListStagiair"
+      ? navigateToNextSectionStagiair
+      : navigateToNextSectionBegleider;
+  const navigateToPreviousSection =
+    checkListName === "checkListStagiair"
+      ? navigateToPreviousSectionStagiair
+      : navigateToPreviousSectionBegleider;
   // 1 is the first section
 
   if (isLoading || loading || role == null) return <Loading />;
@@ -145,11 +157,12 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
     setCommentId(id);
   };
 
-  const handleCheckboxChange = (itemId: any, newCheckedValue: any) => {
+  const handleCheckboxChange = (itemId: string, newCheckedValue: any) => {
     //update setChecklistItemUpdate
     // Update the state locally
+    setStagiairLoadingStateId(itemId);
     try {
-      setSpinner(true);//loading
+      setSpinner(true); //loading
 
       setChecklistItemUpdate({
         id: itemId,
@@ -160,7 +173,7 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
         updatedAt: "",
       });
       setTimeout(() => {
-        setSpinner(false);//loading
+        setSpinner(false); //loading
       }, 8000);
       // Trigger the mutation to update the database
       updateChecklistItemMutation.mutate({
@@ -168,17 +181,16 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
         isChecked: newCheckedValue,
       });
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-
-
   };
 
-  const handleCheckboxChangeBeg = (itemId: any, newCheckedValue: any) => { //new begeleider
+  const handleCheckboxChangeBeg = (itemId: any, newCheckedValue: any) => {
+    //new begeleider
     //update setChecklistItemUpdate
     // Update the state locally
     try {
-      setSpinner(true);//loading
+      setSpinner(true); //loading
 
       setChecklistBegeleiderUpdate({
         id: itemId,
@@ -189,29 +201,25 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
         updatedAt: "",
       });
       setTimeout(() => {
-
-        setSpinner(false);//loading
+        setSpinner(false); //loading
       }, 8000);
       // Trigger the mutation to update the database
       updateChecklistBegeleiderItemMutation.mutate({
         id: itemId,
         isChecked: newCheckedValue,
-      })
+      });
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-
-
-
   };
-  const translation = getTranslation(lang as Locale)
+  const translation = getTranslation(lang as Locale);
   return (
     <>
       <div className="mt-8 xs:mx-8 md:mx-auto xs:px-0 md:px-20 ">
         <LinkToStagiairOverzciht
           role={UserRole.ADMIN || UserRole.STAGEBEGELEIDER}
           userRole={role}
-          href={'/' + lang}
+          href={"/" + lang}
           title={translation.detail.back}
         />
       </div>
@@ -223,7 +231,9 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
           </h1>
           <div className=" l:hidden flex mt-4 text-3xl text-blue-400">
             <IoIosInformationCircleOutline />
-            <h2 className="text-2xl font-medium text-[#002548] ml-3">Jouw stage info</h2>
+            <h2 className="text-2xl font-medium text-[#002548] ml-3">
+              Jouw stage info
+            </h2>
           </div>
           <div className="l:hidden flex flex-col rounded-lg mb-14 ">
             {data.stagebeschriving.length > 0 ? (
@@ -281,20 +291,14 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
               type="button"
               className={`p-3 rounded-md transition-colors hover:bg-[#002548] bg-blue-50`}
             >
-              <AiOutlineLeft
-                className=" w-5 h-5 text-blue-400"
-
-              />
+              <AiOutlineLeft className=" w-5 h-5 text-blue-400" />
             </button>
             <button
               onClick={navigateToNextSection}
               type="button"
               className={`p-3 rounded-md transition-colors hover:bg-[#002548] bg-blue-50`}
             >
-              <AiOutlineRight
-                className=" w-5 h-5 text-blue-400"
-
-              />
+              <AiOutlineRight className=" w-5 h-5 text-blue-400" />
             </button>
           </div>
 
@@ -314,14 +318,20 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
                         {checklist.sectionTitle}
                       </div>
                       <div>
-                        <EditChecklistSectionStagairTitle role={UserRole.ADMIN || UserRole.STAGEBEGELEIDER}
+                        <EditChecklistSectionStagairTitle
+                          role={UserRole.ADMIN || UserRole.STAGEBEGELEIDER}
                           userRole={role}
                           lang={lang}
-                          item={checklist} />
+                          item={checklist}
+                        />
                       </div>
                     </div>
                     <div>
-                      <AddSection lang={lang} stagairId={data.id} secionId={checklist.id} />
+                      <AddSection
+                        lang={lang}
+                        stagairId={data.id}
+                        secionId={checklist.id}
+                      />
                     </div>
                   </div>
 
@@ -332,7 +342,8 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
                           key={item.id}
                           className="flex gap-3 border-2 border-gray-300 p-2 rounded"
                         >
-                          {spinner == true? //loading
+                          {spinner == true &&
+                          stagiairLoadingStateId === item.id ? ( //loading
                             <div className="mt-3">
                               <ClipLoader
                                 color={"black"}
@@ -342,8 +353,9 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
                                 data-testid="loader"
                               />
                             </div>
-                            :
-                            <input className="w-4"
+                          ) : (
+                            <input
+                              className="w-4"
                               checked={item.isChecked}
                               type="checkbox"
                               name="item"
@@ -351,15 +363,17 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
                                 handleCheckboxChange(item.id, !item.isChecked)
                               }
                             />
-                          }
+                          )}
 
-                          <p className={`text-sm ${item.isChecked ? 'text-gray-400' : 'text-black'}`}>
+                          <p
+                            className={`text-sm ${
+                              item.isChecked ? "text-gray-400" : "text-black"
+                            }`}
+                          >
                             {item.title} <br />
-                            <div >
-                              {formatDate(item.date)}
-                            </div>
+                            <div>{formatDate(item.date)}</div>
                           </p>
-                          <EditChecklistItem  //Geen set meer voor item => modal wordt opgeroepen in deze component
+                          <EditChecklistItem //Geen set meer voor item => modal wordt opgeroepen in deze component
                             role={UserRole.ADMIN || UserRole.STAGEBEGELEIDER}
                             userRole={role}
                             lang={lang}
@@ -371,7 +385,10 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
                 </div>
                 <div className="mb-10">
                   {/* add checklistitem give id of the checklistItem  */}
-                  <AddCheckListItem checklistItemId={checklist.id} lang={lang} />
+                  <AddCheckListItem
+                    checklistItemId={checklist.id}
+                    lang={lang}
+                  />
                 </div>
               </div>
             ))
@@ -383,10 +400,14 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
                   <div
                     key={index}
                     style={{
-                      display: index === selectedSectionBegleider ? "block" : "none",
+                      display:
+                        index === selectedSectionBegleider ? "block" : "none",
                     }}
                   >
-                    <div className="flex justify-between mb-2" style={{ width: "100%" }}>
+                    <div
+                      className="flex justify-between mb-2"
+                      style={{ width: "100%" }}
+                    >
                       <div className="flex gap-2">
                         <div className="font-medium">
                           {checklist.sectionTitle}
@@ -396,11 +417,16 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
                             role={UserRole.ADMIN || UserRole.STAGEBEGELEIDER}
                             userRole={role}
                             lang={lang}
-                            item={checklist} />
+                            item={checklist}
+                          />
                         </div>
                       </div>
                       <div className="float-right">
-                        <AddSectionBegeleider lang={lang} stagairId={data.id} secionId={checklist.id} />
+                        <AddSectionBegeleider
+                          lang={lang}
+                          stagairId={data.id}
+                          secionId={checklist.id}
+                        />
                       </div>
                     </div>
                     <div className="flex flex-col justify-start mb-4 gap-3">
@@ -409,33 +435,39 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
                           <div
                             key={item.id}
                             className="flex gap-3 border-2 border-gray-500-400 p-2 rounded"
-                          > {spinner == true ? //loading
-                            <div className="mt-3">
-                              <ClipLoader
-                                color={"black"}
-                                loading={true}
-                                size={16}
-                                aria-label="Loading Spinner"
-                                data-testid="loader"
+                          >
+                            {" "}
+                            {spinner == true ? ( //loading
+                              <div className="mt-3">
+                                <ClipLoader
+                                  color={"black"}
+                                  loading={true}
+                                  size={16}
+                                  aria-label="Loading Spinner"
+                                  data-testid="loader"
+                                />
+                              </div>
+                            ) : (
+                              <input
+                                className="w-4"
+                                checked={item.isChecked}
+                                type="checkbox"
+                                name="item"
+                                onChange={() =>
+                                  handleCheckboxChangeBeg(
+                                    item.id,
+                                    !item.isChecked
+                                  )
+                                }
                               />
-                            </div>
-                            :
-                            <input className="w-4"
-                              checked={item.isChecked}
-                              type="checkbox"
-                              name="item"
-                              onChange={() =>
-                                handleCheckboxChangeBeg(item.id, !item.isChecked)
-                              }
-                            />
-                            }
+                            )}
                             <p>
                               {item.title} <br />
                               <div className="text-sm text-gray-400">
                                 {formatDate(item.date)}
                               </div>
                             </p>
-                            <EditButtonBegleider  //Geen set meer voor item => modal wordt opgeroepen in deze component
+                            <EditButtonBegleider //Geen set meer voor item => modal wordt opgeroepen in deze component
                               role={UserRole.ADMIN || UserRole.STAGEBEGELEIDER}
                               userRole={role}
                               lang={lang}
@@ -445,7 +477,10 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
                         ))}
                     </div>
                     <div className="mb-10">
-                      <AddCheckListItemBegleider checklistItemId={checklist.id} lang={lang} />
+                      <AddCheckListItemBegleider
+                        checklistItemId={checklist.id}
+                        lang={lang}
+                      />
                     </div>
                   </div>
                 )
@@ -467,10 +502,10 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
           <div className="xs:hidden l:flex flex-col rounded-lg mt-10 ">
             <div className="flex justify-start rounded-lg  ">
               <Link
-              target="_blank"
+                target="_blank"
                 href={{
                   pathname: `/${lang}/delen`,
-                  query: { id: id },
+                  query: { id: id, lang: lang },
                 }}
               >
                 <button
@@ -543,7 +578,7 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
             </div>
           </div>
         </div>
-      </section >
+      </section>
     </>
   );
 };

@@ -3,9 +3,11 @@ import { VscChecklist } from "react-icons/vsc";
 import GeneratePdf from "./(components)/GeneratePdf";
 import { IStagaire } from "@/types";
 import { formatDate } from "@/lib";
+import getTranslation from "../components/getTranslation";
+import { Locale } from "@/i18n-config";
 
 interface DelenProps {
-  searchParams: { id: string };
+  searchParams: { id: string, lang: string; };
 }
 
 const Delen = async ({ searchParams }: DelenProps) => {
@@ -24,7 +26,7 @@ const Delen = async ({ searchParams }: DelenProps) => {
   if (!stagiarData) {
     return <h1>No data</h1>;
   }
-
+  const translation = getTranslation(searchParams.lang as Locale)
   return (
     <GeneratePdf>
       <div className="text-white flex justify-center gap-10 p-32 bg-gradient-to-b to-[#002548] from-[#253849] ">
@@ -46,20 +48,20 @@ const Delen = async ({ searchParams }: DelenProps) => {
               <br />
               <div className="flex gap-8">
                 <div className="w-max">
-                  <h3 className="text-[#5ab38a]">STAGEBEGELEIDER(S)</h3>
+                  <h3 className="text-[#5ab38a]">{translation.detail.supervisor.toUpperCase()}</h3>
                   {stagiarData?.stagebegeleider.map((stagebegeleider) => (
                     <p key={stagebegeleider.id}>{stagebegeleider.name} </p>
                   ))}
                 </div>
                 <div className="">
-                  <h3 className="text-[#5ab38a]">CONTACTPERSOON</h3>
+                  <h3 className="text-[#5ab38a]">{translation.detail.contactperson.toUpperCase()}</h3>
                   {stagebeschrijving.contactPersoonName}
                 </div>
               </div>
             </div>
 
             <div className=" border-l-2 border-[#315c48]">
-              <h3 className="ml-12 text-[#5ab38a]">BESCHRIJVING</h3>
+              <h3 className="ml-12 text-[#5ab38a]">{translation.detail.description.toUpperCase()}</h3>
               <p className="ml-12">{stagebeschrijving.beschrijving}</p>
               <br />
             </div>
@@ -76,7 +78,7 @@ const Delen = async ({ searchParams }: DelenProps) => {
             <div className="ml-8 text-6xl text-[#5ab38a]">
               <GoGoal />
             </div>
-            <h2 className="mt-3">Doelen</h2>
+            <h2 className="mt-3">{translation.detail.goals.toUpperCase()}</h2>
           </div>
           <div className="w-1/2"></div>
         </div>
@@ -100,7 +102,7 @@ const Delen = async ({ searchParams }: DelenProps) => {
             <div className="ml-14 text-6xl text-[#5ab38a]">
               <VscChecklist />
             </div>
-            <h2 className="mt-3">Checklist</h2>
+            <h2 className="mt-3">{translation.detail.checklist.toUpperCase()}</h2>
           </div>
           <div className="w-1/2"></div>
         </div>
