@@ -57,8 +57,8 @@
     "userStagiair": {
         "name": "Name",
         "e-mail": "E-mail",
-        "startingdate": "Starting date",
-        "endingdata": "Ending date",
+        "startingdate": "Start date",
+        "endingdata": "End date",
         "internshipsupervisors": "Internship supervisor(s)",
         "internedit": "Edit Intern",
         "save": "Save",
