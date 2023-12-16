@@ -20,7 +20,7 @@ const AddSectionBegeleider = ({ lang, stagairId }: Props) => {
 
   const checklistSectionBegeleider = useStagairStore((s) => s.checklistSectionBegeleider);
   const setChecklistSectionBegeleider = useStagairStore((s) => s.setChecklistSectionBegeleider);
-  const { mutate } = usePostChecklistSectionBegeleider();
+  const { mutate } = usePostChecklistSectionBegeleider({stagairId});
 
   const handlePostChecklistStagiair = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();

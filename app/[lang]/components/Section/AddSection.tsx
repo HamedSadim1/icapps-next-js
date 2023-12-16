@@ -18,7 +18,7 @@ const AddSection = ({ lang, stagairId }: Props) => {
   const [spinner, setSpinner] = useState(false);
   const checklistSection = useStagairStore((s) => s.checklistSection);
   const setChecklistSection = useStagairStore((s) => s.setChecklistSection);
-  const { mutate } = usePostChecklistSection();
+  const { mutate } = usePostChecklistSection({stagairId});
 
   const handlePostChecklistStagiair = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
