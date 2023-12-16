@@ -23,7 +23,7 @@ const Post = ({
   lang
 }: Props) => {
   return (
-    <div key={post.id}>
+    <div key={post.id} className="overflow-none">
       {/* Post */}
       <div className="flex flex-col rounded-lg mt-6 xs:px-4 md:px-0">
         <div className="flex">
@@ -83,7 +83,7 @@ const Post = ({
       <button
         onClick={() => handleCommentId(post.id)}
         type="button"
-        className="mt-3"
+        className="mt-3" style={{width:"100%"}}
       >
         <CommentModal lang={lang} />
       </button>

@@ -11,10 +11,9 @@ import { ClipLoader } from "react-spinners";
 interface Props {
   lang: string;
   stagairId: string;
-  secionId:string,
 }
 
-const AddSectionBegeleider = ({ lang, stagairId,secionId }: Props) => {
+const AddSectionBegeleider = ({ lang, stagairId }: Props) => {
   const [showDiv, setDiv] = useState<boolean>(false);
   const translation = getTranslation(lang as Locale);
   const [spinner, setSpinner] = useState(false);

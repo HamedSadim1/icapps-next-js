@@ -33,8 +33,8 @@
         "save": "Opslaan",
         "post": "Publiceren",
         "upload": "Uploaden",
-        "nogoals": "Er werden nog geen doelen gedefiniëerd",
-        "nodata": "Er werden nog geen doelen gedefiniëerd",
+        "nogoals": "Er werden nog geen doelen gedefinieerd",
+        "nodata": "Er is nog geen stagebeschrijving gedefinieerd",
         "nodocuments": "Er werden nog geen documenten gedeeld in deze stage",
         "by": "door",
         "nocomments": "Geen opmerkingen beschikbaar.",
@@ -42,8 +42,8 @@
         "yes": "Ja",
         "no": "Nee",
         "checklistitem": "Checklist item",
-        "checklisttitle": "Checklist titel",
-        "section": "Sectie"
+        "checklisttitle": "Titel",
+        "section": "Titel"
     },
     "login": {
         "verdergaanmetgoogle": "Verdergaan met Google",
@@ -63,6 +63,8 @@
         "internedit": "Stagiair bewerken",
         "save": "Opslaan",
         "noresultfound": "Geen resultaten gevonden.",
-        "searchintern": "Zoek stagiair"
+        "searchintern": "Zoek stagiair",
+        "searchBtn": "Zoeken"
+
     }
 }
