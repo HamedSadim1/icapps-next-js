@@ -37,6 +37,8 @@ const StagiairOverzicht = ({ lang }: { lang: string }) => {
   const [searchStagiair, setsearchStagiair] = useState<string>("");
   const isDesktop = useMediaQuery("(min-width: 650px)");
   const[spinner,setSpinner] = useState(false);
+  const [stagiairLoadingStateId, setStagiairLoadingStateId] =
+    useState<string>("");
   // Trigger a notification using the OneSignalNotification hook
   useOneSignalNotification();
 
@@ -106,6 +108,7 @@ const StagiairOverzicht = ({ lang }: { lang: string }) => {
   //? handle router to detail page and prefetch data for detail page and navigate to detail page when clicked on stagiair
   const handleRouter = (id: string) => {
     setSpinner(true);
+    setStagiairLoadingStateId(id);
     // Prefetch the route in the background
     router.prefetch(`${lang}/detail/${id}`);
     // prefetchStagairDetails.prefetchData(id);
@@ -165,7 +168,8 @@ const StagiairOverzicht = ({ lang }: { lang: string }) => {
                   key={stagiair.id}
                   className="hover:bg-gray-200 cursor-pointer even:bg-[#FFFFFF]  odd:bg-slate-100"
                 >
-                  {spinner == true ?
+                  {spinner == true &&
+                stagiairLoadingStateId === stagiair.id ?
                   <td
                   className="px-6 py-4"
                 >

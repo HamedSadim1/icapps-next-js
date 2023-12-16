@@ -191,6 +191,7 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
     // Update the state locally
     try {
       setSpinner(true); //loading
+      setStagiairLoadingStateId(itemId);
 
       setChecklistBegeleiderUpdate({
         id: itemId,
@@ -437,7 +438,8 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
                             className="flex gap-3 border-2 border-gray-500-400 p-2 rounded"
                           >
                             {" "}
-                            {spinner == true ? ( //loading
+                            {spinner == true &&
+                            stagiairLoadingStateId === item.id ? ( //loading
                               <div className="mt-3">
                                 <ClipLoader
                                   color={"black"}
@@ -461,12 +463,14 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
                                 }
                               />
                             )}
-                            <p>
-                              {item.title} <br />
-                              <div className="text-sm text-gray-400">
-                                {formatDate(item.date)}
-                              </div>
-                            </p>
+                            <p
+                            className={`text-sm ${
+                              item.isChecked ? "text-gray-400" : "text-black"
+                            }`}
+                          >
+                            {item.title} <br />
+                            <div>{formatDate(item.date)}</div>
+                          </p>
                             <EditButtonBegleider //Geen set meer voor item => modal wordt opgeroepen in deze component
                               role={UserRole.ADMIN || UserRole.STAGEBEGELEIDER}
                               userRole={role}
