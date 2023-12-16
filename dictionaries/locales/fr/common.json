@@ -42,8 +42,8 @@
         "yes": "Oui",
         "no": "Non",
         "checklistitem": "Élélement de la list de contrôle",
-        "checklisttitle": "Titre de la liste de contrôle",
-        "section": "Section"
+        "checklisttitle": "Titre",
+        "section": "Titre"
     },
     "login": {
         "verdergaanmetgoogle": "Continuer avec Google",
@@ -63,6 +63,8 @@
         "internedit": "Modifier le stagiaire",
         "save": "Enregistrer",
         "noresultfound": "Aucun résultat trouvé.",
-        "searchintern": "Cherche stagiaire"
+        "searchintern": "Cherche stagiaire",
+        "searchBtn": "chercher"
+
     }
 }

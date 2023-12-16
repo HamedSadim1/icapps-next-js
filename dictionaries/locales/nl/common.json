@@ -42,8 +42,8 @@
         "yes": "Ja",
         "no": "Nee",
         "checklistitem": "Checklist item",
-        "checklisttitle": "Checklist titel",
-        "section": "Sectie"
+        "checklisttitle": "Titel",
+        "section": "Titel"
     },
     "login": {
         "verdergaanmetgoogle": "Verdergaan met Google",
@@ -63,6 +63,8 @@
         "internedit": "Stagiair bewerken",
         "save": "Opslaan",
         "noresultfound": "Geen resultaten gevonden.",
-        "searchintern": "Zoek stagiair"
+        "searchintern": "Zoek stagiair",
+        "searchBtn": "Zoeken"
+
     }
 }

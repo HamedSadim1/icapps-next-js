@@ -42,8 +42,8 @@
         "yes": "Yes",
         "no": "No",
         "checklistitem": "Checklist item",
-        "checklisttitle": "Checklist title",
-        "section": "Section"
+        "checklisttitle": "Title",
+        "section": "Title"
     },
     "login": {
         "verdergaanmetgoogle": "Continue with Google",
@@ -63,6 +63,7 @@
         "internedit": "Edit Intern",
         "save": "Save",
         "noresultfound": "No result found.",
-        "searchintern": "Search intern"
+        "searchintern": "Search intern",
+        "searchBtn": "Search"
     }
 }

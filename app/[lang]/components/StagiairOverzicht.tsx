@@ -36,7 +36,7 @@ const StagiairOverzicht = ({ lang }: { lang: string }) => {
   // Set up state for search term
   const [searchStagiair, setsearchStagiair] = useState<string>("");
   const isDesktop = useMediaQuery("(min-width: 650px)");
-  const[spinner,setSpinner] = useState(false);
+  const [spinner, setSpinner] = useState(false);
   const [stagiairLoadingStateId, setStagiairLoadingStateId] =
     useState<string>("");
   // Trigger a notification using the OneSignalNotification hook
@@ -59,11 +59,11 @@ const StagiairOverzicht = ({ lang }: { lang: string }) => {
   const stagiairAssignedToStagebegeleider =
     role === UserRole.STAGEBEGELEIDER
       ? Stagiaires?.filter((stagiair) =>
-          stagiair.stagebegeleider.some(
-            (stagebegeleider) => stagebegeleider.email === auth.userEmail
-          )
+        stagiair.stagebegeleider.some(
+          (stagebegeleider) => stagebegeleider.email === auth.userEmail
         )
-      :data?.stagiairs ;
+      )
+      : data?.stagiairs;
 
   // const prefetchStagairDetails = usePrefetchStagairDetails();
 
@@ -91,10 +91,25 @@ const StagiairOverzicht = ({ lang }: { lang: string }) => {
     isStagiaresLoading ||
     isStagiairesFetching
   ) {
-    return <StagiairOverviewSkeleton />;
+    return (
+      <>
+      <div className="flex mt-96 justify-center text-gray-500">
+          <h2 className="text-2xl">Fetching data...</h2>
+          
+            <ClipLoader
+              color={"gray-500"}
+              loading={true}
+              size={25}
+              aria-label="Loading Spinner"
+              data-testid="loader"
+            />
+            </div>
+      </>
+    )
+
   }
 
-  if(!role){
+  if (!role) {
     return null
   }
 
@@ -169,28 +184,28 @@ const StagiairOverzicht = ({ lang }: { lang: string }) => {
                   className="hover:bg-gray-200 cursor-pointer even:bg-[#FFFFFF]  odd:bg-slate-100"
                 >
                   {spinner == true &&
-                stagiairLoadingStateId === stagiair.id ?
-                  <td
-                  className="px-6 py-4"
-                >
-                  <ClipLoader
-                    color={"black"}
-                    loading={true}
-                    size={15}
-                    aria-label="Loading Spinner"
-                    data-testid="loader"
-                  />
-                </td>
-                :
-                <td
-                    className="px-6 py-4"
-                    onClick={() => handleRouter(stagiair.id)}
+                    stagiairLoadingStateId === stagiair.id ?
+                    <td
+                      className="px-6 py-4"
+                    >
+                      <ClipLoader
+                        color={"black"}
+                        loading={true}
+                        size={15}
+                        aria-label="Loading Spinner"
+                        data-testid="loader"
+                      />
+                    </td>
+                    :
+                    <td
+                      className="px-6 py-4"
+                      onClick={() => handleRouter(stagiair.id)}
 
-                  >
-                    {stagiair.name}
-                  </td>
+                    >
+                      {stagiair.name}
+                    </td>
                   }
-                  
+
 
                   {isDesktop ? (
                     <td
