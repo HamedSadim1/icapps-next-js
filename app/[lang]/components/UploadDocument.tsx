@@ -90,49 +90,58 @@ const UploadDocument = ({ stagiairId, lang }: IUploadDocumentProps) => {
       )}
       {showDiv == true && (
         <div className="h-screen w-screen flex flex-col justify-center items-center fixed top-0 left-0 right-0 bottom-0 z-50 bg-opacity-50 bg-gray-700">
-          <div className="bg-white shadow-2xl w-1/4 h-auto pb-7 text-gray-500 z-2 rounded-md">
+          <div className="bg-white shadow-xl h-auto pb-7 xs:mx-5  text-gray-500  rounded-md">
             <button
               className="btn btn-sm btn-circle btn-ghost float-right mt-3 mr-3 text-xl"
               onClick={() => setDiv(false)}
             >
               <MdClose />
             </button>
-
-            <div className="flex pt-16 pb-10 ml-14 ">
-              <input
-                className="p-5 bg-gray-200 rounded-md"
-                type="file"
-                onChange={(e) => setUpload(e.target.files)}
-              />
-            </div>
-            <div className="w-full text-right">
-              <button
-                className="mr-4 px-7 py-2 rounded-md bg-blue-50 text-[#002548] font-semibold hover:bg-blue-200"
-                onClick={() => setDiv(false)}
-              >
-                {translation.detail.cancel}
-              </button>
-              {spinner == true ? //loading
-
-                <button className="mr-16 rounded-md bg-[#002548] text-white font-semibold hover:bg-blue-500 px-7 py-2 pointer-events-none">
-                  <ClipLoader
-                    color={"#ffffff"}
-                    loading={true}
-                    size={15}
-                    aria-label="Loading Spinner"
-                    data-testid="loader"
+            <div className="flex flex-col pt-16 mx-16">
+              <h2 className="pb-6 sm:pb-10 text-[#002548] font-semibold text-2xl flex">
+                Upload Document &nbsp;{" "}
+              </h2>
+              <div >
+                <div className="mb-5">
+                  <input
+                    className="p-5 bg-gray-200 rounded-md w-full"
+                    type="file"
+                    onChange={(e) => setUpload(e.target.files)}
                   />
-                </button>
-                :
-                <a
-                  className="mr-16 rounded-md bg-[#002548] text-white font-semibold hover:bg-blue-500 px-7 py-2 cursor-pointer"
-                >
-                  <button onClick={() => postDocument(upload)}>
-                    {translation.detail.upload}
-                  </button>
-                </a>//loading t.e.m hier
-              }
+                </div>
 
+
+                <div className="flex flex-col sm:flex-row justify-end gap-5 w-full">
+                  <button
+                    className="mr-4 px-7 py-2 rounded-md bg-blue-50 w-full sm:w-auto text-[#002548] font-semibold hover:bg-blue-200"
+                    onClick={() => setDiv(false)}
+                  >
+                    {translation.detail.cancel}
+                  </button>
+                  {spinner == true ? //loading
+
+                    <button
+                      type="submit"
+                      className="px-7 py-2 rounded-md bg-[#002548] text-white font-semibold hover:bg-blue-500 pointer-events-none"
+                    >
+                      <ClipLoader
+                        color={"#ffffff"}
+                        loading={true}
+                        size={15}
+                        aria-label="Loading Spinner"
+                        data-testid="loader"
+                      />
+                    </button>
+                    :
+
+                    <button onClick={() => postDocument(upload)} className="px-7 py-2 rounded-md bg-[#002548] text-white font-semibold hover:bg-blue-500">
+                      {translation.detail.upload}
+                    </button>
+                    //loading t.e.m hier
+                  }
+
+                </div>
+              </div>
             </div>
           </div>
         </div>

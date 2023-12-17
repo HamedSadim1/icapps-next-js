@@ -74,10 +74,10 @@ const StagairForm = ({ params: { lang } }: Params) => {
   return (
     <dialog
       id="my_modal_3"
-      className={`modal ${isModalOpen ? "open" : "close"} cursor-auto`}
+      className={`modal ${isModalOpen ? "open" : "close"} cursor-auto duration-0 rounded-md`} 
     >
       {isModalOpen && (
-        <div className="modal-box px-10 py-10 cursor-auto">
+        <div className="px-10 py-10 shadow-xl h-auto ">
           <h2 className="mb-8 text-[#002548] font-semibold text-2xl flex ">
             {translation.userStagiair['internedit']}
           </h2>
@@ -180,29 +180,30 @@ const StagairForm = ({ params: { lang } }: Params) => {
                   }}
                 />
               </div>
-              {
-                spinner == true ?
-                <button
-                className="px-10 py-2 mt-2 text-white font-semibold bg-[#002548] rounded-md absolute bottom-10 right-10 hover:bg-blue-500 pointer-events-none"
-                type="submit"
-              >
-                <ClipLoader
+              <div className="w-full">
+                {
+                  spinner == true ?
+                    <button
+                      className="px-10 py-2 mt-2 text-white font-semibold bg-[#002548] rounded-md block sm:absolute bottom-10 right-10 hover:bg-blue-500 pointer-events-none w-full sm:w-auto"
+                      type="submit"
+                    >
+                      <ClipLoader
                         color={"#ffffff"}
                         loading={true}
                         size={15}
                         aria-label="Loading Spinner"
                         data-testid="loader"
                       />
-              </button>
-                :
-                  <button
-                    className="px-10 py-2 mt-2 text-white font-semibold bg-[#002548] rounded-md absolute bottom-10 right-10 hover:bg-blue-500"
-                    type="submit"
-                  >
-                    {translation.userStagiair['save']}
-                  </button>
-              }
-
+                    </button>
+                    :
+                    <button
+                      className="px-10 py-2  text-white font-semibold bg-[#002548] rounded-md block sm:absolute bottom-10 right-10 hover:bg-blue-500 w-full sm:w-auto"
+                      type="submit"
+                    >
+                      {translation.userStagiair['save']}
+                    </button>
+                }
+              </div>
             </div>
           </form>
         </div>
