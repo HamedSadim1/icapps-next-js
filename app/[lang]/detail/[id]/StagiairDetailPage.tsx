@@ -315,7 +315,7 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
                 >
                   {/* Existing Section */}
                   <div className="flex flex-col">
-                    <div className="flex justify-between gap-2 mb-2">
+                    <div className="flex justify-between gap-4 mb-2">
                       <div className="flex gap-2">
                         <div className="flex font-medium">
                           {checklist.sectionTitle}
@@ -336,6 +336,7 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
                         />
                       </div>
                     </div>
+
 
                     <div className="flex flex-col justify-start mb-4 gap-3">
                       {checklist.items &&
@@ -537,7 +538,7 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
             )}
           </div>
           {/* Documenten */}
-          <div className="flex flex-col rounded-lg  mt-10">
+          <div className="flex flex-col rounded-lg  mt-0 l:mt-10">
             <div className="bg-blue-50  rounded-lg overflow-hidden  mt-10 px-7 py-3 text-[#002548] w-full">
               <h2 className="text-2xl mt-5 font-semibold text-[#002548]">
                 {translation.detail.documents}

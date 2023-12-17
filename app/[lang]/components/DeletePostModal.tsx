@@ -78,7 +78,7 @@ const DeletePostModal = ({ postId, post, lang }: DeletePostModalProps) => {
     <>
       {isPostModal && (
         <div className="h-screen w-screen flex flex-col justify-center items-center fixed top-0 left-0 right-0 bottom-0 z-50 bg-opacity-25 bg-gray-700">
-          <div className="bg-white shadow-xl w-4/10 h-auto pb-7 text-gray-500 z-2 rounded-md">
+          <div className="bg-white shadow-xl h-auto pb-7 mx-5 text-gray-500 rounded-md">
             <button
               className="btn btn-sm btn-circle btn-ghost float-right text-xl mr-3 mt-3"
               onClick={handleCloseModal}
@@ -86,7 +86,7 @@ const DeletePostModal = ({ postId, post, lang }: DeletePostModalProps) => {
               <MdClose />
             </button>
             <div className="flex flex-col pt-16 mx-16">
-              <h2 className="pb-10 text-[#002548] font-semibold text-2xl flex">
+              <h2 className="pb-6 sm:pb-10 text-[#002548] font-semibold text-2xl flex">
                 {translation.detail.editgoal} &nbsp;
                 {/* Delete button */}
                 <button onClick={HandleDelete}>
@@ -95,7 +95,7 @@ const DeletePostModal = ({ postId, post, lang }: DeletePostModalProps) => {
               </h2>
               {/* Form */}
               <form onSubmit={HandleUpdate}>
-                <label className="float-left" htmlFor="titel">
+                <label  htmlFor="titel">
                   {translation.detail.title}
                 </label>
                 <input
@@ -106,7 +106,7 @@ const DeletePostModal = ({ postId, post, lang }: DeletePostModalProps) => {
                   value={doel.title}
                   onChange={(e) => setDoel({ ...doel, title: e.target.value })}
                 />
-                <label className="float-left" htmlFor="beschrijving">
+                <label htmlFor="beschrijving">
                   {translation.detail.description}
                 </label>
                 <textarea
@@ -122,7 +122,7 @@ const DeletePostModal = ({ postId, post, lang }: DeletePostModalProps) => {
                   </label>
                   <br />
                   <input
-                    className="p-3 border-2 rounded-md mb-5"
+                    className="w-full p-3 border-2 rounded-md mb-5"
                     type="date"
                     name="einddatum"
                     id="einddatum"
@@ -133,9 +133,9 @@ const DeletePostModal = ({ postId, post, lang }: DeletePostModalProps) => {
                     min={inputFormDater(new Date().toISOString().split("T")[0])}
                   />
                 </div>
-                <div className="w-full text-right mt-28">
+                <div className="flex flex-col sm:flex-row justify-end gap-5 w-full">
                   <button
-                    className="mr-4 px-7 py-2 rounded-md bg-blue-50 text-[#002548] font-semibold hover:bg-blue-200"
+                    className="mr-4 px-7 py-2 rounded-md bg-blue-50 w-full sm:w-auto text-[#002548] font-semibold hover:bg-blue-200"
                     onClick={handleCloseModal}
                   >
                     {translation.detail.cancel}

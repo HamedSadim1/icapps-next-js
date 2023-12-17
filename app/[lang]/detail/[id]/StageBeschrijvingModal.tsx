@@ -164,7 +164,7 @@ const StageBeschrijvingModal = ({
               />
             </div>
             {/* StartDatum and Eind datum */}
-            <div className="flex justify-between gap-3">
+            <div className="flex flex-col s:flex-row justify-between gap-3">
               <div className="form-control">
                 <label className="label">
                   <span className="label-text text-base text-gray-500">{translation.detail.startdate}</span>
@@ -238,7 +238,7 @@ const StageBeschrijvingModal = ({
                 }
               />
             </div>
-            <div className="flex">
+            <div className="flex flex-col sm:flex-row justify-between gap-3">
               <div className="form-control">
                 <label className="label">
                   <span className="label-text text-base text-gray-500">{translation.detail.phonenumber}</span>
@@ -259,12 +259,12 @@ const StageBeschrijvingModal = ({
               </div>
               <div className="form-control">
                 <label className="label">
-                  <span className="label-text ml-3 text-base text-gray-500">{translation.detail.email}</span>
+                  <span className="label-text sm:ml-3 text-base text-gray-500">{translation.detail.email}</span>
                 </label>
                 <input
                   type="email"
                   placeholder="Email"
-                  className="ml-3 w-full p-3 border-2 rounded-md mb-5"
+                  className="sm:ml-3 w-full p-3 border-2 rounded-md mb-5"
                   value={stageBeschrijving.contactPersoonEmail}
                   onChange={(e) =>
                     setStageBeschrijving({
@@ -276,7 +276,7 @@ const StageBeschrijvingModal = ({
               </div>
             </div>
 
-            <div className="w-full text-right mt-2 ">
+            <div className="flex flex-col sm:flex-row justify-end gap-5 w-full">
               <button
                 className="mr-4 px-7 py-2 rounded-md  bg-blue-50 text-[#002548] font-semibold hover:bg-blue-200"
                 onClick={handleModal}

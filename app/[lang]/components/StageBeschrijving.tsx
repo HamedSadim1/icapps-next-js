@@ -75,7 +75,7 @@ const StageBeschrijving = ({
       <h3 className="text-gray-600 ml-2">
         {stagebeschriving.contactPersoonName}
       </h3>
-      <h3 className="text-gray-600 ml-2 mt-1">
+      <h3 className="text-gray-600 ml-2 mt-1 break-words">
         {stagebeschriving.contactPersoonEmail}
       </h3>
       <h3 className="text-gray-600 ml-2 mt-1">

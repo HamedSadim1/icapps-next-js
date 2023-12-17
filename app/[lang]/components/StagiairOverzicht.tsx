@@ -135,7 +135,7 @@ const StagiairOverzicht = ({ lang }: { lang: string }) => {
   };
   const translation = getTranslation(lang as Locale);
   return (
-    <section className="xs:mx-8 md:mx-auto xs:px-0 md:px-20">
+    <section className="xs:mx-8 md:mx-auto xs:px-0 md:px-20 pb-8">
       <AuthorizedRole
         role={
           role === UserRole.STAGEBEGELEIDER
