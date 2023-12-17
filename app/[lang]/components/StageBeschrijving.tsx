@@ -6,6 +6,8 @@ import getTranslation from "./getTranslation";
 import { Locale } from "@/i18n-config";
 import useStagairStore from "@/store";
 import { useState } from "react";
+import { BsPencil } from "react-icons/bs";
+import useCheckAuthorizeUser from "@/hooks/useCheckAuthorizeUser";
 
 interface StageBeschrijvingProps {
   stagebeschriving: IStagebeschrijving;
@@ -23,10 +25,11 @@ const StageBeschrijving = ({
   data,
   stagebeschriving,
   getStagebegeleiderName,
-  lang
+  lang,
 }: StageBeschrijvingProps) => {
   const translation = getTranslation(lang as Locale);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const auth = useCheckAuthorizeUser();
 
   return (
     <div
@@ -34,13 +37,26 @@ const StageBeschrijving = ({
       className="bg-blue-50  mt-11 rounded-lg pb-5 p-5"
     >
       <div className="flex justify-between items-center ml-2">
-        <h2 className="text-2xl font-semibold text-[#002548]">{translation.detail.description}</h2>
+        <h2 className="text-2xl font-semibold text-[#002548]">
+          {translation.detail.description}
+        </h2>
         {/* Edit Stagebeschrijving */}
-        <EditStageBeschrijving
+        {/* <EditStageBeschrijving
           role={UserRole.ADMIN || UserRole.STAGEBEGELEIDER}
           userRole={role}
           setIsModalOpen={setIsModalOpen}
-        />
+        /> */}
+        {auth.role === UserRole.STAGEBEGELEIDER ||
+        auth.role === UserRole.ADMIN ? (
+          <button
+            type="button"
+            className="hover:text-gray-400"
+            onClick={() => setIsModalOpen(true)}
+          >
+            <BsPencil className="text-xl" />
+          </button>
+        ) : null}
+
         {/* Stagebeschrijving Modal */}
         <StageBeschrijvingModal
           stagairId={id}
@@ -56,21 +72,21 @@ const StageBeschrijving = ({
         {stagebeschriving.beschrijving}
       </p>
       <h2 className="text-2xl mt-5 ml-2 font-semibold text-[#002548]">
-      {translation.detail.supervisor}
+        {translation.detail.supervisor}
       </h2>
       <h3 className="text-gray-600 ml-2">{getStagebegeleiderName()}</h3>
       <h2 className="text-2xl mt-5 ml-2 font-semibold text-[#002548]">
-      {translation.detail.internshipduration}
+        {translation.detail.internshipduration}
       </h2>
       <h3 className="text-gray-600 ml-2">
         {formatDate(data.startDate)} - {formatDate(data.endDate)}
       </h3>
       <h2 className="text-2xl mt-5 ml-2 font-semibold text-[#002548]">
-      {translation.detail.school}
+        {translation.detail.school}
       </h2>
       <h3 className="text-gray-600 ml-2">{stagebeschriving.school}</h3>
       <h2 className="text-2xl mt-5 ml-2 font-semibold text-[#002548]">
-      {translation.detail.contactperson}
+        {translation.detail.contactperson}
       </h2>
       <h3 className="text-gray-600 ml-2">
         {stagebeschriving.contactPersoonName}

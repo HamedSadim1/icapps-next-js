@@ -218,7 +218,11 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
     <>
       <div className="mt-8 xs:mx-8 md:mx-auto xs:px-0 md:px-20 ">
         <LinkToStagiairOverzciht
-          role={UserRole.ADMIN || UserRole.STAGEBEGELEIDER}
+          role={
+            role === UserRole.STAGEBEGELEIDER
+              ? UserRole.STAGEBEGELEIDER
+              : UserRole.ADMIN
+          }
           userRole={role}
           href={"/" + lang}
           title={translation.detail.back}
@@ -522,7 +526,11 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
               data.stagebeschriving.map((stagebeschriving) => (
                 <StageBeschrijving
                   key={stagebeschriving.id}
-                  role={UserRole.ADMIN || UserRole.STAGEBEGELEIDER}
+                  role={
+                    role === UserRole.STAGEBEGELEIDER
+                      ? UserRole.STAGEBEGELEIDER
+                      : UserRole.ADMIN
+                  }
                   userRole={role}
                   id={id}
                   data={data}

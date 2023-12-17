@@ -6,7 +6,7 @@ import useStagebegeleiders from "@/hooks/useStagebegeleiders";
 
 const useUpdateStagiair = (id: string, data: IStagaire) => {
   const queryClient = useQueryClient();
-  const { role } = useCheckAuthorizeUser();
+  const { role,userEmail } = useCheckAuthorizeUser();
   const { data: stagebegeleiders } = useStagebegeleiders();
 
   const updateStagiair = async () => {
@@ -18,21 +18,31 @@ const useUpdateStagiair = (id: string, data: IStagaire) => {
     //? stagebegeleiderId is an array if there are multiple stagebegeleiders
 
     const stagebegeleiderIdArray = Array.isArray(data.stagebegeleiderId)
-      ? data.stagebegeleiderId
-      : [data.stagebegeleiderId];
-
-    //? if auth is stagebeglerider, stagebegeleider cant remove himself from the stagiair
-
-    if (role === UserRole.STAGEBEGELEIDER) {
-      //? if the stagebegeleiderId is not in the array, push the stagebegeleiderId to the array
-      const stagebegeleiderId = stagebegeleiders?.find((stagebegeleider) =>
-        data.stagebegeleiderId.includes(stagebegeleider.id)
+    ? data.stagebegeleiderId
+    : [data.stagebegeleiderId];
+  
+  //? If auth is stagebeglerider, make sure they can't remove themselves from the stagiair
+  if (role === UserRole.STAGEBEGELEIDER) {
+    //? Check if the user's email is in the list of stagebegeleiders
+    const isUserStagebegeleider = stagebegeleiders?.some(
+      (stagebegeleider) => userEmail === stagebegeleider.email
+    );
+  
+    //? If the user is a stagebegeleider and their email is in the list, add their ID to the array
+    if (isUserStagebegeleider) {
+      const userStagebegeleiderId = stagebegeleiders?.find(
+        (stagebegeleider) => userEmail === stagebegeleider.email
       )?.id;
-
-      if (stagebegeleiderId) {
-        stagebegeleiderIdArray.push(stagebegeleiderId);
+  
+      if (userStagebegeleiderId) {
+        //? Make sure the user's ID is always present in the array
+        if (!stagebegeleiderIdArray.includes(userStagebegeleiderId)) {
+          stagebegeleiderIdArray.push(userStagebegeleiderId);
+        }
       }
     }
+  }
+  
 
     try {
       const response = await axios.patch(

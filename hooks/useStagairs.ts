@@ -2,11 +2,12 @@ import { useQuery, UseQueryOptions, UseQueryResult } from "react-query";
 import APIClient from "@/services/api-client";
 import { IStagaire } from "@/types";
 
-const apiClient = new APIClient<IStagaire>("/users/stagiair");
+const apiClient = new APIClient<IStagaire>("/stagebegeleiderRole");
 
 const useStagairs = (): UseQueryResult<IStagaire[], Error> => {
   const queryFn = async (): Promise<IStagaire[]> => {
     const response = await apiClient.getAll();
+    console.log(response);
     return response;
   };
 

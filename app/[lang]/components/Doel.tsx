@@ -10,6 +10,8 @@ import usePostNotification from "@/hooks/usePostNotification";
 import getTranslation from "./getTranslation";
 import { Locale } from "@/i18n-config";
 import { ClipLoader } from "react-spinners";
+import useCheckAuthorizeUser from "@/hooks/useCheckAuthorizeUser";
+import { UserRole } from "@/types";
 
 interface DoelProps {
   stagiarId: string;
@@ -27,6 +29,8 @@ const Doel = ({ stagiarId, lang }: DoelProps) => {
   const pushNotificationId = useStagairStore((s) => s.pushNotificationId);
   const { mutate: MutateNotification } =
     usePostNotification(pushNotificationId);
+
+  const auth = useCheckAuthorizeUser();
 
   const handleSubmitButton = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -65,12 +69,15 @@ const Doel = ({ stagiarId, lang }: DoelProps) => {
           <GoGoal className="text-3xl text-blue-400 mr-4 mb-1" />
           <h2 className="font-bold text-2xl mb-1 text-[#002548]">{translation.detail.goals}</h2>
         </div>
+        {auth.role === UserRole.STAGEBEGELEIDER ||
+          auth.role === UserRole.ADMIN ? (
         <div onClick={() => setDiv(true)} className="flex px-4 py-2 text-[#002548] font-semibold bg-blue-50 cursor-pointer rounded-md hover:bg-blue-200">
           <button>
             <AiOutlinePlus className="float-left mt-1"></AiOutlinePlus>
             &nbsp;{translation.detail.newgoal}
           </button>
         </div>
+         ) : null}
       </div>
       {showDiv == true && (
         <div className="h-screen w-screen flex flex-col justify-center items-center fixed top-0 left-0 right-0 bottom-0 z-50 bg-opacity-50 bg-gray-700">

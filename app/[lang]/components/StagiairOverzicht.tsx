@@ -16,7 +16,6 @@ import getTranslation from "./getTranslation";
 import StagairForm from "./StagairForm";
 import useMediaQuery from "@/hooks/useMediaQuery";
 import { useGetAllStagiaire } from "@/hooks/useGetAllStagiaire";
-import StagiairOverviewSkeleton from "./StagiarOverzichtLoading";
 import { ClipLoader } from "react-spinners";
 
 const StagiairOverzicht = ({ lang }: { lang: string }) => {
@@ -58,11 +57,13 @@ const StagiairOverzicht = ({ lang }: { lang: string }) => {
   //? if the role is stagebegeleider, show only stagiair that are assigned to the stagebegeleider make a new array with stagiair that are assigned to the stagebegeleider
   const stagiairAssignedToStagebegeleider =
     role === UserRole.STAGEBEGELEIDER
-      ? Stagiaires?.filter((stagiair) =>
-        stagiair.stagebegeleider.some(
-          (stagebegeleider) => stagebegeleider.email === auth.userEmail
-        )
-      )
+      ? Array.isArray(Stagiaires)
+        ? Stagiaires.filter((stagiair) =>
+            stagiair.stagebegeleider.some(
+              (stagebegeleider) => stagebegeleider.email === auth.userEmail
+            )
+          )
+        : []
       : data?.stagiairs;
 
   // const prefetchStagairDetails = usePrefetchStagairDetails();
@@ -75,11 +76,11 @@ const StagiairOverzicht = ({ lang }: { lang: string }) => {
     if (role === UserRole.STAGIAIR) {
       data?.stagiairs?.map((stagiair) => {
         if (stagiair.email === auth.userEmail) {
-          router.replace(`/detail/${stagiair.id}`);
+          router.replace(`http://localhost:3000/${lang}/detail/${stagiair.id}`);
         }
       });
     }
-  }, [router, auth.role, auth.userEmail, role, data]);
+  }, [router, auth.role, auth.userEmail, role, data,lang]);
 
   if (error) {
     return <div>{error.message}</div>;
@@ -87,39 +88,29 @@ const StagiairOverzicht = ({ lang }: { lang: string }) => {
   if (
     isLoading ||
     !data ||
-    isFetching ||
-    isStagiaresLoading ||
-    isStagiairesFetching
+    isStagiaresLoading 
   ) {
     return (
       <>
-      <div className="flex mt-96 justify-center text-gray-500">
+        <div className="flex mt-96 justify-center text-gray-500">
           <h2 className="text-2xl">Fetching data...</h2>
-          
-            <ClipLoader
-              color={"gray-500"}
-              loading={true}
-              size={25}
-              aria-label="Loading Spinner"
-              data-testid="loader"
-            />
-            </div>
-      </>
-    )
 
+          <ClipLoader
+            color={"gray-500"}
+            loading={true}
+            size={25}
+            aria-label="Loading Spinner"
+            data-testid="loader"
+          />
+        </div>
+      </>
+    );
   }
 
   if (!role) {
-    return null
+    return null;
   }
 
-  // if (!stagiairData || stagiairData.length === 0  ) {
-  //   return (
-  //     <div className="flex flex-wrap justify-center items-center h-screen w-full">
-  //       No stagebegeleiders found.
-  //     </div>
-  //   );
-  // }
   //? handle router to detail page and prefetch data for detail page and navigate to detail page when clicked on stagiair
   const handleRouter = (id: string) => {
     setSpinner(true);
@@ -183,11 +174,8 @@ const StagiairOverzicht = ({ lang }: { lang: string }) => {
                   key={stagiair.id}
                   className="hover:bg-gray-200 cursor-pointer even:bg-[#FFFFFF]  odd:bg-slate-100"
                 >
-                  {spinner == true &&
-                    stagiairLoadingStateId === stagiair.id ?
-                    <td
-                      className="px-6 py-4"
-                    >
+                  {spinner == true && stagiairLoadingStateId === stagiair.id ? (
+                    <td className="px-6 py-4">
                       <ClipLoader
                         color={"black"}
                         loading={true}
@@ -196,22 +184,19 @@ const StagiairOverzicht = ({ lang }: { lang: string }) => {
                         data-testid="loader"
                       />
                     </td>
-                    :
+                  ) : (
                     <td
                       className="px-6 py-4"
                       onClick={() => handleRouter(stagiair.id)}
-
                     >
                       {stagiair.name}
                     </td>
-                  }
-
+                  )}
 
                   {isDesktop ? (
                     <td
                       className="px-6 py-4"
                       onClick={() => handleRouter(stagiair.id)}
-
                     >
                       {stagiair.email}
                     </td>
@@ -222,7 +207,6 @@ const StagiairOverzicht = ({ lang }: { lang: string }) => {
                     <td
                       className="px-6 py-4"
                       onClick={() => handleRouter(stagiair.id)}
-
                     >
                       {formatDate(stagiair.startDate)}
                     </td>
@@ -233,7 +217,6 @@ const StagiairOverzicht = ({ lang }: { lang: string }) => {
                     <td
                       className="px-6 py-4"
                       onClick={() => handleRouter(stagiair.id)}
-
                     >
                       {formatDate(stagiair.endDate)}
                     </td>
@@ -244,7 +227,6 @@ const StagiairOverzicht = ({ lang }: { lang: string }) => {
                     <td
                       className="px-6 py-4"
                       onClick={() => handleRouter(stagiair.id)}
-
                     >
                       {stagiair.stagebegeleider
                         .map((stagebegeleider) => stagebegeleider.name)
@@ -287,15 +269,16 @@ const StagiairOverzicht = ({ lang }: { lang: string }) => {
               emailPerPage={emailPerPage}
               paginate={paginate}
               totalEmails={
-                // Check if the role is STAGEBEGELEIDER   // If true, use the length of stagiairAssignedToStagebegeleider  // If false, use the length of stagiairData
-                // (role === UserRole.STAGEBEGELEIDER
-                //   ? data?.totalPage
-                //   : data?.totalPage) ||
-                // // If both lengths are falsy, default to the length of stagiairData or 0
-                // data?.totalPage ||
-                // 0
-                data?.totalPage
-              } // Use the length of filteredStagiair
+                // Check if the role is STAGEBEGELEIDER
+                // If true, use the length of stagiairAssignedToStagebegeleider
+                // If false, use the length of stagiairData
+
+                // Length of stagiairAssignedToStagebegeleider if it exists, otherwise 0
+                role === UserRole.STAGEBEGELEIDER
+                  ? 1 || 0
+                  : // Length of stagiairData if it exists, otherwise 0
+                    data?.totalPage || 0
+              }
             />
           )}
         </div>
