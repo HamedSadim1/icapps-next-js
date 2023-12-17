@@ -79,7 +79,7 @@ const CommentDocument = ({ lang }: Props) => {
   return (
     <>
       {showDiv == false && (
-        <div className="bg-white text-gray-500 hover:text-gray-900 border-none pl-1 float-left ml-24 mt-2 cursor-pointer">
+        <div className="bg-white text-gray-500 hover:text-gray-900 border-none pl-1  mt-2 cursor-pointer">
           <button onClick={() => setDiv(true)}>
             <AiOutlinePlus className="float-left ml-3 mt-1 text-gray-500 hover:text-gray-900" />
             &nbsp;{translation.detail.addcomment}
@@ -87,14 +87,14 @@ const CommentDocument = ({ lang }: Props) => {
         </div>
       )}
       {showDiv == true && (
-        <div className="ml-28 mb-16 h-12">
+        <div className="ml-10 mb-16 h-12 pr-8">
           <form
-            className="absolute flex flex-col items-end"
+            className="flex flex-col items-start gap-6 w-full"
             onSubmit={handleSubmitButton}
           >
             <textarea
               rows={2}
-              className="mb-4 border-2 p-1 rounded-md pointer-events-auto w-96"
+              className="resize border-2 p-1 rounded-md pointer-events-auto w-max"
               name="beschrijving"
               id="beschrijving"
               value={comment.comment}
@@ -102,9 +102,9 @@ const CommentDocument = ({ lang }: Props) => {
                 setComment({ ...comment, comment: e.target.value })
               }
             ></textarea>
-            <div className=" pointer-events-auto">
+            <div className=" flex flex-row justify-start gap-2 w-full pointer-events-auto">
               <button
-                className="ml-4 px-6 py-1 rounded-md bg-blue-50 text-[#002548] font-semibold hover:bg-blue-200"
+                className="px-6 py-1 rounded-md bg-blue-50 text-[#002548] font-semibold hover:bg-blue-200"
                 onClick={handleCloseCommentaar}
               >
                 {translation.detail.cancel}
@@ -112,7 +112,7 @@ const CommentDocument = ({ lang }: Props) => {
               {spinner == true ? //loading
                 <button
                   type="submit"
-                  className="ml-4 px-6 py-1 rounded-md bg-[#002548] text-white font-semibold hover:bg-blue-500 pointer-events-none"
+                  className=" px-6 py-1 rounded-md bg-[#002548] text-white font-semibold hover:bg-blue-500 pointer-events-none"
                 >
                   <ClipLoader
                     color={"#ffffff"}
@@ -125,7 +125,7 @@ const CommentDocument = ({ lang }: Props) => {
                 :
                 <button
                   type="submit"
-                  className="ml-4 px-6 py-1 rounded-md bg-[#002548] text-white font-semibold hover:bg-blue-500"
+                  className=" px-6 py-1 rounded-md bg-[#002548] text-white font-semibold hover:bg-blue-500"
                 >
                   {translation.detail.post}
                 </button>

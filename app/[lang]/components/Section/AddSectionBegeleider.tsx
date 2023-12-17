@@ -61,7 +61,7 @@ const AddSectionBegeleider = ({ lang, stagairId,secionId }: Props) => {
 
       {showDiv == true && (
         <div className="h-screen w-screen flex flex-col justify-center items-center fixed top-0 left-0 right-0 bottom-0 z-50 bg-opacity-50 bg-gray-700">
-          <div className="bg-white shadow-2xl w-1/3 h-auto pb-7 text-gray-500 z-2 rounded-md">
+          <div className="bg-white shadow-xl h-auto pb-7 mx-5 text-gray-500 rounded-md">
             <button
               className="btn btn-sm btn-circle btn-ghost float-right mt-3 mr-3 text-xl"
               onClick={() => setDiv(false)}
@@ -69,7 +69,7 @@ const AddSectionBegeleider = ({ lang, stagairId,secionId }: Props) => {
               <MdClose />
             </button>
             <div className="flex flex-col pt-16 mx-16">
-              <h2 className="pb-10 text-[#002548] font-semibold text-2xl flex">
+              <h2 className="pb-6 sm:pb-10 text-[#002548] font-semibold text-2xl flex">
               {translation.detail.addsection}&nbsp;
               </h2>
               <form onSubmit={handlePostChecklistStagiair}>
@@ -87,9 +87,9 @@ const AddSectionBegeleider = ({ lang, stagairId,secionId }: Props) => {
                     })
                   }
                 />
-                <div className="w-full text-right">
+                <div className="flex flex-col s:flex-row justify-end gap-5 w-full">
                   <button
-                    className="mr-4 px-7 py-2 rounded-md bg-blue-50 text-[#002548] font-semibold hover:bg-blue-200"
+                    className="mr-4 px-7 py-2 rounded-md bg-blue-50 w-full s:w-auto text-[#002548] font-semibold hover:bg-blue-200"
                     onClick={() => setDiv(false)}
                   >
                     {translation.detail.cancel}

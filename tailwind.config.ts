@@ -9,7 +9,8 @@ const config: Config = {
   ],
   theme: {
     screens:{
-      xs: "300px",
+      xs: "200px",
+      s:"420px",
       sm: "640px",
       md: "786px",
       l:"1040px",

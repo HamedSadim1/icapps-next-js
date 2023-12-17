@@ -312,7 +312,7 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
                 }}
               >
                 <div className="flex flex-col">
-                  <div className="flex justify-between gap-2 mb-2">
+                  <div className="flex justify-between gap-4 mb-2">
                     <div className="flex gap-2">
                       <div className="flex font-medium">
                         {checklist.sectionTitle}
@@ -343,7 +343,7 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
                           className="flex gap-3 border-2 border-gray-300 p-2 rounded"
                         >
                           {spinner == true &&
-                          stagiairLoadingStateId === item.id ? ( //loading
+                            stagiairLoadingStateId === item.id ? ( //loading
                             <div className="mt-3">
                               <ClipLoader
                                 color={"black"}
@@ -366,9 +366,8 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
                           )}
 
                           <p
-                            className={`text-sm ${
-                              item.isChecked ? "text-gray-400" : "text-black"
-                            }`}
+                            className={`text-sm ${item.isChecked ? "text-gray-400" : "text-black"
+                              }`}
                           >
                             {item.title} <br />
                             <div>{formatDate(item.date)}</div>
@@ -543,7 +542,7 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
             )}
           </div>
           {/* Documenten */}
-          <div className="flex flex-col rounded-lg  mt-10">
+          <div className="flex flex-col rounded-lg  mt-0 l:mt-10">
             <div className="bg-blue-50  rounded-lg overflow-hidden  mt-10 px-7 py-3 text-[#002548] w-full">
               <h2 className="text-2xl mt-5 font-semibold text-[#002548]">
                 {translation.detail.documents}

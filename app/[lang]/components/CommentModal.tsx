@@ -112,15 +112,13 @@ const CommentModal = ({ lang }: commentProps) => {
         </div>
       )}
       {showDiv == true && (
-        <div className="ml-16 mb-16">
+        <div className="m-auto s:ml-20 mb-1 w-full">
           <form
-            className="absolute flex items-end"
+            className="flex flex-col items-start gap-6 w-full"
             onSubmit={handleSubmitButton}
           >
             <textarea
-              cols={50}
-              rows={2}
-              className="ml-4 border-2 p-1 rounded-md pointer-events-auto"
+              className="resize border-2 p-1 rounded-md pointer-events-auto w-max"
               name="beschrijving"
               id="beschrijving"
               value={comment.comment}
@@ -128,9 +126,9 @@ const CommentModal = ({ lang }: commentProps) => {
                 setComment({ ...comment, comment: e.target.value })
               }
             ></textarea>
-            <div className=" pointer-events-auto">
+            <div className="flex flex-col s:flex-row justify-start gap-5 w-full pointer-events-auto">
               <button
-                className="ml-4 px-6 py-1 rounded-md bg-blue-50 text-[#002548] font-semibold hover:bg-blue-200"
+                className="px-6 py-1 rounded-md bg-blue-50 text-[#002548] font-semibold hover:bg-blue-200"
                 onClick={handleCloseCommentaar}
               >
                 {translation.detail.cancel}
@@ -139,7 +137,7 @@ const CommentModal = ({ lang }: commentProps) => {
               {spinner == true ? //loading
                 <button
                   type="submit"
-                  className="ml-4 px-6 py-1 rounded-md bg-[#002548] text-white font-semibold hover:bg-blue-500 pointer-events-none"
+                  className="px-6 py-1 rounded-md bg-[#002548] text-white font-semibold hover:bg-blue-500 pointer-events-none"
                 >
                   <ClipLoader
                     color={"#ffffff"}
@@ -152,7 +150,7 @@ const CommentModal = ({ lang }: commentProps) => {
                 :
                 <button
                   type="submit"
-                  className={`ml-4 px-6 py-1 rounded-md bg-[#002548] text-white font-semibold hover:bg-blue-500${comment.comment.length < 4
+                  className={` px-6 py-1 rounded-md bg-[#002548] text-white font-semibold hover:bg-blue-500${comment.comment.length < 4
                     ? "cursor-not-allowed"
                     : ""
                     }`}

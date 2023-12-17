@@ -61,7 +61,7 @@ const ChecklistItemSectionTitleBegeleider: React.FC<ChecklistItemSectionTitleBeg
     <>
       {showDiv && (
         <div className="h-screen w-screen flex flex-col justify-center items-center fixed top-0 left-0 right-0 bottom-0 z-50 bg-opacity-50 bg-gray-700">
-          <div className="bg-white shadow-xl w-4/10 h-auto pb-7 text-gray-500 z-2 rounded-md">
+          <div className="bg-white shadow-xl h-auto pb-7 mx-5 text-gray-500 rounded-md">
             <button
               className="btn btn-sm btn-circle btn-ghost float-right text-xl mr-3 mt-3"
               onClick={() => setDiv(false)} // Close the modal
@@ -69,7 +69,7 @@ const ChecklistItemSectionTitleBegeleider: React.FC<ChecklistItemSectionTitleBeg
               <MdClose />
             </button>
             <div className="flex flex-col pt-16 mx-16">
-              <h2 className="pb-10 text-[#002548] font-semibold text-2xl flex">
+              <h2 className="pb-6 sm:pb-10 text-[#002548] font-semibold text-2xl flex">
                 Section titel wijzigen &nbsp;{" "}
               </h2>
               <form method="dialog" onSubmit={handleSubmitForm} className="">
@@ -92,9 +92,9 @@ const ChecklistItemSectionTitleBegeleider: React.FC<ChecklistItemSectionTitleBeg
                     }
                   />
                 </div>
-                <div className="w-full text-right mt-2 ">
+                <div className="flex flex-col s:flex-row justify-end gap-5 w-full ">
                   <button
-                    className="mr-4 px-7 py-2 rounded-md bg-blue-50 text-[#002548] font-semibold hover:bg-blue-200"
+                    className="mr-4 px-7 py-2 rounded-md bg-blue-50 w-full s:w-auto text-[#002548] font-semibold hover:bg-blue-200"
                     onClick={() => setDiv(false)} //close modal
                   >
                     {translation.detail.cancel}

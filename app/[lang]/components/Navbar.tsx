@@ -10,10 +10,10 @@ const Navar = async () => {
     <>
       {session && (
         <nav className="bg-[#002548]">
-          <div className="flex items-center justify-between ">
-            <div className="flex items-center mt-0 mb-0">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center my-0 mr-3">
               <Link
-                className="text-2xl font-bold text-white ml-8 mr-6"
+                className="text-xl sm:text-2xl font-bold text-white ml-4 mr-2 sm:ml-8 sm:mr-6"
                 href={`/`}
               >
                 /
@@ -24,11 +24,11 @@ const Navar = async () => {
                 </div>
               </div>
             </div>
-            <div className="flex items-center">
-              <h3 className=" text-white ">{session && session.user!.name}</h3>
+            <div className="flex items-center gap-3">
+              <h3 className=" text-white text-sm sm:text-base">{session && session.user!.name}</h3>
               <button>
                 <Link href="/api/auth/signout">
-                  <FiLogOut className="text-white ml-5 mr-7" />
+                  <FiLogOut className="text-white mr-5" />
                 </Link>
               </button>
             </div>
