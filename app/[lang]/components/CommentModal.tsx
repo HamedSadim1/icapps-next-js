@@ -104,23 +104,22 @@ const CommentModal = ({ lang }: commentProps) => {
   return (
     <>
       {showDiv === false && (
-        <div className="ml-16 flex px-4 py-2 text-gray-500 hover:text-gray-900">
-          <button onClick={handleOpenCommentaar} disabled={isSubmitting}>
+        <div onClick={handleOpenCommentaar} className="ml-16 flex px-4 py-2 text-gray-500 hover:text-gray-900">
+          <button disabled={isSubmitting}>
             <AiOutlinePlus className="float-left mt-1 text-gray-500 hover:text-gray-900" />
             &nbsp;{translation.detail.addcomment}
           </button>
         </div>
       )}
       {showDiv == true && (
-        <div className="ml-16 mb-16">
+        <div className="" style={{ width: "100%" }}>
           <form
-            className="absolute flex items-end"
+            className="flex" style={{ width: "100%" }}
             onSubmit={handleSubmitButton}
           >
             <textarea
-              cols={50}
-              rows={2}
-              className="ml-4 border-2 p-1 rounded-md pointer-events-auto"
+
+              className="ml-4 border-2 p-1 rounded-md pointer-events-auto w-full"
               name="beschrijving"
               id="beschrijving"
               value={comment.comment}
@@ -128,14 +127,8 @@ const CommentModal = ({ lang }: commentProps) => {
                 setComment({ ...comment, comment: e.target.value })
               }
             ></textarea>
-            <div className=" pointer-events-auto">
-              <button
-                className="ml-4 px-6 py-1 rounded-md bg-blue-50 text-[#002548] font-semibold hover:bg-blue-200"
-                onClick={handleCloseCommentaar}
-              >
-                {translation.detail.cancel}
-
-              </button>
+            <div className="flex flex-col pointer-events-auto">
+              
               {spinner == true ? //loading
                 <button
                   type="submit"
@@ -161,10 +154,18 @@ const CommentModal = ({ lang }: commentProps) => {
                   {translation.detail.post}
                 </button>
               }
+              <button
+                className="ml-4 px-6 py-1 rounded-md bg-blue-50 text-[#002548] font-semibold hover:bg-blue-200"
+                onClick={handleCloseCommentaar}
+              >
+                {translation.detail.cancel}
+
+              </button>
             </div>
           </form>
         </div>
       )}
+
       {/* {showDiv == true && (
         <div className=" pointer-events-none h-screen w-screen flex flex-col justify-center items-center fixed top-0 left-0 right-0 bottom-0 z-50 bg-opacity-50 bg-gray-700">
           <div className="bg-white shadow-2xl h-auto pb-7 text-gray-500 z-2 rounded-md">

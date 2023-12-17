@@ -10,16 +10,15 @@ import { ClipLoader } from "react-spinners";
 interface Props {
   lang: string;
   stagairId: string;
-  secionId:string,
 }
 
-const AddSection = ({ lang, stagairId,secionId }: Props) => {
+const AddSection = ({ lang, stagairId }: Props) => {
   const [showDiv, setDiv] = useState<boolean>(false);
   const translation = getTranslation(lang as Locale);
   const [spinner, setSpinner] = useState(false);
   const checklistSection = useStagairStore((s) => s.checklistSection);
   const setChecklistSection = useStagairStore((s) => s.setChecklistSection);
-  const { mutate } = usePostChecklistSection();
+  const { mutate } = usePostChecklistSection({stagairId});
 
   const handlePostChecklistStagiair = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();

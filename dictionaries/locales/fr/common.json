@@ -34,7 +34,7 @@
         "post": "Publier",
         "upload": "Télécharger",
         "nogoals": "Aucun objectif n'a encore été défini",
-        "nodata": "Aucune donnée disponible pour le moment",
+        "nodata": "Aucune description de stage n'a encore été définie",
         "nodocuments": "Aucun document n'a encore été partagé dans ce stage",
         "by": "par",
         "nocomments": "Aucun commentaire disponible.",
@@ -42,8 +42,9 @@
         "yes": "Oui",
         "no": "Non",
         "checklistitem": "Élélement de la list de contrôle",
-        "checklisttitle": "Titre de la liste de contrôle",
-        "section": "Section"
+        "checklisttitle": "Titre",
+        "section": "Titre",
+        "changesectiontitle": "Changer le titre de la section"
     },
     "login": {
         "verdergaanmetgoogle": "Continuer avec Google",
@@ -63,6 +64,8 @@
         "internedit": "Modifier le stagiaire",
         "save": "Enregistrer",
         "noresultfound": "Aucun résultat trouvé.",
-        "searchintern": "Cherche stagiaire"
+        "searchintern": "Cherche stagiaire",
+        "searchBtn": "chercher"
+
     }
 }

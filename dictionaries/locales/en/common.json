@@ -34,7 +34,7 @@
         "post": "Post",
         "upload": "Upload",
         "nogoals": "No goals have been defined yet",
-        "nodata": "No data available yet",
+        "nodata": "No internship description available yet",
         "nodocuments": "No documents have been shared in this internship yet",
         "by": "by",
         "nocomments": "No comments available.",
@@ -42,8 +42,9 @@
         "yes": "Yes",
         "no": "No",
         "checklistitem": "Checklist item",
-        "checklisttitle": "Checklist title",
-        "section": "Section"
+        "checklisttitle": "Title",
+        "section": "Title",
+        "changesectiontitle": "Change section title"
     },
     "login": {
         "verdergaanmetgoogle": "Continue with Google",
@@ -57,12 +58,13 @@
     "userStagiair": {
         "name": "Name",
         "e-mail": "E-mail",
-        "startingdate": "Starting date",
-        "endingdata": "Ending date",
+        "startingdate": "Start date",
+        "endingdata": "End date",
         "internshipsupervisors": "Internship supervisor(s)",
         "internedit": "Edit Intern",
         "save": "Save",
         "noresultfound": "No result found.",
-        "searchintern": "Search intern"
+        "searchintern": "Search intern",
+        "searchBtn": "Search"
     }
 }

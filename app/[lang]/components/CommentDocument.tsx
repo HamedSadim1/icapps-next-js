@@ -87,14 +87,13 @@ const CommentDocument = ({ lang }: Props) => {
         </div>
       )}
       {showDiv == true && (
-        <div className="ml-28 mb-16 h-12">
+        <div className="ml-16 mb-16 h-12 mr-16">
           <form
-            className="absolute flex flex-col items-end"
+            className="absolute flex flex-col"
             onSubmit={handleSubmitButton}
           >
             <textarea
-              rows={2}
-              className="mb-4 border-2 p-1 rounded-md pointer-events-auto w-96"
+              className="mb-4 border-2 p-1 rounded-md pointer-events-auto"
               name="beschrijving"
               id="beschrijving"
               value={comment.comment}
@@ -102,7 +101,7 @@ const CommentDocument = ({ lang }: Props) => {
                 setComment({ ...comment, comment: e.target.value })
               }
             ></textarea>
-            <div className=" pointer-events-auto">
+            <div className="flex pointer-events-auto">
               <button
                 className="ml-4 px-6 py-1 rounded-md bg-blue-50 text-[#002548] font-semibold hover:bg-blue-200"
                 onClick={handleCloseCommentaar}
@@ -130,6 +129,7 @@ const CommentDocument = ({ lang }: Props) => {
                   {translation.detail.post}
                 </button>
               }
+
             </div>
           </form>
         </div>
