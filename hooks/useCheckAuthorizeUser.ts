@@ -29,15 +29,6 @@ function useCheckAuthorizeUser() {
     setIsLoading(false); // Set loading state to false after processing
   }, [session, users, usersLoading]); // Depend on session, users, and usersLoading
 
-  useEffect(() => {
-    if (role !== null) {
-      console.log("Role:", UserRole[role]);
-      console.log("Role:", role);
-    }
-  }, [role]); // Depend only on role
-
-  console.log(role);
-
   return { role, isLoading, userEmail }; // Return both role and isLoading state
 }
 

@@ -284,7 +284,11 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
           <CheckList
             checkListName={checkListName}
             setCheckListName={setCheckListName}
-            role={UserRole.ADMIN || UserRole.STAGEBEGELEIDER}
+            role={
+              role === UserRole.STAGEBEGELEIDER
+                ? UserRole.STAGEBEGELEIDER
+                : UserRole.ADMIN
+            }
             userRole={role}
             lang={lang}
           />
@@ -334,21 +338,23 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
                         </div>
                       </div>
                       <div>
-                        <AddSection
-                          lang={lang}
-                          stagairId={data.id}
-                        />
+                        {role === UserRole.STAGEBEGELEIDER ||
+                        role === UserRole.ADMIN ? (
+                          <AddSection lang={lang} stagairId={data.id} />
+                        ) : null}
                       </div>
                     </div>
-
 
                     <div className="flex flex-col justify-start mb-4 gap-3">
                       {checklist.items &&
                         checklist.items.map((item) => (
-                          <div key={item.id} className="flex gap-3 border-2 border-gray-300 p-2 rounded">
+                          <div
+                            key={item.id}
+                            className="flex gap-3 border-2 border-gray-300 p-2 rounded"
+                          >
                             {" "}
                             {spinner == true &&
-                              stagiairLoadingStateId === item.id ? ( //loading
+                            stagiairLoadingStateId === item.id ? ( //loading
                               <div className="mt-3">
                                 <ClipLoader
                                   color={"black"}
@@ -364,16 +370,20 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
                                 checked={item.isChecked}
                                 type="checkbox"
                                 name="item"
-                                onChange={() => handleCheckboxChange(item.id, !item.isChecked)}
+                                onChange={() =>
+                                  handleCheckboxChange(item.id, !item.isChecked)
+                                }
                               />
                             )}
-                            <p className={`text-sm ${item.isChecked ? "text-gray-400" : "text-black"}`}>
+                            <p
+                              className={`text-sm ${
+                                item.isChecked ? "text-gray-400" : "text-black"
+                              }`}
+                            >
                               {item.title} <br />
                               <div>{formatDate(item.date)}</div>
                             </p>
                             <EditChecklistItem
-                              role={UserRole.ADMIN || UserRole.STAGEBEGELEIDER}
-                              userRole={role}
                               lang={lang}
                               item={item}
                             />
@@ -391,108 +401,132 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
               ))}
 
               {/* Render AddSection only if there are no existing sections */}
-              {data.checklistsection.length === 0 && checkListName === "checkListStagiair" && (
-                <AddSection lang={lang} stagairId={data.id} />
-              )}
+              {role === UserRole.ADMIN ? (
+                <div>
+                  {/* Render AddSection only if there are no existing sections */}
+                  {data.checklistsection.length === 0 &&
+                    checkListName === "checkListStagiair" && (
+                      <AddSection lang={lang} stagairId={data.id} />
+                    )}
+                </div>
+              ) : null}
             </>
           ) : (
             // Render AddSectionBegeleider for stagebegeleider
             checkListName === "checklistStagebegeleider" && (
               <div className="flex flex-col">
-                {data.checklistSectionStagebegeleider.map((checklist, index: number) => (
-                  <div
-                    key={index}
-                    style={{
-                      display: index === selectedSectionBegleider ? "block" : "none",
-                    }}
-                  >
-                    {/* Existing Section for Stagebegeleider */}
-                    <div className="flex justify-between mb-2" style={{ width: "100%" }}>
-                      <div className="flex gap-2">
-                        <div className="font-medium">
-                          {checklist.sectionTitle}
-                        </div>
-                        <div>
-                          <EditChecklistSectionBegeleiderTitle
-                            role={UserRole.ADMIN || UserRole.STAGEBEGELEIDER}
-                            userRole={role}
-                            lang={lang}
-                            item={checklist}
-                          />
-                        </div>
-                      </div>
-                      <div className="float-right">
-                        <AddSectionBegeleider
-                          lang={lang}
-                          stagairId={data.id}
-                        />
-                      </div>
-                    </div>
-
-                    <div className="flex flex-col justify-start mb-4 gap-3">
-                      {checklist.checklistItem &&
-                        checklist.checklistItem.map((item) => (
-                          <div key={item.id} className="flex gap-3 border-2 border-gray-500-400 p-2 rounded">
-                            {" "}
-                            {spinner == true &&
-                              stagiairLoadingStateId === item.id ? ( //loading
-                              <div className="mt-3">
-                                <ClipLoader
-                                  color={"black"}
-                                  loading={true}
-                                  size={16}
-                                  aria-label="Loading Spinner"
-                                  data-testid="loader"
-                                />
-                              </div>
-                            ) : (
-                              <input
-                                className="w-4"
-                                checked={item.isChecked}
-                                type="checkbox"
-                                name="item"
-                                onChange={() => handleCheckboxChangeBeg(item.id, !item.isChecked)}
-                              />
-                            )}
-                            <p>
-                              {item.title} <br />
-                              <div className="text-sm text-gray-400">
-                                {formatDate(item.date)}
-                              </div>
-                            </p>
-                            <EditButtonBegleider
+                {data.checklistSectionStagebegeleider.map(
+                  (checklist, index: number) => (
+                    <div
+                      key={index}
+                      style={{
+                        display:
+                          index === selectedSectionBegleider ? "block" : "none",
+                      }}
+                    >
+                      {/* Existing Section for Stagebegeleider */}
+                      <div
+                        className="flex justify-between mb-2"
+                        style={{ width: "100%" }}
+                      >
+                        <div className="flex gap-2">
+                          <div className="font-medium">
+                            {checklist.sectionTitle}
+                          </div>
+                          <div>
+                            <EditChecklistSectionBegeleiderTitle
                               role={UserRole.ADMIN || UserRole.STAGEBEGELEIDER}
                               userRole={role}
                               lang={lang}
-                              item={item}
+                              item={checklist}
                             />
                           </div>
-                        ))}
+                        </div>
+                        <div className="float-right">
+                          {role === UserRole.STAGEBEGELEIDER ||
+                          role === UserRole.ADMIN ? (
+                            <AddSectionBegeleider
+                              lang={lang}
+                              stagairId={data.id}
+                            />
+                          ) : null}
+                        </div>
+                      </div>
+
+                      <div className="flex flex-col justify-start mb-4 gap-3">
+                        {checklist.checklistItem &&
+                          checklist.checklistItem.map((item) => (
+                            <div
+                              key={item.id}
+                              className="flex gap-3 border-2 border-gray-500-400 p-2 rounded"
+                            >
+                              {" "}
+                              {spinner == true &&
+                              stagiairLoadingStateId === item.id ? ( //loading
+                                <div className="mt-3">
+                                  <ClipLoader
+                                    color={"black"}
+                                    loading={true}
+                                    size={16}
+                                    aria-label="Loading Spinner"
+                                    data-testid="loader"
+                                  />
+                                </div>
+                              ) : (
+                                <input
+                                  className="w-4"
+                                  checked={item.isChecked}
+                                  type="checkbox"
+                                  name="item"
+                                  onChange={() =>
+                                    handleCheckboxChangeBeg(
+                                      item.id,
+                                      !item.isChecked
+                                    )
+                                  }
+                                />
+                              )}
+                              <p>
+                                {item.title} <br />
+                                <div className="text-sm text-gray-400">
+                                  {formatDate(item.date)}
+                                </div>
+                              </p>
+                              <EditButtonBegleider
+                                role={
+                                  UserRole.ADMIN || UserRole.STAGEBEGELEIDER
+                                }
+                                userRole={role}
+                                lang={lang}
+                                item={item}
+                              />
+                            </div>
+                          ))}
+                      </div>
+                      <div className="mb-10">
+                        <AddCheckListItemBegleider
+                          checklistItemId={checklist.id}
+                          lang={lang}
+                        />
+                      </div>
                     </div>
-                    <div className="mb-10">
-                      <AddCheckListItemBegleider
-                        checklistItemId={checklist.id}
-                        lang={lang}
-                      />
-                    </div>
-                  </div>
-                ))}
+                  )
+                )}
 
                 {/* Render AddSectionBegeleider only if there are no existing sections */}
-                {data.checklistSectionStagebegeleider.length === 0 && checkListName === "checklistStagebegeleider" && (
-                  <AddSectionBegeleider lang={lang} stagairId={data.id}  />
-                )}
+                {role === UserRole.STAGEBEGELEIDER ||
+                role === UserRole.ADMIN ? (
+                  <div>
+                    {/* Render AddSection only if there are no existing sections */}
+                    {data.checklistSectionStagebegeleider.length === 0 &&
+                      checkListName === "checklistStagebegeleider" && (
+                        <AddSectionBegeleider lang={lang} stagairId={data.id} />
+                      )}
+                  </div>
+                ) : null}
               </div>
             )
           )}
-
-          {/* Add new item to checklist */}
-
-          {/* {checkListName === "checkListStagiair" ? (
-            <AddCheckListItem stagiairId={id} />
-          ) : (
-            <div></div>
-          )} */}
         </div>
 
         {/* Beschrijving */}

@@ -15,7 +15,6 @@ interface AddChecklistProps {
 export const AddCheckListItem = ({ checklistItemId, lang }: AddChecklistProps) => {
   const [showDiv, setDiv] = useState(false);
   const translation = getTranslation(lang as Locale);
-  console.log("checklistItemId  " + checklistItemId);
 
   const item = useStagairStore((s) => s.checklistItemStagiair);
   const setItem = useStagairStore((s) => s.setchecklistItemStagiair);

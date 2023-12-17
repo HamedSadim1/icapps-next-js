@@ -7,15 +7,13 @@ import { IChecklistItem, UserRole } from "@/types";
 
 interface EditChecklistItemProps {
   item: IChecklistItem;
-  role: UserRole;
-  userRole: UserRole;
+
   lang: string;
 }
 
 const EditChecklistItem: React.FC<EditChecklistItemProps> = ({
   item,
-  role,
-  userRole,
+
   lang,
 }) => {
   const openModal = () => {
@@ -29,14 +27,7 @@ const EditChecklistItem: React.FC<EditChecklistItemProps> = ({
   const [showDiv, setDiv] = useState<boolean>(false);
 
   return (
-    <AuthorizedRole
-      role={
-        role === UserRole.STAGEBEGELEIDER
-          ? UserRole.STAGEBEGELEIDER
-          : UserRole.ADMIN
-      }
-      userRole={userRole}
-    >
+ <>
       <button
         type="button"
         className="hover:text-gray-400 ml-auto"
@@ -48,8 +39,9 @@ const EditChecklistItem: React.FC<EditChecklistItemProps> = ({
         lang={lang}
         showDiv={showDiv}
         setDiv={setDiv} //Door op de button te klikken is setDiv true
-      />
-    </AuthorizedRole>
+        />
+        </>
+  
   );
 };
 

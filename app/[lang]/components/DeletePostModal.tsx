@@ -19,10 +19,7 @@ interface DeletePostModalProps {
 }
 
 const DeletePostModal = ({ postId, post, lang }: DeletePostModalProps) => {
-  console.log(
-    "🚀 ~ file: DeletePostModal.tsx:20 ~ DeletePostModal ~ postIdpostId:",
-    postId
-  );
+  
   const translation = getTranslation(lang as Locale);
   const updatePostId = useStagairStore((s) => s.updatePostId);
   const doel = useStagairStore((s) => s.updatePost);

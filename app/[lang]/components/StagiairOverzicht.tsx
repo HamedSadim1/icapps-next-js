@@ -24,7 +24,6 @@ const StagiairOverzicht = ({ lang }: { lang: string }) => {
     data: Stagiaires,
     error,
     isLoading: isStagiaresLoading,
-    isFetching: isStagiairesFetching,
   } = useStagairs();
   // Get the role from the store
   const role = useStagairStore((s) => s.role);
@@ -76,7 +75,7 @@ const StagiairOverzicht = ({ lang }: { lang: string }) => {
     if (role === UserRole.STAGIAIR) {
       data?.stagiairs?.map((stagiair) => {
         if (stagiair.email === auth.userEmail) {
-          router.replace(`http://localhost:3000/${lang}/detail/${stagiair.id}`);
+          router.push(`/detail/${stagiair.id}`);
         }
       });
     }

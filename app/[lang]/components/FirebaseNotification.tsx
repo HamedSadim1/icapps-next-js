@@ -1,5 +1,5 @@
 // import { getMessaging } from "firebase/messaging/sw";
-import { getToken, getMessaging } from "firebase/messaging";
+// import { getToken, getMessaging } from "firebase/messaging";
 
 import firebase, { initializeApp } from "firebase/app";
 import { useEffect } from "react";

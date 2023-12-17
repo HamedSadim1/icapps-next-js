@@ -34,17 +34,13 @@ const CustomLoginPage = ({lang}:Props) => {
   const { role } = useCheckAuthorizeUser();
 
   const stagiairDetail = usePrefetchStagairDetails();
-  console.log("Role:", role);
-  console.log("Session Data:", session);
-  console.log("Stagairs Data:", stagairs);
+  
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-       
-        await mutate();
-        console.log("User successfully logged in. Mutating data...");
-        
+ 
+         mutate();
         // if (isSuccess) {
         //   // User is successfully logged in
         //   if (role === UserRole.STAGIAIR) {
@@ -93,15 +89,15 @@ const CustomLoginPage = ({lang}:Props) => {
         if (stagair && stagair.id && user) {
           useStagairStore.setState({ role: user.role });
           stagiairDetail.prefetchData(stagair.id);
-          router.push(`${lang}/detail/${stagair.id}`);
-          console.log("Navigating to:", `${lang}/users/detail/${stagair.id}`);
+          router.push(`http://localhost:3000/${lang}/detail/${stagair.id}`);
+
         }
       } else {
         router.push(`/${lang}`);
-        console.log("Navigating to:", `/${lang}`);
+     
       }
     }
-  }, [status, role, stagairs, session, router, stagiairDetail, users]);
+  }, [status, role, stagairs, session, router, stagiairDetail, users,lang]);
 
   const handleSignin = () => {
     signIn("google");
