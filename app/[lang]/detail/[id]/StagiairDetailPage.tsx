@@ -129,6 +129,7 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
       );
     }
   };
+  const translation = getTranslation(lang as Locale);
 
   //ArrowNavigation: call for whos is selected
   const navigateToNextSection =
@@ -141,7 +142,22 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
       : navigateToPreviousSectionBegleider;
   // 1 is the first section
 
-  if (isLoading || loading || role == null) return <Loading />;
+  if (isLoading || loading || role == null)
+    return (
+      <>
+        <div className="flex mt-96 justify-center text-gray-500">
+          <h2 className="text-2xl">{translation.fetchingData.fetchingData}</h2>
+
+          <ClipLoader
+            color={"gray-500"}
+            loading={true}
+            size={25}
+            aria-label="Loading Spinner"
+            data-testid="loader"
+          />
+        </div>
+      </>
+    );
 
   if (error) return <FetchingError error={error.message} />;
 
@@ -213,7 +229,6 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
       console.log(error);
     }
   };
-  const translation = getTranslation(lang as Locale);
   return (
     <>
       <div className="mt-8 xs:mx-8 md:mx-auto xs:px-0 md:px-20 ">
@@ -237,7 +252,7 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
           <div className=" l:hidden flex mt-4 text-3xl text-blue-400">
             <IoIosInformationCircleOutline />
             <h2 className="text-2xl font-medium text-[#002548] ml-3">
-              Jouw stage info
+              {translation.detail.stageInfo}
             </h2>
           </div>
           <div className="l:hidden flex flex-col rounded-lg mb-14 ">
@@ -339,7 +354,7 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
                       </div>
                       <div>
                         {role === UserRole.STAGEBEGELEIDER ||
-                        role === UserRole.ADMIN ? (
+                          role === UserRole.ADMIN ? (
                           <AddSection lang={lang} stagairId={data.id} />
                         ) : null}
                       </div>
@@ -354,7 +369,7 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
                           >
                             {" "}
                             {spinner == true &&
-                            stagiairLoadingStateId === item.id ? ( //loading
+                              stagiairLoadingStateId === item.id ? ( //loading
                               <div className="mt-3">
                                 <ClipLoader
                                   color={"black"}
@@ -376,9 +391,8 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
                               />
                             )}
                             <p
-                              className={`text-sm ${
-                                item.isChecked ? "text-gray-400" : "text-black"
-                              }`}
+                              className={`text-sm ${item.isChecked ? "text-gray-400" : "text-black"
+                                }`}
                             >
                               {item.title} <br />
                               <div>{formatDate(item.date)}</div>
@@ -444,7 +458,7 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
                         </div>
                         <div className="float-right">
                           {role === UserRole.STAGEBEGELEIDER ||
-                          role === UserRole.ADMIN ? (
+                            role === UserRole.ADMIN ? (
                             <AddSectionBegeleider
                               lang={lang}
                               stagairId={data.id}
@@ -462,7 +476,7 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
                             >
                               {" "}
                               {spinner == true &&
-                              stagiairLoadingStateId === item.id ? ( //loading
+                                stagiairLoadingStateId === item.id ? ( //loading
                                 <div className="mt-3">
                                   <ClipLoader
                                     color={"black"}
@@ -515,7 +529,7 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
 
                 {/* Render AddSectionBegeleider only if there are no existing sections */}
                 {role === UserRole.STAGEBEGELEIDER ||
-                role === UserRole.ADMIN ? (
+                  role === UserRole.ADMIN ? (
                   <div>
                     {/* Render AddSection only if there are no existing sections */}
                     {data.checklistSectionStagebegeleider.length === 0 &&
@@ -605,12 +619,27 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
               )}
               <UploadDocument stagiairId={id} lang={lang} />
             </div>
-            <div className="flex justify-start w-full mt-6 l:hidden">
+            <div className="l:hidden gap-2 py-3 flex justify-center rounded-lg">
+              <Link
+                target="_blank"
+                href={{
+                  pathname: `/${lang}/delen`,
+                  query: { id: id, lang: lang },
+                }}
+              >
+                <button
+                  type="button"
+                  className="flex justify-center items-center p-3 h-16 bg-[#002548] text-white rounded-lg  hover:bg-[#21415f]"
+                >
+                  <AiOutlineShareAlt className=" text-white  mr-2" />
+                  {translation.detail.share}
+                </button>
+              </Link>
               <button
                 type="button"
-                className="bg-[#002548] text-white w-full h-10 rounded-lg  hover:bg-[#21415f]"
+                className="bg-[#002548] text-white w-2/3 p-3 h-16 rounded-lg  hover:bg-[#21415f]"
               >
-                Evaluatieformulier Invullen
+                {translation.detail.writeevaluationform}
               </button>
             </div>
           </div>

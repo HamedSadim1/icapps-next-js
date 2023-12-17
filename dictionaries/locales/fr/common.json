@@ -44,7 +44,8 @@
         "checklistitem": "Élélement de la list de contrôle",
         "checklisttitle": "Titre",
         "section": "Titre",
-        "changesectiontitle": "Changer le titre de la section"
+        "changesectiontitle": "Changer le titre de la section",
+        "stageInfo": "votre aperçu de stage"
     },
     "login": {
         "verdergaanmetgoogle": "Continuer avec Google",
@@ -67,5 +68,8 @@
         "searchintern": "Cherche stagiaire",
         "searchBtn": "chercher"
 
+    },
+    "fetchingData": {
+        "fetchingData": "Récupération des données..."
     }
 }

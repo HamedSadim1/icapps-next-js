@@ -3,7 +3,7 @@
         "internshipdetails": "Stage details",
         "back": "Terug naar overzicht",
         "share": "Delen",
-        "writeevaluationform": "Beoordeel formulier invullen",
+        "writeevaluationform": "Beoordelingsformulier invullen",
         "goals": "Doelen",
         "newgoal": "Nieuw doel",
         "addcomment": "Opmerking toevoegen",
@@ -44,7 +44,8 @@
         "checklistitem": "Checklist item",
         "checklisttitle": "Titel",
         "section": "Titel",
-        "changesectiontitle": "Section titel wijzigen"
+        "changesectiontitle": "Section titel wijzigen",
+        "stageInfo": "Jouw stageoverzicht"
     },
     "login": {
         "verdergaanmetgoogle": "Verdergaan met Google",
@@ -67,5 +68,8 @@
         "searchintern": "Zoek stagiair",
         "searchBtn": "Zoeken"
 
+    },
+    "fetchingData": {
+        "fetchingData": "Data ophalen..."
     }
 }

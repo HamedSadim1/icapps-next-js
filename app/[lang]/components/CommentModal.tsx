@@ -120,7 +120,7 @@ const CommentModal = ({ lang }: commentProps) => {
             onSubmit={handleSubmitButton}
           >
             <textarea
-              className="resize border-2 p-1 rounded-md pointer-events-auto "
+              className="resize border-2 p-1 rounded-md pointer-events-auto w-3/4"
               name="beschrijving"
               id="beschrijving"
               value={comment.comment}

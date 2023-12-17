@@ -3,7 +3,7 @@
         "internshipdetails": "Internship details",
         "back": "Back to overview",
         "share": "Share",
-        "writeevaluationform": "Write an evaluationform",
+        "writeevaluationform": "Fill in an evaluationform",
         "goals": "Goals",
         "newgoal": "New goal",
         "addcomment": "Add comment",
@@ -44,7 +44,8 @@
         "checklistitem": "Checklist item",
         "checklisttitle": "Title",
         "section": "Title",
-        "changesectiontitle": "Change section title"
+        "changesectiontitle": "Change section title",
+        "stageInfo": "Your internsip overview"
     },
     "login": {
         "verdergaanmetgoogle": "Continue with Google",
@@ -66,5 +67,8 @@
         "noresultfound": "No result found.",
         "searchintern": "Search intern",
         "searchBtn": "Search"
+    },
+    "fetchingData": {
+        "fetchingData": "Fetching data..."
     }
 }

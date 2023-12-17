@@ -51,7 +51,13 @@ const StagiairOverzicht = ({ lang }: { lang: string }) => {
   );
 
   // Function to change the current page
-  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+  const paginate = (pageNumber: number) => (
+    setSpinner(true),
+    setCurrentPage(pageNumber),
+    setTimeout(() => {
+      setSpinner(false)
+    }, 2000)
+    );
 
   //? if the role is stagebegeleider, show only stagiair that are assigned to the stagebegeleider make a new array with stagiair that are assigned to the stagebegeleider
   const stagiairAssignedToStagebegeleider =
@@ -66,6 +72,7 @@ const StagiairOverzicht = ({ lang }: { lang: string }) => {
       : data?.stagiairs;
 
   // const prefetchStagairDetails = usePrefetchStagairDetails();
+  const translation = getTranslation(lang as Locale);
 
   useEffect(() => {
     //? set role in store
@@ -92,7 +99,7 @@ const StagiairOverzicht = ({ lang }: { lang: string }) => {
     return (
       <>
         <div className="flex mt-96 justify-center text-gray-500">
-          <h2 className="text-2xl">Fetching data...</h2>
+          <h2 className="text-2xl">{translation.fetchingData.fetchingData}</h2>
 
           <ClipLoader
             color={"gray-500"}
@@ -123,7 +130,6 @@ const StagiairOverzicht = ({ lang }: { lang: string }) => {
       setSpinner(false);
     }, 12000);
   };
-  const translation = getTranslation(lang as Locale);
   return (
     <section className="xs:mx-8 md:mx-auto xs:px-0 md:px-20 pb-8">
       <AuthorizedRole
@@ -264,6 +270,7 @@ const StagiairOverzicht = ({ lang }: { lang: string }) => {
           ) : (
             //? Pagination component
             <Pagination
+              spinner={spinner}
               currentPage={currentPage}
               emailPerPage={emailPerPage}
               paginate={paginate}
