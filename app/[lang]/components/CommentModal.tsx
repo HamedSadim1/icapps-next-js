@@ -104,21 +104,23 @@ const CommentModal = ({ lang }: commentProps) => {
   return (
     <>
       {showDiv === false && (
-        <div className="ml-16 flex px-4 py-2 text-gray-500 hover:text-gray-900">
-          <button onClick={handleOpenCommentaar} disabled={isSubmitting}>
+        <div onClick={handleOpenCommentaar} className="ml-16 flex px-4 py-2 text-gray-500 hover:text-gray-900">
+          <button disabled={isSubmitting}>
             <AiOutlinePlus className="float-left mt-1 text-gray-500 hover:text-gray-900" />
             &nbsp;{translation.detail.addcomment}
           </button>
         </div>
       )}
       {showDiv == true && (
-        <div className="m-auto s:ml-20 mb-1 w-full">
+
+        <div className="m-auto s:ml-20 mb-1 w-full" style={{ width: "100%" }}>
           <form
+            style={{ width: "100%" }}
             className="flex flex-col items-start gap-6 w-full"
             onSubmit={handleSubmitButton}
           >
             <textarea
-              className="resize border-2 p-1 rounded-md pointer-events-auto w-max"
+              className="resize border-2 p-1 rounded-md pointer-events-auto w-full"
               name="beschrijving"
               id="beschrijving"
               value={comment.comment}
@@ -163,6 +165,7 @@ const CommentModal = ({ lang }: commentProps) => {
           </form>
         </div>
       )}
+
       {/* {showDiv == true && (
         <div className=" pointer-events-none h-screen w-screen flex flex-col justify-center items-center fixed top-0 left-0 right-0 bottom-0 z-50 bg-opacity-50 bg-gray-700">
           <div className="bg-white shadow-2xl h-auto pb-7 text-gray-500 z-2 rounded-md">

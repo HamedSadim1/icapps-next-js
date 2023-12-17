@@ -191,6 +191,7 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
     // Update the state locally
     try {
       setSpinner(true); //loading
+      setStagiairLoadingStateId(itemId);
 
       setChecklistBegeleiderUpdate({
         id: itemId,
@@ -304,109 +305,105 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
 
           {/* Sections CheckList */}
           {data.checklistsection && checkListName === "checkListStagiair" ? (
-            data.checklistsection.map((checklist, index: number) => (
-              <div
-                key={index}
-                style={{
-                  display: index === selectedSection ? "block" : "none",
-                }}
-              >
-                <div className="flex flex-col">
-                  <div className="flex justify-between gap-4 mb-2">
-                    <div className="flex gap-2">
-                      <div className="flex font-medium">
-                        {checklist.sectionTitle}
-                      </div>
-                      <div>
-                        <EditChecklistSectionStagairTitle
-                          role={UserRole.ADMIN || UserRole.STAGEBEGELEIDER}
-                          userRole={role}
-                          lang={lang}
-                          item={checklist}
-                        />
-                      </div>
-                    </div>
-                    <div>
-                      <AddSection
-                        lang={lang}
-                        stagairId={data.id}
-                        secionId={checklist.id}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="flex flex-col justify-start mb-4 gap-3">
-                    {checklist.items &&
-                      checklist.items.map((item) => (
-                        <div
-                          key={item.id}
-                          className="flex gap-3 border-2 border-gray-300 p-2 rounded"
-                        >
-                          {spinner == true &&
-                            stagiairLoadingStateId === item.id ? ( //loading
-                            <div className="mt-3">
-                              <ClipLoader
-                                color={"black"}
-                                loading={true}
-                                size={16}
-                                aria-label="Loading Spinner"
-                                data-testid="loader"
-                              />
-                            </div>
-                          ) : (
-                            <input
-                              className="w-4"
-                              checked={item.isChecked}
-                              type="checkbox"
-                              name="item"
-                              onChange={() =>
-                                handleCheckboxChange(item.id, !item.isChecked)
-                              }
-                            />
-                          )}
-
-                          <p
-                            className={`text-sm ${item.isChecked ? "text-gray-400" : "text-black"
-                              }`}
-                          >
-                            {item.title} <br />
-                            <div>{formatDate(item.date)}</div>
-                          </p>
-                          <EditChecklistItem //Geen set meer voor item => modal wordt opgeroepen in deze component
+            <>
+              {data.checklistsection.map((checklist, index: number) => (
+                <div
+                  key={index}
+                  style={{
+                    display: index === selectedSection ? "block" : "none",
+                  }}
+                >
+                  {/* Existing Section */}
+                  <div className="flex flex-col">
+                    <div className="flex justify-between gap-4 mb-2">
+                      <div className="flex gap-2">
+                        <div className="flex font-medium">
+                          {checklist.sectionTitle}
+                        </div>
+                        <div>
+                          <EditChecklistSectionStagairTitle
                             role={UserRole.ADMIN || UserRole.STAGEBEGELEIDER}
                             userRole={role}
                             lang={lang}
-                            item={item}
+                            item={checklist}
                           />
                         </div>
-                      ))}
+                      </div>
+                      <div>
+                        <AddSection
+                          lang={lang}
+                          stagairId={data.id}
+                        />
+                      </div>
+                    </div>
+
+
+                    <div className="flex flex-col justify-start mb-4 gap-3">
+                      {checklist.items &&
+                        checklist.items.map((item) => (
+                          <div key={item.id} className="flex gap-3 border-2 border-gray-300 p-2 rounded">
+                            {" "}
+                            {spinner == true &&
+                              stagiairLoadingStateId === item.id ? ( //loading
+                              <div className="mt-3">
+                                <ClipLoader
+                                  color={"black"}
+                                  loading={true}
+                                  size={16}
+                                  aria-label="Loading Spinner"
+                                  data-testid="loader"
+                                />
+                              </div>
+                            ) : (
+                              <input
+                                className="w-4"
+                                checked={item.isChecked}
+                                type="checkbox"
+                                name="item"
+                                onChange={() => handleCheckboxChange(item.id, !item.isChecked)}
+                              />
+                            )}
+                            <p className={`text-sm ${item.isChecked ? "text-gray-400" : "text-black"}`}>
+                              {item.title} <br />
+                              <div>{formatDate(item.date)}</div>
+                            </p>
+                            <EditChecklistItem
+                              role={UserRole.ADMIN || UserRole.STAGEBEGELEIDER}
+                              userRole={role}
+                              lang={lang}
+                              item={item}
+                            />
+                          </div>
+                        ))}
+                    </div>
+                  </div>
+                  <div className="mb-10">
+                    <AddCheckListItem
+                      checklistItemId={checklist.id}
+                      lang={lang}
+                    />
                   </div>
                 </div>
-                <div className="mb-10">
-                  {/* add checklistitem give id of the checklistItem  */}
-                  <AddCheckListItem
-                    checklistItemId={checklist.id}
-                    lang={lang}
-                  />
-                </div>
-              </div>
-            ))
+              ))}
+
+              {/* Render AddSection only if there are no existing sections */}
+              {data.checklistsection.length === 0 && checkListName === "checkListStagiair" && (
+                <AddSection lang={lang} stagairId={data.id} />
+              )}
+            </>
           ) : (
-            // Adjusted code for stagebegeleider
-            <div className="flex flex-col">
-              {data.checklistSectionStagebegeleider.map(
-                (checklist, index: number) => (
+            // Render AddSectionBegeleider for stagebegeleider
+            checkListName === "checklistStagebegeleider" && (
+              <div className="flex flex-col">
+                {data.checklistSectionStagebegeleider.map((checklist, index: number) => (
                   <div
                     key={index}
                     style={{
-                      display:
-                        index === selectedSectionBegleider ? "block" : "none",
+                      display: index === selectedSectionBegleider ? "block" : "none",
                     }}
                   >
-                    <div
-                      className="flex justify-between mb-2"
-                      style={{ width: "100%" }}
-                    >
+                    {/* Existing Section for Stagebegeleider */}
+                    <div className="flex justify-between mb-2" style={{ width: "100%" }}>
                       <div className="flex gap-2">
                         <div className="font-medium">
                           {checklist.sectionTitle}
@@ -424,19 +421,17 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
                         <AddSectionBegeleider
                           lang={lang}
                           stagairId={data.id}
-                          secionId={checklist.id}
                         />
                       </div>
                     </div>
+
                     <div className="flex flex-col justify-start mb-4 gap-3">
                       {checklist.checklistItem &&
                         checklist.checklistItem.map((item) => (
-                          <div
-                            key={item.id}
-                            className="flex gap-3 border-2 border-gray-500-400 p-2 rounded"
-                          >
+                          <div key={item.id} className="flex gap-3 border-2 border-gray-500-400 p-2 rounded">
                             {" "}
-                            {spinner == true ? ( //loading
+                            {spinner == true &&
+                              stagiairLoadingStateId === item.id ? ( //loading
                               <div className="mt-3">
                                 <ClipLoader
                                   color={"black"}
@@ -452,12 +447,7 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
                                 checked={item.isChecked}
                                 type="checkbox"
                                 name="item"
-                                onChange={() =>
-                                  handleCheckboxChangeBeg(
-                                    item.id,
-                                    !item.isChecked
-                                  )
-                                }
+                                onChange={() => handleCheckboxChangeBeg(item.id, !item.isChecked)}
                               />
                             )}
                             <p>
@@ -466,7 +456,7 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
                                 {formatDate(item.date)}
                               </div>
                             </p>
-                            <EditButtonBegleider //Geen set meer voor item => modal wordt opgeroepen in deze component
+                            <EditButtonBegleider
                               role={UserRole.ADMIN || UserRole.STAGEBEGELEIDER}
                               userRole={role}
                               lang={lang}
@@ -482,10 +472,16 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
                       />
                     </div>
                   </div>
-                )
-              )}
-            </div>
+                ))}
+
+                {/* Render AddSectionBegeleider only if there are no existing sections */}
+                {data.checklistSectionStagebegeleider.length === 0 && checkListName === "checklistStagebegeleider" && (
+                  <AddSectionBegeleider lang={lang} stagairId={data.id}  />
+                )}
+              </div>
+            )
           )}
+
           {/* Add new item to checklist */}
 
           {/* {checkListName === "checkListStagiair" ? (

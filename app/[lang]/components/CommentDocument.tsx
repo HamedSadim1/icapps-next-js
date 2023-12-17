@@ -87,13 +87,14 @@ const CommentDocument = ({ lang }: Props) => {
         </div>
       )}
       {showDiv == true && (
+
         <div className="ml-10 mb-16 h-12 pr-8">
           <form
             className="flex flex-col items-start gap-6 w-full"
             onSubmit={handleSubmitButton}
           >
             <textarea
-              rows={2}
+             // rows={2}
               className="resize border-2 p-1 rounded-md pointer-events-auto w-max"
               name="beschrijving"
               id="beschrijving"
@@ -130,6 +131,7 @@ const CommentDocument = ({ lang }: Props) => {
                   {translation.detail.post}
                 </button>
               }
+
             </div>
           </form>
         </div>

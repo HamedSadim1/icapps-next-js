@@ -17,7 +17,7 @@
         "additem": "Item toevoegen",
         "addsection": "Sectie toevoegen",
         "description": "Beschrijving",
-        "internshipsupervisors": "Stagesupervisor(s)",
+        "internshipsupervisors": "Stagebegeleider(s)",
         "internshipduration": "Stageperiode",
         "school": "School",
         "contactperson": "Contactpersoon",
@@ -34,7 +34,7 @@
         "post": "Publiceren",
         "upload": "Uploaden",
         "nogoals": "Er werden nog geen doelen gedefinieerd",
-        "nodata": "Er werden nog geen doelen gedefinieerd",
+        "nodata": "Er is nog geen stagebeschrijving gedefinieerd",
         "nodocuments": "Er werden nog geen documenten gedeeld in deze stage",
         "by": "door",
         "nocomments": "Geen opmerkingen beschikbaar.",
@@ -42,8 +42,9 @@
         "yes": "Ja",
         "no": "Nee",
         "checklistitem": "Checklist item",
-        "checklisttitle": "Checklist titel",
-        "section": "Sectie"
+        "checklisttitle": "Titel",
+        "section": "Titel",
+        "changesectiontitle": "Section titel wijzigen"
     },
     "login": {
         "verdergaanmetgoogle": "Verdergaan met Google",
@@ -59,10 +60,12 @@
         "e-mail": "E-mail",
         "startingdate": "Startdatum",
         "endingdata": "Einddatum",
-        "internshipsupervisors": "Stagesupervisor(s)",
+        "internshipsupervisors": "Stagebegeleider(s)",
         "internedit": "Stagiair bewerken",
         "save": "Opslaan",
         "noresultfound": "Geen resultaten gevonden.",
-        "searchintern": "Zoek stagiair"
+        "searchintern": "Zoek stagiair",
+        "searchBtn": "Zoeken"
+
     }
 }

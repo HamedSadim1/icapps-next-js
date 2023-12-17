@@ -56,7 +56,7 @@ const ChecklistItemSectionTitleBegeleider: React.FC<ChecklistItemSectionTitleBeg
 
       }
     })}
-
+  const t = getTranslation(lang as Locale);
   return (
     <>
       {showDiv && (
