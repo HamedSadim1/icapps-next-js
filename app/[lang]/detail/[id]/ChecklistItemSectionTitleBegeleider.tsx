@@ -70,7 +70,7 @@ const ChecklistItemSectionTitleBegeleider: React.FC<ChecklistItemSectionTitleBeg
             </button>
             <div className="flex flex-col pt-16 mx-16">
               <h2 className="pb-6 sm:pb-10 text-[#002548] font-semibold text-2xl flex">
-                Section titel wijzigen &nbsp;{" "}
+              {translation.detail.changesectiontitle} &nbsp;{" "}
               </h2>
               <form method="dialog" onSubmit={handleSubmitForm} className="">
                 <div className="form-control">

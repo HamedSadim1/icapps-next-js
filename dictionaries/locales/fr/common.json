@@ -45,7 +45,8 @@
         "checklisttitle": "Titre",
         "section": "Titre",
         "changesectiontitle": "Changer le titre de la section",
-        "stageInfo": "votre aperçu de stage"
+        "stageInfo": "votre aperçu de stage",
+        "edititem": "Modifier l'article"
     },
     "login": {
         "verdergaanmetgoogle": "Continuer avec Google",
