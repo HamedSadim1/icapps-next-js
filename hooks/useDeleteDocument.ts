@@ -21,10 +21,10 @@ function useDeleteDocument(documentId: string) {
     {
       onSuccess: () => {
         queryClient.invalidateQueries("stagair");
-        console.log("Mutation succes");
+      
       },
       onError: (error) => {
-        console.error("Mutation error:", error);
+      
       },
     }
   );

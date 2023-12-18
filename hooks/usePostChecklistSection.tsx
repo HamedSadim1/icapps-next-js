@@ -20,7 +20,7 @@ const usePostChecklistSection = ({ stagairId }: UsePostChecklistProps)=> {
         queryClient.invalidateQueries(["stagair"]);
       },
       onError: (error) => {
-        console.error("Mutation error:", error);
+
       },
     }
   );

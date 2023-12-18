@@ -23,10 +23,10 @@ const useUpdateChecklistItem = () => {
       onSuccess: () => {
         queryClient.invalidateQueries("stagair");
         queryClient.invalidateQueries("doelen");
-        console.log("Mutation success");
+     
       },
       onError: (error) => {
-        console.error("Mutation error:", error);
+     
       },
     }
   );

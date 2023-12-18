@@ -15,10 +15,10 @@ const usePost = (post: IPost, stagairId: string) => {
     {
       onSuccess: () => {
         queryClient.invalidateQueries(["stagair"]);
-        console.log("🚀 ~ file: usePostDoel.ts:17 ~ usePost ~ onSuccess:");
+    
       },
       onError: (error) => {
-        console.log("🚀 ~ file: usePostDoel.ts:21 ~ usePost ~ error:", error);
+     
       },
     }
   );

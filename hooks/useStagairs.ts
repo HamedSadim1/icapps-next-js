@@ -7,7 +7,7 @@ const apiClient = new APIClient<IStagaire>("/stagebegeleiderRole");
 const useStagairs = (): UseQueryResult<IStagaire[], Error> => {
   const queryFn = async (): Promise<IStagaire[]> => {
     const response = await apiClient.getAll();
-    console.log(response);
+ 
     return response;
   };
 
