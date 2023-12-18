@@ -19,14 +19,10 @@ const usePostComment = (comment: IComment, postId: string) => {
     {
       onSuccess: () => {
         queryClient.invalidateQueries("stagair");
-        console.log("Variables:", mutation.context);
-        console.log("Variables:", mutation.data);
-        console.log("Variables:", mutation.isSuccess);
-        console.log("Status:", mutation.status);
-        console.log("Mutation succes");
+    
       },
       onError: (error) => {
-        console.error("Mutation error:", error);
+       
       },
     }
   );

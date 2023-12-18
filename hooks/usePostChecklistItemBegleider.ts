@@ -21,10 +21,10 @@ const usePostChecklistItemBegleider = (
       onSuccess: () => {
         queryClient.invalidateQueries(["checklist"]);
         queryClient.invalidateQueries(["stagair"]);
-        console.log("Mutation succes");
+
       },
       onError: (error) => {
-        console.error("Mutation error:", error);
+      
       },
     }
   );

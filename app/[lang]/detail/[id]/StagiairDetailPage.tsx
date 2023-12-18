@@ -68,9 +68,6 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
     useState<string>("checkListStagiair");
   const { role, isLoading: loading } = useCheckAuthorizeUser();
 
-  if (role !== null) {
-    console.log("User Role:", UserRole[role]);
-  }
   const [selectedSection, setSelectedSection] = useState<number>(0);
   const [selectedSectionId, setSelectedSectionId] = useState<string>("");
 
@@ -354,7 +351,7 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
                       </div>
                       <div>
                         {role === UserRole.STAGEBEGELEIDER ||
-                          role === UserRole.ADMIN ? (
+                        role === UserRole.ADMIN ? (
                           <AddSection lang={lang} stagairId={data.id} />
                         ) : null}
                       </div>
@@ -369,7 +366,7 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
                           >
                             {" "}
                             {spinner == true &&
-                              stagiairLoadingStateId === item.id ? ( //loading
+                            stagiairLoadingStateId === item.id ? ( //loading
                               <div className="mt-3">
                                 <ClipLoader
                                   color={"black"}
@@ -391,16 +388,14 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
                               />
                             )}
                             <p
-                              className={`text-sm ${item.isChecked ? "text-gray-400" : "text-black"
-                                }`}
+                              className={`text-sm ${
+                                item.isChecked ? "text-gray-400" : "text-black"
+                              }`}
                             >
                               {item.title} <br />
                               <div>{formatDate(item.date)}</div>
                             </p>
-                            <EditChecklistItem
-                              lang={lang}
-                              item={item}
-                            />
+                            <EditChecklistItem lang={lang} item={item} />
                           </div>
                         ))}
                     </div>
@@ -458,7 +453,7 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
                         </div>
                         <div className="float-right">
                           {role === UserRole.STAGEBEGELEIDER ||
-                            role === UserRole.ADMIN ? (
+                          role === UserRole.ADMIN ? (
                             <AddSectionBegeleider
                               lang={lang}
                               stagairId={data.id}
@@ -476,7 +471,7 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
                             >
                               {" "}
                               {spinner == true &&
-                                stagiairLoadingStateId === item.id ? ( //loading
+                              stagiairLoadingStateId === item.id ? ( //loading
                                 <div className="mt-3">
                                   <ClipLoader
                                     color={"black"}
@@ -529,7 +524,7 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
 
                 {/* Render AddSectionBegeleider only if there are no existing sections */}
                 {role === UserRole.STAGEBEGELEIDER ||
-                  role === UserRole.ADMIN ? (
+                role === UserRole.ADMIN ? (
                   <div>
                     {/* Render AddSection only if there are no existing sections */}
                     {data.checklistSectionStagebegeleider.length === 0 &&

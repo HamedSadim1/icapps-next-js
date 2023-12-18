@@ -28,10 +28,10 @@ const useStagebeschrijvingUpdate = (
     {
       onSuccess: () => {
         queryClient.invalidateQueries(["stagair"]);
-        console.log("Mutation success");
+    
       },
       onError: (error) => {
-        console.error("Mutation useStagebeschrijvingPost:", error);
+      
       },
     }
   );

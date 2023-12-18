@@ -75,7 +75,7 @@ const useUpdateStagiair = (id: string, data: IStagaire) => {
       queryClient.invalidateQueries(["overzicht"]);
     },
     onError: (error) => {
-      console.log(error);
+  
     },
   });
 };

@@ -28,10 +28,10 @@ const usePostNotification = (pushNotificationId:string) => {
       ),
     {
       onSuccess: () => {
-        console.log("Notification success");
+
       },
       onError: (err) => {
-        console.log("Notification error" + err);
+    
       },
     }
   );

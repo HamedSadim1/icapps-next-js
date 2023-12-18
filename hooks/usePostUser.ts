@@ -17,13 +17,10 @@ const usePostUser = () => {
     {
       onSuccess: () => {
         queryClient.invalidateQueries("users");
-        console.log("🚀 ~ file: usePostUser.ts:23 ~ usePostUser ~ users:");
+     
       },
       onError: (error) => {
-        console.log(
-          "🚀 ~ file: usePostUser.ts:25 ~ usePostUser ~ error:",
-          error
-        );
+      
       },
     }
   );

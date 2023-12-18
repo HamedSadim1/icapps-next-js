@@ -5,7 +5,7 @@ import useStagairStore from "@/store";
 const useOneSignalNotification = () => {
   const pushNotificationId = useStagairStore((s) => s.pushNotificationId);
   const [isInitializedOneSignal, setIsInitializedOneSignal] = useState(false);
-  console.log("PushNotfication" + pushNotificationId);
+  
 
   const initializeOneSignal = useCallback(async () => {
     // if (isInitializedOneSignal) {
