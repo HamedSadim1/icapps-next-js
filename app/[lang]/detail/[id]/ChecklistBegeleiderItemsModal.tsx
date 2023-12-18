@@ -64,7 +64,7 @@ const ChecklistBegeleiderItemsModal: React.FC<ChecklistBegeleiderItemsModalProps
             </button>
             <div className="flex flex-col pt-16 mx-16">
               <h2 className="pb-6 sm:pb-10 text-[#002548] font-semibold text-2xl flex">
-                Item &nbsp;{" "}
+                {translation.detail.edititem} &nbsp;{" "}
               </h2>
               <form method="dialog" onSubmit={handleSubmitForm} className="">
                 <div className="form-control">
@@ -75,7 +75,7 @@ const ChecklistBegeleiderItemsModal: React.FC<ChecklistBegeleiderItemsModalProps
                   </label>
                   <input
                     type="text"
-                    placeholder="Titel wijzigen"
+                    placeholder={translation.detail.title}
                     className="w-full p-3 border-2 rounded-md mb-5"
                     value={checklistItemBegeleider.title}
                     onChange={(e) =>

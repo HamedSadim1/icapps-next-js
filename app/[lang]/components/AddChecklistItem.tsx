@@ -62,7 +62,7 @@ export const AddCheckListItem = ({ checklistItemId, lang }: AddChecklistProps) =
             </button>
             <div className="flex flex-col pt-16 mx-16">
               <h2 className="pb-6 sm:pb-10 text-[#002548] font-semibold text-2xl flex">
-                {translation.detail.addsection} &nbsp;
+                {translation.detail.additem} &nbsp;
               </h2>
               <form onSubmit={handlePostChecklistStagiair}>
                 <label htmlFor="titel">{translation.detail.title}</label>

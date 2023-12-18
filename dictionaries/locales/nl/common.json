@@ -45,7 +45,8 @@
         "checklisttitle": "Titel",
         "section": "Titel",
         "changesectiontitle": "Section titel wijzigen",
-        "stageInfo": "Jouw stageoverzicht"
+        "stageInfo": "Jouw stageoverzicht",
+        "edititem": "Item bewerken"
     },
     "login": {
         "verdergaanmetgoogle": "Verdergaan met Google",

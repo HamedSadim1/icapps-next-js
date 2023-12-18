@@ -45,7 +45,8 @@
         "checklisttitle": "Title",
         "section": "Title",
         "changesectiontitle": "Change section title",
-        "stageInfo": "Your internsip overview"
+        "stageInfo": "Your internsip overview",
+        "edititem": "Edit item"
     },
     "login": {
         "verdergaanmetgoogle": "Continue with Google",
