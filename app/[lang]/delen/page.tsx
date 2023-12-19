@@ -20,8 +20,16 @@ const Delen = async ({ searchParams }: DelenProps) => {
     const stagiair: IStagaire = await response.json();
     stagiarData = stagiair;
   } catch (error) {
-    console.log(error);
+    if (error instanceof Error) {
+    // check if the error is  instance of Error and throw it
+    throw new Error (error.message);
+  } else {
+    // If 'error' is not an instance of Error, create a new Error with a default message
+    throw new Error('An error occurred');
   }
+  }
+
+
 
   if (!stagiarData) {
     return <h1>No data</h1>;

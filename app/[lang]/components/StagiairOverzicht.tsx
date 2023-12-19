@@ -22,7 +22,7 @@ const StagiairOverzicht = ({ lang }: { lang: string }) => {
   const setIsModelOpen = useStagairStore((state) => state.toggleModal);
   const {
     data: Stagiaires,
-    error,
+    error:stagiairError,
     isLoading: isStagiaresLoading,
   } = useStagairs();
   // Get the role from the store
@@ -45,7 +45,7 @@ const StagiairOverzicht = ({ lang }: { lang: string }) => {
   // Set the initial state for the number of emails per page using the useState hook
   const [emailPerPage, setEmailPerPage] = useState(10);
 
-  const { data, isLoading, isFetching } = useGetAllStagiaire(
+  const { data, isLoading, error:AllStagiairError } = useGetAllStagiaire(
     searchStagiair.length > 3 ? searchStagiair : "",
     currentPage
   );
@@ -87,10 +87,18 @@ const StagiairOverzicht = ({ lang }: { lang: string }) => {
       });
     }
   }, [router, auth.role, auth.userEmail, role, data,lang]);
-
-  if (error) {
-    return <div>{error.message}</div>;
+ 
+  if (AllStagiairError || stagiairError) {
+    if (AllStagiairError instanceof Error || (AllStagiairError && typeof AllStagiairError === 'object' && 'message' in AllStagiairError)) {
+      // check AllStagiairError has a 'message' property
+      const errorMessage = (AllStagiairError as { message?: string }).message || 'Er is iets misgegaan';
+      throw new Error(errorMessage);
+    } else {
+      
+      throw new Error('Er is iets misgegaan');
+    }
   }
+
   if (
     isLoading ||
     !data ||

@@ -8,6 +8,10 @@ const useStagair = (id: string): UseQueryResult<IStagaire, Error> => {
   const queryFn = async (): Promise<IStagaire> => {
     const response = await apiClient.get(id);
     return response;
+
+  
+
+
   };
 
   const options: UseQueryOptions<IStagaire, Error> = {

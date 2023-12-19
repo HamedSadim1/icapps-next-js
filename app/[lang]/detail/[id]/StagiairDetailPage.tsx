@@ -156,7 +156,10 @@ const StagiairDetailPage = ({ params: { id, lang } }: Params) => {
       </>
     );
 
-  if (error) return <FetchingError error={error.message} />;
+  // if (error) return <FetchingError error={error.message} />;
+  if (error) {
+    throw new Error(error.message);
+  }
 
   if ((!data && !error) || !id) return <NoDataError />;
 

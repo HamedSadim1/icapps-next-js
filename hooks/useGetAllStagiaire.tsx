@@ -24,12 +24,15 @@ export const useGetAllStagiaire = (
      
       // Return the fetched data
       return data;
+
+     
     },
 
     // Query options
     {
       // Keep previous data while refetching for a smoother user experience
       keepPreviousData: true,
+      
 
       // Callback function that runs when the query is successful
       onSuccess: (data) => {
@@ -42,7 +45,7 @@ export const useGetAllStagiaire = (
 
       // Callback function that runs when there is an error during the query
       onError: (error) => {
-        // If there is an error 
+        throw new Error("Er is ")
      
       }
     }
