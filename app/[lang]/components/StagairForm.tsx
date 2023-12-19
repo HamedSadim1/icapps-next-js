@@ -15,8 +15,7 @@ interface Params {
 }
 
 const StagairForm = ({ params: { lang } }: Params) => {
-
-  const translation = getTranslation(lang as Locale)
+  const translation = getTranslation(lang as Locale);
   //? get stagairId from store
   const stagaireId = useStagairStore((s) => s.stagairId);
   //? get stagaires from store
@@ -24,7 +23,7 @@ const StagairForm = ({ params: { lang } }: Params) => {
   //? set stagaires to store
   const setData = useStagairStore((state) => state.setStagaires);
   //? get stagebegeleiders from hook
-  const { data: stagebegeleiders } = useStagebegeleiders();
+  const { data: stagebegeleiders, error } = useStagebegeleiders();
   //? hook to update Stagiair
   const { mutate } = useUpdateStagiair(stagaireId, data);
   //? state for modal
@@ -49,11 +48,11 @@ const StagairForm = ({ params: { lang } }: Params) => {
   const handleSubmitForm = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      setSpinner(true);//loading
+      setSpinner(true); //loading
       await mutate();
       setTimeout(() => {
         setIsModalOpen();
-        setSpinner(false);//loading
+        setSpinner(false); //loading
       }, 4000);
     } catch (error) {
       console.log(error);
@@ -66,6 +65,9 @@ const StagairForm = ({ params: { lang } }: Params) => {
     e.preventDefault();
     console.log("Modal closed");
   };
+  if (error) {
+    throw new Error(error.message);
+  }
 
   if (!stagebegeleiders || !data) {
     return null;
@@ -74,12 +76,14 @@ const StagairForm = ({ params: { lang } }: Params) => {
   return (
     <dialog
       id="my_modal_3"
-      className={`modal ${isModalOpen ? "open" : "close"} cursor-auto duration-0 rounded-md`} 
+      className={`modal ${
+        isModalOpen ? "open" : "close"
+      } cursor-auto duration-0 rounded-md`}
     >
       {isModalOpen && (
         <div className="px-10 py-10 shadow-xl h-auto ">
           <h2 className="mb-8 text-[#002548] font-semibold text-2xl flex ">
-            {translation.userStagiair['internedit']}
+            {translation.userStagiair["internedit"]}
           </h2>
           <form onSubmit={handleSubmitForm} method="dialog">
             <button
@@ -91,7 +95,7 @@ const StagairForm = ({ params: { lang } }: Params) => {
             <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
               <div>
                 <label className="text-gray-700" htmlFor="name">
-                  {translation.userStagiair['name']}
+                  {translation.userStagiair["name"]}
                 </label>
                 <input
                   className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md pointer-events-auto"
@@ -104,7 +108,7 @@ const StagairForm = ({ params: { lang } }: Params) => {
               </div>
               <div>
                 <label className="text-gray-700" htmlFor="email">
-                  {translation.userStagiair['e-mail']}
+                  {translation.userStagiair["e-mail"]}
                 </label>
                 <input
                   className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md pointer-events-auto"
@@ -117,7 +121,7 @@ const StagairForm = ({ params: { lang } }: Params) => {
               </div>
               <div>
                 <label className="text-gray-700" htmlFor="startDate">
-                  {translation.userStagiair['startingdate']}
+                  {translation.userStagiair["startingdate"]}
                 </label>
                 <input
                   className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md pointer-events-auto"
@@ -133,7 +137,7 @@ const StagairForm = ({ params: { lang } }: Params) => {
               </div>
               <div>
                 <label className="text-gray-700" htmlFor="endDate">
-                  {translation.userStagiair['endingdata']}
+                  {translation.userStagiair["endingdata"]}
                 </label>
                 <input
                   className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md pointer-events-auto"
@@ -149,7 +153,7 @@ const StagairForm = ({ params: { lang } }: Params) => {
               </div>
               <div>
                 <label className="text-gray-700" htmlFor="stagebegeleider">
-                  {translation.userStagiair['internshipsupervisors']}
+                  {translation.userStagiair["internshipsupervisors"]}
                 </label>
 
                 <Select
@@ -181,28 +185,27 @@ const StagairForm = ({ params: { lang } }: Params) => {
                 />
               </div>
               <div className="w-full">
-                {
-                  spinner == true ?
-                    <button
-                      className="px-10 py-2 mt-2 text-white font-semibold bg-[#002548] rounded-md block sm:absolute bottom-10 right-10 hover:bg-blue-500 pointer-events-none w-full sm:w-auto"
-                      type="submit"
-                    >
-                      <ClipLoader
-                        color={"#ffffff"}
-                        loading={true}
-                        size={15}
-                        aria-label="Loading Spinner"
-                        data-testid="loader"
-                      />
-                    </button>
-                    :
-                    <button
-                      className="px-10 py-2  text-white font-semibold bg-[#002548] rounded-md block sm:absolute bottom-10 right-10 hover:bg-blue-500 w-full sm:w-auto"
-                      type="submit"
-                    >
-                      {translation.userStagiair['save']}
-                    </button>
-                }
+                {spinner == true ? (
+                  <button
+                    className="px-10 py-2 mt-2 text-white font-semibold bg-[#002548] rounded-md block sm:absolute bottom-10 right-10 hover:bg-blue-500 pointer-events-none w-full sm:w-auto"
+                    type="submit"
+                  >
+                    <ClipLoader
+                      color={"#ffffff"}
+                      loading={true}
+                      size={15}
+                      aria-label="Loading Spinner"
+                      data-testid="loader"
+                    />
+                  </button>
+                ) : (
+                  <button
+                    className="px-10 py-2  text-white font-semibold bg-[#002548] rounded-md block sm:absolute bottom-10 right-10 hover:bg-blue-500 w-full sm:w-auto"
+                    type="submit"
+                  >
+                    {translation.userStagiair["save"]}
+                  </button>
+                )}
               </div>
             </div>
           </form>
