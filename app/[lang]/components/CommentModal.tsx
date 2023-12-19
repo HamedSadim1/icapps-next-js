@@ -10,7 +10,7 @@ import getTranslation from "./getTranslation";
 import { Locale } from "@/i18n-config";
 import { ClipLoader } from "react-spinners";
 interface commentProps {
-  lang: string
+  lang: string;
 }
 
 const CommentModal = ({ lang }: commentProps) => {
@@ -20,9 +20,9 @@ const CommentModal = ({ lang }: commentProps) => {
   const commentId = useStagairStore((s) => s.commentId);
   const pushNotificationId = useStagairStore((s) => s.pushNotificationId);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false); // New state
-  const [spinner, setSpinner] = useState(false);//loading
+  const [spinner, setSpinner] = useState(false); //loading
 
-  const { mutate, status } = usePostComment(comment!, commentId);
+  const { mutate, error } = usePostComment(comment!, commentId);
   const { mutate: mutateNotification } =
     usePostNotification(pushNotificationId);
 
@@ -47,20 +47,17 @@ const CommentModal = ({ lang }: commentProps) => {
     e.preventDefault();
 
     try {
-      setSpinner(true);//loading
+      setSpinner(true); //loading
       mutate();
       setTimeout(() => {
         setDiv(false);
-        setSpinner(false);//loading
+        setSpinner(false); //loading
       }, 7000);
 
-
-      console.log("not" + status);
       if (status === "success") {
         console.log("succes" + status);
         // Reset Zustand state by setting the state to the initial values
         resetComment();
-
       }
       await mutateNotification({
         include_player_ids: [pushNotificationId],
@@ -90,21 +87,27 @@ const CommentModal = ({ lang }: commentProps) => {
     setDiv(false);
   };
 
-  const translation = getTranslation(lang as Locale)
-  if (typeof window !== "undefined") { // close image if escape is pressed
+  const translation = getTranslation(lang as Locale);
+  if (typeof window !== "undefined") {
+    // close image if escape is pressed
     window.addEventListener("keydown", (e: KeyboardEvent) => {
       if (e.key == "Escape") {
         setDiv(false);
-
       }
-    })
+    });
+  }
 
+  if (error) {
+    throw new Error(error.message);
   }
 
   return (
     <>
       {showDiv === false && (
-        <div onClick={handleOpenCommentaar} className="ml-16 flex px-4 py-2 text-gray-500 hover:text-gray-900">
+        <div
+          onClick={handleOpenCommentaar}
+          className="ml-16 flex px-4 py-2 text-gray-500 hover:text-gray-900"
+        >
           <button disabled={isSubmitting}>
             <AiOutlinePlus className="float-left mt-1 text-gray-500 hover:text-gray-900" />
             &nbsp;{translation.detail.addcomment}
@@ -112,7 +115,6 @@ const CommentModal = ({ lang }: commentProps) => {
         </div>
       )}
       {showDiv == true && (
-
         <div className="m-auto s:ml-20 mb-1 w-full" style={{ width: "100%" }}>
           <form
             style={{ width: "100%" }}
@@ -134,9 +136,8 @@ const CommentModal = ({ lang }: commentProps) => {
                 onClick={handleCloseCommentaar}
               >
                 {translation.detail.cancel}
-
               </button>
-              {spinner == true ? //loading
+              {spinner == true ? ( //loading
                 <button
                   type="submit"
                   className="px-6 py-1 rounded-md bg-[#002548] text-white font-semibold hover:bg-blue-500 pointer-events-none"
@@ -149,18 +150,17 @@ const CommentModal = ({ lang }: commentProps) => {
                     data-testid="loader"
                   />
                 </button>
-                :
+              ) : (
                 <button
                   type="submit"
-                  className={` px-6 py-1 rounded-md bg-[#002548] text-white font-semibold hover:bg-blue-500${comment.comment.length < 4
-                    ? "cursor-not-allowed"
-                    : ""
-                    }`}
+                  className={` px-6 py-1 rounded-md bg-[#002548] text-white font-semibold hover:bg-blue-500${
+                    comment.comment.length < 4 ? "cursor-not-allowed" : ""
+                  }`}
                   disabled={comment.comment.length < 4 || isSubmitting}
                 >
                   {translation.detail.post}
                 </button>
-              }
+              )}
             </div>
           </form>
         </div>

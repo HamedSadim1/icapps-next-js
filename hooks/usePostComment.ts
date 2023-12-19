@@ -19,11 +19,8 @@ const usePostComment = (comment: IComment, postId: string) => {
     {
       onSuccess: () => {
         queryClient.invalidateQueries("stagair");
-    
       },
-      onError: (error) => {
-       
-      },
+      onError: (error: Error) => {},
     }
   );
   return mutation;
