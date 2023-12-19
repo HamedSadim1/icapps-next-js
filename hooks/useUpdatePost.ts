@@ -26,7 +26,7 @@ const useUpdatePost = (doel: IPost,doelId:string) => {
         queryClient.invalidateQueries("doelen");
       
       },
-      onError: (error) => {
+      onError: (error:Error) => {
       
       },
     }

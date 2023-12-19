@@ -28,9 +28,10 @@ const useStagebeschrijvingUpdate = (
     {
       onSuccess: () => {
         queryClient.invalidateQueries(["stagair"]);
+        queryClient.invalidateQueries(["stagebegeleiders"]);
     
       },
-      onError: (error) => {
+      onError: (error:Error) => {
       
       },
     }

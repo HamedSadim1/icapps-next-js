@@ -41,7 +41,7 @@ const StageBeschrijvingModal = ({
   const { data: stagebegeleiders } = useStagebegeleiders();
 
   const { mutate: updateStagaire } = useUpdateStagiair(stagairId, stagaire);
-  const { mutate: updateStagebescrhiving } = useStagebeschrijvingUpdate(
+  const { mutate: updateStagebescrhiving,error } = useStagebeschrijvingUpdate(
     id,
     stageBeschrijving
   );
@@ -101,6 +101,10 @@ const StageBeschrijvingModal = ({
     }
   };
   const translation = getTranslation(lang as Locale);
+
+  if(error){
+    throw new Error(error.message)
+  }
   return (
     <dialog ref={modalRef} id="my_modal_3" className="modal duration-0 rounded-md">
       {isModalOpen && (

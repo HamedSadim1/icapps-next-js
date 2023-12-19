@@ -19,7 +19,7 @@ const useDeletePost = (postId: string) => {
         queryClient.invalidateQueries("stagair");
  
       },
-      onError: (error) => {
+      onError: (error:Error) => {
     
       },
     }

@@ -17,7 +17,7 @@ const usePost = (post: IPost, stagairId: string) => {
         queryClient.invalidateQueries(["stagair"]);
     
       },
-      onError: (error) => {
+      onError: (error:Error) => {
      
       },
     }

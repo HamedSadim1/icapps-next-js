@@ -28,9 +28,9 @@ const DeletePostModal = ({ postId, post, lang }: DeletePostModalProps) => {
   const setIsPostModal = useStagairStore((s) => s.setIsPostModal);
   const [spinner, setSpinner] = useState(false);//loading
 
-  const { mutate } = useDeletePost(updatePostId);
+  const { mutate,error } = useDeletePost(updatePostId);
 
-  const { mutate: updatePost } = useUpdatePost(doel, updatePostId);
+  const { mutate: updatePost,error:UpdatePostError } = useUpdatePost(doel, updatePostId);
 
   useEffect(() => {
     if (post && postId) {
@@ -71,6 +71,10 @@ const DeletePostModal = ({ postId, post, lang }: DeletePostModalProps) => {
 
   }
 
+  if (error || UpdatePostError) {
+    const errorMessage = (UpdatePostError ? UpdatePostError.message : '') + (error ? error.message : '');
+    throw new Error(errorMessage);
+}
   return (
     <>
       {isPostModal && (

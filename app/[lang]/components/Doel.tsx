@@ -25,7 +25,7 @@ const Doel = ({ stagiarId, lang }: DoelProps) => {
   const [spinner, setSpinner] = useState(false);//loading
   const doel = useStagairStore((s) => s.doel);
   const setDoel = useStagairStore((s) => s.setDoel);
-  const { mutate, error, isSuccess } = usePostDoel(doel, stagiarId);
+  const { mutate, error } = usePostDoel(doel, stagiarId);
   const pushNotificationId = useStagairStore((s) => s.pushNotificationId);
   const { mutate: MutateNotification } =
     usePostNotification(pushNotificationId);
@@ -61,6 +61,10 @@ const Doel = ({ stagiarId, lang }: DoelProps) => {
       }
     })
 
+  }
+
+  if(error ){
+    throw new Error(error.message)
   }
   return (
     <>
