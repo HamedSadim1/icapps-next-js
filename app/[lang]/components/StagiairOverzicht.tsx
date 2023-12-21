@@ -22,7 +22,7 @@ const StagiairOverzicht = ({ lang }: { lang: string }) => {
   const setIsModelOpen = useStagairStore((state) => state.toggleModal);
   const {
     data: Stagiaires,
-    error:stagiairError,
+    error: stagiairError,
     isLoading: isStagiaresLoading,
   } = useStagairs();
   // Get the role from the store
@@ -45,7 +45,11 @@ const StagiairOverzicht = ({ lang }: { lang: string }) => {
   // Set the initial state for the number of emails per page using the useState hook
   const [emailPerPage, setEmailPerPage] = useState(10);
 
-  const { data, isLoading, error:AllStagiairError } = useGetAllStagiaire(
+  const {
+    data,
+    isLoading,
+    error: AllStagiairError,
+  } = useGetAllStagiaire(
     searchStagiair.length > 3 ? searchStagiair : "",
     currentPage
   );
@@ -55,9 +59,9 @@ const StagiairOverzicht = ({ lang }: { lang: string }) => {
     setSpinner(true),
     setCurrentPage(pageNumber),
     setTimeout(() => {
-      setSpinner(false)
+      setSpinner(false);
     }, 2000)
-    );
+  );
 
   //? if the role is stagebegeleider, show only stagiair that are assigned to the stagebegeleider make a new array with stagiair that are assigned to the stagebegeleider
   const stagiairAssignedToStagebegeleider =
@@ -86,24 +90,26 @@ const StagiairOverzicht = ({ lang }: { lang: string }) => {
         }
       });
     }
-  }, [router, auth.role, auth.userEmail, role, data,lang]);
- 
+  }, [router, auth.role, auth.userEmail, role, data, lang]);
+
   if (AllStagiairError || stagiairError) {
-    if (AllStagiairError instanceof Error || (AllStagiairError && typeof AllStagiairError === 'object' && 'message' in AllStagiairError)) {
+    if (
+      AllStagiairError instanceof Error ||
+      (AllStagiairError &&
+        typeof AllStagiairError === "object" &&
+        "message" in AllStagiairError)
+    ) {
       // check AllStagiairError has a 'message' property
-      const errorMessage = (AllStagiairError as { message?: string }).message || 'Er is iets misgegaan';
+      const errorMessage =
+        (AllStagiairError as { message?: string }).message ||
+        "Er is iets misgegaan";
       throw new Error(errorMessage);
     } else {
-      
-      throw new Error('Er is iets misgegaan');
+      throw new Error("Er is iets misgegaan");
     }
   }
 
-  if (
-    isLoading ||
-    !data ||
-    isStagiaresLoading 
-  ) {
+  if (isLoading || !data || isStagiaresLoading) {
     return (
       <>
         <div className="flex mt-96 justify-center text-gray-500">
@@ -277,23 +283,28 @@ const StagiairOverzicht = ({ lang }: { lang: string }) => {
             </div>
           ) : (
             //? Pagination component
-            <Pagination
-              spinner={spinner}
-              currentPage={currentPage}
-              emailPerPage={emailPerPage}
-              paginate={paginate}
-              totalEmails={
-                // Check if the role is STAGEBEGELEIDER
-                // If true, use the length of stagiairAssignedToStagebegeleider
-                // If false, use the length of stagiairData
+            <>
+              {/* Pagination component */}
+              {!searchStagiair && ( // If searchStagiair is true, don't render Pagination
+                <Pagination
+                  spinner={spinner}
+                  currentPage={currentPage}
+                  emailPerPage={emailPerPage}
+                  paginate={paginate}
+                  totalEmails={
+                    // Check if the role is STAGEBEGELEIDER
+                    // If true, use the length of stagiairAssignedToStagebegeleider
+                    // If false, use the length of stagiairData
 
-                // Length of stagiairAssignedToStagebegeleider if it exists, otherwise 0
-                role === UserRole.STAGEBEGELEIDER
-                  ? 1 || 0
-                  : // Length of stagiairData if it exists, otherwise 0
-                    data?.totalPage || 0
-              }
-            />
+                    // Length of stagiairAssignedToStagebegeleider if it exists, otherwise 0
+                    role === UserRole.STAGEBEGELEIDER
+                      ? 1 || 0
+                      : // Length of stagiairData if it exists, otherwise 0
+                        data?.totalPage || 0
+                  }
+                />
+              )}
+            </>
           )}
         </div>
       </AuthorizedRole>
